@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:rjfruits/res/components/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/onboardingViews/widgets/back_container.dart';
 import 'package:rjfruits/view/onboardingViews/widgets/on_button.dart';
 
-class OnBoardingScreen1 extends StatelessWidget {
-  const OnBoardingScreen1({super.key});
+class OnBoardingScreen2 extends StatelessWidget {
+  const OnBoardingScreen2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +26,14 @@ class OnBoardingScreen1 extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
+                  BackContainer(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  InkWell(
                     onTap: () {
                       Navigator.pushNamedAndRemoveUntil(
                           context, RoutesName.login, (route) => false);
@@ -50,7 +55,7 @@ class OnBoardingScreen1 extends StatelessWidget {
               const VerticalSpeacing(24),
               Center(
                 child: Image.asset(
-                  "images/onboarding1.png",
+                  "images/onboarding2.png",
                   height: 321,
                   width: 321,
                 ),
@@ -89,7 +94,7 @@ class OnBoardingScreen1 extends StatelessWidget {
                     width: 9,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color: AppColor.primaryColor,
+                      color: AppColor.nextColor,
                     ),
                   ),
                   const SizedBox(
@@ -100,7 +105,7 @@ class OnBoardingScreen1 extends StatelessWidget {
                     width: 28,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color: AppColor.nextColor,
+                      color: AppColor.primaryColor,
                     ),
                   ),
                   const SizedBox(
@@ -118,9 +123,9 @@ class OnBoardingScreen1 extends StatelessWidget {
               ),
               const VerticalSpeacing(24),
               OnButton(
-                progress: 0.3,
+                progress: 0.6,
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesName.onboarding2);
+                  Navigator.pushNamed(context, RoutesName.onboarding3);
                 },
               )
             ],
