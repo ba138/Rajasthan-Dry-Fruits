@@ -6,6 +6,7 @@ class RoutesName {
   static const String onboarding3 = 'onboarding_view3';
   static const String login = 'Login_Screen';
   static const String signUp = 'Sign_up';
+  static const String dashboard = 'dashboard';
   static const String register = 'register_view';
   static const String forget = 'Forget_password_view';
 }
