@@ -23,107 +23,109 @@ class OnBoardingScreen1 extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, RoutesName.login, (route) => false);
-                    },
-                    child: Text(
-                      "Skip",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.primaryColor,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RoutesName.login, (route) => false);
+                      },
+                      child: Text(
+                        "Skip",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.primaryColor,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              VerticalSpeacing(MediaQuery.of(context).size.height / 50),
-              Center(
-                child: Image.asset(
-                  "images/onboarding1.png",
-                  height: 321,
-                  width: 321,
+                  ],
                 ),
-              ),
-              Text(
-                "Quick and easy \ndelivery",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.getFont(
-                  "Poppins",
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: AppColor.primaryColor,
+                VerticalSpeacing(MediaQuery.of(context).size.height / 50),
+                Center(
+                  child: Image.asset(
+                    "images/onboarding1.png",
+                    height: 321,
+                    width: 321,
                   ),
                 ),
-              ),
-              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
-              Text(
-                "Easy and fast learning at \nany time to help you\nimprove various skills",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.getFont(
-                  "Poppins",
-                  textStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColor.primaryColor,
+                Text(
+                  "Quick and easy \ndelivery",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.textColor1,
+                    ),
                   ),
                 ),
-              ),
-              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 5,
-                    width: 9,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: AppColor.primaryColor,
+                VerticalSpeacing(MediaQuery.of(context).size.height / 24),
+                Text(
+                  "Easy and fast learning at \nany time to help you\nimprove various skills",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.textColor1,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 5,
-                    width: 28,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: AppColor.nextColor,
+                ),
+                VerticalSpeacing(MediaQuery.of(context).size.height / 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 5,
+                      width: 9,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColor.primaryColor,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 5,
-                    width: 9,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: AppColor.nextColor,
+                    const SizedBox(
+                      width: 10,
                     ),
-                  ),
-                ],
-              ),
-              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
-              OnButton(
-                progress: 0.3,
-                onTap: () {
-                  Navigator.pushNamed(context, RoutesName.onboarding2);
-                },
-              )
-            ],
+                    Container(
+                      height: 5,
+                      width: 28,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColor.nextColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      height: 5,
+                      width: 9,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: AppColor.nextColor,
+                      ),
+                    ),
+                  ],
+                ),
+                VerticalSpeacing(MediaQuery.of(context).size.height / 24),
+                OnButton(
+                  progress: 0.3,
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutesName.onboarding2);
+                  },
+                )
+              ],
+            ),
           ),
         ),
       )),
