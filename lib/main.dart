@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
+import 'package:rjfruits/utils/routes/routes.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
           elevation: 0, // Remove app bar elevation
         ),
       ),
-      home: const SplashScreen(),
+      initialRoute: RoutesName.splash,
+      onGenerateRoute: Routes.generateRoute,
     );
   }
 }
