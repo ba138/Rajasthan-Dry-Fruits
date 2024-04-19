@@ -6,4 +6,5 @@ class AppColor {
   static const Color buttonColor = Colors.green;
   static const Color primaryColor = Color(0xffFBB53C);
   static const Color textColor1 = Color(0xff222222);
+  static const Color nextColor = Color(0xff858597);
 }
