@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
@@ -114,7 +112,12 @@ class _LoginViewState extends State<LoginView> {
                     ],
                   ),
                   const VerticalSpeacing(30),
-                  RoundedButton(title: "Login", onpress: () {}),
+                  RoundedButton(
+                      title: "Login",
+                      onpress: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RoutesName.home, (route) => false);
+                      }),
                   const VerticalSpeacing(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
