@@ -195,7 +195,7 @@ class _HomeViewState extends State<HomeView> {
                           255, 255, 255, 0.2), // Background color with opacity
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.7), // Shadow color
+                          color: Colors.white.withOpacity(0.5), // Shadow color
                           blurRadius: 2, // Blur radius
                           spreadRadius: 0, // Spread radius
                           offset: const Offset(0, 0), // Offset
