@@ -58,8 +58,10 @@ class _TextFieldCustomState extends State<TextFieldCustom> {
                   setState(() => hidden = !hidden);
                 },
                 child: Icon(
-                  hidden ? Icons.visibility_off : Icons.visibility,
-                  color: hidden ? null : AppColor.primaryColor,
+                  hidden
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: hidden ? AppColor.textColor1 : AppColor.primaryColor,
                   size: 30,
                 ),
               )

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
+import 'package:rjfruits/res/components/login_container.dart';
+import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 
 class LoginView extends StatefulWidget {
@@ -64,6 +66,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
+                const VerticalSpeacing(36),
                 const TextFieldCustom(
                   preIcon: Icons.email,
                   maxLines: 2,
@@ -71,6 +74,53 @@ class _LoginViewState extends State<LoginView> {
                   hintText: "1234@gmail.com",
                   preColor: AppColor.primaryColor,
                 ),
+                const VerticalSpeacing(30),
+                const TextFieldCustom(
+                  preIcon: Icons.lock_outline_rounded,
+                  maxLines: 2,
+                  text: "sfsdadf",
+                  hintText: "*******",
+                  preColor: AppColor.textColor1,
+                  obscureText: true,
+                ),
+                const VerticalSpeacing(8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Forgot Password?",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const VerticalSpeacing(30),
+                RoundedButton(title: "Login", onpress: () {}),
+                const VerticalSpeacing(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Or, login with...",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.textColor1,
+                        ),
+                      ),
+                    ),
+                    const VerticalSpeacing(20),
+                  ],
+                ),
+                LoginContainer(),
               ],
             ),
           ),
