@@ -185,8 +185,8 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   const VerticalSpeacing(12.0),
                   Container(
-                    height: 205,
-                    width: 168,
+                    height: 240,
+                    width: 192,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       border:
@@ -281,6 +281,90 @@ class _HomeViewState extends State<HomeView> {
                                 image: AssetImage('images/cartImg.png'),
                               ),
                             ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Dried Figs',
+                                style: GoogleFonts.getFont(
+                                  "Roboto",
+                                  textStyle: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColor.cardTxColor,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: AppColor.primaryColor,
+                                    size: 20,
+                                  ),
+                                  Text(
+                                    '4.5',
+                                    style: GoogleFonts.getFont(
+                                      "Roboto",
+                                      textStyle: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                '\$50 ',
+                                style: GoogleFonts.getFont(
+                                  "Roboto",
+                                  textStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.cardTxColor,
+                                  ),
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                              Text(
+                                '\$20 ',
+                                style: GoogleFonts.getFont(
+                                  "Roboto",
+                                  textStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.textColor1,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const VerticalSpeacing(6),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 37,
+                                width: 37,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(19),
+                                  color: AppColor.primaryColor,
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset('images/cart.png'),
+                                  ),
+                                ),
+                              ),
+                              CartButton(onTap: () {}, text: 'View'),
+                            ],
                           ),
                         ],
                       ),

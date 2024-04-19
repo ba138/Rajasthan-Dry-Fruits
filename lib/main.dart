@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           elevation: 0, // Remove app bar elevation
         ),
       ),
-      initialRoute: RoutesName.splash,
+      initialRoute: RoutesName.home,
       onGenerateRoute: Routes.generateRoute,
     );
   }

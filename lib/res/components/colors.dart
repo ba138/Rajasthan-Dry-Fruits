@@ -10,4 +10,5 @@ class AppColor {
   static const Color boxColor = Color(0xffEEEEEE);
   static const Color dividerColor = Color(0xffCDCDCD);
   static const Color iconColor = Color(0xff858585);
+  static const Color cardTxColor = Color(0xff535353);
 }
