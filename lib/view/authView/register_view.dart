@@ -7,14 +7,14 @@ import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+class RegisterView extends StatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const VerticalSpeacing(30),
                   Text(
-                    "Hello!",
+                    "Register",
                     style: GoogleFonts.getFont(
                       "Poppins",
                       textStyle: const TextStyle(
@@ -59,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   Text(
-                    "Insert your credientls to login",
+                    "Register to countinue",
                     style: GoogleFonts.getFont(
                       "Poppins",
                       textStyle: const TextStyle(
@@ -86,38 +86,17 @@ class _LoginViewState extends State<LoginView> {
                     preColor: AppColor.textColor1,
                     obscureText: true,
                   ),
-                  const VerticalSpeacing(8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            RoutesName.forget,
-                          );
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          style: GoogleFonts.getFont(
-                            "Poppins",
-                            textStyle: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.primaryColor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  const VerticalSpeacing(30),
+                  const TextFieldCustom(
+                    preIcon: Icons.lock_outline_rounded,
+                    maxLines: 2,
+                    text: "sfsdadf",
+                    hintText: "Re-enter Your Password",
+                    preColor: Color(0xff8894A7),
+                    obscureText: false,
                   ),
                   const VerticalSpeacing(30),
-                  RoundedButton(
-                      title: "Login",
-                      onpress: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.home, (route) => false);
-                      }),
+                  RoundedButton(title: "Register", onpress: () {}),
                   const VerticalSpeacing(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -155,7 +134,7 @@ class _LoginViewState extends State<LoginView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account?",
+                        "Already have an account?",
                         style: GoogleFonts.getFont(
                           "Poppins",
                           textStyle: const TextStyle(
@@ -169,11 +148,11 @@ class _LoginViewState extends State<LoginView> {
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            RoutesName.register,
+                            RoutesName.login,
                           );
                         },
                         child: Text(
-                          "Register",
+                          "Login",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(

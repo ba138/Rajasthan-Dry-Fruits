@@ -7,4 +7,6 @@ class RoutesName {
   static const String login = 'Login_Screen';
   static const String signUp = 'Sign_up';
   static const String dashboard = 'dashboard';
+  static const String register = 'register_view';
+  static const String forget = 'Forget_password_view';
 }
