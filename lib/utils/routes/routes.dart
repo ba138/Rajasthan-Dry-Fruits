@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/home_view.dart';
+import 'package:rjfruits/view/authView/forget_password_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/authView/register_view.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
@@ -32,6 +33,10 @@ class Routes {
       case RoutesName.register:
         return MaterialPageRoute(
             builder: (BuildContext context) => const RegisterView());
+      case RoutesName.forget:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const ForgetPasswordScreen(),
+        );
 
       default:
         return MaterialPageRoute(builder: (_) {

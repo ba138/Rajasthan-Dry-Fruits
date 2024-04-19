@@ -34,6 +34,8 @@ class OnBoardingScreen3 extends StatelessWidget {
                       onTap: () {
                         Navigator.pop(context);
                       },
+                      color: AppColor.primaryColor,
+                      iconColor: AppColor.whiteColor,
                     ),
                     GestureDetector(
                       onTap: () {

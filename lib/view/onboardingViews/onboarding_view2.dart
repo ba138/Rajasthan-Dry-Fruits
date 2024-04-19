@@ -33,6 +33,8 @@ class OnBoardingScreen2 extends StatelessWidget {
                       onTap: () {
                         Navigator.pop(context);
                       },
+                      color: AppColor.primaryColor,
+                      iconColor: AppColor.whiteColor,
                     ),
                     InkWell(
                       onTap: () {
