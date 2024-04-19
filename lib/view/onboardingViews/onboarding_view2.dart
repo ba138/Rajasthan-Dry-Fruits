@@ -52,7 +52,7 @@ class OnBoardingScreen2 extends StatelessWidget {
                   ),
                 ],
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 50),
               Center(
                 child: Image.asset(
                   "images/onboarding2.png",
@@ -72,7 +72,7 @@ class OnBoardingScreen2 extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               Text(
                 "Easy and fast learning at \nany time to help you\nimprove various skills",
                 textAlign: TextAlign.center,
@@ -85,7 +85,7 @@ class OnBoardingScreen2 extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -121,7 +121,7 @@ class OnBoardingScreen2 extends StatelessWidget {
                   ),
                 ],
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               OnButton(
                 progress: 0.6,
                 onTap: () {

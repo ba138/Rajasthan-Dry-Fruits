@@ -60,7 +60,7 @@ class OnBoardingScreen3 extends StatelessWidget {
                   width: 321,
                 ),
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               Text(
                 "Quick and easy \ndelivery",
                 textAlign: TextAlign.center,
@@ -73,7 +73,7 @@ class OnBoardingScreen3 extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               Text(
                 "Easy and fast learning at \nany time to help you\nimprove various skills",
                 textAlign: TextAlign.center,
@@ -86,7 +86,7 @@ class OnBoardingScreen3 extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -122,7 +122,7 @@ class OnBoardingScreen3 extends StatelessWidget {
                   ),
                 ],
               ),
-              const VerticalSpeacing(24),
+              VerticalSpeacing(MediaQuery.of(context).size.height / 24),
               OnButton(
                 progress: 1,
                 onTap: () {
