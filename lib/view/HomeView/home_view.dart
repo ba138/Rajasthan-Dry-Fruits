@@ -202,6 +202,89 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       ],
                     ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                height: 24,
+                                width: 74,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: AppColor.primaryColor,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0,
+                                          0.25), // Shadow color (black with 25% opacity)
+                                      blurRadius: 8.1, // Blur radius
+                                      offset:
+                                          Offset(0, 4), // Offset (Y direction)
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        height: 18,
+                                        width: 18,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          color: AppColor.whiteColor,
+                                        ),
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.remove,
+                                            size: 16,
+                                            color: AppColor.iconColor,
+                                          ),
+                                        ),
+                                      ),
+                                      const Text(
+                                        '2KG',
+                                        style: TextStyle(
+                                            color: AppColor.whiteColor),
+                                      ),
+                                      Container(
+                                        height: 18,
+                                        width: 18,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          color: AppColor.whiteColor,
+                                        ),
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 16,
+                                            color: AppColor.iconColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 85,
+                            width: 145,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('images/cartImg.png'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   const VerticalSpeacing(40.0)
                 ],
