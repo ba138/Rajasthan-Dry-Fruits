@@ -30,17 +30,19 @@ class HomeView extends StatelessWidget {
                     'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
                   ),
                 ),
-                title: const Text(
+                title: Text(
                   'WellCome',
-                  style: TextStyle(
+                  style: GoogleFonts.getFont(
+                    "Roboto",
                     color: AppColor.textColor2,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                subtitle: const Text(
+                subtitle: Text(
                   'Hiren user',
-                  style: TextStyle(
+                  style: GoogleFonts.getFont(
+                    "Roboto",
                     color: AppColor.textColor1,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w600,
@@ -62,7 +64,28 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               const VerticalSpeacing(16.0),
-              SearchBar(),
+              const SearchBar(),
+              const VerticalSpeacing(14.0),
+              Container(
+                height: 159.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xff000000)
+                          .withOpacity(0.25), // color of the shadow
+                      spreadRadius: 0, // spread radius
+                      blurRadius: 4, // blur radius
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                  image: const DecorationImage(
+                    image: AssetImage('images/banner.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
