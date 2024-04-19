@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import '../../res/components/categorycard.dart';
 import '../../res/components/colors.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +28,7 @@ class HomeView extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const VerticalSpeacing(40.0),
               ListTile(
@@ -86,6 +94,76 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
               ),
+              const VerticalSpeacing(16.0),
+              Text(
+                'Categories',
+                style: GoogleFonts.getFont(
+                  "Roboto",
+                  color: AppColor.textColor1,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const VerticalSpeacing(9.0),
+              SizedBox(
+                height: 50,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      CategoryCart(
+                        bgColor: _isSelected
+                            ? AppColor.primaryColor
+                            : AppColor.boxColor,
+                        textColor: _isSelected
+                            ? AppColor.whiteColor
+                            : AppColor.textColor1,
+                        onTap: () {
+                          setState(() {
+                            _isSelected = !_isSelected;
+                          });
+                        },
+                        text: 'All',
+                      ),
+                      const SizedBox(width: 10.0),
+                      CategoryCart(
+                        bgColor: AppColor.boxColor,
+                        textColor: AppColor.textColor1,
+                        onTap: () {},
+                        text: 'Penut',
+                      ),
+                      const SizedBox(width: 10.0),
+                      CategoryCart(
+                        bgColor: AppColor.boxColor,
+                        textColor: AppColor.textColor1,
+                        onTap: () {},
+                        text: 'Apricot',
+                      ),
+                      const SizedBox(width: 10.0),
+                      CategoryCart(
+                        bgColor: AppColor.boxColor,
+                        textColor: AppColor.textColor1,
+                        onTap: () {},
+                        text: 'peach',
+                      ),
+                      const SizedBox(width: 10.0),
+                      CategoryCart(
+                        bgColor: AppColor.boxColor,
+                        textColor: AppColor.textColor1,
+                        onTap: () {},
+                        text: 'figs',
+                      ),
+                      const SizedBox(width: 10.0),
+                      CategoryCart(
+                        bgColor: AppColor.boxColor,
+                        textColor: AppColor.textColor1,
+                        onTap: () {},
+                        text: 'Penut',
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
