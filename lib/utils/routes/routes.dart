@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:rjfruits/view/HomeView/home_view.dart';
+import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
+
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 
 class Routes {
@@ -8,8 +9,10 @@ class Routes {
     switch (settings.name) {
       case RoutesName.splash:
         return MaterialPageRoute(
-          builder: (BuildContext context) => const SplashScreen(),
-        );
+            builder: (BuildContext context) => const SplashScreen());
+      case RoutesName.onboarding1:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const OnBoardingScreen1());
       case RoutesName.home:
         return MaterialPageRoute(
           builder: (BuildContext context) => const HomeView(),
