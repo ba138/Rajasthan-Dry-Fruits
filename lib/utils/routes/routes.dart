@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/HomeView/home_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view2.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
-
-import '../../view/HomeView/home_view.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -14,6 +13,9 @@ class Routes {
       case RoutesName.splash:
         return MaterialPageRoute(
             builder: (BuildContext context) => const SplashScreen());
+      case RoutesName.home:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const HomeView());
       case RoutesName.onboarding1:
         return MaterialPageRoute(
             builder: (BuildContext context) => const OnBoardingScreen1());
