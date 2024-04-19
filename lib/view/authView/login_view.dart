@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
+import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 
 class LoginView extends StatefulWidget {
@@ -62,6 +63,13 @@ class _LoginViewState extends State<LoginView> {
                       color: AppColor.textColor1,
                     ),
                   ),
+                ),
+                const TextFieldCustom(
+                  preIcon: Icons.email,
+                  maxLines: 2,
+                  text: "sfsdadf",
+                  hintText: "1234@gmail.com",
+                  preColor: AppColor.primaryColor,
                 ),
               ],
             ),
