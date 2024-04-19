@@ -21,8 +21,10 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white, // Set app bar color to white
           elevation: 0, // Remove app bar elevation
-        ),
+       
       ),
+   
+        
       initialRoute: RoutesName.splash,
       onGenerateRoute: Routes.generateRoute,
     );
