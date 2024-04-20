@@ -52,7 +52,22 @@ class SaveView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SaveListCart(),
+                  GridView.count(
+                    padding:
+                        const EdgeInsets.all(10.0), // Padding around the grid
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 1, // One card per row
+                    childAspectRatio: (MediaQuery.of(context).size.width /
+                        120), // Adjust width based on screen size
+                    mainAxisSpacing: 16.0, // Spacing between rows
+                    crossAxisSpacing: 0.0, // Spacing between columns
+                    children: List.generate(
+                        10,
+                        (index) => Container(
+                            height: 100.0,
+                            child: const SaveListCart())), // Wrap in Container
+                  ),
                 ],
               )
             ],
