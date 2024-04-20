@@ -14,4 +14,5 @@ class RoutesName {
   static const String popularItems = 'popular_items';
   static const String discountProd = 'discount_prod';
   static const String shopView = 'shop_view';
+  static const String checkOut = 'check_out_view';
 }
