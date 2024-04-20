@@ -52,7 +52,7 @@ class _TrackOrderState extends State<TrackOrder> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, RoutesName.myorders);
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back,
@@ -74,14 +74,48 @@ class _TrackOrderState extends State<TrackOrder> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const VerticalSpeacing(20.0),
-                const Text(
-                  '   Order id #30398505202',
-                  style: TextStyle(
-                    fontFamily: 'CenturyGothic',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppColor.blackColor,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '   Order id #30398505202',
+                      style: TextStyle(
+                        fontFamily: 'CenturyGothic',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.blackColor,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesName.cancelOrder,
+                        );
+                      },
+                      child: Container(
+                        height: 32,
+                        width: 85,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30.0),
+                          color: AppColor.primaryColor,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(2.0),
+                          child: Center(
+                            child: Text(
+                              'Cancel order',
+                              style: TextStyle(
+                                color: AppColor.whiteColor,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),

@@ -6,7 +6,7 @@ import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
 
 class MyOrders extends StatefulWidget {
-  const MyOrders({Key? key}) : super(key: key);
+  const MyOrders({super.key});
 
   @override
   _MyOrdersState createState() => _MyOrdersState();
