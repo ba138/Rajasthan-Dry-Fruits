@@ -20,7 +20,10 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
+
 import 'package:rjfruits/view/search/search_view.dart';
+
+import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
 
 import '../../view/checkOut/check_out_view.dart';
@@ -100,6 +103,10 @@ class Routes {
       case RoutesName.searchView:
         return MaterialPageRoute(
           builder: (BuildContext context) => const SearchView(),
+        );
+      case RoutesName.deliveryAddress:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const DeliveryAddressScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) {

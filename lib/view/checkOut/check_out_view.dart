@@ -56,7 +56,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       width: MediaQuery.of(context).size.width / 6,
                     ),
                     Text(
-                      "Product Details",
+                      "Checkout",
                       style: GoogleFonts.getFont(
                         "Poppins",
                         textStyle: const TextStyle(
