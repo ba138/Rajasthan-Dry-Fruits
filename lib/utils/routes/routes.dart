@@ -17,6 +17,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
+import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
 
 class Routes {
@@ -85,6 +86,10 @@ class Routes {
       case RoutesName.paymentDone:
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
+        );
+      case RoutesName.deliveryAddress:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const DeliveryAddressScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) {
