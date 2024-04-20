@@ -258,6 +258,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   const VerticalSpeacing(16.0),
+                  //DisCount Cart
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
