@@ -265,7 +265,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 const VerticalSpeacing(50),
                 RoundedButton(
                   title: "323\$pay",
-                  onpress: () {},
+                  onpress: () {
+                    Navigator.pushNamed(context, RoutesName.paymentDone);
+                  },
                 ),
                 const VerticalSpeacing(20),
               ],
