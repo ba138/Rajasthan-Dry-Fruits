@@ -366,7 +366,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                   ],
-                )
+                ),
+                const VerticalSpeacing(
+                  30,
+                ),
               ],
             ),
           ),
