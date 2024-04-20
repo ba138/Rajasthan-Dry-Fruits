@@ -87,6 +87,14 @@ class _DashBoardScreenState extends State<DashBoardScreen>
         decoration: const BoxDecoration(
           color: AppColor.primaryColor, // Background color
           shape: BoxShape.circle, // Circular shape
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(
+                  0, 0, 0, 0.25), // Shadow color (black with 25% opacity)
+              blurRadius: 8.1, // Blur radius
+              offset: Offset(0, 4), // Offset (Y direction)
+            ),
+          ],
         ),
         child: FloatingActionButton(
             onPressed: () {},
