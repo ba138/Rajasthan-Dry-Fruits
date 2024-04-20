@@ -31,4 +31,5 @@ class RoutesName {
   static const String trackOrder = 'track_order';
   static const String viewProfile = 'view_profile';
   static const String editProfile = 'edit_profile';
+  static const String totalReview = 'total_review';
 }
