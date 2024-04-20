@@ -108,7 +108,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               style: TextStyle(
                                 color: AppColor.whiteColor,
                                 fontWeight: FontWeight.w400,
-                                fontSize: 14.0,
+                                fontSize: 12.0,
                               ),
                             ),
                           ),
