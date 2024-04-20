@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
         children: [
           profileCenterBtns(
             ontap: () {
-              // Navigator.pushNamed(context, RoutesName.myOrder);
+              Navigator.pushNamed(context, RoutesName.myorders);
             },
             tColor: const Color(0xff6AA9FF),
             bColor: const Color(0xff005AD5),
