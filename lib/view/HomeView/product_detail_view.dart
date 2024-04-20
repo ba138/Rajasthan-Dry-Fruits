@@ -37,7 +37,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Navigator.pop(context);
                     },
                     icon: const Icon(
-                      Icons.arrow_back,
+                      Icons.west,
                       color: AppColor.textColor1,
                     ),
                   ),
