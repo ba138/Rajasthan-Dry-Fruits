@@ -27,4 +27,6 @@ class RoutesName {
   static const String deliveryAddress = 'delivery_address_view';
   static const String myorders = 'my_orders';
   static const String trackOrder = 'track_order';
+  static const String viewProfile = 'view_profile';
+  static const String editProfile = 'edit_profile';
 }
