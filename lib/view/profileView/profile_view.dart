@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
@@ -160,7 +161,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           profileCenterBtns(
             ontap: () {
-              // Navigator.pushNamed(context, RoutesName.deliveryAddress);
+              Navigator.pushNamed(context, RoutesName.deliveryAddress);
             },
             tColor: const Color(0xff6DF5FC),
             bColor: const Color(0xff3CB6BB),
