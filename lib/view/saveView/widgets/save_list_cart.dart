@@ -54,7 +54,7 @@ class SaveListCart extends StatelessWidget {
                           fontFamily: 'CenturyGothic',
                           fontSize: 14,
                           fontWeight: FontWeight.w800,
-                          color: AppColor.appBarTxColor,
+                          color: AppColor.cardTxColor,
                         ),
                         children: <TextSpan>[
                           TextSpan(
@@ -67,7 +67,7 @@ class SaveListCart extends StatelessWidget {
                           TextSpan(
                             text: '\$10',
                             style: TextStyle(
-                              color: AppColor.cardTxColor,
+                              color: AppColor.appBarTxColor,
                               fontSize: 14.0,
                             ),
                           ),
