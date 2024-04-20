@@ -104,7 +104,8 @@ class _HomeViewState extends State<HomeView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 30.0,bottom: 30.0),
+                          padding:
+                              const EdgeInsets.only(left: 30.0, bottom: 30.0),
                           child: CartButton(onTap: () {}, text: 'Order Now'),
                         ),
                       ],
@@ -203,11 +204,17 @@ class _HomeViewState extends State<HomeView> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          HomeCard(),
+                          HomeCard(
+                            isdiscount: false,
+                          ),
                           SizedBox(width: 20.0),
-                          HomeCard(),
+                          HomeCard(
+                            isdiscount: false,
+                          ),
                           SizedBox(width: 20.0),
-                          HomeCard(),
+                          HomeCard(
+                            isdiscount: false,
+                          ),
                         ],
                       ),
                     ),
@@ -235,11 +242,55 @@ class _HomeViewState extends State<HomeView> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          HomeCard(),
+                          HomeCard(
+                            isdiscount: false,
+                          ),
                           SizedBox(width: 20.0),
-                          HomeCard(),
+                          HomeCard(
+                            isdiscount: false,
+                          ),
                           SizedBox(width: 20.0),
-                          HomeCard(),
+                          HomeCard(
+                            isdiscount: false,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const VerticalSpeacing(16.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Popular Discount',
+                        style: GoogleFonts.getFont(
+                          "Roboto",
+                          color: AppColor.textColor1,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      CartButton(onTap: () {}, text: 'View All'),
+                    ],
+                  ),
+                  const VerticalSpeacing(12.0),
+                  const SizedBox(
+                    height: 230,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          HomeCard(
+                            isdiscount: true,
+                          ),
+                          SizedBox(width: 20.0),
+                          HomeCard(
+                            isdiscount: true,
+                          ),
+                          SizedBox(width: 20.0),
+                          HomeCard(
+                            isdiscount: true,
+                          ),
                         ],
                       ),
                     ),
