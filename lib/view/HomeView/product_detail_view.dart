@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view/HomeView/widgets/weight_container.dart';
 
@@ -336,7 +337,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesName.checkOut,
+                        );
+                      },
                       child: Container(
                         height: 55.0,
                         width: 264.0,
@@ -366,7 +372,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                   ],
-                )
+                ),
+                const VerticalSpeacing(
+                  30,
+                ),
               ],
             ),
           ),
