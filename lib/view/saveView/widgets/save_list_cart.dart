@@ -91,10 +91,12 @@ class SaveListCart extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {},
-                  child: const Icon(
-                    Icons.shopping_cart_outlined,
+                  child: const ImageIcon(
+                    AssetImage(
+                      'images/ds.png',
+                    ),
                     color: AppColor.appBarTxColor,
-                    size: 24,
+                    size: 20,
                   ),
                 ),
               ],
