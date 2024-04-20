@@ -19,6 +19,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view2.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
+import 'package:rjfruits/view/orders/cancel_order_view.dart';
 import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
@@ -132,6 +133,9 @@ class Routes {
       case RoutesName.myRating:
         return MaterialPageRoute(
             builder: (BuildContext context) => const MyRating());
+      case RoutesName.cancelOrder:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const CancelOrderScreen());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(
