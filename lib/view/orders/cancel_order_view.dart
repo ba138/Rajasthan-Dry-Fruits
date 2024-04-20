@@ -58,7 +58,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    border: Border.all(color: AppColor.primaryColor, width: 1),
                     color: const Color.fromRGBO(
                         255, 255, 255, 0.2), // Background color with opacity
                     boxShadow: [
@@ -124,7 +124,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    border: Border.all(color: AppColor.primaryColor, width: 1),
                     color: const Color.fromRGBO(
                         255, 255, 255, 0.2), // Background color with opacity
                     boxShadow: [
@@ -270,7 +270,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    border: Border.all(color: AppColor.primaryColor, width: 1),
                     color: const Color.fromRGBO(
                         255, 255, 255, 0.2), // Background color with opacity
                     boxShadow: [
@@ -304,6 +304,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                           height: 66,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
+                              color: Colors.transparent,
                               border: Border.all(color: AppColor.dividerColor)),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -336,7 +337,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    border: Border.all(color: AppColor.primaryColor, width: 1),
                     color: const Color.fromRGBO(
                         255, 255, 255, 0.2), // Background color with opacity
                     boxShadow: [
@@ -370,7 +371,11 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                           height: 94,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                              border: Border.all(color: AppColor.dividerColor)),
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: AppColor.dividerColor,
+                            ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
@@ -397,7 +402,11 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                   ),
                 ),
                 const VerticalSpeacing(20),
-                RoundedButton(title: "Cancel now", onpress: () {}),
+                RoundedButton(
+                    title: "Cancel now",
+                    onpress: () {
+                      Navigator.pop(context);
+                    }),
                 const VerticalSpeacing(40),
               ],
             ),

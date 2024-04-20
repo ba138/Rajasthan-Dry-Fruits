@@ -52,7 +52,7 @@ class _TrackOrderState extends State<TrackOrder> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, RoutesName.myorders);
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back,
