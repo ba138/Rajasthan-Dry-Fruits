@@ -5,6 +5,7 @@ import 'package:rjfruits/view/HomeView/product_detail_view.dart';
 import 'package:rjfruits/view/authView/forget_password_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/bestSellersView/best_sellers.dart';
+import 'package:rjfruits/view/cart/cart_page.dart';
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 import 'package:rjfruits/view/authView/register_view.dart';
 import 'package:rjfruits/view/discountProdView/discount_prod_view.dart';
@@ -48,7 +49,8 @@ class Routes {
         );
       case RoutesName.productDetail:
         return MaterialPageRoute(
-          builder: (BuildContext context) => const ProductDetailScreen(),);
+          builder: (BuildContext context) => const ProductDetailScreen(),
+        );
       case RoutesName.bestSellers:
         return MaterialPageRoute(
           builder: (BuildContext context) => const BestSellers(),
@@ -64,6 +66,10 @@ class Routes {
       case RoutesName.shopView:
         return MaterialPageRoute(
           builder: (BuildContext context) => const ShopView(),
+        );
+      case RoutesName.cartView:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const CartView(),
         );
       default:
         return MaterialPageRoute(builder: (_) {

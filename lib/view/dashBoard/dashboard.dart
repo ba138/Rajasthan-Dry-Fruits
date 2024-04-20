@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/home_view.dart';
 
 import '../../res/components/colors.dart';
@@ -97,7 +98,9 @@ class _DashBoardScreenState extends State<DashBoardScreen>
           ],
         ),
         child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, RoutesName.cartView);
+            },
             backgroundColor: Colors
                 .transparent, // Transparent background for inner FloatingActionButton
             elevation: 0, // No shadow
