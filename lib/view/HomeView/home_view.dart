@@ -193,7 +193,12 @@ class _HomeViewState extends State<HomeView> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      CartButton(onTap: () {}, text: 'View All'),
+                      CartButton(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RoutesName.popularItems);
+                          },
+                          text: 'View All'),
                     ],
                   ),
                   const VerticalSpeacing(12.0),

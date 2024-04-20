@@ -10,6 +10,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view2.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
+import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -45,6 +46,10 @@ class Routes {
       case RoutesName.bestSellers:
         return MaterialPageRoute(
           builder: (BuildContext context) => const BestSellers(),
+        );
+      case RoutesName.popularItems:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const PopularItems(),
         );
       default:
         return MaterialPageRoute(builder: (_) {

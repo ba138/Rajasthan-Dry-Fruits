@@ -10,4 +10,5 @@ class RoutesName {
   static const String register = 'register_view';
   static const String forget = 'Forget_password_view';
   static const String bestSellers = 'best_sellers';
+  static const String popularItems = 'popular_items';
 }
