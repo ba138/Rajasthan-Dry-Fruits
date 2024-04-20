@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 
 class RatingCard extends StatelessWidget {
   const RatingCard({super.key});
@@ -85,7 +86,12 @@ class RatingCard extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      RoutesName.rating,
+                    );
+                  },
                   child: Container(
                     height: 32,
                     width: 85,
@@ -97,7 +103,7 @@ class RatingCard extends StatelessWidget {
                       padding: EdgeInsets.all(2.0),
                       child: Center(
                         child: Text(
-                          'Order Detail',
+                          'Reviews',
                           style: TextStyle(
                             color: AppColor.whiteColor,
                             fontWeight: FontWeight.w400,

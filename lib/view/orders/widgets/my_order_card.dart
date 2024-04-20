@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
 
@@ -132,7 +133,12 @@ class _myOrderCardState extends State<myOrderCard> {
                   ]),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      RoutesName.trackOrder,
+                    );
+                  },
                   child: Container(
                     height: 32,
                     width: 85,
