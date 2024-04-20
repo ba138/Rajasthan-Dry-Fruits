@@ -118,7 +118,7 @@ class _LoginViewState extends State<LoginView> {
                       title: "Login",
                       onpress: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.home, (route) => false);
+                            context, RoutesName.dashboard, (route) => false);
                       }),
                   const VerticalSpeacing(20),
                   Row(

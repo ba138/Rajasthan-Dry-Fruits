@@ -3,7 +3,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:rjfruits/view/total_review/widgets/review_card.dart';
 
 import '../../res/components/colors.dart';
-import '../../res/components/rounded_button.dart';
 import '../../res/components/vertical_spacing.dart';
 
 class TotalRatingScreen extends StatefulWidget {
@@ -18,10 +17,6 @@ class _TotalRatingScreenState extends State<TotalRatingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        child: RoundedButton(title: "Add Review", onpress: () {}),
-      ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
