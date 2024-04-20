@@ -61,17 +61,23 @@ class _HomeViewState extends State<HomeView> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    trailing: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18.0),
-                        color: AppColor.boxColor,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.notifications,
-                          color: AppColor.textColor1,
+                    trailing: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, RoutesName.notificationView);
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(18.0),
+                          color: AppColor.boxColor,
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.notifications,
+                            color: AppColor.textColor1,
+                          ),
                         ),
                       ),
                     ),

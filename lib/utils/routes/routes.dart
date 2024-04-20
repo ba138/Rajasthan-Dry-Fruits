@@ -5,12 +5,16 @@ import 'package:rjfruits/view/HomeView/product_detail_view.dart';
 import 'package:rjfruits/view/authView/forget_password_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/bestSellersView/best_sellers.dart';
+
+
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
+
 import 'package:rjfruits/view/cart/cart_page.dart';
 import 'package:rjfruits/view/checkOut/payment_done_view.dart';
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 import 'package:rjfruits/view/authView/register_view.dart';
 import 'package:rjfruits/view/discountProdView/discount_prod_view.dart';
+import 'package:rjfruits/view/notifications/notification_view.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view2.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
@@ -19,6 +23,8 @@ import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
+
+import '../../view/checkOut/check_out_view.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -83,9 +89,15 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const CartView(),
         );
+
+      case RoutesName.notificationView:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const NotificationView(),
+
       case RoutesName.paymentDone:
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
+
         );
       case RoutesName.deliveryAddress:
         return MaterialPageRoute(
