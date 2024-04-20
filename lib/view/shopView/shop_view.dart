@@ -101,7 +101,7 @@ class ShopView extends StatelessWidget {
                   ),
                   GridView.count(
                     padding: const EdgeInsets.all(
-                        10.0), // Add padding around the grid
+                        5.0), // Add padding around the grid
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     crossAxisCount: 2,
