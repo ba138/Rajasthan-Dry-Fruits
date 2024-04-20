@@ -8,8 +8,9 @@ import '../../../res/components/colors.dart';
 class HomeCard extends StatelessWidget {
   const HomeCard({
     super.key,
+    required this.isdiscount,
   });
-
+  final bool isdiscount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,12 +31,42 @@ class HomeCard extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                isdiscount
+                    ? Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          color: AppColor.cartDiscountColor,
+                        ),
+                        child: const Center(
+                          child: Text.rich(
+                            TextSpan(
+                              text: '30%\n',
+                              style: TextStyle(
+                                  fontSize: 9.0,
+                                  color: AppColor.whiteColor,
+                                  fontWeight: FontWeight.w600),
+                              children: [
+                                TextSpan(
+                                  text: 'Off',
+                                  style: TextStyle(
+                                      fontSize: 9.0,
+                                      color: AppColor.whiteColor,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
                 Container(
                   height: 24,
                   width: 74,
