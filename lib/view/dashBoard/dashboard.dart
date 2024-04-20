@@ -45,9 +45,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
           BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_rounded,
-                ),
+                icon: ImageIcon(AssetImage('images/homeIcon.png')),
                 label: ('Home'),
               ),
               BottomNavigationBarItem(
