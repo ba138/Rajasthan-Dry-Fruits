@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rjfruits/res/components/colors.dart';
 
 class BackContainer extends StatelessWidget {
   final Function()? onTap;
