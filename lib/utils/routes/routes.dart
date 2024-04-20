@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/HomeView/filter_view.dart';
 import 'package:rjfruits/view/HomeView/home_view.dart';
 import 'package:rjfruits/view/HomeView/product_detail_view.dart';
 import 'package:rjfruits/view/authView/forget_password_view.dart';
@@ -90,6 +91,10 @@ class Routes {
       case RoutesName.deliveryAddress:
         return MaterialPageRoute(
           builder: (BuildContext context) => const DeliveryAddressScreen(),
+        );
+      case RoutesName.filter:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const FilterScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) {
