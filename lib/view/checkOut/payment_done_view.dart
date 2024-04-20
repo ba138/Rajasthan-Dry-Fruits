@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 
 class PaymentDoneScreen extends StatelessWidget {
   const PaymentDoneScreen({super.key});
@@ -55,7 +56,14 @@ class PaymentDoneScreen extends StatelessWidget {
                 ),
               ),
               const VerticalSpeacing(60),
-              RoundedButton(title: "Back to home", onpress: () {}),
+              RoundedButton(
+                  title: "Give Rating and Comment",
+                  onpress: () {
+                    Navigator.pushNamed(
+                      context,
+                      RoutesName.rating,
+                    );
+                  }),
               const VerticalSpeacing(
                 14,
               ),

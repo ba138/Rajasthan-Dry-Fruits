@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/HomeView/filter_view.dart';
 import 'package:rjfruits/view/HomeView/home_view.dart';
 import 'package:rjfruits/view/HomeView/product_detail_view.dart';
 import 'package:rjfruits/view/authView/forget_password_view.dart';
@@ -25,6 +26,7 @@ import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view/search/search_view.dart';
 
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
+import 'package:rjfruits/view/rating/rating_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
 
 import '../../view/orders/myorders.dart';
@@ -97,6 +99,10 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const NotificationView(),
         );
+
+      case RoutesName.paymentDone:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const PaymentDoneScreen(),);
       case RoutesName.paymentDone:
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
@@ -109,6 +115,15 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const DeliveryAddressScreen(),
         );
+      case RoutesName.filter:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const FilterScreen(),
+        );
+      case RoutesName.rating:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const RatingScreen(),
+        );
+
       case RoutesName.myorders:
         return MaterialPageRoute(
             builder: (BuildContext context) => const MyOrders());
