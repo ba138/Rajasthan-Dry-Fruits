@@ -17,4 +17,5 @@ class RoutesName {
   static const String checkOut = 'check_out_view';
   static const String addAddress = 'add_address_view';
   static const String cartView = 'cart_view';
+  static const String notificationView = 'notification_view';
 }
