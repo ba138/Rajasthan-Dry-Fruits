@@ -7,7 +7,6 @@ import 'package:rjfruits/view/authView/forget_password_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/bestSellersView/best_sellers.dart';
 
-
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 
 import 'package:rjfruits/view/cart/cart_page.dart';
@@ -23,9 +22,8 @@ import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
+import 'package:rjfruits/view/rating/rating_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
-
-import '../../view/checkOut/check_out_view.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -94,11 +92,11 @@ class Routes {
       case RoutesName.notificationView:
         return MaterialPageRoute(
           builder: (BuildContext context) => const NotificationView(),
+        );
 
       case RoutesName.paymentDone:
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
-
         );
       case RoutesName.deliveryAddress:
         return MaterialPageRoute(
@@ -107,6 +105,10 @@ class Routes {
       case RoutesName.filter:
         return MaterialPageRoute(
           builder: (BuildContext context) => const FilterScreen(),
+        );
+      case RoutesName.rating:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const RatingScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) {

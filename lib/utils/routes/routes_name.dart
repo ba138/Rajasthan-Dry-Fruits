@@ -23,4 +23,5 @@ class RoutesName {
   static const String paymentDone = 'payment_done_view';
   static const String deliveryAddress = 'delivery_address_view';
   static const String filter = 'filter_view';
+  static const String rating = 'rating_view';
 }
