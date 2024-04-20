@@ -179,6 +179,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  order_tracker:
+    dependency: "direct main"
+    description:
+      name: order_tracker
+      sha256: "49d019da3da52c27ba080fad2b714958529dc3feaba7b0696b81cd5f955c7c19"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   path:
     dependency: transitive
     description:

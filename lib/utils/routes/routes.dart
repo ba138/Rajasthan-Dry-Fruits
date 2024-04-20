@@ -18,6 +18,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view1.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view2.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
+import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 
@@ -26,7 +27,7 @@ import 'package:rjfruits/view/search/search_view.dart';
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
 
-import '../../view/checkOut/check_out_view.dart';
+import '../../view/orders/myorders.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -108,6 +109,12 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const DeliveryAddressScreen(),
         );
+      case RoutesName.myorders:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const MyOrders());
+      case RoutesName.trackOrder:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const TrackOrder());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

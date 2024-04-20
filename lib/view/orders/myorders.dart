@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/view/orders/widgets/myorder_card.dart';
+import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
 
