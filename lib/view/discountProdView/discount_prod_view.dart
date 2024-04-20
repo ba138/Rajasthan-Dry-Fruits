@@ -4,8 +4,8 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ShopView extends StatelessWidget {
-  const ShopView({super.key});
+class DisCountProd extends StatelessWidget {
+  const DisCountProd({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,6 @@ class ShopView extends StatelessWidget {
                 children: [
                   const VerticalSpeacing(30.0),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
                         onPressed: () {
@@ -39,8 +38,9 @@ class ShopView extends StatelessWidget {
                           color: AppColor.appBarTxColor,
                         ),
                       ),
+                      const SizedBox(width: 80.0),
                       Text(
-                        'Shop',
+                        'Discount Products',
                         style: GoogleFonts.getFont(
                           "Poppins",
                           textStyle: const TextStyle(
@@ -50,55 +50,9 @@ class ShopView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 31,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: AppColor.boxColor,
-                            borderRadius: BorderRadius.circular(
-                              4,
-                            ),
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.search,
-                              color: AppColor.textColor1,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                   const VerticalSpeacing(20.0),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: 10.0),
-                      Text.rich(
-                        textAlign: TextAlign.start,
-                        TextSpan(
-                          text: '23 Fund Items ',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              color: AppColor.cardTxColor,
-                              fontWeight: FontWeight.w600),
-                          children: [
-                            TextSpan(
-                              text: 'Fresh Fruit Dry Fruit',
-                              style: TextStyle(
-                                  fontSize: 14.0,
-                                  color: AppColor.primaryColor,
-                                  fontWeight: FontWeight.w600),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
                   GridView.count(
                     padding: const EdgeInsets.all(
                         10.0), // Add padding around the grid
@@ -109,7 +63,7 @@ class ShopView extends StatelessWidget {
                     mainAxisSpacing: 10.0, // Spacing between rows
                     crossAxisSpacing: 10.0, // Spacing between columns
                     children: List.generate(
-                        10, (index) => const HomeCard(isdiscount: false)),
+                        10, (index) => const HomeCard(isdiscount: true)),
                   ),
                 ],
               ),

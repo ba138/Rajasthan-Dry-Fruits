@@ -13,4 +13,5 @@ class AppColor {
   static const Color cardTxColor = Color(0xff535353);
   static const Color dashboardIconColor = Color(0xff898989);
   static const Color cartDiscountColor = Color(0xffFB5E3C);
+  static const Color appBarTxColor = Color(0xff16162E);
 }
