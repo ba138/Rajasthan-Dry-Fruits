@@ -313,31 +313,39 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColor.primaryColor,
-                        ),
-                        color: const Color.fromRGBO(255, 255, 255,
-                            0.2), // Background color with opacity
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Colors.white.withOpacity(0.5), // Shadow color
-                            blurRadius: 2, // Blur radius
-                            spreadRadius: 0, // Spread radius
-                            offset: const Offset(0, 0), // Offset
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesName.cartView,
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColor.primaryColor,
                           ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Image.asset(
-                          "images/ds.png",
-                          height: 22,
-                          width: 22,
+                          color: const Color.fromRGBO(255, 255, 255,
+                              0.2), // Background color with opacity
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Colors.white.withOpacity(0.5), // Shadow color
+                              blurRadius: 2, // Blur radius
+                              spreadRadius: 0, // Spread radius
+                              offset: const Offset(0, 0), // Offset
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "images/ds.png",
+                            height: 22,
+                            width: 22,
+                          ),
                         ),
                       ),
                     ),

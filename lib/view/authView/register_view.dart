@@ -99,7 +99,12 @@ class _RegisterViewState extends State<RegisterView> {
                     keyboardType: TextInputType.visiblePassword,
                   ),
                   const VerticalSpeacing(30),
-                  RoundedButton(title: "Register", onpress: () {}),
+                  RoundedButton(
+                      title: "Register",
+                      onpress: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, RoutesName.dashboard, (route) => false);
+                      }),
                   const VerticalSpeacing(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
