@@ -76,6 +76,7 @@ class _RegisterViewState extends State<RegisterView> {
                     text: "sfsdadf",
                     hintText: "1234@gmail.com",
                     preColor: AppColor.primaryColor,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   const VerticalSpeacing(30),
                   const TextFieldCustom(
@@ -85,6 +86,7 @@ class _RegisterViewState extends State<RegisterView> {
                     hintText: "*******",
                     preColor: AppColor.textColor1,
                     obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
                   ),
                   const VerticalSpeacing(30),
                   const TextFieldCustom(
@@ -94,6 +96,7 @@ class _RegisterViewState extends State<RegisterView> {
                     hintText: "Re-enter Your Password",
                     preColor: Color(0xff8894A7),
                     obscureText: false,
+                    keyboardType: TextInputType.visiblePassword,
                   ),
                   const VerticalSpeacing(30),
                   RoundedButton(title: "Register", onpress: () {}),

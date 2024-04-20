@@ -21,9 +21,17 @@ class CartButton extends StatelessWidget {
         height: 30.0,
         width: 104.0,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
-          color: AppColor.primaryColor,
-        ),
+            borderRadius: BorderRadius.circular(30.0),
+            color: AppColor.primaryColor,
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 0, 0, 0)
+                    .withOpacity(0.25), // Shadow color
+                blurRadius: 8.1, // Blur radius
+                spreadRadius: 0, // Spread radius
+                offset: const Offset(0, 4), // Offset
+              ),
+            ]),
         child: Center(
           child: Text(
             text,

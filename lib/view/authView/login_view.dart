@@ -76,6 +76,7 @@ class _LoginViewState extends State<LoginView> {
                     text: "sfsdadf",
                     hintText: "1234@gmail.com",
                     preColor: AppColor.primaryColor,
+                    keyboardType: TextInputType.emailAddress,
                   ),
                   const VerticalSpeacing(30),
                   const TextFieldCustom(
@@ -85,6 +86,7 @@ class _LoginViewState extends State<LoginView> {
                     hintText: "*******",
                     preColor: AppColor.textColor1,
                     obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
                   ),
                   const VerticalSpeacing(8),
                   Row(

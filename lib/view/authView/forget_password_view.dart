@@ -82,6 +82,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 text: "sfsdadf",
                 hintText: "1234@gmail.com",
                 preColor: AppColor.primaryColor,
+                keyboardType: TextInputType.emailAddress,
               ),
               const VerticalSpeacing(30),
               RoundedButton(title: "send", onpress: () {}),
