@@ -23,7 +23,7 @@ class _myOrderCardState extends State<myOrderCard> {
       height: 114.0,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColor.primaryColor, width: 1),
         color: const Color.fromRGBO(
             255, 255, 255, 0.2), // Background color with opacity
