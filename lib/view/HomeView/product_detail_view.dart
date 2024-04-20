@@ -256,49 +256,54 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: AppColor.dividerColor,
                 ),
                 const VerticalSpeacing(12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Review",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.textColor1,
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutesName.totalReview);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Review",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.textColor1,
+                          ),
                         ),
                       ),
-                    ),
-                    const Row(
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: AppColor.primaryColor,
-                        )
-                      ],
-                    )
-                  ],
+                      const Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: AppColor.primaryColor,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 const VerticalSpeacing(12),
                 const Divider(

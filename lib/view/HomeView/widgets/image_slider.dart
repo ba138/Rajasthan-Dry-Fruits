@@ -21,7 +21,7 @@ class _ImageSliderState extends State<ImageSlider> {
   Widget build(BuildContext context) {
     return Container(
       height: 270,
-      width: 342,
+      width: MediaQuery.of(context).size.width*9,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: AppColor.primaryColor, width: 2),

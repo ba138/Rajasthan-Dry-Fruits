@@ -11,6 +11,7 @@ import 'package:rjfruits/view/checkOut/check_out_view.dart';
 
 import 'package:rjfruits/view/cart/cart_page.dart';
 import 'package:rjfruits/view/checkOut/payment_done_view.dart';
+import 'package:rjfruits/view/contacts/contact_us.dart';
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 import 'package:rjfruits/view/authView/register_view.dart';
 import 'package:rjfruits/view/discountProdView/discount_prod_view.dart';
@@ -25,11 +26,15 @@ import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view/rating/widget/my_rating.dart';
 
+import 'package:rjfruits/view/profileView/edit_profile.dart';
+import 'package:rjfruits/view/profileView/view_profile.dart';
+
 import 'package:rjfruits/view/search/search_view.dart';
 
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view/rating/rating_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
+import 'package:rjfruits/view/total_review/total_review.dart';
 
 import '../../view/orders/myorders.dart';
 
@@ -106,6 +111,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
         );
+    
 
       case RoutesName.searchView:
         return MaterialPageRoute(
@@ -136,6 +142,18 @@ class Routes {
       case RoutesName.cancelOrder:
         return MaterialPageRoute(
             builder: (BuildContext context) => const CancelOrderScreen());
+      case RoutesName.viewProfile:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ViewProfile());
+      case RoutesName.editProfile:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const EditProfile());
+      case RoutesName.totalReview:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const TotalRatingScreen());
+      case RoutesName.contactUs:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ContactUs());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(
