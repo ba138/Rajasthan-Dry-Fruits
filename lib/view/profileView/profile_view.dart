@@ -200,7 +200,9 @@ class _ProfileViewState extends State<ProfileView> {
               Column(
                 children: [
                   ProfileWidgets(
-                      ontap: () {},
+                      ontap: () {
+                        Navigator.pushNamed(context, RoutesName.viewProfile);
+                      },
                       tColor: const Color(0xff6DF5FC),
                       bColor: const Color(0xff46C5CA),
                       icon: Icons.person_outline,
