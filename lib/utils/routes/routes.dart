@@ -11,6 +11,7 @@ import 'package:rjfruits/view/checkOut/check_out_view.dart';
 
 import 'package:rjfruits/view/cart/cart_page.dart';
 import 'package:rjfruits/view/checkOut/payment_done_view.dart';
+import 'package:rjfruits/view/contacts/contact_us.dart';
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 import 'package:rjfruits/view/authView/register_view.dart';
 import 'package:rjfruits/view/discountProdView/discount_prod_view.dart';
@@ -143,6 +144,9 @@ class Routes {
       case RoutesName.totalReview:
         return MaterialPageRoute(
             builder: (BuildContext context) => const TotalRatingScreen());
+      case RoutesName.contactUs:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ContactUs());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(
