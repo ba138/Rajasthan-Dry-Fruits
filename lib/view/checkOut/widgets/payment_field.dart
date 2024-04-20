@@ -32,6 +32,7 @@ class _PaymentFieldState extends State<PaymentField> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -48,7 +49,10 @@ class _PaymentFieldState extends State<PaymentField> {
           ),
           const SizedBox(height: 8),
           Container(
-            color: const Color(0xffEEEEEE),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xffEEEEEE),
+            ),
             child: TextFormField(
               keyboardType: widget.keyboardType,
               obscureText: (widget.obscureText && hidden),
@@ -81,11 +85,11 @@ class _PaymentFieldState extends State<PaymentField> {
                 fillColor: const Color(0xffEEEEEE),
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xfff1f1f1)),
-                  borderRadius: BorderRadius.zero,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xfff1f1f1)),
-                  borderRadius: BorderRadius.zero,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
               ),
               validator: widget.validator,

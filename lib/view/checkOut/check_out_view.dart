@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
 import 'package:rjfruits/view/checkOut/widgets/payment_container.dart';
@@ -83,14 +83,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ),
                       ),
                     ),
-                    Text(
-                      "Add New",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.primaryColor,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesName.addAddress,
+                        );
+                      },
+                      child: Text(
+                        "Add New",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.primaryColor,
+                          ),
                         ),
                       ),
                     ),

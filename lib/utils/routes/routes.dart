@@ -14,6 +14,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view2.dart';
 import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
+import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
 
 class Routes {
@@ -70,6 +71,10 @@ class Routes {
       case RoutesName.checkOut:
         return MaterialPageRoute(
           builder: (BuildContext context) => const CheckOutScreen(),
+        );
+      case RoutesName.addAddress:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const AddAddresScreen(),
         );
       default:
         return MaterialPageRoute(builder: (_) {
