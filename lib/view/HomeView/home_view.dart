@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
-import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import '../../res/components/categorycard.dart';
 import '../../res/components/colors.dart';
@@ -232,7 +231,12 @@ class _HomeViewState extends State<HomeView> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      CartButton(onTap: () {}, text: 'View All'),
+                      CartButton(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, RoutesName.bestSellers);
+                          },
+                          text: 'View All'),
                     ],
                   ),
                   const VerticalSpeacing(12.0),
