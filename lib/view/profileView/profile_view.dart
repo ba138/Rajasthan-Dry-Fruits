@@ -240,7 +240,9 @@ class _ProfileViewState extends State<ProfileView> {
                       title: 'Payment'),
                   const Divider(),
                   ProfileWidgets(
-                    ontap: () {},
+                    ontap: () {
+                      Navigator.pushNamed(context, RoutesName.login);
+                    },
                     tColor: const Color(0xffFF9CCB),
                     bColor: const Color(0xffEC4091),
                     icon: Icons.logout_outlined,
