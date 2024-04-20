@@ -4,6 +4,8 @@ import 'package:rjfruits/utils/routes/routes.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (_) {
       runApp(
