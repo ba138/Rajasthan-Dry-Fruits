@@ -4,8 +4,6 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../onboardingViews/widgets/back_container.dart';
-
 class ShopView extends StatelessWidget {
   const ShopView({super.key});
 
