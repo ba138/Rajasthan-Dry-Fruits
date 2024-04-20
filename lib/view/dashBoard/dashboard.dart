@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:rjfruits/view/HomeView/home_view.dart';
 
 import '../../res/components/colors.dart';
+import '../profileView/profile_view.dart';
+import '../saveView/save_view.dart';
+import '../shopView/shop_view.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
@@ -26,7 +29,7 @@ class _DashBoardScreenState extends State<DashBoardScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 5, vsync: this);
+    tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -35,34 +38,26 @@ class _DashBoardScreenState extends State<DashBoardScreen>
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: tabController,
-        children: const [
-          HomeView(),
-          // MenuScreen(),
-          // CardScreen(),
-          // FavouriteList(),
-          // ProfileScreen(),
-        ],
+        children: const [HomeView(), ShopView(), SaveView(), ProfileView()],
       ),
       bottomNavigationBar: Stack(
         children: [
           BottomNavigationBar(
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_rounded,
-                ),
+                icon: ImageIcon(AssetImage('images/homeIcon.png')),
                 label: ('Home'),
               ),
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('images/shop.png')),
                 label: ('Shop'),
               ),
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.abc,
-                    color: Colors.transparent,
-                  ),
-                  label: ''),
+              // BottomNavigationBarItem(
+              //     icon: Icon(
+              //       Icons.abc,
+              //       color: Colors.transparent,
+              //     ),
+              //     label: ''),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.bookmark_outline_rounded,
@@ -92,6 +87,14 @@ class _DashBoardScreenState extends State<DashBoardScreen>
         decoration: const BoxDecoration(
           color: AppColor.primaryColor, // Background color
           shape: BoxShape.circle, // Circular shape
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(
+                  0, 0, 0, 0.25), // Shadow color (black with 25% opacity)
+              blurRadius: 8.1, // Blur radius
+              offset: Offset(0, 4), // Offset (Y direction)
+            ),
+          ],
         ),
         child: FloatingActionButton(
             onPressed: () {},
