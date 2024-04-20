@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
+import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import '../../res/components/categorycard.dart';
@@ -18,7 +20,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -38,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
                   const VerticalSpeacing(40.0),
                   ListTile(
                     leading: const CircleAvatar(
-                      radius: 40.0,
+                      radius: 25.0,
                       backgroundImage: NetworkImage(
                         'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
                       ),
@@ -62,8 +63,8 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                     trailing: Container(
-                      height: 34,
-                      width: 34,
+                      height: 30,
+                      width: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18.0),
                         color: AppColor.boxColor,
@@ -97,6 +98,16 @@ class _HomeViewState extends State<HomeView> {
                         image: AssetImage('images/banner.png'),
                         fit: BoxFit.cover,
                       ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30.0,bottom: 30.0),
+                          child: CartButton(onTap: () {}, text: 'Order Now'),
+                        ),
+                      ],
                     ),
                   ),
                   const VerticalSpeacing(16.0),
@@ -186,12 +197,20 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                   const VerticalSpeacing(12.0),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      HomeCard(),
-                      HomeCard(),
-                    ],
+                  const SizedBox(
+                    height: 230,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          HomeCard(),
+                          SizedBox(width: 20.0),
+                          HomeCard(),
+                          SizedBox(width: 20.0),
+                          HomeCard(),
+                        ],
+                      ),
+                    ),
                   ),
                   const VerticalSpeacing(16.0),
                   Row(
@@ -210,12 +229,20 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                   const VerticalSpeacing(12.0),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      HomeCard(),
-                      HomeCard(),
-                    ],
+                  const SizedBox(
+                    height: 230,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          HomeCard(),
+                          SizedBox(width: 20.0),
+                          HomeCard(),
+                          SizedBox(width: 20.0),
+                          HomeCard(),
+                        ],
+                      ),
+                    ),
                   ),
                   const VerticalSpeacing(40.0)
                 ],
