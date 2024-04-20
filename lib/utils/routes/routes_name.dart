@@ -9,4 +9,5 @@ class RoutesName {
   static const String dashboard = 'dashboard';
   static const String register = 'register_view';
   static const String forget = 'Forget_password_view';
+  static const String productDetail = 'product_detail_view';
 }
