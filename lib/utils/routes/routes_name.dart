@@ -29,4 +29,5 @@ class RoutesName {
   static const String rating = 'rating_view';
   static const String myorders = 'my_orders';
   static const String trackOrder = 'track_order';
+  static const String myRating = 'my_Rating';
 }

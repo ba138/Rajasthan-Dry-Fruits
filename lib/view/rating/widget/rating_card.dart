@@ -1,23 +1,11 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../res/components/colors.dart';
-import '../../../res/components/vertical_spacing.dart';
+import 'package:rjfruits/res/components/colors.dart';
+import 'package:rjfruits/res/components/vertical_spacing.dart';
 
-// ignore: camel_case_types
-class myOrderCard extends StatefulWidget {
-  const myOrderCard({
-    super.key,
-    required this.ontap,
-  });
-  final Function ontap;
+class RatingCard extends StatelessWidget {
+  const RatingCard({super.key});
 
-  @override
-  State<myOrderCard> createState() => _myOrderCardState();
-}
-
-class _myOrderCardState extends State<myOrderCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,48 +31,30 @@ class _myOrderCardState extends State<myOrderCard> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text.rich(
-                  TextSpan(children: [
-                    TextSpan(
-                      text: 'order ID: ',
-                      style: TextStyle(
-                        color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
+                Text(
+                  "dry fruit of mix",
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.textColor1,
                     ),
-                    TextSpan(
-                      text: '223456422',
-                      style: TextStyle(
-                        color: AppColor.textColor1,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ]),
+                  ),
                 ),
-                Text.rich(
-                  TextSpan(children: [
-                    TextSpan(
-                      text: 'Status: ',
-                      style: TextStyle(
-                        color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
+                Text(
+                  "purchased on 22 nov 2023",
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.nextColor,
                     ),
-                    TextSpan(
-                      text: 'Completed',
-                      style: TextStyle(
-                        color: AppColor.primaryColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ]),
+                  ),
                 ),
               ],
             ),
@@ -103,33 +73,16 @@ class _myOrderCardState extends State<myOrderCard> {
                   ),
                   // child: Image.asset('images/cartImg.png'),
                 ),
-                const Text.rich(
-                  TextSpan(children: [
-                    TextSpan(
-                      text: 'Dryfruit of mix fresh of new\n',
-                      style: TextStyle(
-                        color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
+                Text(
+                  "Dryfruit of mix fresh of new\n And organic   ",
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.textColor1,
                     ),
-                    TextSpan(
-                      text: 'And organic   ',
-                      style: TextStyle(
-                        color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'Qty:1',
-                      style: TextStyle(
-                        color: AppColor.primaryColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                  ]),
+                  ),
                 ),
                 InkWell(
                   onTap: () {},

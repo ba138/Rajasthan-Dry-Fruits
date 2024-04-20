@@ -22,6 +22,7 @@ import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
+import 'package:rjfruits/view/rating/widget/my_rating.dart';
 
 import 'package:rjfruits/view/search/search_view.dart';
 
@@ -102,11 +103,9 @@ class Routes {
 
       case RoutesName.paymentDone:
         return MaterialPageRoute(
-          builder: (BuildContext context) => const PaymentDoneScreen(),);
-      case RoutesName.paymentDone:
-        return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
         );
+
       case RoutesName.searchView:
         return MaterialPageRoute(
           builder: (BuildContext context) => const SearchView(),
@@ -130,6 +129,9 @@ class Routes {
       case RoutesName.trackOrder:
         return MaterialPageRoute(
             builder: (BuildContext context) => const TrackOrder());
+      case RoutesName.myRating:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const MyRating());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(
