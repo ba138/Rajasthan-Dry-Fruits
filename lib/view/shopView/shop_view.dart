@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -52,7 +53,7 @@ class ShopView extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.pushNamed(context, RoutesName.searchView);
                         },
                         child: Container(
                           height: 31,

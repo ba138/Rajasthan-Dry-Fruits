@@ -6,7 +6,6 @@ import 'package:rjfruits/view/authView/forget_password_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/bestSellersView/best_sellers.dart';
 
-
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 
 import 'package:rjfruits/view/cart/cart_page.dart';
@@ -21,6 +20,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
+import 'package:rjfruits/view/search/search_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
 
 import '../../view/checkOut/check_out_view.dart';
@@ -92,11 +92,14 @@ class Routes {
       case RoutesName.notificationView:
         return MaterialPageRoute(
           builder: (BuildContext context) => const NotificationView(),
-
+        );
       case RoutesName.paymentDone:
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
-
+        );
+      case RoutesName.searchView:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const SearchView(),
         );
       default:
         return MaterialPageRoute(builder: (_) {

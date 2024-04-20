@@ -21,5 +21,5 @@ class RoutesName {
   static const String notificationView = 'notification_view';
 
   static const String paymentDone = 'payment_done_view';
-
+  static const String searchView = 'search_view';
 }
