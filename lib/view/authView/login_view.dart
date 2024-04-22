@@ -151,9 +151,9 @@ class _LoginViewState extends State<LoginView> {
                                     Utils.flushBarErrorMessage(
                                         'please enter your password', context);
                                   } else if (passwordController.text.length <
-                                      6) {
+                                      4) {
                                     Utils.flushBarErrorMessage(
-                                        'plase enter more than six digits',
+                                        'plase enter more than four digits',
                                         context);
                                   } else {
                                     Map data = {
