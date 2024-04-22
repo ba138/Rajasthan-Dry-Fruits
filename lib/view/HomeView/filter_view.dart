@@ -1,8 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
@@ -30,323 +26,380 @@ class _FilterScreenState extends State<FilterScreen> {
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(top: 20.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const VerticalSpeacing(20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 31,
-                        width: 35,
-                        decoration: BoxDecoration(
-                          color: AppColor.boxColor,
-                          borderRadius: BorderRadius.circular(
-                            4,
-                          ),
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.close,
-                            color: AppColor.textColor1,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "Filter",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.textColor1,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "Reset",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.textColor1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const VerticalSpeacing(50),
-                Text(
-                  "Categories",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "Categories",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "Categories",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: AppColor.primaryColor,
-                        text: "Categories",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "Categories",
-                      ),
-                    ],
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const FilterContainer(
-                  textColor: AppColor.nextColor,
-                  bgColor: Colors.transparent,
-                  text: "See All",
-                ),
-                const VerticalSpeacing(30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Sort By",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.textColor1,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Popularity",
-                          style: GoogleFonts.getFont(
-                            "Poppins",
-                            textStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          height: 31,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: AppColor.boxColor,
+                            borderRadius: BorderRadius.circular(
+                              4,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Icon(
+                              Icons.close,
                               color: AppColor.textColor1,
                             ),
                           ),
                         ),
-                        const Icon(
-                          Icons.expand_more,
-                          color: AppColor.primaryColor,
+                      ),
+                      Text(
+                        "Filter",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.textColor1,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Reset",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.textColor1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const VerticalSpeacing(50),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
+                    "Categories",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.textColor1,
+                      ),
+                    ),
+                  ),
+                ),
+                const VerticalSpeacing(16),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "Categories",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "Categories",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "Categories",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "Categories",
                         ),
                       ],
-                    )
-                  ],
+                    ),
+                  ),
+                ),
+                const VerticalSpeacing(16),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: FilterContainer(
+                    textColor: AppColor.nextColor,
+                    bgColor: Colors.transparent,
+                    text: "See All",
+                  ),
+                ),
+                const VerticalSpeacing(30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Sort By",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.textColor1,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Popularity",
+                              style: GoogleFonts.getFont(
+                                "Poppins",
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.textColor1,
+                                ),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.expand_more,
+                              color: AppColor.primaryColor,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const VerticalSpeacing(24),
-                const PriceRangeSlider(),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: PriceRangeSlider(),
+                ),
                 const VerticalSpeacing(14),
-                Text(
-                  "Product",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
+                    "Product",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.textColor1,
+                      ),
                     ),
                   ),
                 ),
                 const VerticalSpeacing(16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "Peanut",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "Walnut",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "dried fig",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "Categories",
-                      ),
-                    ],
+                const Padding(
+                  padding: EdgeInsets.only(
+                    left: 20.0,
                   ),
-                ),
-                const VerticalSpeacing(16),
-                const FilterContainer(
-                  textColor: AppColor.nextColor,
-                  bgColor: Colors.transparent,
-                  text: "See All",
-                ),
-                const VerticalSpeacing(14),
-                Text(
-                  "Default Sorting",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "Peanut",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "Walnut",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "dried fig",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "Categories",
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 const VerticalSpeacing(16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "Polularty",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "Best sellar",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "Trending",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "Categories",
-                      ),
-                    ],
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: FilterContainer(
+                    textColor: AppColor.nextColor,
+                    bgColor: Colors.transparent,
+                    text: "See All",
                   ),
                 ),
-                const VerticalSpeacing(16),
-                const FilterContainer(
-                  textColor: AppColor.nextColor,
-                  bgColor: Colors.transparent,
-                  text: "See All",
-                ),
                 const VerticalSpeacing(14),
-                Text(
-                  "Discount",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
+                    "Default Sorting",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.textColor1,
+                      ),
                     ),
                   ),
                 ),
                 const VerticalSpeacing(16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "10% discount",
-                      ),
-                    ],
-                  ),
-                ),
-                const VerticalSpeacing(14),
-                Text(
-                  "Appliance Price",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "Polularty",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "Best sellar",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "Trending",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "Categories",
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 const VerticalSpeacing(16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      FilterContainer(
-                        textColor: AppColor.whiteColor,
-                        bgColor: AppColor.primaryColor,
-                        text: "high to low",
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: FilterContainer(
+                    textColor: AppColor.nextColor,
+                    bgColor: Colors.transparent,
+                    text: "See All",
+                  ),
+                ),
+                const VerticalSpeacing(14),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
+                    "Discount",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.textColor1,
                       ),
-                      SizedBox(
-                        width: 10,
+                    ),
+                  ),
+                ),
+                const VerticalSpeacing(16),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "10% discount",
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const VerticalSpeacing(14),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
+                    "Appliance Price",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.textColor1,
                       ),
-                      FilterContainer(
-                        textColor: AppColor.textColor1,
-                        bgColor: Colors.transparent,
-                        text: "low to high",
-                      ),
-                    ],
+                    ),
+                  ),
+                ),
+                const VerticalSpeacing(16),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterContainer(
+                          textColor: AppColor.whiteColor,
+                          bgColor: AppColor.primaryColor,
+                          text: "high to low",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FilterContainer(
+                          textColor: AppColor.textColor1,
+                          bgColor: Colors.transparent,
+                          text: "low to high",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const VerticalSpeacing(40),
-                RoundedButton(title: "Apple Filter", onpress: () {})
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: RoundedButton(title: "Apple Filter", onpress: () {}),
+                ),
+                const VerticalSpeacing(40),
               ],
             ),
           ),

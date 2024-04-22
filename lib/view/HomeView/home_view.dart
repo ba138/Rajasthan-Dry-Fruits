@@ -220,31 +220,19 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 const VerticalSpeacing(12.0),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 0),
-                  child: SizedBox(
-                    height: 230,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          HomeCard(
-                            isdiscount: false,
-                          ),
-                          SizedBox(width: 20.0),
-                          HomeCard(
-                            isdiscount: false,
-                          ),
-                          SizedBox(width: 20.0),
-                          HomeCard(
-                            isdiscount: false,
-                          ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                        ],
-                      ),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: GridView.count(
+                    padding: const EdgeInsets.all(
+                        5.0), // Add padding around the grid
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    childAspectRatio: (180 / 250),
+                    mainAxisSpacing: 10.0, // Spacing between rows
+                    crossAxisSpacing: 10.0, // Spacing between columns
+                    children: List.generate(
+                        2, (index) => const HomeCard(isdiscount: false)),
                   ),
                 ),
                 const VerticalSpeacing(16.0),
@@ -272,31 +260,19 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 const VerticalSpeacing(12.0),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: SizedBox(
-                    height: 230,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          HomeCard(
-                            isdiscount: false,
-                          ),
-                          SizedBox(width: 20.0),
-                          HomeCard(
-                            isdiscount: false,
-                          ),
-                          SizedBox(width: 20.0),
-                          HomeCard(
-                            isdiscount: false,
-                          ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                        ],
-                      ),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: GridView.count(
+                    padding: const EdgeInsets.all(
+                        5.0), // Add padding around the grid
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    childAspectRatio: (180 / 250),
+                    mainAxisSpacing: 10.0, // Spacing between rows
+                    crossAxisSpacing: 10.0, // Spacing between columns
+                    children: List.generate(
+                        2, (index) => const HomeCard(isdiscount: false)),
                   ),
                 ),
                 const VerticalSpeacing(16.0),
@@ -325,31 +301,19 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 const VerticalSpeacing(12.0),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: SizedBox(
-                    height: 230,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          HomeCard(
-                            isdiscount: true,
-                          ),
-                          SizedBox(width: 20.0),
-                          HomeCard(
-                            isdiscount: true,
-                          ),
-                          SizedBox(width: 20.0),
-                          HomeCard(
-                            isdiscount: true,
-                          ),
-                          SizedBox(
-                            width: 12,
-                          ),
-                        ],
-                      ),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: GridView.count(
+                    padding: const EdgeInsets.all(
+                        5.0), // Add padding around the grid
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    crossAxisCount: 2,
+                    childAspectRatio: (180 / 250),
+                    mainAxisSpacing: 10.0, // Spacing between rows
+                    crossAxisSpacing: 10.0, // Spacing between columns
+                    children: List.generate(
+                        2, (index) => const HomeCard(isdiscount: true)),
                   ),
                 ),
                 const VerticalSpeacing(40.0)
