@@ -19,7 +19,7 @@ class CartButton extends StatelessWidget {
       },
       child: Container(
         height: 30.0,
-        width: 104.0,
+        width: 80.0,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30.0),
             color: AppColor.primaryColor,
