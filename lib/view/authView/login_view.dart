@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/login_container.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
+import 'package:rjfruits/view_model/auth_view_model.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -15,8 +18,22 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -70,56 +87,89 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                   const VerticalSpeacing(36),
-                  const TextFieldCustom(
-                    preIcon: Icons.email,
-                    maxLines: 2,
-                    text: "sfsdadf",
-                    hintText: "1234@gmail.com",
-                    preColor: AppColor.primaryColor,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const VerticalSpeacing(30),
-                  const TextFieldCustom(
-                    preIcon: Icons.lock_outline_rounded,
-                    maxLines: 2,
-                    text: "sfsdadf",
-                    hintText: "*******",
-                    preColor: AppColor.textColor1,
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
-                  const VerticalSpeacing(8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            RoutesName.forget,
-                          );
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          style: GoogleFonts.getFont(
-                            "Poppins",
-                            textStyle: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.primaryColor,
-                            ),
-                          ),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFieldCustom(
+                          controller: emailController,
+                          preIcon: Icons.email,
+                          maxLines: 2,
+                          text: "sfsdadf",
+                          hintText: "1234@gmail.com",
+                          preColor: AppColor.primaryColor,
+                          keyboardType: TextInputType.emailAddress,
                         ),
-                      ),
-                    ],
+                        const VerticalSpeacing(30),
+                        TextFieldCustom(
+                          controller: passwordController,
+                          preIcon: Icons.lock_outline_rounded,
+                          maxLines: 2,
+                          text: "sfsdadf",
+                          hintText: "*******",
+                          preColor: AppColor.textColor1,
+                          obscureText: true,
+                          keyboardType: TextInputType.visiblePassword,
+                        ),
+                        const VerticalSpeacing(8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  RoutesName.forget,
+                                );
+                              },
+                              child: Text(
+                                "Forgot Password?",
+                                style: GoogleFonts.getFont(
+                                  "Poppins",
+                                  textStyle: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const VerticalSpeacing(30),
+                        _isLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : RoundedButton(
+                                title: "Login",
+                                onpress: () {
+                                  if (emailController.text.isEmpty) {
+                                    Utils.flushBarErrorMessage(
+                                        'please enter your email', context);
+                                  } else if (passwordController.text.isEmpty) {
+                                    Utils.flushBarErrorMessage(
+                                        'please enter your password', context);
+                                  } else if (passwordController.text.length <
+                                      6) {
+                                    Utils.flushBarErrorMessage(
+                                        'plase enter more than six digits',
+                                        context);
+                                  } else {
+                                    Map data = {
+                                      'email': emailController.text.toString(),
+                                      'password':
+                                          passwordController.text.toString(),
+                                    };
+                                    if (data.isNotEmpty) {
+                                      authViewModel.loginApi(data, context);
+                                      print('Successfully Login');
+                                    }
+                                  }
+                                }),
+                      ],
+                    ),
                   ),
-                  const VerticalSpeacing(30),
-                  RoundedButton(
-                      title: "Login",
-                      onpress: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, RoutesName.dashboard, (route) => false);
-                      }),
                   const VerticalSpeacing(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

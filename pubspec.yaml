@@ -45,6 +45,7 @@ dependencies:
   # Rest Api's
   http: ^1.2.1
   shared_preferences: ^2.2.3
+  provider: ^6.1.2
 
   
 
