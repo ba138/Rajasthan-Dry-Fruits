@@ -344,6 +344,9 @@ class _HomeViewState extends State<HomeView> {
                           HomeCard(
                             isdiscount: true,
                           ),
+                          SizedBox(
+                            width: 12,
+                          ),
                         ],
                       ),
                     ),
