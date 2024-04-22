@@ -27,7 +27,7 @@ class AuthViewModel with ChangeNotifier {
     _myRepo.loginApi(data).then((value) {
       setLoading(false);
       Utils.flushBarErrorMessage(value.toString(), context);
-      Navigator.pushNamed(context, RoutesName.home);
+      Navigator.pushNamed(context, RoutesName.dashboard);
       if (kDebugMode) {
         print(value.toString());
       }
