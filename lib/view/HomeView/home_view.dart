@@ -27,65 +27,67 @@ class _HomeViewState extends State<HomeView> {
           image: DecorationImage(
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const VerticalSpeacing(40.0),
-                  ListTile(
-                    leading: const CircleAvatar(
-                      radius: 25.0,
-                      backgroundImage: NetworkImage(
-                        'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-                      ),
+        child: ListView(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const VerticalSpeacing(40.0),
+                ListTile(
+                  leading: const CircleAvatar(
+                    radius: 25.0,
+                    backgroundImage: NetworkImage(
+                      'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
                     ),
-                    title: Text(
-                      'WellCome',
-                      style: GoogleFonts.getFont(
-                        "Roboto",
-                        color: AppColor.textColor2,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                      ),
+                  ),
+                  title: Text(
+                    'WellCome',
+                    style: GoogleFonts.getFont(
+                      "Roboto",
+                      color: AppColor.textColor2,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
                     ),
-                    subtitle: Text(
-                      'Hiren user',
-                      style: GoogleFonts.getFont(
-                        "Roboto",
-                        color: AppColor.textColor1,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  ),
+                  subtitle: Text(
+                    'Hiren user',
+                    style: GoogleFonts.getFont(
+                      "Roboto",
+                      color: AppColor.textColor1,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w600,
                     ),
-                    trailing: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, RoutesName.notificationView);
-                      },
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18.0),
-                          color: AppColor.boxColor,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.notifications,
-                            color: AppColor.textColor1,
-                          ),
+                  ),
+                  trailing: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.notificationView);
+                    },
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18.0),
+                        color: AppColor.boxColor,
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.notifications,
+                          color: AppColor.textColor1,
                         ),
                       ),
                     ),
                   ),
-                  const VerticalSpeacing(16.0),
-                  const SearchBar(),
-                  const VerticalSpeacing(14.0),
-                  Container(
+                ),
+                const VerticalSpeacing(16.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: SearchBar(),
+                ),
+                const VerticalSpeacing(14.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Container(
                     height: 159.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -116,8 +118,11 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
-                  const VerticalSpeacing(16.0),
-                  Text(
+                ),
+                const VerticalSpeacing(16.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
                     'Categories',
                     style: GoogleFonts.getFont(
                       "Roboto",
@@ -126,8 +131,11 @@ class _HomeViewState extends State<HomeView> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const VerticalSpeacing(9.0),
-                  SizedBox(
+                ),
+                const VerticalSpeacing(9.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 0),
+                  child: SizedBox(
                     height: 50,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -186,8 +194,11 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  const VerticalSpeacing(16.0),
-                  Row(
+                ),
+                const VerticalSpeacing(16.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -207,8 +218,11 @@ class _HomeViewState extends State<HomeView> {
                           text: 'View All'),
                     ],
                   ),
-                  const VerticalSpeacing(12.0),
-                  const SizedBox(
+                ),
+                const VerticalSpeacing(12.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 0),
+                  child: SizedBox(
                     height: 230,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -225,12 +239,18 @@ class _HomeViewState extends State<HomeView> {
                           HomeCard(
                             isdiscount: false,
                           ),
+                          SizedBox(
+                            width: 12,
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  const VerticalSpeacing(16.0),
-                  Row(
+                ),
+                const VerticalSpeacing(16.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -250,8 +270,11 @@ class _HomeViewState extends State<HomeView> {
                           text: 'View All'),
                     ],
                   ),
-                  const VerticalSpeacing(12.0),
-                  const SizedBox(
+                ),
+                const VerticalSpeacing(12.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: SizedBox(
                     height: 230,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -268,13 +291,19 @@ class _HomeViewState extends State<HomeView> {
                           HomeCard(
                             isdiscount: false,
                           ),
+                          SizedBox(
+                            width: 12,
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  const VerticalSpeacing(16.0),
-                  //DisCount Cart
-                  Row(
+                ),
+                const VerticalSpeacing(16.0),
+                //DisCount Cart
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -294,8 +323,11 @@ class _HomeViewState extends State<HomeView> {
                           text: 'View All'),
                     ],
                   ),
-                  const VerticalSpeacing(12.0),
-                  const SizedBox(
+                ),
+                const VerticalSpeacing(12.0),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: SizedBox(
                     height: 230,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -316,11 +348,11 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  const VerticalSpeacing(40.0)
-                ],
-              ),
-            ],
-          ),
+                ),
+                const VerticalSpeacing(40.0)
+              ],
+            ),
+          ],
         ),
       ),
     );
