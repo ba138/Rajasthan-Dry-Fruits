@@ -153,7 +153,11 @@ class AddAddresScreen extends StatelessWidget {
                           ],
                         ),
                         const VerticalSpeacing(38),
-                        RoundedButton(title: "Save Address", onpress: () {}),
+                        RoundedButton(
+                            title: "Save Address",
+                            onpress: () {
+                              Navigator.pop(context);
+                            }),
                         const VerticalSpeacing(38),
                       ],
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
@@ -77,7 +78,10 @@ class SearchView extends StatelessWidget {
                                   color: AppColor.primaryColor),
                               child: Center(
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, RoutesName.filter);
+                                  },
                                   icon: const ImageIcon(
                                     AssetImage("images/filter.png"),
                                     color: AppColor.whiteColor,
@@ -97,15 +101,20 @@ class SearchView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10.0),
-                      Text(
-                        'Cancel',
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: AppColor.blackColor,
+                      const SizedBox(width: 10.0),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.getFont(
+                            "Poppins",
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: AppColor.blackColor,
+                            ),
                           ),
                         ),
                       ),

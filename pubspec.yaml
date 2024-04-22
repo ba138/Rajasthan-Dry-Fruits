@@ -37,6 +37,19 @@ dependencies:
   google_fonts: ^6.2.1
   percent_indicator: ^4.2.3
   carousel_slider: ^4.2.1
+  flutter_rating_bar: ^4.0.1
+  order_tracker: ^0.0.2
+  another_flushbar: ^1.12.30
+  fluttertoast: ^8.2.5
+  flutter_launcher_icons: ^0.13.1
+
+  # Rest Api's
+  http: ^1.2.1
+  shared_preferences: ^2.2.3
+  provider: ^6.1.2
+  
+
+  
 
 dev_dependencies:
   flutter_test:
@@ -89,3 +102,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  # flutter_launcher_icons:
+  # android: "launcher_icon"
+  # ios: true
+  # image_path: "images/logo1.png"
+  # min_sdk_android: 21
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "images/logo1.png"  

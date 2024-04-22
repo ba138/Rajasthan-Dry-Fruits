@@ -25,5 +25,14 @@ class RoutesName {
   static const String searchView = 'search_view';
 
   static const String deliveryAddress = 'delivery_address_view';
-
+  static const String filter = 'filter_view';
+  static const String rating = 'rating_view';
+  static const String myorders = 'my_orders';
+  static const String trackOrder = 'track_order';
+  static const String myRating = 'my_Rating';
+  static const String cancelOrder = 'cancel_Order_view';
+  static const String viewProfile = 'view_profile';
+  static const String editProfile = 'edit_profile';
+  static const String totalReview = 'total_review';
+  static const String contactUs = 'contact_us';
 }

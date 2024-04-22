@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/login_container.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
+
+import '../../view_model/auth_view_model.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -15,8 +19,24 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordController2 = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    passwordController.dispose();
+    emailController.dispose();
+    passwordController2.dispose();
+  }
+
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -70,36 +90,96 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                   const VerticalSpeacing(36),
-                  const TextFieldCustom(
-                    preIcon: Icons.email,
-                    maxLines: 2,
-                    text: "sfsdadf",
-                    hintText: "1234@gmail.com",
-                    preColor: AppColor.primaryColor,
-                    keyboardType: TextInputType.emailAddress,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFieldCustom(
+                          controller: emailController,
+                          preIcon: Icons.email,
+                          maxLines: 2,
+                          text: "sfsdadf",
+                          hintText: "1234@gmail.com",
+                          preColor: AppColor.primaryColor,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value!.isEmpty || !value.contains("@")) {
+                              return "Please enter a valid Email adress";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const VerticalSpeacing(30),
+                        TextFieldCustom(
+                          controller: passwordController,
+                          preIcon: Icons.lock_outline_rounded,
+                          maxLines: 2,
+                          text: "sfsdadf",
+                          hintText: "*******",
+                          preColor: AppColor.textColor1,
+                          obscureText: true,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 4) {
+                              return "Please enter a valid password";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const VerticalSpeacing(30),
+                        TextFieldCustom(
+                          controller: passwordController2,
+                          preIcon: Icons.lock_outline_rounded,
+                          maxLines: 2,
+                          text: "sfsdadf",
+                          hintText: "Re-enter Your Password",
+                          preColor: Color(0xff8894A7),
+                          obscureText: false,
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 4) {
+                              return "Please enter a valid password";
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                        const VerticalSpeacing(30),
+                        _isLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : RoundedButton(
+                                title: "Register",
+                                onpress: () {
+                                  if (emailController.text.isEmpty) {
+                                    Utils.flushBarErrorMessage(
+                                        'please enter your email', context);
+                                  } else if (passwordController.text.isEmpty) {
+                                    Utils.flushBarErrorMessage(
+                                        'please enter your password', context);
+                                  } else if (passwordController2.text.length <
+                                      4) {
+                                    Utils.flushBarErrorMessage(
+                                        'plase enter more than four digits',
+                                        context);
+                                  } else {
+                                    Map data = {
+                                      "email": emailController.text.toString(),
+                                      "password1":
+                                          passwordController.text.toString(),
+                                      "password2":
+                                          passwordController2.text.toString(),
+                                    };
+                                    authViewModel.signUpApi(data, context);
+                                    print('SuccessFully Register');
+                                  }
+                                }),
+                      ],
+                    ),
                   ),
-                  const VerticalSpeacing(30),
-                  const TextFieldCustom(
-                    preIcon: Icons.lock_outline_rounded,
-                    maxLines: 2,
-                    text: "sfsdadf",
-                    hintText: "*******",
-                    preColor: AppColor.textColor1,
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
-                  const VerticalSpeacing(30),
-                  const TextFieldCustom(
-                    preIcon: Icons.lock_outline_rounded,
-                    maxLines: 2,
-                    text: "sfsdadf",
-                    hintText: "Re-enter Your Password",
-                    preColor: Color(0xff8894A7),
-                    obscureText: false,
-                    keyboardType: TextInputType.visiblePassword,
-                  ),
-                  const VerticalSpeacing(30),
-                  RoundedButton(title: "Register", onpress: () {}),
                   const VerticalSpeacing(20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
