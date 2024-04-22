@@ -256,54 +256,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: AppColor.dividerColor,
                 ),
                 const VerticalSpeacing(12),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, RoutesName.totalReview);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Review",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColor.textColor1,
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Review",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.textColor1,
                         ),
                       ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: AppColor.primaryColor,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                    ),
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: AppColor.primaryColor,
+                        )
+                      ],
+                    )
+                  ],
                 ),
                 const VerticalSpeacing(12),
                 const Divider(
@@ -313,39 +308,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.cartView,
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColor.primaryColor,
-                          ),
-                          color: const Color.fromRGBO(255, 255, 255,
-                              0.2), // Background color with opacity
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  Colors.white.withOpacity(0.5), // Shadow color
-                              blurRadius: 2, // Blur radius
-                              spreadRadius: 0, // Spread radius
-                              offset: const Offset(0, 0), // Offset
-                            ),
-                          ],
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColor.primaryColor,
                         ),
-                        child: Center(
-                          child: Image.asset(
-                            "images/ds.png",
-                            height: 22,
-                            width: 22,
+                        color: const Color.fromRGBO(255, 255, 255,
+                            0.2), // Background color with opacity
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                Colors.white.withOpacity(0.5), // Shadow color
+                            blurRadius: 2, // Blur radius
+                            spreadRadius: 0, // Spread radius
+                            offset: const Offset(0, 0), // Offset
                           ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          "images/ds.png",
+                          height: 22,
+                          width: 22,
                         ),
                       ),
                     ),

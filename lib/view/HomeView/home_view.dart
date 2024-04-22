@@ -356,12 +356,7 @@ class SearchBar extends StatelessWidget {
                 color: AppColor.primaryColor),
             child: Center(
               child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    RoutesName.filter,
-                  );
-                },
+                onPressed: () {},
                 icon: const ImageIcon(
                   AssetImage("images/filter.png"),
                   color: AppColor.whiteColor,

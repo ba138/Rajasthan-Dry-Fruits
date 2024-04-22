@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
 
 class PaymentDoneScreen extends StatelessWidget {
   const PaymentDoneScreen({super.key});
@@ -56,46 +55,36 @@ class PaymentDoneScreen extends StatelessWidget {
                 ),
               ),
               const VerticalSpeacing(60),
-              RoundedButton(
-                  title: "Back to home",
-                  onpress: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RoutesName.dashboard, (route) => false);
-                  }),
+              RoundedButton(title: "Back to home", onpress: () {}),
               const VerticalSpeacing(
                 14,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, RoutesName.trackOrder);
-                },
-                child: Container(
-                  height: 56,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: AppColor.primaryColor, width: 2),
-                    color: const Color.fromRGBO(
-                        255, 255, 255, 0.2), // Background color with opacity
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withOpacity(0.5), // Shadow color
-                        blurRadius: 2, // Blur radius
-                        spreadRadius: 0, // Spread radius
-                        offset: const Offset(0, 0), // Offset
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Track Order",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.primaryColor,
-                        ),
+              Container(
+                height: 56,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColor.primaryColor, width: 2),
+                  color: const Color.fromRGBO(
+                      255, 255, 255, 0.2), // Background color with opacity
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.5), // Shadow color
+                      blurRadius: 2, // Blur radius
+                      spreadRadius: 0, // Spread radius
+                      offset: const Offset(0, 0), // Offset
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    "Track Order",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.primaryColor,
                       ),
                     ),
                   ),

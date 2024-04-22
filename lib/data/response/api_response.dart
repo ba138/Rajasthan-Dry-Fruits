@@ -1,16 +1,16 @@
-import 'package:rjfruits/data/response/status.dart';
+// import 'package:mvvm/data/response/status.dart';
 
-class ApiResponse<T> {
-  Status? status;
-  T? data;
-  String? message;
-  ApiResponse(this.status, this.data, this.message);
-  ApiResponse.loading() : status = Status.LOADING;
-  ApiResponse.completed() : status = Status.COMPLETED;
-  ApiResponse.error() : status = Status.ERROR;
+// class ApiResponse<T> {
+//   Status? status;
+//   T? data;
+//   String? message;
+//   ApiResponse(this.status, this.data, this.message);
+//   ApiResponse.loading() : status = Status.LOADING;
+//   ApiResponse.completed() : status = Status.COMPLETED;
+//   ApiResponse.error() : status = Status.ERROR;
 
-  @override
-  String toString() {
-    return "Status : $status \n Message : $message \n Data : $data ";
-  }
-}
+//   @override
+//   String toString() {
+//     return "Status : $status \n Message : $message \n Data : $data ";
+//   }
+// }

@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
         children: [
           profileCenterBtns(
             ontap: () {
-              Navigator.pushNamed(context, RoutesName.myorders);
+              // Navigator.pushNamed(context, RoutesName.myOrder);
             },
             tColor: const Color(0xff6AA9FF),
             bColor: const Color(0xff005AD5),
@@ -200,9 +200,7 @@ class _ProfileViewState extends State<ProfileView> {
               Column(
                 children: [
                   ProfileWidgets(
-                      ontap: () {
-                        Navigator.pushNamed(context, RoutesName.viewProfile);
-                      },
+                      ontap: () {},
                       tColor: const Color(0xff6DF5FC),
                       bColor: const Color(0xff46C5CA),
                       icon: Icons.person_outline,
@@ -211,7 +209,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
-                        Navigator.pushNamed(context, RoutesName.contactUs);
+                        // Navigator.pushNamed(context, RoutesName.restscreen);
                       },
                       tColor: const Color(0xffCDFF9D),
                       bColor: const Color(0xff40C269),
@@ -221,7 +219,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
-                        Navigator.pushNamed(context, RoutesName.myRating);
+                        // Navigator.pushNamed(context, RoutesName.restscreen);
                       },
                       tColor: const Color(0xffDF9EF5),
                       bColor: const Color(0xffA24ABF),
@@ -231,7 +229,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
-                        Navigator.pushNamed(context, RoutesName.checkOut);
+                        // Navigator.pushNamed(context, RoutesName.restscreen);
                       },
                       tColor: const Color(0xff9E93F4),
                       bColor: const Color(0xff7465EC),
@@ -240,9 +238,7 @@ class _ProfileViewState extends State<ProfileView> {
                       title: 'Payment'),
                   const Divider(),
                   ProfileWidgets(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.login);
-                    },
+                    ontap: () {},
                     tColor: const Color(0xffFF9CCB),
                     bColor: const Color(0xffEC4091),
                     icon: Icons.logout_outlined,

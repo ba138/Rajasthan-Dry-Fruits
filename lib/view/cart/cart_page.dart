@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 
 import '../../res/components/colors.dart';
@@ -215,12 +214,7 @@ class CartView extends StatelessWidget {
                             width: double.infinity,
                             child: RoundedButton(
                                 title: 'continue to checkout-323\$',
-                                onpress: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RoutesName.checkOut,
-                                  );
-                                }),
+                                onpress: () {}),
                           ),
                         ],
                       ),

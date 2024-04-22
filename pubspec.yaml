@@ -37,17 +37,6 @@ dependencies:
   google_fonts: ^6.2.1
   percent_indicator: ^4.2.3
   carousel_slider: ^4.2.1
-  flutter_rating_bar: ^4.0.1
-  order_tracker: ^0.0.2
-  another_flushbar: ^1.12.30
-  fluttertoast: ^8.2.5
-
-  # Rest Api's
-  http: ^1.2.1
-  shared_preferences: ^2.2.3
-  provider: ^6.1.2
-
-  
 
 dev_dependencies:
   flutter_test:
