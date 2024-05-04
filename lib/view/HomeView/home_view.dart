@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
 import '../../res/components/categorycard.dart';
 import '../../res/components/colors.dart';
 
@@ -16,6 +18,14 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   bool _isSelected = false;
+  @override
+  void initState() {
+    Provider.of<HomeRepositoryProvider>(context, listen: false).getHomeProd(
+      context,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -302,20 +312,45 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 const VerticalSpeacing(12.0),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: GridView.count(
-                    padding: const EdgeInsets.all(
-                        5.0), // Add padding around the grid
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    childAspectRatio: (180 / 250),
-                    mainAxisSpacing: 10.0, // Spacing between rows
-                    crossAxisSpacing: 10.0, // Spacing between columns
-                    children: List.generate(
-                        2, (index) => const HomeCard(isdiscount: true)),
-                  ),
-                ),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: Consumer<HomeRepositoryProvider>(
+                        builder: (context, homeRepo, child) {
+                      if (homeRepo.homeRepository.productsTopRated.isEmpty) {
+                        return Center(
+                          child: Center(
+                            child: Text(
+                              'There are no products to show',
+                              style: GoogleFonts.getFont(
+                                "Roboto",
+                                color: AppColor.textColor1,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return GridView.count(
+                          padding: const EdgeInsets.all(5.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: (180 / 250),
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          children: List.generate(
+                            // Limit to only two items
+                            homeRepo.homeRepository.productsTopRated.length > 2
+                                ? 2
+                                : homeRepo
+                                    .homeRepository.productsTopRated.length,
+                            (index) => const HomeCard(
+                              isdiscount: true,
+                            ),
+                          ),
+                        );
+                      }
+                    })),
                 const VerticalSpeacing(40.0)
               ],
             ),

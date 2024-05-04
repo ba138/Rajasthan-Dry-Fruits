@@ -1,5 +1,6 @@
 class AppUrl {
-  static var baseUrl = 'http://51.21.66.170:8000/rest-auth';
+  static var baseUrl = 'https://saqib123123.pythonanywhere.com';
   static var loginEndPoint = '$baseUrl/rest-auth/login/';
   static var registerEndPoint = '$baseUrl/registration/';
+  static var home = '$baseUrl/home/';
 }
