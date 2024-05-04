@@ -7,7 +7,6 @@ import 'package:rjfruits/res/components/login_container.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/auth_view_model.dart';
 
 class LoginView extends StatefulWidget {
@@ -137,35 +136,37 @@ class _LoginViewState extends State<LoginView> {
                           ],
                         ),
                         const VerticalSpeacing(30),
-                        _isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : RoundedButton(
+                        // _isLoading
+                        //     ? const Center(
+                        //         child: CircularProgressIndicator(),
+                        //       )
+                        //     :
+                             RoundedButton(
                                 title: "Login",
                                 onpress: () {
-                                  if (emailController.text.isEmpty) {
-                                    Utils.flushBarErrorMessage(
-                                        'please enter your email', context);
-                                  } else if (passwordController.text.isEmpty) {
-                                    Utils.flushBarErrorMessage(
-                                        'please enter your password', context);
-                                  } else if (passwordController.text.length <
-                                      4) {
-                                    Utils.flushBarErrorMessage(
-                                        'plase enter more than four digits',
-                                        context);
-                                  } else {
-                                    Map data = {
-                                      'email': emailController.text.toString(),
-                                      'password':
-                                          passwordController.text.toString(),
-                                    };
-                                    if (data.isNotEmpty) {
-                                      authViewModel.loginApi(data, context);
-                                      print('Successfully Login');
-                                    }
-                                  }
+                                  Navigator.pushNamed(context, RoutesName.dashboard);
+                                  // if (emailController.text.isEmpty) {
+                                  //   Utils.flushBarErrorMessage(
+                                  //       'please enter your email', context);
+                                  // } else if (passwordController.text.isEmpty) {
+                                  //   Utils.flushBarErrorMessage(
+                                  //       'please enter your password', context);
+                                  // } else if (passwordController.text.length <
+                                  //     4) {
+                                  //   Utils.flushBarErrorMessage(
+                                  //       'plase enter more than four digits',
+                                  //       context);
+                                  // } else {
+                                  //   Map data = {
+                                  //     'email': emailController.text.toString(),
+                                  //     'password':
+                                  //         passwordController.text.toString(),
+                                  //   };
+                                  //   if (data.isNotEmpty) {
+                                  //     authViewModel.loginApi(data, context);
+                                  //     print('Successfully Login');
+                                  //   }
+                                  // }
                                 }),
                       ],
                     ),
