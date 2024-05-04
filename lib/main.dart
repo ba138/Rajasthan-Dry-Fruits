@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/routes.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view_model/auth_view_model.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 void main() {
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(
               create: (_) => UserViewModel(),
             ),
+            ChangeNotifierProvider(
+              create: (_) => HomeRepositoryProvider(),
+            ),
           ],
           child: const MyApp(),
         ),
@@ -42,7 +46,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         showSemanticsDebugger: false,
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xffffffff),
           appBarTheme: const AppBarTheme(
@@ -50,10 +53,9 @@ class MyApp extends StatelessWidget {
             elevation: 0, // Remove app bar elevation
           ),
         ),
-        initialRoute: RoutesName.splash,
+        initialRoute: RoutesName.dashboard,
         onGenerateRoute: Routes.generateRoute,
       ),
-
     );
   }
 }
