@@ -36,8 +36,7 @@ class HomeRepository extends ChangeNotifier {
 
         ApiResponse apiResponse = ApiResponse.fromJson(jsonResponse);
 
-        // Now you can access the ApiResponse object and its properties
-        // For example:
+        debugPrint("this is the repose of the home api:$apiResponse");
         productCategories = apiResponse.categories;
         productsFeature = apiResponse.topDiscountedProducts;
         productsTopDiscount = apiResponse.topDiscountedProducts;
