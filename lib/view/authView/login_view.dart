@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/login_container.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:rjfruits/view_model/auth_view_model.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -28,11 +26,11 @@ class _LoginViewState extends State<LoginView> {
     passwordController.dispose();
   }
 
-  bool _isLoading = false;
+  // bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    final authViewModel = Provider.of<AuthViewModel>(context);
+    // final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -141,33 +139,34 @@ class _LoginViewState extends State<LoginView> {
                         //         child: CircularProgressIndicator(),
                         //       )
                         //     :
-                             RoundedButton(
-                                title: "Login",
-                                onpress: () {
-                                  Navigator.pushNamed(context, RoutesName.dashboard);
-                                  // if (emailController.text.isEmpty) {
-                                  //   Utils.flushBarErrorMessage(
-                                  //       'please enter your email', context);
-                                  // } else if (passwordController.text.isEmpty) {
-                                  //   Utils.flushBarErrorMessage(
-                                  //       'please enter your password', context);
-                                  // } else if (passwordController.text.length <
-                                  //     4) {
-                                  //   Utils.flushBarErrorMessage(
-                                  //       'plase enter more than four digits',
-                                  //       context);
-                                  // } else {
-                                  //   Map data = {
-                                  //     'email': emailController.text.toString(),
-                                  //     'password':
-                                  //         passwordController.text.toString(),
-                                  //   };
-                                  //   if (data.isNotEmpty) {
-                                  //     authViewModel.loginApi(data, context);
-                                  //     print('Successfully Login');
-                                  //   }
-                                  // }
-                                }),
+                        RoundedButton(
+                            title: "Login",
+                            onpress: () {
+                              Navigator.pushNamed(
+                                  context, RoutesName.dashboard);
+                              // if (emailController.text.isEmpty) {
+                              //   Utils.flushBarErrorMessage(
+                              //       'please enter your email', context);
+                              // } else if (passwordController.text.isEmpty) {
+                              //   Utils.flushBarErrorMessage(
+                              //       'please enter your password', context);
+                              // } else if (passwordController.text.length <
+                              //     4) {
+                              //   Utils.flushBarErrorMessage(
+                              //       'plase enter more than four digits',
+                              //       context);
+                              // } else {
+                              //   Map data = {
+                              //     'email': emailController.text.toString(),
+                              //     'password':
+                              //         passwordController.text.toString(),
+                              //   };
+                              //   if (data.isNotEmpty) {
+                              //     authViewModel.loginApi(data, context);
+                              //     print('Successfully Login');
+                              //   }
+                              // }
+                            }),
                       ],
                     ),
                   ),
