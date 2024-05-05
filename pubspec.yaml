@@ -47,9 +47,6 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.3
   provider: ^6.1.2
-  
-
-  
 
 dev_dependencies:
   flutter_test:
@@ -110,4 +107,4 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "images/logo1.png"  
+  image_path: "images/logo1.png"
