@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
@@ -8,6 +9,7 @@ import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import '../../res/components/categorycard.dart';
 import '../../res/components/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -147,62 +149,122 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.only(left: 20.0, right: 0),
                   child: SizedBox(
                     height: 50,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CategoryCart(
-                            bgColor: _isSelected
-                                ? AppColor.primaryColor
-                                : AppColor.boxColor,
-                            textColor: _isSelected
-                                ? AppColor.whiteColor
-                                : AppColor.textColor1,
-                            onTap: () {
-                              setState(() {
-                                _isSelected = !_isSelected;
-                              });
+                    child: Consumer<HomeRepositoryProvider>(
+                      builder: (context, homeRepo, child) {
+                        if (homeRepo.homeRepository.productCategories.isEmpty) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 10,
+                            itemExtent: MediaQuery.of(context).size.width / 3.6,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Category category = homeRepo
+                              //     .homeRepository.productCategories[index];
+
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: CategoryCart(
+                                  bgColor: _isSelected
+                                      ? AppColor.primaryColor
+                                      : AppColor.boxColor,
+                                  textColor: _isSelected
+                                      ? AppColor.whiteColor
+                                      : AppColor.textColor1,
+                                  onTap: () {
+                                    setState(() {
+                                      _isSelected = !_isSelected;
+                                    });
+                                  },
+                                  text: "category.name",
+                                ),
+                              );
                             },
-                            text: 'All',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'Penut',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'Apricot',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'peach',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'figs',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'Penut',
-                          ),
-                        ],
-                      ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeRepo
+                                .homeRepository.productCategories.length,
+                            itemExtent: MediaQuery.of(context).size.width / 3.6,
+                            itemBuilder: (BuildContext context, int index) {
+                              Category category = homeRepo
+                                  .homeRepository.productCategories[index];
+
+                              return CategoryCart(
+                                bgColor: _isSelected
+                                    ? AppColor.primaryColor
+                                    : AppColor.boxColor,
+                                textColor: _isSelected
+                                    ? AppColor.whiteColor
+                                    : AppColor.textColor1,
+                                onTap: () {
+                                  setState(() {
+                                    _isSelected = !_isSelected;
+                                  });
+                                },
+                                text: category.name,
+                              );
+                            },
+                          );
+                        }
+                      },
                     ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: [
+                    //       CategoryCart(
+                    //         bgColor: _isSelected
+                    //             ? AppColor.primaryColor
+                    //             : AppColor.boxColor,
+                    //         textColor: _isSelected
+                    //             ? AppColor.whiteColor
+                    //             : AppColor.textColor1,
+                    //         onTap: () {
+                    //           setState(() {
+                    //             _isSelected = !_isSelected;
+                    //           });
+                    //         },
+                    //         text: 'All',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'Penut',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'Apricot',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'peach',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'figs',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'Penut',
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ),
                 ),
                 const VerticalSpeacing(16.0),
@@ -231,20 +293,62 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 const VerticalSpeacing(12.0),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: GridView.count(
-                    padding: const EdgeInsets.all(
-                        5.0), // Add padding around the grid
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    childAspectRatio: (180 / 250),
-                    mainAxisSpacing: 10.0, // Spacing between rows
-                    crossAxisSpacing: 10.0, // Spacing between columns
-                    children: List.generate(
-                        2, (index) => const HomeCard(isdiscount: false)),
-                  ),
-                ),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: Consumer<HomeRepositoryProvider>(
+                        builder: (context, homeRepo, child) {
+                      if (homeRepo.homeRepository.productsTopOrder.isEmpty) {
+                        return GridView.count(
+                          padding: const EdgeInsets.all(5.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: (180 / 250),
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          children: List.generate(
+                            2,
+                            (index) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: const HomeCard(isdiscount: true),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return GridView.count(
+                          padding: const EdgeInsets.all(5.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: (180 / 250),
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          children: List.generate(
+                            // Limit to only two items
+                            homeRepo.homeRepository.productsTopOrder.length > 2
+                                ? 2
+                                : homeRepo
+                                    .homeRepository.productsTopOrder.length,
+                            (index) => HomeCard(
+                              isdiscount: false,
+                              image: homeRepo.homeRepository
+                                  .productsTopOrder[index].thumbnailImage,
+                              discount: homeRepo.homeRepository
+                                  .productsTopOrder[index].discount
+                                  .toString(),
+                              title: homeRepo
+                                  .homeRepository.productsTopOrder[index].title,
+                              price: homeRepo
+                                  .homeRepository.productsTopOrder[index].price
+                                  .toString(),
+                              proId: homeRepo
+                                  .homeRepository.productsTopOrder[index].id
+                                  .toString(),
+                            ),
+                          ),
+                        );
+                      }
+                    })),
                 const VerticalSpeacing(16.0),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20),
@@ -271,20 +375,62 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 const VerticalSpeacing(12.0),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: GridView.count(
-                    padding: const EdgeInsets.all(
-                        5.0), // Add padding around the grid
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    childAspectRatio: (180 / 250),
-                    mainAxisSpacing: 10.0, // Spacing between rows
-                    crossAxisSpacing: 10.0, // Spacing between columns
-                    children: List.generate(
-                        2, (index) => const HomeCard(isdiscount: false)),
-                  ),
-                ),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: Consumer<HomeRepositoryProvider>(
+                        builder: (context, homeRepo, child) {
+                      if (homeRepo.homeRepository.productsTopRated.isEmpty) {
+                        return GridView.count(
+                          padding: const EdgeInsets.all(5.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: (180 / 250),
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          children: List.generate(
+                            2,
+                            (index) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: const HomeCard(isdiscount: true),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return GridView.count(
+                          padding: const EdgeInsets.all(5.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: (180 / 250),
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          children: List.generate(
+                            // Limit to only two items
+                            homeRepo.homeRepository.productsTopRated.length > 2
+                                ? 2
+                                : homeRepo
+                                    .homeRepository.productsTopRated.length,
+                            (index) => HomeCard(
+                              isdiscount: false,
+                              image: homeRepo.homeRepository
+                                  .productsTopRated[index].thumbnailImage,
+                              discount: homeRepo.homeRepository
+                                  .productsTopRated[index].discount
+                                  .toString(),
+                              title: homeRepo
+                                  .homeRepository.productsTopRated[index].title,
+                              price: homeRepo
+                                  .homeRepository.productsTopRated[index].price
+                                  .toString(),
+                              proId: homeRepo
+                                  .homeRepository.productsTopRated[index].id
+                                  .toString(),
+                            ),
+                          ),
+                        );
+                      }
+                    })),
                 const VerticalSpeacing(16.0),
                 //DisCount Cart
                 Padding(
@@ -315,17 +461,21 @@ class _HomeViewState extends State<HomeView> {
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Consumer<HomeRepositoryProvider>(
                         builder: (context, homeRepo, child) {
-                      if (homeRepo.homeRepository.productsTopRated.isEmpty) {
-                        return Center(
-                          child: Center(
-                            child: Text(
-                              'There are no products to show',
-                              style: GoogleFonts.getFont(
-                                "Roboto",
-                                color: AppColor.textColor1,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w700,
-                              ),
+                      if (homeRepo.homeRepository.productsTopDiscount.isEmpty) {
+                        return GridView.count(
+                          padding: const EdgeInsets.all(5.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          childAspectRatio: (180 / 250),
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                          children: List.generate(
+                            2,
+                            (index) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: const HomeCard(isdiscount: true),
                             ),
                           ),
                         );
@@ -340,12 +490,26 @@ class _HomeViewState extends State<HomeView> {
                           crossAxisSpacing: 10.0,
                           children: List.generate(
                             // Limit to only two items
-                            homeRepo.homeRepository.productsTopRated.length > 2
+                            homeRepo.homeRepository.productsTopDiscount.length >
+                                    2
                                 ? 2
                                 : homeRepo
-                                    .homeRepository.productsTopRated.length,
-                            (index) => const HomeCard(
+                                    .homeRepository.productsTopDiscount.length,
+                            (index) => HomeCard(
                               isdiscount: true,
+                              image: homeRepo.homeRepository
+                                  .productsTopDiscount[index].thumbnailImage,
+                              discount: homeRepo.homeRepository
+                                  .productsTopDiscount[index].discount
+                                  .toString(),
+                              title: homeRepo.homeRepository
+                                  .productsTopDiscount[index].title,
+                              price: homeRepo.homeRepository
+                                  .productsTopDiscount[index].price
+                                  .toString(),
+                              proId: homeRepo
+                                  .homeRepository.productsTopDiscount[index].id
+                                  .toString(),
                             ),
                           ),
                         );

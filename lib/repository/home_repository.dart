@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:rjfruits/model/home_model.dart';
-import 'package:rjfruits/res/app_url.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
@@ -23,11 +22,11 @@ class HomeRepository extends ChangeNotifier {
   Future<void> getHomeProd(BuildContext context) async {
     try {
       final response = await http.get(
-        Uri.parse(AppUrl.home),
+        Uri.parse("https://2a80-182-180-2-42.ngrok-free.app/api/home/"),
         headers: {
           'accept': 'application/json',
           'X-CSRFToken':
-              'DFiCNJXA3vA5lHpCC8FIAhPpG0jorfK2aW1TPklEDwT7BQRgErHFicyis1k927u6',
+              '8nsR356Rv3qk9n7DKlFhhHrsB8QPVb8JSeJyvdQbjwOFd3HJPl68bPGKRv32e7wR',
         },
       );
 
@@ -36,7 +35,7 @@ class HomeRepository extends ChangeNotifier {
 
         ApiResponse apiResponse = ApiResponse.fromJson(jsonResponse);
 
-        debugPrint("this is the repose of the home api:$apiResponse");
+        debugPrint("this is the repose of the home api:$jsonResponse");
         productCategories = apiResponse.categories;
         productsFeature = apiResponse.topDiscountedProducts;
         productsTopDiscount = apiResponse.topDiscountedProducts;
@@ -54,5 +53,12 @@ class HomeRepository extends ChangeNotifier {
     } catch (e) {
       handleApiError(e, context);
     }
+  }
+
+  String calculateDiscountedPrice(
+      double originalPrice, double discountPercentage) {
+    double discountedPrice =
+        originalPrice - (originalPrice * (discountPercentage / 100));
+    return discountedPrice.toStringAsFixed(2);
   }
 }

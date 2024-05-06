@@ -1,7 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
 
 import '../../../res/components/cart_button.dart';
 import '../../../res/components/colors.dart';
@@ -10,10 +14,26 @@ class HomeCard extends StatelessWidget {
   const HomeCard({
     super.key,
     required this.isdiscount,
+    this.image,
+    this.price,
+    this.discount,
+    this.title,
+    this.proId,
   });
   final bool isdiscount;
+  final String? image;
+  final String? price;
+  final String? discount;
+  final String? title;
+  final String? proId;
   @override
   Widget build(BuildContext context) {
+    HomeRepositoryProvider homeRepoProvider =
+        Provider.of<HomeRepositoryProvider>(context, listen: false);
+    double originalPrice = double.parse(price ?? "50");
+    double originalDiscount = double.parse(discount ?? "20");
+    String discountedPrice = homeRepoProvider.homeRepository
+        .calculateDiscountedPrice(originalPrice, originalDiscount);
     return Container(
       height: 230,
       width: 180,
@@ -46,15 +66,15 @@ class HomeCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15.0),
                           color: AppColor.cartDiscountColor,
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text.rich(
                             TextSpan(
-                              text: '30%\n',
-                              style: TextStyle(
+                              text: discount == null ? '30%\n' : '$discount%\n',
+                              style: const TextStyle(
                                   fontSize: 9.0,
                                   color: AppColor.whiteColor,
                                   fontWeight: FontWeight.w600),
-                              children: [
+                              children: const [
                                 TextSpan(
                                   text: 'Off',
                                   style: TextStyle(
@@ -127,20 +147,28 @@ class HomeCard extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              height: 85,
-              width: 145,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('images/cartImg.png'),
-                ),
-              ),
-            ),
+            image == null
+                ? Container(
+                    height: 85,
+                    width: 145,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/cartImg.png'),
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 85,
+                    width: 145,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image: NetworkImage(image!)),
+                    ),
+                  ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Dried Figs',
+                  title == null ? 'Dried Figs' : title!,
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
@@ -175,7 +203,7 @@ class HomeCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  '\$50 ',
+                  price == null ? '\$50 ' : '\$$price',
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
@@ -187,7 +215,7 @@ class HomeCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '\$20 ',
+                  '\$$discountedPrice',
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
