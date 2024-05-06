@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/login_container.dart';
@@ -8,8 +7,6 @@ import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
-
-import '../../view_model/auth_view_model.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -36,7 +33,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    final authViewModel = Provider.of<AuthViewModel>(context);
+    // final authViewModel = Provider.of<AuthViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -173,7 +170,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       "password2":
                                           passwordController2.text.toString(),
                                     };
-                                    authViewModel.signUpApi(data, context);
+                                    // authViewModel.signUpApi(data, context);
                                     print('SuccessFully Register');
                                   }
                                 }),
