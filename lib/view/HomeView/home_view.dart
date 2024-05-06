@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
@@ -148,62 +149,123 @@ class _HomeViewState extends State<HomeView> {
                   padding: const EdgeInsets.only(left: 20.0, right: 0),
                   child: SizedBox(
                     height: 50,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          CategoryCart(
-                            bgColor: _isSelected
-                                ? AppColor.primaryColor
-                                : AppColor.boxColor,
-                            textColor: _isSelected
-                                ? AppColor.whiteColor
-                                : AppColor.textColor1,
-                            onTap: () {
-                              setState(() {
-                                _isSelected = !_isSelected;
-                              });
+                    child: Consumer<HomeRepositoryProvider>(
+                      builder: (context, homeRepo, child) {
+                        if (homeRepo.homeRepository.productCategories.isEmpty) {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeRepo
+                                .homeRepository.productCategories.length,
+                            itemExtent: MediaQuery.of(context).size.width / 3.6,
+                            itemBuilder: (BuildContext context, int index) {
+                              Category category = homeRepo
+                                  .homeRepository.productCategories[index];
+
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: CategoryCart(
+                                  bgColor: _isSelected
+                                      ? AppColor.primaryColor
+                                      : AppColor.boxColor,
+                                  textColor: _isSelected
+                                      ? AppColor.whiteColor
+                                      : AppColor.textColor1,
+                                  onTap: () {
+                                    setState(() {
+                                      _isSelected = !_isSelected;
+                                    });
+                                  },
+                                  text: "category.name",
+                                ),
+                              );
                             },
-                            text: 'All',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'Penut',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'Apricot',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'peach',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'figs',
-                          ),
-                          const SizedBox(width: 10.0),
-                          CategoryCart(
-                            bgColor: AppColor.boxColor,
-                            textColor: AppColor.textColor1,
-                            onTap: () {},
-                            text: 'Penut',
-                          ),
-                        ],
-                      ),
+                          );
+                        } else {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeRepo
+                                .homeRepository.productCategories.length,
+                            itemExtent: MediaQuery.of(context).size.width / 3.6,
+                            itemBuilder: (BuildContext context, int index) {
+                              Category category = homeRepo
+                                  .homeRepository.productCategories[index];
+
+                              return CategoryCart(
+                                bgColor: _isSelected
+                                    ? AppColor.primaryColor
+                                    : AppColor.boxColor,
+                                textColor: _isSelected
+                                    ? AppColor.whiteColor
+                                    : AppColor.textColor1,
+                                onTap: () {
+                                  setState(() {
+                                    _isSelected = !_isSelected;
+                                  });
+                                },
+                                text: category.name,
+                              );
+                            },
+                          );
+                        }
+                      },
                     ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: [
+                    //       CategoryCart(
+                    //         bgColor: _isSelected
+                    //             ? AppColor.primaryColor
+                    //             : AppColor.boxColor,
+                    //         textColor: _isSelected
+                    //             ? AppColor.whiteColor
+                    //             : AppColor.textColor1,
+                    //         onTap: () {
+                    //           setState(() {
+                    //             _isSelected = !_isSelected;
+                    //           });
+                    //         },
+                    //         text: 'All',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'Penut',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'Apricot',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'peach',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'figs',
+                    //       ),
+                    //       const SizedBox(width: 10.0),
+                    //       CategoryCart(
+                    //         bgColor: AppColor.boxColor,
+                    //         textColor: AppColor.textColor1,
+                    //         onTap: () {},
+                    //         text: 'Penut',
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ),
                 ),
                 const VerticalSpeacing(16.0),
