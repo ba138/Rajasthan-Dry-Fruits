@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
@@ -344,8 +345,18 @@ class _HomeViewState extends State<HomeView> {
                                 ? 2
                                 : homeRepo
                                     .homeRepository.productsTopRated.length,
-                            (index) => const HomeCard(
+                            (index) => HomeCard(
                               isdiscount: true,
+                              image: homeRepo.homeRepository
+                                  .productsTopRated[index].thumbnailImage,
+                              discount: homeRepo.homeRepository
+                                  .productsTopRated[index].discount
+                                  .toString(),
+                              title: homeRepo
+                                  .homeRepository.productsTopRated[index].title,
+                              price: homeRepo
+                                  .homeRepository.productsTopRated[index].price
+                                  .toString(),
                             ),
                           ),
                         );
