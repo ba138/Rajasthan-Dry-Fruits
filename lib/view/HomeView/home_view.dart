@@ -154,12 +154,11 @@ class _HomeViewState extends State<HomeView> {
                         if (homeRepo.homeRepository.productCategories.isEmpty) {
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: homeRepo
-                                .homeRepository.productCategories.length,
+                            itemCount: 10,
                             itemExtent: MediaQuery.of(context).size.width / 3.6,
                             itemBuilder: (BuildContext context, int index) {
-                              Category category = homeRepo
-                                  .homeRepository.productCategories[index];
+                              // Category category = homeRepo
+                              //     .homeRepository.productCategories[index];
 
                               return Shimmer.fromColors(
                                 baseColor: Colors.grey[300]!,
