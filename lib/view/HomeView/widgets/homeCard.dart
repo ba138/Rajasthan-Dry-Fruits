@@ -12,18 +12,20 @@ import '../../../res/components/colors.dart';
 
 class HomeCard extends StatelessWidget {
   const HomeCard({
-    Key? key,
+    super.key,
     required this.isdiscount,
     this.image,
     this.price,
     this.discount,
     this.title,
-  }) : super(key: key);
+    this.proId,
+  });
   final bool isdiscount;
   final String? image;
   final String? price;
   final String? discount;
   final String? title;
+  final String? proId;
   @override
   Widget build(BuildContext context) {
     HomeRepositoryProvider homeRepoProvider =
