@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/model/product_detail_model.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view/HomeView/widgets/weight_container.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.detail});
@@ -17,6 +19,13 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    HomeRepositoryProvider homeRepoProvider =
+        Provider.of<HomeRepositoryProvider>(context, listen: false);
+    double originalPrice = double.parse(widget.detail.price);
+    String per = widget.detail.discount.toString();
+    double originalDiscount = double.parse(per);
+    String discountedPrice = homeRepoProvider.homeRepository
+        .calculateDiscountedPrice(originalPrice, originalDiscount);
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -66,7 +75,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Dry figs",
+                      widget.detail.title,
                       style: GoogleFonts.getFont(
                         "Poppins",
                         textStyle: const TextStyle(
@@ -117,7 +126,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       children: [
                         Text(
-                          "\$30",
+                          "\$${widget.detail.price}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -131,7 +140,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 6,
                         ),
                         Text(
-                          "\$20",
+                          "\$$discountedPrice",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
