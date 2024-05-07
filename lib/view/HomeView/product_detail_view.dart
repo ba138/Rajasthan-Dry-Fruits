@@ -20,6 +20,22 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? weight;
   String? weightPrice;
+  int amount = 1;
+  void increament() {
+    setState(() {
+      amount++;
+    });
+  }
+
+  void decrement() {
+    if (amount == 0) {
+    } else {
+      setState(() {
+        amount--;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     HomeRepositoryProvider homeRepoProvider =
@@ -237,19 +253,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     Row(
                       children: [
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: AppColor.iconColor),
-                            color: AppColor.whiteColor,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.remove,
-                              size: 16,
-                              color: AppColor.primaryColor,
+                        InkWell(
+                          onTap: () {
+                            decrement();
+                          },
+                          child: Container(
+                            height: 23,
+                            width: 23,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: AppColor.iconColor),
+                              color: AppColor.whiteColor,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.remove,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              ),
                             ),
                           ),
                         ),
@@ -257,7 +278,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 10,
                         ),
                         Text(
-                          "2",
+                          amount.toString(),
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -270,19 +291,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: AppColor.iconColor),
-                            color: AppColor.whiteColor,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.add,
-                              size: 16,
-                              color: AppColor.primaryColor,
+                        InkWell(
+                          onTap: () {
+                            increament();
+                          },
+                          child: Container(
+                            height: 23,
+                            width: 23,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: AppColor.iconColor),
+                              color: AppColor.whiteColor,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.add,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              ),
                             ),
                           ),
                         ),
