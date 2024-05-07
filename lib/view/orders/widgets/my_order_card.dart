@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';

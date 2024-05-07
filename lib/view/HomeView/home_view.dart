@@ -11,7 +11,6 @@ import 'package:rjfruits/view/HomeView/category_products.dart';
 import 'package:rjfruits/view/HomeView/default_section.dart';
 import 'package:rjfruits/view/HomeView/filter_products.dart';
 import 'package:rjfruits/view/HomeView/search_section.dart';
-import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import '../../res/components/categorycard.dart';
 import '../../res/components/colors.dart';
@@ -242,7 +241,7 @@ class SearchBar extends StatelessWidget {
             return TextField(
               controller: searchController,
               onChanged: (value) {
-                if (searchController.text.length >= 1) {
+                if (searchController.text.isNotEmpty) {
                   viewModel.search(
                     value,
                     viewModel.homeRepository.productsTopRated,
