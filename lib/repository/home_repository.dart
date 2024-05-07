@@ -12,7 +12,6 @@ import 'package:http/http.dart' as http;
 class HomeRepository extends ChangeNotifier {
   List<Product> newProducts = [];
   List<Category> productCategories = [];
-  List<Product> productsFeature = [];
   List<Product> productsTopDiscount = [];
   List<Product> productsTopOrder = [];
   List<Product> productsTopRated = [];
@@ -37,7 +36,6 @@ class HomeRepository extends ChangeNotifier {
         ApiResponse apiResponse = ApiResponse.fromJson(jsonResponse);
 
         productCategories = apiResponse.categories;
-        productsFeature = apiResponse.topDiscountedProducts;
         productsTopDiscount = apiResponse.topDiscountedProducts;
         productsTopOrder = apiResponse.newProducts;
         productsTopRated = apiResponse.mostSales;
@@ -60,5 +58,41 @@ class HomeRepository extends ChangeNotifier {
     double discountedPrice =
         originalPrice - (originalPrice * (discountPercentage / 100));
     return discountedPrice.toStringAsFixed(2);
+  }
+
+  void search(
+    String searchTerm,
+    List<Product> productsNew,
+    List<Product> productsTopDiscount,
+    List<Product> productsTopOrder,
+  ) {
+    searchResults.clear();
+
+    for (var product in productsTopRated) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    for (var product in newProducts) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+    for (var product in productsTopDiscount) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    for (var product in productsTopOrder) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    if (searchResults.isNotEmpty) {
+      notifyListeners();
+    }
   }
 }

@@ -48,7 +48,7 @@ class _SearchSectionState extends State<SearchSection> {
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Consumer<HomeRepositoryProvider>(
                 builder: (context, homeRepo, child) {
-              if (homeRepo.homeRepository.productsTopOrder.isEmpty) {
+              if (homeRepo.homeRepository.searchResults.isEmpty) {
                 return GridView.count(
                   padding: const EdgeInsets.all(5.0),
                   shrinkWrap: true,
@@ -77,22 +77,18 @@ class _SearchSectionState extends State<SearchSection> {
                   crossAxisSpacing: 10.0,
                   children: List.generate(
                     // Limit to only two items
-                    homeRepo.homeRepository.productsTopOrder.length > 2
-                        ? 2
-                        : homeRepo.homeRepository.productsTopOrder.length,
+                    homeRepo.homeRepository.searchResults.length,
                     (index) => HomeCard(
                       isdiscount: false,
-                      image: homeRepo.homeRepository.productsTopOrder[index]
-                          .thumbnailImage,
+                      image: homeRepo
+                          .homeRepository.searchResults[index].thumbnailImage,
                       discount: homeRepo
-                          .homeRepository.productsTopOrder[index].discount
+                          .homeRepository.searchResults[index].discount
                           .toString(),
-                      title:
-                          homeRepo.homeRepository.productsTopOrder[index].title,
-                      price: homeRepo
-                          .homeRepository.productsTopOrder[index].price
+                      title: homeRepo.homeRepository.searchResults[index].title,
+                      price: homeRepo.homeRepository.searchResults[index].price
                           .toString(),
-                      proId: homeRepo.homeRepository.productsTopOrder[index].id
+                      proId: homeRepo.homeRepository.searchResults[index].id
                           .toString(),
                     ),
                   ),

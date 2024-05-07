@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
+import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/utils/routes/routes.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view_model/auth_view_model.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
             ),
             ChangeNotifierProvider(
               create: (_) => HomeRepositoryProvider(),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => HomeUiSwithchRepository(),
             ),
           ],
           child: const MyApp(),

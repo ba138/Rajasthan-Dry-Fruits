@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/home_model.dart';
+import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
+import 'package:rjfruits/res/components/enums.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/HomeView/category_products.dart';
+import 'package:rjfruits/view/HomeView/default_section.dart';
+import 'package:rjfruits/view/HomeView/filter_products.dart';
+import 'package:rjfruits/view/HomeView/search_section.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import '../../res/components/categorycard.dart';
@@ -20,6 +26,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   bool _isSelected = false;
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,9 +92,11 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 const VerticalSpeacing(16.0),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20),
-                  child: SearchBar(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: SearchBar(
+                    searchController: searchController,
+                  ),
                 ),
                 const VerticalSpeacing(14.0),
                 Padding(
@@ -205,6 +214,28 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 const VerticalSpeacing(16.0),
+                Consumer<HomeUiSwithchRepository>(
+                  builder: (context, uiState, _) {
+                    Widget selectedWidget;
+
+                    switch (uiState.selectedType) {
+                      case UIType.SearchSection:
+                        selectedWidget = const SearchSection();
+                        break;
+                      case UIType.FilterSection:
+                        selectedWidget = const FilterProducts();
+                        break;
+                      case UIType.CategoriesSection:
+                        selectedWidget = const CategoriesSection();
+                        break;
+                      case UIType.DefaultSection:
+                        selectedWidget = const DefaultSection();
+                        break;
+                    }
+
+                    return selectedWidget;
+                  },
+                ),
                 const VerticalSpeacing(40.0)
               ],
             ),
@@ -216,58 +247,76 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({
-    super.key,
-  });
+  const SearchBar({super.key, required this.searchController});
+  final TextEditingController searchController;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 46,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: AppColor.boxColor,
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search products',
-          prefixIcon: const Icon(
-            Icons.search,
-            color: AppColor.textColor1,
-          ),
-          suffixIcon: Container(
-            height: 47.0,
-            width: 47.0,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                color: AppColor.primaryColor),
-            child: Center(
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    RoutesName.filter,
-                  );
-                },
-                icon: const ImageIcon(
-                  AssetImage("images/filter.png"),
-                  color: AppColor.whiteColor,
-                ),
-              ),
-            ),
-          ),
-          hintStyle: GoogleFonts.getFont(
-            "Roboto",
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: AppColor.textColor2,
-            ),
-          ),
-          border: InputBorder.none,
+        height: 46,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: AppColor.boxColor,
         ),
-      ),
-    );
+        child: Consumer<HomeRepositoryProvider>(
+          builder: (context, viewModel, _) {
+            return TextField(
+              controller: searchController,
+              onChanged: (value) {
+                if (searchController.text.length >= 1) {
+                  viewModel.search(
+                    value,
+                    viewModel.homeRepository.productsTopRated,
+                    viewModel.homeRepository.newProducts,
+                    viewModel.homeRepository.productsTopDiscount,
+                  );
+                  Provider.of<HomeUiSwithchRepository>(context, listen: false)
+                      .switchToType(UIType.SearchSection);
+                } else {
+                  Provider.of<HomeUiSwithchRepository>(context, listen: false)
+                      .switchToType(UIType.DefaultSection);
+                }
+              },
+              decoration: InputDecoration(
+                hintText: 'Search products',
+                prefixIcon: const Icon(
+                  Icons.search,
+                  color: AppColor.textColor1,
+                ),
+                suffixIcon: Container(
+                  height: 47.0,
+                  width: 47.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      color: AppColor.primaryColor),
+                  child: Center(
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          RoutesName.filter,
+                        );
+                      },
+                      icon: const ImageIcon(
+                        AssetImage("images/filter.png"),
+                        color: AppColor.whiteColor,
+                      ),
+                    ),
+                  ),
+                ),
+                hintStyle: GoogleFonts.getFont(
+                  "Roboto",
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.textColor2,
+                  ),
+                ),
+                border: InputBorder.none,
+              ),
+            );
+          },
+        ));
   }
 }
