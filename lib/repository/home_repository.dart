@@ -36,7 +36,6 @@ class HomeRepository extends ChangeNotifier {
 
         ApiResponse apiResponse = ApiResponse.fromJson(jsonResponse);
 
-        debugPrint("this is the repose of the home api:$jsonResponse");
         productCategories = apiResponse.categories;
         productsFeature = apiResponse.topDiscountedProducts;
         productsTopDiscount = apiResponse.topDiscountedProducts;

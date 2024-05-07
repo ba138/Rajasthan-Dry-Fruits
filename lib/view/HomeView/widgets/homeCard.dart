@@ -40,7 +40,7 @@ class HomeCard extends StatelessWidget {
       // Decimal point found, remove it and everything after
       formattedPrice = formattedPrice.substring(0, dotIndex);
     }
-    String totalPrice = '\$$discountedPrice';
+    String totalPrice = '\$$originalPrice';
     final dotNdex = totalPrice.indexOf('.');
     if (dotNdex != -1) {
       // Decimal point found, remove it and everything after
