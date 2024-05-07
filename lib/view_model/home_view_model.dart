@@ -33,4 +33,11 @@ class HomeRepositoryProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void categoryFilter(
+    String categrio,
+  ) {
+    _homeRepository.categoryFilter(categrio);
+    notifyListeners();
+  }
 }

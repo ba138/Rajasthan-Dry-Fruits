@@ -39,7 +39,7 @@ class _SearchSectionState extends State<SearchSection> {
                   onTap: () {
                     Navigator.pushNamed(context, RoutesName.popularItems);
                   },
-                  text: 'View All'),
+                  text: 'Remove'),
             ],
           ),
         ),

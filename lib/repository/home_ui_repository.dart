@@ -10,4 +10,9 @@ class HomeUiSwithchRepository extends ChangeNotifier {
     _selectedType = type;
     notifyListeners();
   }
+
+  void switchToDefaultSection() {
+    switchToType(UIType.DefaultSection);
+    notifyListeners();
+  }
 }

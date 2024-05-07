@@ -150,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 0),
                   child: SizedBox(
-                    height: 50,
+                    height: 70,
                     child: Consumer<HomeRepositoryProvider>(
                       builder: (context, homeRepo, child) {
                         if (homeRepo.homeRepository.productCategories.isEmpty) {
@@ -165,18 +165,7 @@ class _HomeViewState extends State<HomeView> {
                               return Shimmer.fromColors(
                                 baseColor: Colors.grey[300]!,
                                 highlightColor: Colors.grey[100]!,
-                                child: CategoryCart(
-                                  bgColor: _isSelected
-                                      ? AppColor.primaryColor
-                                      : AppColor.boxColor,
-                                  textColor: _isSelected
-                                      ? AppColor.whiteColor
-                                      : AppColor.textColor1,
-                                  onTap: () {
-                                    setState(() {
-                                      _isSelected = !_isSelected;
-                                    });
-                                  },
+                                child: const CategoryCart(
                                   text: "category.name",
                                 ),
                               );
@@ -193,17 +182,6 @@ class _HomeViewState extends State<HomeView> {
                                   .homeRepository.productCategories[index];
 
                               return CategoryCart(
-                                bgColor: _isSelected
-                                    ? AppColor.primaryColor
-                                    : AppColor.boxColor,
-                                textColor: _isSelected
-                                    ? AppColor.whiteColor
-                                    : AppColor.textColor1,
-                                onTap: () {
-                                  setState(() {
-                                    _isSelected = !_isSelected;
-                                  });
-                                },
                                 text: category.name,
                               );
                             },
@@ -268,7 +246,7 @@ class SearchBar extends StatelessWidget {
                   viewModel.search(
                     value,
                     viewModel.homeRepository.productsTopRated,
-                    viewModel.homeRepository.newProducts,
+                    viewModel.homeRepository.productsTopOrder,
                     viewModel.homeRepository.productsTopDiscount,
                   );
                   Provider.of<HomeUiSwithchRepository>(context, listen: false)
