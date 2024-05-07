@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/repository/product_detail_repositroy.dart';
 
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/HomeView/product_detail_view.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 
 import '../../../res/components/cart_button.dart';
@@ -305,7 +307,12 @@ class _HomeCardState extends State<HomeCard> {
                 ),
                 CartButton(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutesName.productDetail);
+                      Provider.of<ProductDetailRepository>(context,
+                              listen: false)
+                          .fetchProductDetails(
+                        context,
+                        widget.proId!,
+                      );
                     },
                     text: 'View'),
               ],

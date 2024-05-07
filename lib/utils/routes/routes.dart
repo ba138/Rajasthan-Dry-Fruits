@@ -69,10 +69,7 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const ForgetPasswordScreen(),
         );
-      case RoutesName.productDetail:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => const ProductDetailScreen(),
-        );
+
       case RoutesName.bestSellers:
         return MaterialPageRoute(
           builder: (BuildContext context) => const BestSellers(),
@@ -111,7 +108,6 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const PaymentDoneScreen(),
         );
-    
 
       case RoutesName.searchView:
         return MaterialPageRoute(
