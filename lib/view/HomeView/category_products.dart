@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
 import 'package:rjfruits/res/components/colors.dart';
-import 'package:rjfruits/res/components/enums.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
@@ -39,9 +38,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
               CartButton(
                   onTap: () {
                     Provider.of<HomeUiSwithchRepository>(context, listen: false)
-                        .switchToType(
-                      UIType.DefaultSection,
-                    );
+                        .switchToDefaultSection();
                   },
                   text: 'Clear'),
             ],

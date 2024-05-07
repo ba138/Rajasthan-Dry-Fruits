@@ -120,4 +120,6 @@ class HomeRepository extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void notifiaUiType() {}
 }

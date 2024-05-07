@@ -23,8 +23,29 @@ class CategoryCart extends StatefulWidget {
 class _CategoryCartState extends State<CategoryCart> {
   Color _backgroundColor = AppColor.boxColor;
   Color _textColor = AppColor.textColor1;
+  void checkUiType() {}
+
+  @override
+  void initState() {
+    // ignore: unrelated_type_equality_checks
+    checkUiType();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentUIType =
+        Provider.of<HomeUiSwithchRepository>(context, listen: false)
+            .selectedType;
+
+    if (currentUIType == UIType.DefaultSection) {
+      setState(() {
+        _backgroundColor = AppColor.boxColor;
+        _textColor = AppColor.textColor1;
+      });
+    }
+
     return GestureDetector(
       onTap: () {
         Provider.of<HomeRepositoryProvider>(context, listen: false)
