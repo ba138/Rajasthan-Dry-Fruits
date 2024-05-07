@@ -1,4 +1,7 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/product_detail_model.dart';
@@ -6,7 +9,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
-import 'package:rjfruits/view/HomeView/widgets/weight_container.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -17,8 +19,11 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  String? weight;
+  String? weightPrice;
   @override
   Widget build(BuildContext context) {
+    debugPrint('this is the list:${widget.detail.productWeight}');
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
     double originalPrice = double.parse(widget.detail.price);
@@ -129,7 +134,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       children: [
                         Text(
-                          "\$${widget.detail.price}",
+                          "\$${widget.detail.price.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -143,7 +148,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 6,
                         ),
                         Text(
-                          "\$$discountedPrice",
+                          weightPrice ?? "\$${discountedPrice.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -161,29 +166,78 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        WeightContainer(
-                            conColor: AppColor.primaryColor,
-                            gmColor: AppColor.textColor1,
-                            numbColor: AppColor.whiteColor),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        WeightContainer(
-                            conColor: AppColor.whiteColor,
-                            gmColor: AppColor.textColor1,
-                            numbColor: AppColor.cardTxColor),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        WeightContainer(
-                          conColor: AppColor.whiteColor,
-                          gmColor: AppColor.textColor1,
-                          numbColor: AppColor.cardTxColor,
-                        ),
-                      ],
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.5,
+                      height: MediaQuery.of(context).size.height / 20,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.detail.productWeight.length,
+                        itemExtent: MediaQuery.of(context).size.width / 5,
+                        itemBuilder: (BuildContext context, int index) {
+                          final productWeight =
+                              widget.detail.productWeight[index];
+
+                          return Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      weight = productWeight ==
+                                              productWeight.weight.name
+                                          ? null
+                                          : productWeight.weight.name;
+                                      weightPrice = productWeight.price;
+                                    });
+                                    debugPrint(
+                                        "this is discount Price:$discountedPrice");
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: weight == productWeight.weight.name
+                                          ? AppColor
+                                              .primaryColor // Change the color for the selected category
+                                          : Colors.transparent,
+                                      border: Border.all(
+                                        color: AppColor.primaryColor,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          productWeight.weight.name,
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: const TextStyle(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColor.textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          " ${productWeight.price}\$ ",
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: TextStyle(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w400,
+                                              color: weight ==
+                                                      productWeight.weight.name
+                                                  ? AppColor.whiteColor
+                                                  : AppColor.textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )));
+                        },
+                      ),
                     ),
                     Row(
                       children: [
@@ -240,6 +294,88 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ],
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     const Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         WeightContainer(
+                //             conColor: AppColor.primaryColor,
+                //             gmColor: AppColor.textColor1,
+                //             numbColor: AppColor.whiteColor),
+                //         SizedBox(
+                //           width: 6,
+                //         ),
+                //         WeightContainer(
+                //             conColor: AppColor.whiteColor,
+                //             gmColor: AppColor.textColor1,
+                //             numbColor: AppColor.cardTxColor),
+                //         SizedBox(
+                //           width: 6,
+                //         ),
+                //         WeightContainer(
+                //           conColor: AppColor.whiteColor,
+                //           gmColor: AppColor.textColor1,
+                //           numbColor: AppColor.cardTxColor,
+                //         ),
+                //       ],
+                //     ),
+                //     Row(
+                //       children: [
+                //         Container(
+                //           height: 23,
+                //           width: 23,
+                //           decoration: BoxDecoration(
+                //             shape: BoxShape.circle,
+                //             border: Border.all(color: AppColor.iconColor),
+                //             color: AppColor.whiteColor,
+                //           ),
+                //           child: const Center(
+                //             child: Icon(
+                //               Icons.remove,
+                //               size: 16,
+                //               color: AppColor.primaryColor,
+                //             ),
+                //           ),
+                //         ),
+                //         const SizedBox(
+                //           width: 10,
+                //         ),
+                //         Text(
+                //           "2",
+                //           style: GoogleFonts.getFont(
+                //             "Poppins",
+                //             textStyle: const TextStyle(
+                //               fontSize: 16,
+                //               fontWeight: FontWeight.w400,
+                //               color: AppColor.textColor1,
+                //             ),
+                //           ),
+                //         ),
+                //         const SizedBox(
+                //           width: 10,
+                //         ),
+                //         Container(
+                //           height: 23,
+                //           width: 23,
+                //           decoration: BoxDecoration(
+                //             shape: BoxShape.circle,
+                //             border: Border.all(color: AppColor.iconColor),
+                //             color: AppColor.whiteColor,
+                //           ),
+                //           child: const Center(
+                //             child: Icon(
+                //               Icons.add,
+                //               size: 16,
+                //               color: AppColor.primaryColor,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
                 const VerticalSpeacing(18),
                 Text(
                   "Product Details",

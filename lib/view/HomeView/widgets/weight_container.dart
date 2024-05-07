@@ -20,8 +20,6 @@ class _WeightContainerState extends State<WeightContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 32,
-      width: 46,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         color: widget.conColor,
@@ -34,7 +32,7 @@ class _WeightContainerState extends State<WeightContainer> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "250GM",
+            " 250GM ",
             style: GoogleFonts.getFont(
               "Poppins",
               textStyle: TextStyle(
@@ -45,7 +43,7 @@ class _WeightContainerState extends State<WeightContainer> {
             ),
           ),
           Text(
-            "12455\$",
+            " 12455\$ ",
             style: GoogleFonts.getFont(
               "Poppins",
               textStyle: TextStyle(
