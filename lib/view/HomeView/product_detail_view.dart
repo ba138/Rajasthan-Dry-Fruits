@@ -1,7 +1,6 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/product_detail_model.dart';
@@ -23,7 +22,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? weightPrice;
   @override
   Widget build(BuildContext context) {
-    debugPrint('this is the list:${widget.detail.productWeight}');
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
     double originalPrice = double.parse(widget.detail.price);
@@ -188,8 +186,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           : productWeight.weight.name;
                                       weightPrice = productWeight.price;
                                     });
-                                    debugPrint(
-                                        "this is discount Price:$discountedPrice");
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
