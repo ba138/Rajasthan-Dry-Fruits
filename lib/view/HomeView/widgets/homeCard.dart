@@ -34,6 +34,22 @@ class HomeCard extends StatelessWidget {
     double originalDiscount = double.parse(discount ?? "20");
     String discountedPrice = homeRepoProvider.homeRepository
         .calculateDiscountedPrice(originalPrice, originalDiscount);
+    String formattedPrice = '\$$discountedPrice';
+    final dotIndex = formattedPrice.indexOf('.');
+    if (dotIndex != -1) {
+      // Decimal point found, remove it and everything after
+      formattedPrice = formattedPrice.substring(0, dotIndex);
+    }
+    String totalPrice = '\$$originalPrice';
+    final dotNdex = totalPrice.indexOf('.');
+    if (dotNdex != -1) {
+      // Decimal point found, remove it and everything after
+      totalPrice = totalPrice.substring(0, dotIndex);
+    }
+    String truncatedTitle = title == null ? 'Dried Figs' : title!;
+    if (truncatedTitle.length > 8) {
+      truncatedTitle = '${truncatedTitle.substring(0, 8)}...';
+    }
     return Container(
       height: 230,
       width: 180,
@@ -168,7 +184,7 @@ class HomeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  title == null ? 'Dried Figs' : title!,
+                  truncatedTitle,
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
@@ -203,7 +219,7 @@ class HomeCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  price == null ? '\$50 ' : '\$$price',
+                  price == null ? '\$50 ' : totalPrice,
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
@@ -214,17 +230,16 @@ class HomeCard extends StatelessWidget {
                     decoration: TextDecoration.lineThrough,
                   ),
                 ),
-                Text(
-                  '\$$discountedPrice',
-                  style: GoogleFonts.getFont(
-                    "Roboto",
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textColor1,
+                Text(formattedPrice,
+                    style: GoogleFonts.getFont(
+                      "Roboto",
+                      textStyle: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textColor1,
+                      ),
                     ),
-                  ),
-                ),
+                    overflow: TextOverflow.fade),
               ],
             ),
             const VerticalSpeacing(6),

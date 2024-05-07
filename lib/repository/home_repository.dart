@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:rjfruits/model/home_model.dart';
+import 'package:rjfruits/res/app_url.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +12,6 @@ import 'package:http/http.dart' as http;
 class HomeRepository extends ChangeNotifier {
   List<Product> newProducts = [];
   List<Category> productCategories = [];
-  List<Product> productsFeature = [];
   List<Product> productsTopDiscount = [];
   List<Product> productsTopOrder = [];
   List<Product> productsTopRated = [];
@@ -22,11 +22,11 @@ class HomeRepository extends ChangeNotifier {
   Future<void> getHomeProd(BuildContext context) async {
     try {
       final response = await http.get(
-        Uri.parse("https://2a80-182-180-2-42.ngrok-free.app/api/home/"),
+        Uri.parse(AppUrl.home),
         headers: {
           'accept': 'application/json',
           'X-CSRFToken':
-              '8nsR356Rv3qk9n7DKlFhhHrsB8QPVb8JSeJyvdQbjwOFd3HJPl68bPGKRv32e7wR',
+              'umFU4LBxVgOwgYL6jgTynbGicCd47wKL9otbehTcDRm1k08P7hTmBOzW0wjCwXy1',
         },
       );
 
@@ -35,9 +35,7 @@ class HomeRepository extends ChangeNotifier {
 
         ApiResponse apiResponse = ApiResponse.fromJson(jsonResponse);
 
-        debugPrint("this is the repose of the home api:$jsonResponse");
         productCategories = apiResponse.categories;
-        productsFeature = apiResponse.topDiscountedProducts;
         productsTopDiscount = apiResponse.topDiscountedProducts;
         productsTopOrder = apiResponse.newProducts;
         productsTopRated = apiResponse.mostSales;
@@ -60,5 +58,41 @@ class HomeRepository extends ChangeNotifier {
     double discountedPrice =
         originalPrice - (originalPrice * (discountPercentage / 100));
     return discountedPrice.toStringAsFixed(2);
+  }
+
+  void search(
+    String searchTerm,
+    List<Product> productsNew,
+    List<Product> productsTopDiscount,
+    List<Product> productsTopOrder,
+  ) {
+    searchResults.clear();
+
+    for (var product in productsTopRated) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    for (var product in newProducts) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+    for (var product in productsTopDiscount) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    for (var product in productsTopOrder) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    if (searchResults.isNotEmpty) {
+      notifyListeners();
+    }
   }
 }
