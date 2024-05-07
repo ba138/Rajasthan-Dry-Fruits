@@ -121,12 +121,8 @@ class HomeRepository extends ChangeNotifier {
     }
   }
 
-  void filterProducts(
-    String? category,
-    double? minRating,
-    double? minPrice,
-    double? maxPrice,
-  ) {
+  void filterProducts(String? category, double? minRating, double? minPrice,
+      double? maxPrice, int? discountPer) {
     try {
       filteredProducts.clear();
 
@@ -148,8 +144,10 @@ class HomeRepository extends ChangeNotifier {
 
           bool priceFilter = (minPrice == null || product.price >= minPrice) &&
               (maxPrice == null || product.price <= maxPrice);
+          bool discount =
+              discountPer == null || product.discount >= discountPer;
 
-          return categoryFilter && priceFilter;
+          return categoryFilter && discount && priceFilter;
           //  && ratingFilter
         }));
       }

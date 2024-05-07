@@ -24,7 +24,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool _isSelected = false;
   TextEditingController searchController = TextEditingController();
 
   @override
