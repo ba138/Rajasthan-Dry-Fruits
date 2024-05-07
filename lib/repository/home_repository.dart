@@ -10,7 +10,6 @@ import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
 class HomeRepository extends ChangeNotifier {
-  List<Product> newProducts = [];
   List<Category> productCategories = [];
   List<Product> productsTopDiscount = [];
   List<Product> productsTopOrder = [];
@@ -74,11 +73,6 @@ class HomeRepository extends ChangeNotifier {
       }
     }
 
-    for (var product in newProducts) {
-      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
-        searchResults.add(product);
-      }
-    }
     for (var product in productsTopDiscount) {
       if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
         searchResults.add(product);
@@ -92,6 +86,37 @@ class HomeRepository extends ChangeNotifier {
     }
 
     if (searchResults.isNotEmpty) {
+      notifyListeners();
+    }
+  }
+
+  void categoryFilter(String category) {
+    categriousProduct.clear();
+
+    for (var product in productsTopDiscount) {
+      if (product.category.name.toLowerCase().contains(
+            category.toLowerCase(),
+          )) {
+        categriousProduct.add(product);
+      }
+    }
+
+    for (var product in productsTopRated) {
+      if (product.category.name.toLowerCase().contains(
+            category.toLowerCase(),
+          )) {
+        categriousProduct.add(product);
+      }
+    }
+    for (var product in productsTopOrder) {
+      if (product.category.name.toLowerCase().contains(
+            category.toLowerCase(),
+          )) {
+        categriousProduct.add(product);
+      }
+    }
+
+    if (categriousProduct.isNotEmpty) {
       notifyListeners();
     }
   }

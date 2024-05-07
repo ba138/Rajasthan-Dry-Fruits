@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/res/components/cart_button.dart';
 import 'package:rjfruits/res/components/colors.dart';
+import 'package:rjfruits/res/components/enums.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:shimmer/shimmer.dart';
@@ -37,9 +38,12 @@ class _CategoriesSectionState extends State<CategoriesSection> {
               ),
               CartButton(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutesName.popularItems);
+                    Provider.of<HomeUiSwithchRepository>(context, listen: false)
+                        .switchToType(
+                      UIType.DefaultSection,
+                    );
                   },
-                  text: 'View All'),
+                  text: 'Clear'),
             ],
           ),
         ),
@@ -48,7 +52,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: Consumer<HomeRepositoryProvider>(
                 builder: (context, homeRepo, child) {
-              if (homeRepo.homeRepository.productsTopOrder.isEmpty) {
+              if (homeRepo.homeRepository.categriousProduct.isEmpty) {
                 return GridView.count(
                   padding: const EdgeInsets.all(5.0),
                   shrinkWrap: true,
@@ -76,23 +80,20 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(
-                    // Limit to only two items
-                    homeRepo.homeRepository.productsTopOrder.length > 2
-                        ? 2
-                        : homeRepo.homeRepository.productsTopOrder.length,
+                    homeRepo.homeRepository.categriousProduct.length,
                     (index) => HomeCard(
                       isdiscount: false,
-                      image: homeRepo.homeRepository.productsTopOrder[index]
+                      image: homeRepo.homeRepository.categriousProduct[index]
                           .thumbnailImage,
                       discount: homeRepo
-                          .homeRepository.productsTopOrder[index].discount
+                          .homeRepository.categriousProduct[index].discount
                           .toString(),
-                      title:
-                          homeRepo.homeRepository.productsTopOrder[index].title,
+                      title: homeRepo
+                          .homeRepository.categriousProduct[index].title,
                       price: homeRepo
-                          .homeRepository.productsTopOrder[index].price
+                          .homeRepository.categriousProduct[index].price
                           .toString(),
-                      proId: homeRepo.homeRepository.productsTopOrder[index].id
+                      proId: homeRepo.homeRepository.categriousProduct[index].id
                           .toString(),
                     ),
                   ),
