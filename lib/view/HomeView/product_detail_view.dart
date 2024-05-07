@@ -69,7 +69,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ],
                 ),
-                const ImageSlider(),
+                ImageSlider(
+                  image: widget.detail.thumbnailImage,
+                  listImage: widget.detail.images,
+                ),
                 const VerticalSpeacing(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -251,7 +254,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 const VerticalSpeacing(8),
                 Text(
-                  "Duis aute veniam veniam qui aliquip irure duis sint magna occaecat dolore nisi culpa do. Est nisi incididunt aliquip  commodo aliqua tempor.",
+                  widget.detail.description,
                   style: GoogleFonts.getFont(
                     "Poppins",
                     textStyle: const TextStyle(

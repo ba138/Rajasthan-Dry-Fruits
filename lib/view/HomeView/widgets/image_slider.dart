@@ -1,27 +1,33 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ImageSlider extends StatefulWidget {
-  const ImageSlider({super.key});
-
+  ImageSlider({super.key, required this.image, required this.listImage});
+  final String image;
+  final List<String> listImage;
   @override
   State<ImageSlider> createState() => _ImageSliderState();
 }
 
 class _ImageSliderState extends State<ImageSlider> {
   List<String> imgList = [
-    "images/cartImg.png",
-    "images/cartImg.png",
-    "images/cartImg.png",
+    // "images/cartImg.png",
+    // "images/cartImg.png",
+    // "images/cartImg.png",
   ];
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    imgList = widget.listImage;
+
     return Container(
       height: 270,
-      width: MediaQuery.of(context).size.width*9,
+      width: MediaQuery.of(context).size.width * 9,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: AppColor.primaryColor, width: 2),
@@ -61,32 +67,42 @@ class _ImageSliderState extends State<ImageSlider> {
               ],
             ),
           ),
-          CarouselSlider(
-            items: imgList
-                .map(
-                  (item) => Container(
-                    height: 150,
-                    width: 250,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("images/cartImg.png"),
-                      ),
+          widget.listImage.isEmpty
+              ? Container(
+                  height: 150,
+                  width: 250,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(widget.image),
                     ),
                   ),
                 )
-                .toList(),
-            options: CarouselOptions(
-                autoPlay: false,
-                enlargeCenterPage: true,
-                viewportFraction: 10,
-                onPageChanged: ((index, reason) {
-                  setState(() {
-                    currentIndex = index;
-                  });
-                })
-                // viewportFraction = 0.8,
+              : CarouselSlider(
+                  items: imgList
+                      .map(
+                        (item) => Container(
+                          height: 150,
+                          width: 250,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(widget.image),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  options: CarouselOptions(
+                      autoPlay: false,
+                      enlargeCenterPage: true,
+                      viewportFraction: 10,
+                      onPageChanged: ((index, reason) {
+                        setState(() {
+                          currentIndex = index;
+                        });
+                      })
+                      // viewportFraction = 0.8,
+                      ),
                 ),
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(imgList.length, (index) {
