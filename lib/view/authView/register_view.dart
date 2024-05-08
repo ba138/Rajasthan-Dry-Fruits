@@ -171,14 +171,14 @@ class _RegisterViewState extends State<RegisterView> {
                                           'plase enter more than four digits',
                                           context);
                                     } else {
-                                      Map data = ({
+                                      Map data = {
                                         "email":
                                             emailController.text.toString(),
                                         "password1":
                                             passwordController.text.toString(),
                                         "password2":
                                             passwordController2.text.toString(),
-                                      });
+                                      };
                                       if (data.isNotEmpty) {
                                         authViewModel.signUpApi(data, context);
                                       }

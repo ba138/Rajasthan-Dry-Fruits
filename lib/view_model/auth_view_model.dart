@@ -62,7 +62,6 @@ class AuthViewModel with ChangeNotifier {
       }
     }).onError((error, stackTrace) {
       Utils.flushBarErrorMessage(error.toString(), context);
-      Navigator.pushNamed(context, RoutesName.dashboard);
       setSignUpLaoding(false);
       if (kDebugMode) {
         print(error.toString());
