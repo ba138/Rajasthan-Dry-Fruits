@@ -139,7 +139,7 @@ class _CartViewState extends State<CartView> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          const VerticalSpeacing(10.0),
+                          const VerticalSpeacing(30.0),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -163,35 +163,6 @@ class _CartViewState extends State<CartView> {
                                 children: [
                                   const Text(
                                     "Total Price",
-                                    style: TextStyle(
-                                      fontFamily: 'CenturyGothic',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColor.blackColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontFamily: 'CenturyGothic',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColor.blackColor,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                          const VerticalSpeacing(16.0),
-                          Consumer<CartRepositoryProvider>(
-                            builder: (context, cartProvider, _) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Discount",
                                     style: TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -294,7 +265,7 @@ class _CartViewState extends State<CartView> {
                                         ]),
                                     child: Center(
                                       child: Text(
-                                        "Proceed to CheckOut\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}",
+                                        "Proceed to CheckOut : \$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(
