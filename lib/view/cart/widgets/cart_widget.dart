@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/view_model/cart_view_model.dart';
 import '../../../res/components/colors.dart';
 
 class CartWidget extends StatefulWidget {
@@ -11,6 +13,7 @@ class CartWidget extends StatefulWidget {
     required this.guantity,
     required this.img,
     required this.onpress,
+    this.individualPrice,
   });
   final String name;
   final String price;
@@ -18,6 +21,7 @@ class CartWidget extends StatefulWidget {
   final int guantity;
   final String img;
   final VoidCallback onpress;
+  final String? individualPrice;
 
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -92,7 +96,11 @@ class _CartWidgetState extends State<CartWidget> {
                     Row(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Provider.of<CartRepositoryProvider>(context,
+                                    listen: false)
+                                .removeQuantity(widget.id);
+                          },
                           child: Container(
                             height: 25,
                             width: 25,
@@ -122,7 +130,11 @@ class _CartWidgetState extends State<CartWidget> {
                           width: 10,
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Provider.of<CartRepositoryProvider>(context,
+                                    listen: false)
+                                .addQuantity(widget.id);
+                          },
                           child: Container(
                             height: 25,
                             width: 25,
@@ -155,7 +167,10 @@ class _CartWidgetState extends State<CartWidget> {
                   ),
                 ),
                 Text(
-                  '\$${widget.price}',
+                  widget.individualPrice == null
+                      ? '\$${widget.price}'
+                      : double.parse(widget.individualPrice!)
+                          .toStringAsFixed(2),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
