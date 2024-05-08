@@ -21,6 +21,7 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordController2 = TextEditingController();
@@ -30,6 +31,7 @@ class _RegisterViewState extends State<RegisterView> {
     super.dispose();
     passwordController.dispose();
     emailController.dispose();
+    nameController.dispose();
     passwordController2.dispose();
   }
 
@@ -98,6 +100,23 @@ class _RegisterViewState extends State<RegisterView> {
                       child: Column(
                         children: [
                           TextFieldCustom(
+                            controller: nameController,
+                            preIcon: Icons.person,
+                            maxLines: 2,
+                            text: "sfsdadf",
+                            hintText: "userName.com",
+                            preColor: AppColor.primaryColor,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Please enter userName";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const VerticalSpeacing(30),
+                          TextFieldCustom(
                             controller: emailController,
                             preIcon: Icons.email,
                             maxLines: 2,
@@ -151,9 +170,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           const VerticalSpeacing(30),
                           _isLoading
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
+                              ? Center(child: CircularProgressIndicator())
                               : RoundedButton(
                                   title: "Register",
                                   onpress: () {
@@ -168,10 +185,13 @@ class _RegisterViewState extends State<RegisterView> {
                                     } else if (passwordController2.text.length <
                                         4) {
                                       Utils.flushBarErrorMessage(
-                                          'plase enter more than four digits',
+                                          'please enter more than four digits',
                                           context);
                                     } else {
-                                      Map data = {
+                                      Map<String, String> data = {
+                                        // Ensure type safety
+                                        "username":
+                                            emailController.text.toString(),
                                         "email":
                                             emailController.text.toString(),
                                         "password1":
@@ -179,11 +199,14 @@ class _RegisterViewState extends State<RegisterView> {
                                         "password2":
                                             passwordController2.text.toString(),
                                       };
-                                      if (data.isNotEmpty) {
-                                        authViewModel.signUpApi(data, context);
-                                      }
+
+                                      // Consider validation before creating data to avoid unnecessary API calls
+                                      // if (data.isNotEmpty) { // If empty data is an issue
+                                      authViewModel.signUpApi(data, context);
+                                      // }
                                     }
-                                  }),
+                                  },
+                                ),
                         ],
                       ),
                     ),
