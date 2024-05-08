@@ -38,6 +38,9 @@ class MyApp extends StatelessWidget {
               create: (_) => UserViewModel(),
             ),
             ChangeNotifierProvider(
+              create: (_) => AuthViewModel(),
+            ),
+            ChangeNotifierProvider(
               create: (_) => HomeRepositoryProvider(),
             ),
             ChangeNotifierProvider(
@@ -57,7 +60,7 @@ class MyApp extends StatelessWidget {
             elevation: 0, // Remove app bar elevation
           ),
         ),
-        initialRoute: RoutesName.dashboard,
+        initialRoute: RoutesName.splash,
         onGenerateRoute: Routes.generateRoute,
       ),
     );
