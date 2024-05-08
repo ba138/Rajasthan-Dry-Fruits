@@ -9,17 +9,18 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
-  String token;
+
+  String key;
 
   UserModel({
-    required this.token,
+    required this.key,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        token: json["token"],
+        key: json["key"],
       );
 
   Map<String, dynamic> toJson() => {
-        "token": token,
+        "key": key,
       };
 }
