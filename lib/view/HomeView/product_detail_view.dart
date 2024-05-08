@@ -7,8 +7,10 @@ import 'package:rjfruits/model/product_detail_model.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
+import 'package:rjfruits/view_model/product_detail_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.detail});
@@ -40,6 +42,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
+    ProductRepositoryProvider proRepoProvider =
+        Provider.of<ProductRepositoryProvider>(context, listen: false);
     double originalPrice = double.parse(widget.detail.price);
     String per = widget.detail.discount.toString();
     double originalDiscount = double.parse(per);
@@ -403,11 +407,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.cartView,
-                        );
+                      onTap: () async {
+                        Future<bool> isInCart =
+                            proRepoProvider.isProductInCart(widget.detail.id);
+                        if (await isInCart) {
+                          Utils.toastMessage("Product is already in the cart");
+                        } else {
+                          proRepoProvider.saveCartProducts(
+                              widget.detail.id,
+                              widget.detail.title,
+                              widget.detail.thumbnailImage,
+                              discountedPrice,
+                              1);
+                        }
                       },
                       child: Container(
                         height: 60,

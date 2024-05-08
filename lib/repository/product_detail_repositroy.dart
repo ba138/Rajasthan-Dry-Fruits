@@ -7,7 +7,9 @@ import 'package:rjfruits/model/product_detail_model.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:rjfruits/res/const/response_handler.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/HomeView/product_detail_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailRepository extends ChangeNotifier {
   Future<void> fetchProductDetails(BuildContext context, String id) async {
@@ -35,5 +37,51 @@ class ProductDetailRepository extends ChangeNotifier {
     } catch (e) {
       handleApiError(e, context);
     }
+  }
+
+  Future<void> saveProductToCache({
+    required String productId,
+    required String name,
+    required String image,
+    required String price,
+    required int quantity,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      Map<String, dynamic> newProduct = {
+        'productId': productId,
+        'name': name,
+        'image': image,
+        'price': price,
+        'quantity': quantity,
+      };
+
+      String newProductJson = json.encode(newProduct);
+
+      List<String> cachedProducts = prefs.getStringList('products') ?? [];
+
+      cachedProducts.add(newProductJson);
+
+      prefs.setStringList('products', cachedProducts);
+      Utils.toastMessage("Product has been added to cart");
+      notifyListeners();
+    } catch (e) {
+      debugPrint("Error saving product to cache: $e");
+    }
+  }
+
+  Future<bool> isProductInCart(String productId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> cachedProducts = prefs.getStringList('products') ?? [];
+
+    for (String productJson in cachedProducts) {
+      Map<String, dynamic> productMap = json.decode(productJson);
+      if (productMap['productId'] == productId) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
