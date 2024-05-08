@@ -9,6 +9,7 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 
+import '../../res/components/loading_manager.dart';
 import '../../view_model/auth_view_model.dart';
 
 class RegisterView extends StatefulWidget {
@@ -32,7 +33,7 @@ class _RegisterViewState extends State<RegisterView> {
     passwordController2.dispose();
   }
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,208 +48,215 @@ class _RegisterViewState extends State<RegisterView> {
             image: DecorationImage(
                 image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const VerticalSpeacing(20),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "images/logo.png",
-                        height: 38,
-                        width: 107,
-                      ),
-                    ],
-                  ),
-                  const VerticalSpeacing(30),
-                  Text(
-                    "Register",
-                    style: GoogleFonts.getFont(
-                      "Poppins",
-                      textStyle: const TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.primaryColor,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    "Register to countinue",
-                    style: GoogleFonts.getFont(
-                      "Poppins",
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.textColor1,
-                      ),
-                    ),
-                  ),
-                  const VerticalSpeacing(36),
-                  Form(
-                    key: _formKey,
-                    child: Column(
+          child: LoadingManager(
+            isLoading: _isLoading,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const VerticalSpeacing(20),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextFieldCustom(
-                          controller: emailController,
-                          preIcon: Icons.email,
-                          maxLines: 2,
-                          text: "sfsdadf",
-                          hintText: "1234@gmail.com",
-                          preColor: AppColor.primaryColor,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value!.isEmpty || !value.contains("@")) {
-                              return "Please enter a valid Email adress";
-                            } else {
-                              return null;
-                            }
-                          },
+                        Image.asset(
+                          "images/logo.png",
+                          height: 38,
+                          width: 107,
                         ),
-                        const VerticalSpeacing(30),
-                        TextFieldCustom(
-                          controller: passwordController,
-                          preIcon: Icons.lock_outline_rounded,
-                          maxLines: 2,
-                          text: "sfsdadf",
-                          hintText: "*******",
-                          preColor: AppColor.textColor1,
-                          obscureText: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value!.isEmpty || value.length < 4) {
-                              return "Please enter a valid password";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        const VerticalSpeacing(30),
-                        TextFieldCustom(
-                          controller: passwordController2,
-                          preIcon: Icons.lock_outline_rounded,
-                          maxLines: 2,
-                          text: "sfsdadf",
-                          hintText: "Re-enter Your Password",
-                          preColor: Color(0xff8894A7),
-                          obscureText: false,
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: (value) {
-                            if (value!.isEmpty || value.length < 4) {
-                              return "Please enter a valid password";
-                            } else {
-                              return null;
-                            }
-                          },
-                        ),
-                        const VerticalSpeacing(30),
-                        _isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : RoundedButton(
-                                title: "Register",
-                                onpress: () {
-                                  if (emailController.text.isEmpty) {
-                                    Utils.flushBarErrorMessage(
-                                        'please enter your email', context);
-                                  } else if (passwordController.text.isEmpty) {
-                                    Utils.flushBarErrorMessage(
-                                        'please enter your password', context);
-                                  } else if (passwordController2.text.length <
-                                      4) {
-                                    Utils.flushBarErrorMessage(
-                                        'plase enter more than four digits',
-                                        context);
-                                  } else {
-                                    Map data = {
-                                      "email": emailController.text.toString(),
-                                      "password1":
-                                          passwordController.text.toString(),
-                                      "password2":
-                                          passwordController2.text.toString(),
-                                    };
-                                    authViewModel.signUpApi(data, context);
-                                    print('SuccessFully Register');
-                                  }
-                                }),
                       ],
                     ),
-                  ),
-                  const VerticalSpeacing(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Or, login with...",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.textColor1,
-                          ),
+                    const VerticalSpeacing(30),
+                    Text(
+                      "Register",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.primaryColor,
                         ),
                       ),
-                    ],
-                  ),
-                  const VerticalSpeacing(20),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LoginContainer(
-                        img: "images/google.png",
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      LoginContainer(
-                        img: "images/fb.png",
-                      ),
-                    ],
-                  ),
-                  const VerticalSpeacing(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account?",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.textColor1,
-                          ),
+                    ),
+                    Text(
+                      "Register to countinue",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.textColor1,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            RoutesName.login,
-                          );
-                        },
-                        child: Text(
-                          "Login",
+                    ),
+                    const VerticalSpeacing(36),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFieldCustom(
+                            controller: emailController,
+                            preIcon: Icons.email,
+                            maxLines: 2,
+                            text: "sfsdadf",
+                            hintText: "1234@gmail.com",
+                            preColor: AppColor.primaryColor,
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (value!.isEmpty || !value.contains("@")) {
+                                return "Please enter a valid Email adress";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const VerticalSpeacing(30),
+                          TextFieldCustom(
+                            controller: passwordController,
+                            preIcon: Icons.lock_outline_rounded,
+                            maxLines: 2,
+                            text: "sfsdadf",
+                            hintText: "*******",
+                            preColor: AppColor.textColor1,
+                            obscureText: true,
+                            keyboardType: TextInputType.visiblePassword,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 4) {
+                                return "Please enter a valid password";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const VerticalSpeacing(30),
+                          TextFieldCustom(
+                            controller: passwordController2,
+                            preIcon: Icons.lock_outline_rounded,
+                            maxLines: 2,
+                            text: "sfsdadf",
+                            hintText: "Re-enter Your Password",
+                            preColor: const Color(0xff8894A7),
+                            obscureText: false,
+                            keyboardType: TextInputType.visiblePassword,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 4) {
+                                return "Please enter a valid password";
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          const VerticalSpeacing(30),
+                          _isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : RoundedButton(
+                                  title: "Register",
+                                  onpress: () {
+                                    if (emailController.text.isEmpty) {
+                                      Utils.flushBarErrorMessage(
+                                          'please enter your email', context);
+                                    } else if (passwordController
+                                        .text.isEmpty) {
+                                      Utils.flushBarErrorMessage(
+                                          'please enter your password',
+                                          context);
+                                    } else if (passwordController2.text.length <
+                                        4) {
+                                      Utils.flushBarErrorMessage(
+                                          'plase enter more than four digits',
+                                          context);
+                                    } else {
+                                      Map data = ({
+                                        "email":
+                                            emailController.text.toString(),
+                                        "password1":
+                                            passwordController.text.toString(),
+                                        "password2":
+                                            passwordController2.text.toString(),
+                                      });
+                                      if (data.isNotEmpty) {
+                                        authViewModel.signUpApi(data, context);
+                                      }
+                                    }
+                                  }),
+                        ],
+                      ),
+                    ),
+                    const VerticalSpeacing(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Or, login with...",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.primaryColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.textColor1,
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    const VerticalSpeacing(20),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoginContainer(
+                          img: "images/google.png",
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        LoginContainer(
+                          img: "images/fb.png",
+                        ),
+                      ],
+                    ),
+                    const VerticalSpeacing(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account?",
+                          style: GoogleFonts.getFont(
+                            "Poppins",
+                            textStyle: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.textColor1,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              RoutesName.login,
+                            );
+                          },
+                          child: Text(
+                            "Login",
+                            style: GoogleFonts.getFont(
+                              "Poppins",
+                              textStyle: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.primaryColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
