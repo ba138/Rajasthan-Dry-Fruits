@@ -99,9 +99,9 @@ class _CartViewState extends State<CartView> {
                                   img: cartItems[index]['image'],
                                   price: cartItems[index]['price'],
                                   guantity: cartItems[index]['quantity'],
-                                  // individualPrice: cartItems[index]
-                                  //         ['individualTotal'] ??
-                                  //     cartItems[index]['price'],
+                                  individualPrice: cartItems[index]
+                                          ['individualTotal'] ??
+                                      cartItems[index]['price'],
                                 ),
                               );
                             } else {
@@ -139,7 +139,7 @@ class _CartViewState extends State<CartView> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          VerticalSpeacing(10.0),
+                          const VerticalSpeacing(10.0),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -155,50 +155,62 @@ class _CartViewState extends State<CartView> {
                             ],
                           ),
                           const VerticalSpeacing(16.0),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "SuB ToTAL",
-                                style: TextStyle(
-                                  fontFamily: 'CenturyGothic',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                              Text(
-                                '\$1250',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                            ],
+                          Consumer<CartRepositoryProvider>(
+                            builder: (context, cartProvider, _) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Total Price",
+                                    style: TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           const VerticalSpeacing(16.0),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "DISCOUNT",
-                                style: TextStyle(
-                                  fontFamily: 'CenturyGothic',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                              Text(
-                                '\$250',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                            ],
+                          Consumer<CartRepositoryProvider>(
+                            builder: (context, cartProvider, _) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "Discount",
+                                    style: TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           const VerticalSpeacing(16.0),
                           const Row(
@@ -225,40 +237,78 @@ class _CartViewState extends State<CartView> {
                           ),
                           const Divider(),
                           const VerticalSpeacing(16.0),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "TOTAL",
-                                style: TextStyle(
-                                  fontFamily: 'CenturyGothic',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                              Text(
-                                '\$1200',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                            ],
+                          Consumer<CartRepositoryProvider>(
+                            builder: (context, cartProvider, _) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "TOTAL",
+                                    style: TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           const VerticalSpeacing(30.0),
-                          SizedBox(
-                            height: 55.0,
-                            width: double.infinity,
-                            child: RoundedButton(
-                                title: 'continue to checkout-323\$',
-                                onpress: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    RoutesName.checkOut,
-                                  );
-                                }),
+                          Consumer<CartRepositoryProvider>(
+                            builder: (context, cartProvider, _) {
+                              return SizedBox(
+                                height: 55.0,
+                                width: double.infinity,
+                                child: InkWell(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 56,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        color: AppColor.primaryColor,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: const Color.fromARGB(
+                                                    255, 0, 0, 0)
+                                                .withOpacity(
+                                                    0.25), // Shadow color
+                                            blurRadius: 8.1, // Blur radius
+                                            spreadRadius: 0, // Spread radius
+                                            offset:
+                                                const Offset(0, 4), // Offset
+                                          ),
+                                        ]),
+                                    child: Center(
+                                      child: Text(
+                                        "Proceed to CheckOut\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}",
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColor.whiteColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
