@@ -10,13 +10,15 @@ class CartWidget extends StatefulWidget {
     required this.id,
     required this.guantity,
     required this.img,
-    required Null Function() onpress,
+    required this.onpress,
   });
   final String name;
   final String price;
   final String id;
   final int guantity;
   final String img;
+  final VoidCallback onpress;
+
   @override
   State<CartWidget> createState() => _CartWidgetState();
 }
@@ -145,7 +147,7 @@ class _CartWidgetState extends State<CartWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: widget.onpress,
                   child: const Icon(
                     Icons.delete_outline,
                     color: AppColor.appBarTxColor,
