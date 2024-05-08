@@ -6,6 +6,7 @@ import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/utils/routes/routes.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view_model/auth_view_model.dart';
+import 'package:rjfruits/view_model/cart_view_model.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
@@ -42,9 +43,10 @@ class MyApp extends StatelessWidget {
           create: (_) => HomeUiSwithchRepository(),
         ),
         ChangeNotifierProvider(
-          create: (_) => ProductRepositoryProvider(),),
-          ],
-          child: const MyApp(),
+          create: (_) => ProductRepositoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartRepositoryProvider(),
         ),
       ],
       child: MaterialApp(

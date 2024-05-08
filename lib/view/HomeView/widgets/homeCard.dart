@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 
@@ -52,6 +53,8 @@ class _HomeCardState extends State<HomeCard> {
   Widget build(BuildContext context) {
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
+    ProductRepositoryProvider proRepoProvider =
+        Provider.of<ProductRepositoryProvider>(context, listen: false);
     double originalPrice = double.parse(widget.price ?? "50");
     double originalDiscount = double.parse(widget.discount ?? "20");
     String discountedPrice = homeRepoProvider.homeRepository
@@ -281,25 +284,37 @@ class _HomeCardState extends State<HomeCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 37,
-                  width: 37,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(19),
-                      color: AppColor.primaryColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                              .withOpacity(0.25), // Shadow color
-                          blurRadius: 8.1, // Blur radius
-                          spreadRadius: 0, // Spread radius
-                          offset: const Offset(0, 4), // Offset
-                        ),
-                      ]),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('images/cart.png'),
+                InkWell(
+                  onTap: () async {
+                    Future<bool> isInCart =
+                        proRepoProvider.isProductInCart(widget.proId!);
+                    if (await isInCart) {
+                      Utils.toastMessage("Product is already in the cart");
+                    } else {
+                      proRepoProvider.saveCartProducts(widget.proId!,
+                          widget.title!, widget.image!, discountedPrice, 1);
+                    }
+                  },
+                  child: Container(
+                    height: 37,
+                    width: 37,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(19),
+                        color: AppColor.primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromARGB(255, 0, 0, 0)
+                                .withOpacity(0.25), // Shadow color
+                            blurRadius: 8.1, // Blur radius
+                            spreadRadius: 0, // Spread radius
+                            offset: const Offset(0, 4), // Offset
+                          ),
+                        ]),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('images/cart.png'),
+                      ),
                     ),
                   ),
                 ),

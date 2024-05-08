@@ -5,7 +5,18 @@ import '../../../res/components/colors.dart';
 class CartWidget extends StatefulWidget {
   const CartWidget({
     super.key,
+    required this.name,
+    required this.price,
+    required this.id,
+    required this.guantity,
+    required this.img,
+    required Null Function() onpress,
   });
+  final String name;
+  final String price;
+  final String id;
+  final int guantity;
+  final String img;
   @override
   State<CartWidget> createState() => _CartWidgetState();
 }
@@ -39,8 +50,10 @@ class _CartWidgetState extends State<CartWidget> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(width: 1, color: AppColor.primaryColor),
-                image: const DecorationImage(
-                    image: AssetImage('images/cartImg.png'),
+                image: DecorationImage(
+                    image: NetworkImage(
+                      widget.img,
+                    ),
                     fit: BoxFit.contain),
               ),
               // child: Image.asset('images/cartImg.png'),
@@ -52,17 +65,17 @@ class _CartWidgetState extends State<CartWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text.rich(
+                    Text.rich(
                       textAlign: TextAlign.start,
                       TextSpan(
-                        text: '\nDried figs\n',
-                        style: TextStyle(
+                        text: '\n${widget.name}\n',
+                        style: const TextStyle(
                           fontFamily: 'CenturyGothic',
                           fontSize: 14,
                           fontWeight: FontWeight.w800,
                           color: AppColor.cardTxColor,
                         ),
-                        children: <TextSpan>[
+                        children: const <TextSpan>[
                           TextSpan(
                             text: '⭐ 4.5',
                             style: TextStyle(
@@ -95,9 +108,9 @@ class _CartWidgetState extends State<CartWidget> {
                         const SizedBox(
                           width: 10,
                         ),
-                        const Text(
-                          '2KG',
-                          style: TextStyle(
+                        Text(
+                          '${widget.guantity.toString()}KG',
+                          style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: AppColor.textColor1,
@@ -139,9 +152,9 @@ class _CartWidgetState extends State<CartWidget> {
                     size: 24,
                   ),
                 ),
-                const Text(
-                  '\$20',
-                  style: TextStyle(
+                Text(
+                  '\$${widget.price}',
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: AppColor.textColor1,

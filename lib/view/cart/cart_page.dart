@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
+import 'package:rjfruits/view_model/cart_view_model.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/rounded_button.dart';
 import '../../res/components/vertical_spacing.dart';
 
-class CartView extends StatelessWidget {
+class CartView extends StatefulWidget {
   const CartView({super.key});
+
+  @override
+  State<CartView> createState() => _CartViewState();
+}
+
+class _CartViewState extends State<CartView> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<CartRepositoryProvider>(context, listen: false)
+        .getCachedProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,28 +69,52 @@ class CartView extends StatelessWidget {
                     ],
                   ),
                   // CartWidget(),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height *
-                        0.5, // Half the screen height
-                    width: double.infinity,
-                    child: SingleChildScrollView(
-                      // Make the entire area scrollable
-                      child: GridView.count(
-                        padding: const EdgeInsets.all(5.0),
-                        shrinkWrap: true, // Adjust based on content size
-                        physics:
-                            const ClampingScrollPhysics(), // Enable scrolling with clamping behavior
-                        crossAxisCount: 1, // One card per row
-                        childAspectRatio: (MediaQuery.of(context).size.width /
-                            140), // Adjust width based on screen size
-                        mainAxisSpacing: 16.0, // Spacing between rows
-                        crossAxisSpacing: 0.0, // Spacing between columns
-                        children: List.generate(
-                            10,
-                            (index) => Container(
-                                height: 120.0, child: const CartWidget())),
-                      ),
-                    ),
+                  Consumer<CartRepositoryProvider>(
+                    builder: (context, cartRepoProvider, child) {
+                      List<Map<String, dynamic>> cartItems =
+                          cartRepoProvider.cartRepositoryProvider.cartList;
+
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: cartItems.length,
+                          itemBuilder: (context, index) {
+                            if (index < cartItems.length) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12.0),
+                                child: CartWidget(
+                                  onpress: () {
+                                    Provider.of<CartRepositoryProvider>(context,
+                                            listen: false)
+                                        .deleteProduct(
+                                            cartItems[index]['productId']);
+                                    Provider.of<CartRepositoryProvider>(context,
+                                            listen: false)
+                                        .getCachedProducts();
+                                  },
+                                  id: cartItems[index]['productId'],
+                                  name: cartItems[index]['name'],
+                                  img: cartItems[index]['image'],
+                                  price: cartItems[index]['price'],
+                                  guantity: cartItems[index]['quantity'],
+                                  // individualPrice: cartItems[index]
+                                  //         ['individualTotal'] ??
+                                  //     cartItems[index]['price'],
+                                ),
+                              );
+                            } else {
+                              return const SizedBox.shrink(
+                                child: Center(
+                                  child: Text("No Products to Show"),
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const VerticalSpeacing(10.0),
                   Container(
