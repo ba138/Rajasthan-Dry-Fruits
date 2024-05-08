@@ -23,12 +23,14 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+    nameController.dispose();
   }
 
   final bool _isLoading = false;
@@ -96,6 +98,16 @@ class _LoginViewState extends State<LoginView> {
                       child: Column(
                         children: [
                           TextFieldCustom(
+                            controller: nameController,
+                            preIcon: Icons.email,
+                            maxLines: 2,
+                            text: "sfsdadf",
+                            hintText: "name",
+                            preColor: AppColor.primaryColor,
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const VerticalSpeacing(30),
+                          TextFieldCustom(
                             controller: emailController,
                             preIcon: Icons.email,
                             maxLines: 2,
@@ -148,35 +160,30 @@ class _LoginViewState extends State<LoginView> {
                               : RoundedButton(
                                   title: "Login",
                                   onpress: () {
-                                    // if (emailController.text.isEmpty) {
-                                    //   Utils.flushBarErrorMessage(
-                                    //       'please enter your email', context);
-                                    // } else if (passwordController
-                                    //     .text.isEmpty) {
-                                    //   Utils.flushBarErrorMessage(
-                                    //       'please enter your password',
-                                    //       context);
-                                    // } else if (passwordController.text.length <
-                                    //     4) {
-                                    //   Utils.flushBarErrorMessage(
-                                    //       'plase enter more than four digits',
-                                    //       context);
-                                    // } else {
-                                    //   Map data = ({
-                                    //     'email':
-                                    //         emailController.text.toString(),
-                                    //     'password':
-                                    //         passwordController.text.toString(),
-                                    //   });
-                                    //   if (data.isNotEmpty) {
-                                    //     authViewModel.loginApi(data, context);
-                                    //     print('Successfully Login');
-                                    //   }
-                                    // }
-                                    Navigator.pushNamed(
-                                      context,
-                                      RoutesName.dashboard,
-                                    );
+                                    if (emailController.text.isEmpty) {
+                                      Utils.flushBarErrorMessage(
+                                          'please enter your email', context);
+                                    } else if (passwordController
+                                        .text.isEmpty) {
+                                      Utils.flushBarErrorMessage(
+                                          'please enter your password',
+                                          context);
+                                    } else if (passwordController.text.length <
+                                        4) {
+                                      Utils.flushBarErrorMessage(
+                                          'plase enter more than four digits',
+                                          context);
+                                    } else {
+                                      Map<String, String> data = ({
+                                        'username':
+                                            nameController.text.toString(),
+                                        'email':
+                                            emailController.text.toString(),
+                                        'password':
+                                            passwordController.text.toString(),
+                                      });
+                                      authViewModel.loginApi(data, context);
+                                    }
                                   }),
                         ],
                       ),
