@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/view/notifications/Widgets/notification_widget.dart';
-import 'package:rjfruits/view/saveView/widgets/save_list_cart.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 

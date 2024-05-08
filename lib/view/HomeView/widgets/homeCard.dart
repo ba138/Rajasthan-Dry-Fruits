@@ -4,13 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
+import 'package:rjfruits/view_model/product_detail_view_model.dart';
 
 import '../../../res/components/cart_button.dart';
 import '../../../res/components/colors.dart';
 
-class HomeCard extends StatelessWidget {
+class HomeCard extends StatefulWidget {
   const HomeCard({
     super.key,
     required this.isdiscount,
@@ -26,12 +27,36 @@ class HomeCard extends StatelessWidget {
   final String? discount;
   final String? title;
   final String? proId;
+
+  @override
+  State<HomeCard> createState() => _HomeCardState();
+}
+
+class _HomeCardState extends State<HomeCard> {
+  int amount = 1;
+  void increament() {
+    setState(() {
+      amount++;
+    });
+  }
+
+  void decrement() {
+    if (amount == 0) {
+    } else {
+      setState(() {
+        amount--;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
-    double originalPrice = double.parse(price ?? "50");
-    double originalDiscount = double.parse(discount ?? "20");
+    ProductRepositoryProvider proRepoProvider =
+        Provider.of<ProductRepositoryProvider>(context, listen: false);
+    double originalPrice = double.parse(widget.price ?? "50");
+    double originalDiscount = double.parse(widget.discount ?? "20");
     String discountedPrice = homeRepoProvider.homeRepository
         .calculateDiscountedPrice(originalPrice, originalDiscount);
     String formattedPrice = '\$$discountedPrice';
@@ -46,7 +71,7 @@ class HomeCard extends StatelessWidget {
       // Decimal point found, remove it and everything after
       totalPrice = totalPrice.substring(0, dotIndex);
     }
-    String truncatedTitle = title == null ? 'Dried Figs' : title!;
+    String truncatedTitle = widget.title == null ? 'Dried Figs' : widget.title!;
     if (truncatedTitle.length > 8) {
       truncatedTitle = '${truncatedTitle.substring(0, 8)}...';
     }
@@ -74,7 +99,7 @@ class HomeCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                isdiscount
+                widget.isdiscount
                     ? Container(
                         height: 30,
                         width: 30,
@@ -85,7 +110,9 @@ class HomeCard extends StatelessWidget {
                         child: Center(
                           child: Text.rich(
                             TextSpan(
-                              text: discount == null ? '30%\n' : '$discount%\n',
+                              text: widget.discount == null
+                                  ? '30%\n'
+                                  : '${widget.discount}%\n',
                               style: const TextStyle(
                                   fontSize: 9.0,
                                   color: AppColor.whiteColor,
@@ -123,37 +150,47 @@ class HomeCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          height: 18,
-                          width: 18,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: AppColor.whiteColor,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.remove,
-                              size: 16,
-                              color: AppColor.iconColor,
+                        InkWell(
+                          onTap: () {
+                            decrement();
+                          },
+                          child: Container(
+                            height: 18,
+                            width: 18,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: AppColor.whiteColor,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.remove,
+                                size: 16,
+                                color: AppColor.iconColor,
+                              ),
                             ),
                           ),
                         ),
-                        const Text(
-                          '2KG',
-                          style: TextStyle(color: AppColor.whiteColor),
+                        Text(
+                          '${amount.toString()}KG',
+                          style: const TextStyle(color: AppColor.whiteColor),
                         ),
-                        Container(
-                          height: 18,
-                          width: 18,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            color: AppColor.whiteColor,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.add,
-                              size: 16,
-                              color: AppColor.iconColor,
+                        InkWell(
+                          onTap: () {
+                            increament();
+                          },
+                          child: Container(
+                            height: 18,
+                            width: 18,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: AppColor.whiteColor,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.add,
+                                size: 16,
+                                color: AppColor.iconColor,
+                              ),
                             ),
                           ),
                         ),
@@ -163,7 +200,7 @@ class HomeCard extends StatelessWidget {
                 ),
               ],
             ),
-            image == null
+            widget.image == null
                 ? Container(
                     height: 85,
                     width: 145,
@@ -177,7 +214,8 @@ class HomeCard extends StatelessWidget {
                     height: 85,
                     width: 145,
                     decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(image!)),
+                      image:
+                          DecorationImage(image: NetworkImage(widget.image!)),
                     ),
                   ),
             Row(
@@ -219,7 +257,7 @@ class HomeCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  price == null ? '\$50 ' : totalPrice,
+                  widget.price == null ? '\$50 ' : totalPrice,
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
@@ -246,31 +284,49 @@ class HomeCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 37,
-                  width: 37,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(19),
-                      color: AppColor.primaryColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                              .withOpacity(0.25), // Shadow color
-                          blurRadius: 8.1, // Blur radius
-                          spreadRadius: 0, // Spread radius
-                          offset: const Offset(0, 4), // Offset
-                        ),
-                      ]),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('images/cart.png'),
+                InkWell(
+                  onTap: () async {
+                    Future<bool> isInCart =
+                        proRepoProvider.isProductInCart(widget.proId!);
+                    if (await isInCart) {
+                      Utils.toastMessage("Product is already in the cart");
+                    } else {
+                      proRepoProvider.saveCartProducts(widget.proId!,
+                          widget.title!, widget.image!, discountedPrice, 1);
+                    }
+                  },
+                  child: Container(
+                    height: 37,
+                    width: 37,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(19),
+                        color: AppColor.primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromARGB(255, 0, 0, 0)
+                                .withOpacity(0.25), // Shadow color
+                            blurRadius: 8.1, // Blur radius
+                            spreadRadius: 0, // Spread radius
+                            offset: const Offset(0, 4), // Offset
+                          ),
+                        ]),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset('images/cart.png'),
+                      ),
                     ),
                   ),
                 ),
                 CartButton(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutesName.productDetail);
+                      final productDetailsProvider =
+                          Provider.of<ProductRepositoryProvider>(context,
+                              listen: false);
+                      productDetailsProvider.fetchProductDetails(
+                        context,
+                        widget.proId!,
+                      );
                     },
                     text: 'View'),
               ],

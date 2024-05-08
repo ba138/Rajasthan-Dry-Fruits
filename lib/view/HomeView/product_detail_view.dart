@@ -1,21 +1,54 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:rjfruits/model/product_detail_model.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
-import 'package:rjfruits/view/HomeView/widgets/weight_container.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
+import 'package:rjfruits/view_model/product_detail_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  const ProductDetailScreen({super.key});
-
+  const ProductDetailScreen({super.key, required this.detail});
+  final ProductDetail detail;
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  String? weight;
+  String? weightPrice;
+  int amount = 1;
+  void increament() {
+    setState(() {
+      amount++;
+    });
+  }
+
+  void decrement() {
+    if (amount == 0) {
+    } else {
+      setState(() {
+        amount--;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    HomeRepositoryProvider homeRepoProvider =
+        Provider.of<HomeRepositoryProvider>(context, listen: false);
+    ProductRepositoryProvider proRepoProvider =
+        Provider.of<ProductRepositoryProvider>(context, listen: false);
+    double originalPrice = double.parse(widget.detail.price);
+    String per = widget.detail.discount.toString();
+    double originalDiscount = double.parse(per);
+    String discountedPrice = homeRepoProvider.homeRepository
+        .calculateDiscountedPrice(originalPrice, originalDiscount);
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -59,13 +92,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ],
                 ),
-                const ImageSlider(),
+                ImageSlider(
+                  image: widget.detail.thumbnailImage,
+                  listImage: widget.detail.images,
+                ),
                 const VerticalSpeacing(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Dry figs",
+                      widget.detail.title,
                       style: GoogleFonts.getFont(
                         "Poppins",
                         textStyle: const TextStyle(
@@ -116,7 +152,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       children: [
                         Text(
-                          "\$30",
+                          "\$${widget.detail.price.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -130,7 +166,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 6,
                         ),
                         Text(
-                          "\$20",
+                          weightPrice ?? "\$${discountedPrice.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -148,45 +184,97 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        WeightContainer(
-                            conColor: AppColor.primaryColor,
-                            gmColor: AppColor.textColor1,
-                            numbColor: AppColor.whiteColor),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        WeightContainer(
-                            conColor: AppColor.whiteColor,
-                            gmColor: AppColor.textColor1,
-                            numbColor: AppColor.cardTxColor),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        WeightContainer(
-                          conColor: AppColor.whiteColor,
-                          gmColor: AppColor.textColor1,
-                          numbColor: AppColor.cardTxColor,
-                        ),
-                      ],
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.5,
+                      height: MediaQuery.of(context).size.height / 20,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.detail.productWeight.length,
+                        itemExtent: MediaQuery.of(context).size.width / 5,
+                        itemBuilder: (BuildContext context, int index) {
+                          final productWeight =
+                              widget.detail.productWeight[index];
+
+                          return Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      weight = productWeight ==
+                                              productWeight.weight.name
+                                          ? null
+                                          : productWeight.weight.name;
+                                      weightPrice = productWeight.price;
+                                    });
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: weight == productWeight.weight.name
+                                          ? AppColor
+                                              .primaryColor // Change the color for the selected category
+                                          : Colors.transparent,
+                                      border: Border.all(
+                                        color: AppColor.primaryColor,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          productWeight.weight.name,
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: const TextStyle(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppColor.textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          " ${productWeight.price}\$ ",
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: TextStyle(
+                                              fontSize: 8,
+                                              fontWeight: FontWeight.w400,
+                                              color: weight ==
+                                                      productWeight.weight.name
+                                                  ? AppColor.whiteColor
+                                                  : AppColor.textColor1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )));
+                        },
+                      ),
                     ),
                     Row(
                       children: [
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: AppColor.iconColor),
-                            color: AppColor.whiteColor,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.remove,
-                              size: 16,
-                              color: AppColor.primaryColor,
+                        InkWell(
+                          onTap: () {
+                            decrement();
+                          },
+                          child: Container(
+                            height: 23,
+                            width: 23,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: AppColor.iconColor),
+                              color: AppColor.whiteColor,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.remove,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              ),
                             ),
                           ),
                         ),
@@ -194,7 +282,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 10,
                         ),
                         Text(
-                          "2",
+                          amount.toString(),
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -207,19 +295,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Container(
-                          height: 23,
-                          width: 23,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: AppColor.iconColor),
-                            color: AppColor.whiteColor,
-                          ),
-                          child: const Center(
-                            child: Icon(
-                              Icons.add,
-                              size: 16,
-                              color: AppColor.primaryColor,
+                        InkWell(
+                          onTap: () {
+                            increament();
+                          },
+                          child: Container(
+                            height: 23,
+                            width: 23,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: AppColor.iconColor),
+                              color: AppColor.whiteColor,
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.add,
+                                size: 16,
+                                color: AppColor.primaryColor,
+                              ),
                             ),
                           ),
                         ),
@@ -241,7 +334,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 const VerticalSpeacing(8),
                 Text(
-                  "Duis aute veniam veniam qui aliquip irure duis sint magna occaecat dolore nisi culpa do. Est nisi incididunt aliquip  commodo aliqua tempor.",
+                  widget.detail.description,
                   style: GoogleFonts.getFont(
                     "Poppins",
                     textStyle: const TextStyle(
@@ -314,11 +407,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.cartView,
-                        );
+                      onTap: () async {
+                        Future<bool> isInCart =
+                            proRepoProvider.isProductInCart(widget.detail.id);
+                        if (await isInCart) {
+                          Utils.toastMessage("Product is already in the cart");
+                        } else {
+                          proRepoProvider.saveCartProducts(
+                              widget.detail.id,
+                              widget.detail.title,
+                              widget.detail.thumbnailImage,
+                              discountedPrice,
+                              1);
+                        }
                       },
                       child: Container(
                         height: 60,

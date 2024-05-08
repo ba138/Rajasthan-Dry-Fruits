@@ -121,5 +121,40 @@ class HomeRepository extends ChangeNotifier {
     }
   }
 
-  void notifiaUiType() {}
+  void filterProducts(String? category, double? minRating, double? minPrice,
+      double? maxPrice, int? discountPer) {
+    try {
+      filteredProducts.clear();
+
+      List<List<Product>> productLists = [
+        productsTopRated,
+        productsTopDiscount,
+        productsTopOrder,
+      ];
+
+      for (var productList in productLists) {
+        filteredProducts.addAll(productList.where((product) {
+          bool categoryFilter = category == null ||
+              product.category.name
+                  .toLowerCase()
+                  .contains(category.toLowerCase());
+
+          // bool ratingFilter =
+          //     minRating == null || product.averageReview >= minRating;
+
+          bool priceFilter = (minPrice == null || product.price >= minPrice) &&
+              (maxPrice == null || product.price <= maxPrice);
+          bool discount =
+              discountPer == null || product.discount >= discountPer;
+
+          return categoryFilter && discount && priceFilter;
+          //  && ratingFilter
+        }));
+      }
+
+      notifyListeners();
+    } catch (e) {
+      debugPrint("Error in the filterProducts: ${e.toString()}");
+    }
+  }
 }
