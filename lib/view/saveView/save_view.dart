@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/view/saveView/widgets/save_list_cart.dart';
+import 'package:rjfruits/view_model/save_view_model.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 
-class SaveView extends StatelessWidget {
+class SaveView extends StatefulWidget {
   const SaveView({super.key});
+
+  @override
+  State<SaveView> createState() => _SaveViewState();
+}
+
+class _SaveViewState extends State<SaveView> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<SaveProductRepositoryProvider>(context, listen: false)
+        .getCachedProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,21 +66,48 @@ class SaveView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  GridView.count(
-                    padding:
-                        const EdgeInsets.all(10.0), // Padding around the grid
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 1, // One card per row
-                    childAspectRatio: (MediaQuery.of(context).size.width /
-                        120), // Adjust width based on screen size
-                    mainAxisSpacing: 16.0, // Spacing between rows
-                    crossAxisSpacing: 0.0, // Spacing between columns
-                    children: List.generate(
-                        10,
-                        (index) => Container(
-                            height: 100.0,
-                            child: const SaveListCart())), // Wrap in Container
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.8,
+                    child: Consumer<SaveProductRepositoryProvider>(
+                      builder: (context, cartRepoProvider, child) {
+                        List<Map<String, dynamic>> cartItems =
+                            cartRepoProvider.saveRepository.saveList;
+
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: cartItems.length,
+                          itemBuilder: (context, index) {
+                            if (index < cartItems.length) {
+                              return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12.0),
+                                  child: SaveListCart(
+                                    onpress: () {
+                                      Provider.of<SaveProductRepositoryProvider>(
+                                              context,
+                                              listen: false)
+                                          .deleteProduct(
+                                              cartItems[index]['productId']);
+                                      Provider.of<SaveProductRepositoryProvider>(
+                                              context,
+                                              listen: false)
+                                          .getCachedProducts();
+                                    },
+                                    name: cartItems[index]['name'],
+                                    price: cartItems[index]['price'],
+                                    image: cartItems[index]['image'],
+                                    id: cartItems[index]['productId'],
+                                  ));
+                            } else {
+                              return const SizedBox.shrink(
+                                child: Center(
+                                  child: Text("No Products to Show"),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ],
               )

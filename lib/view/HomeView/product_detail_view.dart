@@ -22,6 +22,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? weight;
   String? weightPrice;
+
   int amount = 1;
   void increament() {
     setState(() {
@@ -95,6 +96,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ImageSlider(
                   image: widget.detail.thumbnailImage,
                   listImage: widget.detail.images,
+                  id: widget.detail.id,
+                  name: widget.detail.title,
+                  discount: discountedPrice,
                 ),
                 const VerticalSpeacing(20),
                 Row(

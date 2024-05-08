@@ -7,6 +7,7 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
+import 'package:rjfruits/view_model/save_view_model.dart';
 
 import '../../../res/components/cart_button.dart';
 import '../../../res/components/colors.dart';
@@ -47,6 +48,27 @@ class _HomeCardState extends State<HomeCard> {
         amount--;
       });
     }
+  }
+
+  bool isLike = false;
+
+  void checktheProduct() async {
+    SaveProductRepositoryProvider homeRepoProvider =
+        Provider.of<SaveProductRepositoryProvider>(context, listen: false);
+
+    bool isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
+
+    if (isIncart == true) {
+      setState(() {
+        isLike = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    checktheProduct();
+    super.initState();
   }
 
   @override
