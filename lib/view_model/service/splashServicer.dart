@@ -10,9 +10,9 @@ class SplashServices {
 
   void checkAuthenTication(BuildContext context) {
     getUserData().then((value) {
-      if (value.token.isEmpty || value.token == '') {
+      if (value.key.isEmpty || value.key == '') {
         Future.delayed(const Duration(seconds: 3));
-        Navigator.pushNamed(context, RoutesName.login);
+        Navigator.pushNamed(context, RoutesName.onboarding1);
       } else {
         Future.delayed(const Duration(seconds: 5));
         Navigator.pushNamed(context, RoutesName.dashboard);
