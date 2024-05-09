@@ -55,8 +55,16 @@ class _HomeCardState extends State<HomeCard> {
   void checktheProduct() async {
     SaveProductRepositoryProvider homeRepoProvider =
         Provider.of<SaveProductRepositoryProvider>(context, listen: false);
+    bool isIncart = false;
 
-    bool isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
+    if (widget.proId != null) {
+      isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
+    } else {
+      // Handle the case where widget.proId is null
+      print('widget.proId is null');
+    }
+
+    // bool isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
 
     if (isIncart == true) {
       setState(() {

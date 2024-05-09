@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:rjfruits/res/components/colors.dart';
 
 class LoadingManager extends StatelessWidget {
   const LoadingManager({
@@ -21,9 +22,10 @@ class LoadingManager extends StatelessWidget {
             color: Colors.black.withOpacity(0.5),
             child: Center(
               child: Container(
-                padding: const EdgeInsets.all(20.0),
+                width: 200,
+                padding: EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColor.whiteColor,
                   borderRadius: BorderRadius.circular(10.0),
                   boxShadow: [
                     BoxShadow(

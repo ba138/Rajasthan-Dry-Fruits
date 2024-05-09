@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
+import 'package:rjfruits/res/components/loading_manager.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/onboardingViews/widgets/back_container.dart';
+import 'package:http/http.dart' as http;
+
+import '../../utils/routes/utils.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -14,6 +20,40 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  bool _isLoading = false;
+  final _emailController = TextEditingController();
+
+  Future<void> sendPasswordResetRequest(String email, String csrfToken) async {
+    try {
+      final url = Uri.parse('http://103.117.180.187/rest-auth/password/reset/');
+
+      final response = await http.post(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,
+        },
+        body: jsonEncode({'email': email}),
+      );
+
+      print('API Response: ${response.statusCode} ${response.body}');
+
+      if (response.statusCode == 200) {
+        // Password reset email sent successfully
+        Utils.toastMessage('Password reset email has been sent.');
+      } else {
+        // Handle API errors
+        Utils.toastMessage('An error occurred. Please try again later.');
+      }
+    } catch (e) {
+      // Handle network or unexpected errors
+      print('Error sending password reset request: $e');
+      Utils.toastMessage(
+          'An error occurred. Please try again later. Network error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,65 +68,82 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const VerticalSpeacing(20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const BackContainer(
-                    color: Color(0xffEEEEEE),
-                    iconColor: AppColor.textColor1,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                  ),
-                  Image.asset(
-                    "images/logo.png",
-                    height: 38,
-                    width: 107,
-                  ),
-                ],
-              ),
-              const VerticalSpeacing(30),
-              Text(
-                "Hello!",
-                style: GoogleFonts.getFont(
-                  "Poppins",
-                  textStyle: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.primaryColor,
+        child: LoadingManager(
+          isLoading: _isLoading,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const VerticalSpeacing(20),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const BackContainer(
+                      color: Color(0xffEEEEEE),
+                      iconColor: AppColor.textColor1,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 4,
+                    ),
+                    Image.asset(
+                      "images/logo.png",
+                      height: 38,
+                      width: 107,
+                    ),
+                  ],
+                ),
+                const VerticalSpeacing(30),
+                Text(
+                  "Hello!",
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.primaryColor,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                "Enter your email addreess then we will send\n you a code to reset your password",
-                textAlign: TextAlign.start,
-                style: GoogleFonts.getFont(
-                  "Poppins",
-                  textStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: AppColor.textColor1,
+                Text(
+                  "Enter your email addreess then we will send\n you a code to reset your password",
+                  textAlign: TextAlign.start,
+                  style: GoogleFonts.getFont(
+                    "Poppins",
+                    textStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.textColor1,
+                    ),
                   ),
                 ),
-              ),
-              const VerticalSpeacing(36),
-              const TextFieldCustom(
-                preIcon: Icons.email,
-                maxLines: 2,
-                text: "sfsdadf",
-                hintText: "1234@gmail.com",
-                preColor: AppColor.primaryColor,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const VerticalSpeacing(30),
-              RoundedButton(title: "send", onpress: () {}),
-            ],
+                const VerticalSpeacing(36),
+                TextFieldCustom(
+                  controller: _emailController,
+                  preIcon: Icons.email,
+                  maxLines: 2,
+                  text: "sfsdadf",
+                  hintText: "1234@gmail.com",
+                  preColor: AppColor.primaryColor,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const VerticalSpeacing(30),
+                RoundedButton(
+                    title: "send",
+                    onpress: () async {
+                      const csrfToken =
+                          'X2YwF4fdbiTMNSJ1bZLSCeKIR2y1BiwOpeuLmgtik1ZtieXxdGThLSyAXergkmjG';
+
+                      try {
+                        await sendPasswordResetRequest(
+                            _emailController.text, csrfToken);
+                      } catch (e) {
+                        Utils.flushBarErrorMessage(
+                            'error while forget password $e', context);
+                      }
+                    }),
+              ],
+            ),
           ),
         ),
       )),
