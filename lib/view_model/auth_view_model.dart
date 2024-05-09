@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/user_model.dart';
 import '../utils/routes/routes_name.dart';
@@ -46,6 +47,7 @@ class AuthViewModel with ChangeNotifier {
 
       setLoading(false);
       Utils.toastMessage('Successfully Logged In');
+      await SessionManager.setLoggedIn(true);
       Navigator.pushNamed(context, RoutesName.dashboard);
 
       if (kDebugMode) {
@@ -116,5 +118,19 @@ class AuthViewModel with ChangeNotifier {
       default:
         return 'An unexpected error occurred.';
     }
+  }
+}
+
+class SessionManager {
+  static const _keyLoggedIn = 'isLoggedIn';
+
+  static Future<bool> isLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyLoggedIn) ?? false;
+  }
+
+  static Future<void> setLoggedIn(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_keyLoggedIn, value);
   }
 }

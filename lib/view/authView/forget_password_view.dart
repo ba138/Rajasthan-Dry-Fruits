@@ -24,12 +24,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final _emailController = TextEditingController();
 
   Future<void> sendPasswordResetRequest(String email, String csrfToken) async {
-    setState(() {
-      _isLoading = true;
-    });
-    final url = Uri.parse('http://103.117.180.187/rest-auth/password/reset/');
-
     try {
+      final url = Uri.parse('http://103.117.180.187/rest-auth/password/reset/');
+
       final response = await http.post(
         url,
         headers: {
@@ -40,21 +37,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         body: jsonEncode({'email': email}),
       );
 
+      print('API Response: ${response.statusCode} ${response.body}');
+
       if (response.statusCode == 200) {
-        // Handle success
+        // Password reset email sent successfully
         Utils.toastMessage('Password reset email has been sent.');
       } else {
-        // Handle error
+        // Handle API errors
         Utils.toastMessage('An error occurred. Please try again later.');
       }
     } catch (e) {
       // Handle network or unexpected errors
-      Utils.toastMessage('An error occurred. Please try again later.');
-    } finally {
-      // End loading state
-      setState(() {
-        _isLoading = false;
-      });
+      print('Error sending password reset request: $e');
+      Utils.toastMessage(
+          'An error occurred. Please try again later. Network error');
     }
   }
 

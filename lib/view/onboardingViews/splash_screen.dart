@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 
+import '../../view_model/auth_view_model.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -12,19 +14,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  void startTimer() {
+  void startSessionCheck() {
+    // Start a timer with a 6-second delay
     Timer(const Duration(seconds: 6), () {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesName.onboarding1,
-        (route) => false,
-      );
+      checkSession();
     });
+  }
+
+  Future<void> checkSession() async {
+    bool isLoggedIn = await SessionManager.isLoggedIn();
+    Navigator.pushReplacementNamed(
+      context,
+      isLoggedIn ? RoutesName.dashboard : RoutesName.onboarding1,
+    );
   }
 
   @override
   void initState() {
-    startTimer();
+    startSessionCheck();
     super.initState();
   }
 
