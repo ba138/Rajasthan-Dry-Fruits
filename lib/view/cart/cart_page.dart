@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
 
@@ -287,9 +288,13 @@ class _CartViewState extends State<CartView> {
                                 width: double.infinity,
                                 child: InkWell(
                                   onTap: () {
-                                    openCheckout(cartProvider
-                                        .cartRepositoryProvider.totalPrice
-                                        .toStringAsFixed(2));
+                                    Navigator.pushNamed(
+                                        context, RoutesName.checkOut);
+
+
+                                    // openCheckout(cartProvider
+                                    //     .cartRepositoryProvider.totalPrice
+                                    //     .toStringAsFixed(2));
                                   },
                                   child: Container(
                                     height: 56,

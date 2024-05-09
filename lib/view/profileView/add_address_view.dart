@@ -1,12 +1,64 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AddAddresScreen extends StatelessWidget {
+class AddAddresScreen extends StatefulWidget {
   const AddAddresScreen({super.key});
+
+  @override
+  State<AddAddresScreen> createState() => _AddAddresScreenState();
+}
+
+class _AddAddresScreenState extends State<AddAddresScreen> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+
+  final TextEditingController _addressController = TextEditingController();
+
+  final TextEditingController _cityController = TextEditingController();
+
+  final TextEditingController _stateController = TextEditingController();
+
+  final TextEditingController _zipCodeController = TextEditingController();
+  Future<void> _saveAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String fullName = _fullNameController.text;
+    String phone = _phoneController.text;
+    String address = _addressController.text;
+    String city = _cityController.text;
+    String state = _stateController.text;
+    String zipCode = _zipCodeController.text;
+
+    Map<String, dynamic> addressMap = {
+      'fullName': fullName,
+      'phone': phone,
+      'address': address,
+      'city': city,
+      'state': state,
+      'zipCode': zipCode,
+    };
+
+    List<Map<String, dynamic>> addresses =
+        prefs.getStringList('addresses')?.map((jsonString) {
+              return Map<String, dynamic>.from(jsonDecode(jsonString));
+            }).toList() ??
+            [];
+
+    addresses.add(addressMap);
+    List<String> encodedAddresses =
+        addresses.map((address) => jsonEncode(address)).toList();
+    await prefs.setStringList('addresses', encodedAddresses);
+
+    Navigator.pushNamed(context, RoutesName.checkOut);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,45 +129,44 @@ class AddAddresScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         const VerticalSpeacing(30),
-                        const PaymentField(
+                        PaymentField(
+                          controller: _fullNameController,
                           maxLines: 2,
                           text: "Full Name",
                           hintText: "Hiren User",
                         ),
-                        const PaymentField(
+                        PaymentField(
+                          controller: _phoneController,
                           maxLines: 2,
                           text: "Phone Number",
                           hintText: "+9123456789",
                         ),
-                        const PaymentField(
+                        PaymentField(
+                          controller: _addressController,
                           maxLines: 2,
-                          text: "Address Link 1",
+                          text: "Address",
                           hintText: "Delhi India",
                         ),
-                        const PaymentField(
-                          maxLines: 2,
-                          text: "Address Link 2",
-                          hintText: "Delhi India",
-                        ),
-                        const PaymentField(
+                        PaymentField(
+                          controller: _cityController,
                           maxLines: 2,
                           text: "City",
                           hintText: "Delhi",
                         ),
-                        const Row(
+                        Row(
                           children: [
                             Expanded(
                               child: PaymentField(
+                                controller: _stateController,
                                 maxLines: 2,
                                 text: "State",
                                 hintText: "India",
                               ),
                             ),
-                            SizedBox(
-                              width: 12,
-                            ),
+                            const SizedBox(width: 12),
                             Expanded(
                               child: PaymentField(
+                                controller: _zipCodeController,
                                 maxLines: 2,
                                 text: "Zip Code",
                                 hintText: "1555",
@@ -154,10 +205,7 @@ class AddAddresScreen extends StatelessWidget {
                         ),
                         const VerticalSpeacing(38),
                         RoundedButton(
-                            title: "Save Address",
-                            onpress: () {
-                              Navigator.pop(context);
-                            }),
+                            title: "Save Address", onpress: _saveAddress),
                         const VerticalSpeacing(38),
                       ],
                     ),
