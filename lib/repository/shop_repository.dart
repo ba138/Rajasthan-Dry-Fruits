@@ -11,6 +11,8 @@ import 'package:rjfruits/utils/routes/utils.dart';
 
 class ShopRepository extends ChangeNotifier {
   List<Shop> shopProducts = [];
+  List<Shop> searchResults = [];
+
   Future<void> getShopProd(BuildContext context) async {
     try {
       final response = await http.get(
@@ -40,5 +42,20 @@ class ShopRepository extends ChangeNotifier {
     } catch (e) {
       handleApiError(e, context);
     }
+  }
+
+  void search(String searchTerm) {
+    searchResults.clear();
+
+    for (var product in shopProducts) {
+      if (product.title.toLowerCase().contains(searchTerm.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    debugPrint("This is the Shop Products: $shopProducts");
+    debugPrint("This is the Search Results: $searchResults");
+
+    notifyListeners(); // Notify listeners to rebuild UI with search results
   }
 }
