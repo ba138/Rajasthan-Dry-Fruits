@@ -54,7 +54,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 6,
+                      width: MediaQuery.of(context).size.width / 5,
                     ),
                     Text(
                       "Checkout",
@@ -129,6 +129,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   phNo: address['phone'] ?? '',
                                   address:
                                       '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''}',
+                                  onpress: () {
+                                    print(
+                                        'Address pressed: ${address['fullName']}');
+                                    print('Phone number: ${address['phone']}');
+                                    print(
+                                        'Full Address: ${address['address']}, ${address['city']} ${address['state']} ${address['zipCode']}');
+                                  },
                                 ),
                                 const VerticalSpeacing(20),
                               ],
@@ -141,7 +148,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ),
                 const VerticalSpeacing(50),
                 RoundedButton(
-                  title: "Pay 323\$",
+                  title: "Continue",
                   onpress: () {
                     Navigator.pushNamed(context, RoutesName.paymentDone);
                   },

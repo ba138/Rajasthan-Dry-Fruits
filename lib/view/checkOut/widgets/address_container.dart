@@ -12,6 +12,7 @@ class AddressCheckOutWidget extends StatefulWidget {
     required this.title,
     required this.phNo,
     required this.address,
+    required this.onpress,
   });
   final Color bgColor;
   final Color borderColor;
@@ -19,12 +20,14 @@ class AddressCheckOutWidget extends StatefulWidget {
   final String title;
   final String phNo;
   final String address;
+  final Function onpress;
 
   @override
   State<AddressCheckOutWidget> createState() => _AddressCheckOutWidgetState();
 }
 
 class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
+  bool isPressed = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,11 +57,25 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
             Column(
               children: [
                 const VerticalSpeacing(7),
-                Container(
-                  height: 16,
-                  width: 16,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.primaryColor)),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      isPressed = !isPressed;
+                      if (isPressed && widget.onpress != null) {
+                        widget.onpress();
+                      }
+                    });
+                  },
+                  child: Container(
+                    height: 16,
+                    width: 16,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.primaryColor),
+                      color: isPressed
+                          ? AppColor.primaryColor
+                          : Colors.transparent,
+                    ),
+                  ),
                 ),
               ],
             ),
