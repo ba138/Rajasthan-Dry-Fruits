@@ -4,13 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../model/user_model.dart';
-import '../repository/auth_repository.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/routes/utils.dart';
 import 'package:dio/dio.dart';
 
 class AuthViewModel with ChangeNotifier {
-  final _myRepo = AuthRepository();
+  // final _myRepo = AuthRepository();
   bool _isLoading = false;
   bool get isloading => _isLoading;
   void setLoading(bool value) {

@@ -104,7 +104,7 @@ class _RegisterViewState extends State<RegisterView> {
                             preIcon: Icons.person,
                             maxLines: 2,
                             text: "sfsdadf",
-                            hintText: "userName.com",
+                            hintText: "enter your name",
                             preColor: AppColor.primaryColor,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {

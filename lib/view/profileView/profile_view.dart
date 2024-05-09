@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
+import '../../view_model/service/auth_services.dart';
 import 'widgets/profile_center_btn.dart';
 import 'widgets/profile_widget.dart';
 
@@ -175,6 +178,7 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   _buildProfileFeatures() {
+    final AuthService authService = AuthService();
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Container(
@@ -240,7 +244,14 @@ class _ProfileViewState extends State<ProfileView> {
                       title: 'Payment'),
                   const Divider(),
                   ProfileWidgets(
-                    ontap: () {
+                    ontap: () async {
+                      String csrfToken =
+                          'X2YwF4fdbiTMNSJ1bZLSCeKIR2y1BiwOpeuLmgtik1ZtieXxdGThLSyAXergkmjG';
+
+                      // Call logout method from AuthService
+                      await authService.logout(csrfToken);
+
+                      // Navigate to login screen after logout
                       Navigator.pushNamed(context, RoutesName.login);
                     },
                     tColor: const Color(0xffFF9CCB),
