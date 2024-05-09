@@ -10,6 +10,7 @@ import 'package:rjfruits/view_model/cart_view_model.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
+import 'package:rjfruits/view_model/shop_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 void main() {
@@ -51,6 +52,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => SaveProductRepositoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ShopRepositoryProvider(),
         ),
       ],
       child: MaterialApp(

@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rjfruits/view_model/shop_view_model.dart';
 
-class ShopView extends StatelessWidget {
+class ShopView extends StatefulWidget {
   const ShopView({super.key});
 
   @override
+  State<ShopView> createState() => _ShopViewState();
+}
+
+class _ShopViewState extends State<ShopView> {
+  @override
+  void initState() {
+    Provider.of<ShopRepositoryProvider>(context, listen: false).getShopProd(
+      context,
+    );
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final shopRepositoryProvider = Provider.of<ShopRepositoryProvider>(context);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -75,19 +92,20 @@ class ShopView extends StatelessWidget {
                     ],
                   ),
                   const VerticalSpeacing(20.0),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(width: 10.0),
+                      const SizedBox(width: 10.0),
                       Text.rich(
                         textAlign: TextAlign.start,
                         TextSpan(
-                          text: '23 Fund Items ',
-                          style: TextStyle(
+                          text:
+                              '${shopRepositoryProvider.shopRepository.shopProducts.length} Fund Items ',
+                          style: const TextStyle(
                               fontSize: 14.0,
                               color: AppColor.cardTxColor,
                               fontWeight: FontWeight.w600),
-                          children: [
+                          children: const [
                             TextSpan(
                               text: 'Fresh Fruit Dry Fruit',
                               style: TextStyle(
@@ -100,17 +118,38 @@ class ShopView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  GridView.count(
-                    padding: const EdgeInsets.all(
-                        5.0), // Add padding around the grid
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    childAspectRatio: (180 / 230),
-                    mainAxisSpacing: 10.0, // Spacing between rows
-                    crossAxisSpacing: 10.0, // Spacing between columns
-                    children: List.generate(
-                        10, (index) => const HomeCard(isdiscount: false)),
+                  Consumer<ShopRepositoryProvider>(
+                    builder: (context, shopRepositoryProvider, _) {
+                      return GridView.count(
+                        padding: const EdgeInsets.all(
+                            5.0), // Add padding around the grid
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: (180 / 230),
+                        mainAxisSpacing: 10.0, // Spacing between rows
+                        crossAxisSpacing: 10.0, // Spacing between columns
+                        children: List.generate(
+                          shopRepositoryProvider
+                              .shopRepository.shopProducts.length,
+                          (index) => HomeCard(
+                            isdiscount: false,
+                            title: shopRepositoryProvider
+                                .shopRepository.shopProducts[index].title,
+                            image: shopRepositoryProvider.shopRepository
+                                .shopProducts[index].thumbnailImage,
+                            discount: shopRepositoryProvider
+                                .shopRepository.shopProducts[index].discount
+                                .toString(),
+                            proId: shopRepositoryProvider
+                                .shopRepository.shopProducts[index].id,
+                            price: shopRepositoryProvider
+                                .shopRepository.shopProducts[index].price,
+                            // Pass other data properties here
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
