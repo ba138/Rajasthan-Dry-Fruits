@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:rjfruits/repository/home_ui_repository.dart';
+import 'package:rjfruits/repository/search_section_ui.dart';
 import 'package:rjfruits/utils/routes/routes.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view_model/auth_view_model.dart';
@@ -10,6 +11,7 @@ import 'package:rjfruits/view_model/cart_view_model.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
+import 'package:rjfruits/view_model/shop_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 void main() {
@@ -44,6 +46,9 @@ class MyApp extends StatelessWidget {
           create: (_) => HomeUiSwithchRepository(),
         ),
         ChangeNotifierProvider(
+          create: (_) => SearchUiSwithchRepository(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => ProductRepositoryProvider(),
         ),
         ChangeNotifierProvider(
@@ -51,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => SaveProductRepositoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ShopRepositoryProvider(),
         ),
       ],
       child: MaterialApp(
