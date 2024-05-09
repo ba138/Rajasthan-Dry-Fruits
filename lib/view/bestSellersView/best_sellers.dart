@@ -87,9 +87,7 @@ class BestSellers extends StatelessWidget {
                         crossAxisSpacing: 10.0,
                         children: List.generate(
                           // Limit to only two items
-                          homeRepo.homeRepository.productsTopRated.length > 2
-                              ? 2
-                              : homeRepo.homeRepository.productsTopRated.length,
+                          homeRepo.homeRepository.productsTopRated.length,
                           (index) => HomeCard(
                             isdiscount: false,
                             image: homeRepo.homeRepository
