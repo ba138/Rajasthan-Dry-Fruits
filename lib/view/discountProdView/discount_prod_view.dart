@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DisCountProd extends StatelessWidget {
   const DisCountProd({super.key});
@@ -53,18 +56,58 @@ class DisCountProd extends StatelessWidget {
                     ],
                   ),
                   const VerticalSpeacing(10.0),
-                  GridView.count(
-                    padding: const EdgeInsets.all(
-                        0.0), // Add padding around the grid
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    childAspectRatio: (180 / 230),
-                    mainAxisSpacing: 10.0, // Spacing between rows
-                    crossAxisSpacing: 10.0, // Spacing between columns
-                    children: List.generate(
-                        10, (index) => const HomeCard(isdiscount: true)),
-                  ),
+                  Consumer<HomeRepositoryProvider>(
+                      builder: (context, homeRepo, child) {
+                    if (homeRepo.homeRepository.productsTopDiscount.isEmpty) {
+                      return GridView.count(
+                        padding: const EdgeInsets.all(5.0),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: (180 / 250),
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                        children: List.generate(
+                          2,
+                          (index) => Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: const HomeCard(isdiscount: true),
+                          ),
+                        ),
+                      );
+                    } else {
+                      return GridView.count(
+                        padding: const EdgeInsets.all(5.0),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: (180 / 250),
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                        children: List.generate(
+                          // Limit to only two items
+                          homeRepo.homeRepository.productsTopDiscount.length,
+                          (index) => HomeCard(
+                            isdiscount: true,
+                            image: homeRepo.homeRepository
+                                .productsTopDiscount[index].thumbnailImage,
+                            discount: homeRepo.homeRepository
+                                .productsTopDiscount[index].discount
+                                .toString(),
+                            title: homeRepo.homeRepository
+                                .productsTopDiscount[index].title,
+                            price: homeRepo
+                                .homeRepository.productsTopDiscount[index].price
+                                .toString(),
+                            proId: homeRepo
+                                .homeRepository.productsTopDiscount[index].id
+                                .toString(),
+                          ),
+                        ),
+                      );
+                    }
+                  })
                 ],
               ),
             ],
