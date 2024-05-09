@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
-import 'package:rjfruits/view/checkOut/widgets/payment_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+import '../../utils/routes/routes_name.dart';
 
 class CheckOutScreen extends StatefulWidget {
   const CheckOutScreen({super.key});
@@ -17,7 +17,6 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
-  bool isOnline = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +26,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         decoration: const BoxDecoration(
           color: AppColor.whiteColor,
           image: DecorationImage(
-              image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
+            image: AssetImage("images/bgimg.png"),
+            fit: BoxFit.cover,
+          ),
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -105,166 +106,42 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ],
                 ),
                 const VerticalSpeacing(12),
-                const AddressCheckOutWidget(
-                    bgColor: AppColor.whiteColor,
-                    borderColor: AppColor.primaryColor,
-                    titleColor: AppColor.primaryColor,
-                    title: "Home Address",
-                    phNo: "(309) 071-9396-939",
-                    address: "Delhi  India"),
-                const VerticalSpeacing(20),
-                const AddressCheckOutWidget(
-                    bgColor: AppColor.whiteColor,
-                    borderColor: AppColor.primaryColor,
-                    titleColor: AppColor.textColor1,
-                    title: "Office Address",
-                    phNo: "(309) 071-9396-939",
-                    address: "Delhi  India"),
-                const VerticalSpeacing(24),
-                Text(
-                  "Select payment method",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      PaymentContainer(
-                        bgColor: AppColor.primaryColor,
-                        textColor: AppColor.whiteColor,
-                        name: "Stripe",
-                        img: "images/stripe.png",
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      PaymentContainer(
-                        bgColor: AppColor.whiteColor,
-                        textColor: AppColor.textColor1,
-                        name: "Paypal",
-                        img: "images/paypal.png",
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      PaymentContainer(
-                        bgColor: AppColor.whiteColor,
-                        textColor: AppColor.textColor1,
-                        name: "Cash On Delivery",
-                        img: "images/handcash.png",
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                    ],
-                  ),
-                ),
-                const VerticalSpeacing(24),
-                const PaymentField(
-                  maxLines: 2,
-                  text: "Card Name",
-                  hintText: "Hiren User",
-                ),
-                const PaymentField(
-                  maxLines: 2,
-                  text: "Card Number",
-                  hintText: "123 456 ********",
-                ),
-                const Row(
-                  children: [
-                    Expanded(
-                      child: PaymentField(
-                        maxLines: 2,
-                        text: "Expiration Date",
-                        hintText: "05/09/2021",
-                      ),
-                    ),
-                    SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: PaymentField(
-                        maxLines: 2,
-                        text: "Csv",
-                        hintText: "565",
-                      ),
-                    ),
-                  ],
-                ),
-                const VerticalSpeacing(
-                  14,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Remeber My Card Details",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.textColor1,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 26,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: AppColor.primaryColor,
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isOnline = false;
-                              });
-                            },
-                            child: Container(
-                              height: 18,
-                              width: 18,
-                              decoration: BoxDecoration(
-                                color: isOnline ? null : AppColor.whiteColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              setState(() {
-                                isOnline = true;
-                              });
-                            },
-                            child: Container(
-                              height: 18,
-                              width: 18,
-                              decoration: BoxDecoration(
-                                color: isOnline ? AppColor.whiteColor : null,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                FutureBuilder<List<Map<String, dynamic>>>(
+                  future: _getCachedAddresses(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        List<Map<String, dynamic>> addresses =
+                            snapshot.data as List<Map<String, dynamic>>;
+                        return Column(
+                          children: addresses.map((address) {
+                            return Column(
+                              children: [
+                                AddressCheckOutWidget(
+                                  bgColor: AppColor.whiteColor,
+                                  borderColor: AppColor.primaryColor,
+                                  titleColor: AppColor.primaryColor,
+                                  title: address['fullName'] ?? '',
+                                  phNo: address['phone'] ?? '',
+                                  address:
+                                      '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''}',
+                                ),
+                                const VerticalSpeacing(20),
+                              ],
+                            );
+                          }).toList(),
+                        );
+                      }
+                    }
+                  },
                 ),
                 const VerticalSpeacing(50),
                 RoundedButton(
-                  title: "323\$pay",
+                  title: "Pay 323\$",
                   onpress: () {
                     Navigator.pushNamed(context, RoutesName.paymentDone);
                   },
@@ -276,5 +153,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         ),
       ),
     );
+  }
+
+  Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? encodedAddresses = prefs.getStringList('addresses');
+    if (encodedAddresses != null) {
+      return encodedAddresses.map((jsonString) {
+        return jsonDecode(jsonString) as Map<String, dynamic>;
+      }).toList();
+    } else {
+      return [];
+    }
   }
 }
