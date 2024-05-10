@@ -46,6 +46,8 @@ class _CartViewState extends State<CartView> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    String? paymentId = response.paymentId;
+    String? orderId = response.orderId;
     Utils.toastMessage('Payment SuccessFully Done: ${response.paymentId}');
   }
 
@@ -290,7 +292,6 @@ class _CartViewState extends State<CartView> {
                                   onTap: () {
                                     Navigator.pushNamed(
                                         context, RoutesName.checkOut);
-
 
                                     // openCheckout(cartProvider
                                     //     .cartRepositoryProvider.totalPrice
