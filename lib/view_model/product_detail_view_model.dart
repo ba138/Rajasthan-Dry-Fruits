@@ -17,14 +17,14 @@ class ProductRepositoryProvider extends ChangeNotifier {
   void saveCartProducts(
     String productId,
     String name,
-    String image,
+    String weight,
     String price,
     int quantity,
   ) {
     _productRepository.saveProductToCache(
       productId: productId,
       name: name,
-      image: image,
+      productWeight: weight,
       price: price,
       quantity: quantity,
     );

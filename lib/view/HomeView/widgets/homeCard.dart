@@ -21,6 +21,7 @@ class HomeCard extends StatefulWidget {
     this.discount,
     this.title,
     this.proId,
+    this.weight,
   });
   final bool isdiscount;
   final String? image;
@@ -28,6 +29,7 @@ class HomeCard extends StatefulWidget {
   final String? discount;
   final String? title;
   final String? proId;
+  final List<dynamic>? weight;
 
   @override
   State<HomeCard> createState() => _HomeCardState();
@@ -316,14 +318,15 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 InkWell(
                   onTap: () async {
-                    Future<bool> isInCart =
-                        proRepoProvider.isProductInCart(widget.proId!);
-                    if (await isInCart) {
-                      Utils.toastMessage("Product is already in the cart");
-                    } else {
-                      proRepoProvider.saveCartProducts(widget.proId!,
-                          widget.title!, widget.image!, discountedPrice, 1);
-                    }
+                    proRepoProvider.saveCartProducts(widget.proId!,
+                        widget.title!, "null", discountedPrice, amount);
+                    // Future<bool> isInCart =
+                    //     proRepoProvider.isProductInCart(widget.proId!);
+                    // if (await isInCart) {
+                    //   Utils.toastMessage("Product is already in the cart");
+                    // } else {
+
+                    // }
                   },
                   child: Container(
                     height: 37,
