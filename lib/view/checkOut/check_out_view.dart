@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
@@ -10,9 +11,12 @@ import 'dart:convert';
 
 import '../../utils/routes/routes_name.dart';
 import '../../utils/routes/utils.dart';
+import 'package:http/http.dart' as http;
+
+import '../../view_model/user_view_model.dart';
 
 class CheckOutScreen extends StatefulWidget {
-  const CheckOutScreen({Key? key, required this.totalPrice}) : super(key: key);
+  const CheckOutScreen({super.key, required this.totalPrice});
 
   final String totalPrice;
 
@@ -50,37 +54,74 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    String? paymentId = response.paymentId ?? '';
-    String? orderId = response.orderId ?? '';
+    String? paymentId = response.paymentId;
+    String? orderId = response.orderId;
 
-    // Retrieve selected address from shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
+    print(
+        '...........................Selcted Address ${jsonSelectedAddress}...................');
 
     if (jsonSelectedAddress != null) {
-      // Decode the selected address JSON string
       Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
 
-      // Store payment and address details
-      await prefs.setStringList(
-        'paymentDetails',
-        [paymentId, orderId, jsonEncode(selectedAddress)],
-      );
+      Map<String, dynamic> requestData = {
+        "full_name": selectedAddress['fullName'],
+        "contact": selectedAddress['phone'],
+        "postal_code": selectedAddress['zipCode'],
+        "address": selectedAddress['address'],
+        "city": selectedAddress['city'],
+        "state": selectedAddress['state'],
+        "country": "USA",
+        "payment_type": "online"
+      };
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel =
+          await userPreferences.getUser(); // Await the Future<UserModel> result
+      final token = userModel.key;
+      print('...........................token: $token...................');
+      Map<String, String> headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
 
-      Utils.toastMessage('Payment Successfully Done: $paymentId');
-      Utils.toastMessage('Payment orderId: $orderId');
-      print(
-          'Slected address is : ${selectedAddress} and total amount is ${widget.totalPrice}');
+      try {
+        http.Response apiResponse = await http.post(
+          Uri.parse('http://103.117.180.187/checkout/'),
+          headers: headers,
+          body: jsonEncode(requestData),
+        );
+        print(
+            '...........................Api Response : ${apiResponse.statusCode}.....................');
 
-      // Navigate to payment done screen with address and total amount
-      Navigator.pushNamed(
-        context,
-        RoutesName.paymentDone,
-        arguments: {
-          'selectedAddress': selectedAddress,
-          'totalAmount': widget.totalPrice,
-        },
-      );
+        if (apiResponse.statusCode == 200) {
+          Utils.toastMessage('Payment Successfully Done: $paymentId');
+          Utils.toastMessage('Payment orderId: $orderId');
+
+          print('Selected address: $selectedAddress');
+          print('Total amount: ${widget.totalPrice}');
+
+          Navigator.pushNamed(
+            context,
+            RoutesName.paymentDone,
+            arguments: {
+              'selectedAddress': selectedAddress,
+              'totalAmount': widget.totalPrice,
+            },
+          );
+        } else {
+          // Handle API request failure
+          Utils.toastMessage(
+              'Failed to submit payment data. Please try again.');
+        }
+      } catch (e) {
+        // Handle exceptions during API request
+        Utils.toastMessage('Error occurred while processing payment: $e');
+      }
+    } else {
+      Utils.toastMessage('Payment details or selected address missing.');
     }
   }
 

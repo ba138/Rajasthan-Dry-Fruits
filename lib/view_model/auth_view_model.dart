@@ -48,6 +48,8 @@ class AuthViewModel with ChangeNotifier {
       setLoading(false);
       Utils.toastMessage('Successfully Logged In');
       await SessionManager.setLoggedIn(true);
+      final userPrefrences = Provider.of<UserViewModel>(context, listen: false);
+      userPrefrences.saveUser(UserModel(key: response.data['key'].toString()));
       Navigator.pushNamed(context, RoutesName.dashboard);
 
       if (kDebugMode) {
@@ -84,9 +86,11 @@ class AuthViewModel with ChangeNotifier {
 
       setSignUpLaoding(false);
       Utils.toastMessage('Successfully Registered');
+
       Navigator.pushNamed(context, RoutesName.dashboard);
       final userPrefrences = Provider.of<UserViewModel>(context, listen: false);
       userPrefrences.saveUser(UserModel(key: response.data['key'].toString()));
+
       if (kDebugMode) {
         print(response.toString());
       }
