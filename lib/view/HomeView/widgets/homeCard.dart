@@ -8,6 +8,7 @@ import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../../res/components/cart_button.dart';
 import '../../../res/components/colors.dart';
@@ -63,7 +64,6 @@ class _HomeCardState extends State<HomeCard> {
       isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
     } else {
       // Handle the case where widget.proId is null
-      print('widget.proId is null');
     }
 
     // bool isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
@@ -85,6 +85,8 @@ class _HomeCardState extends State<HomeCard> {
   Widget build(BuildContext context) {
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     ProductRepositoryProvider proRepoProvider =
         Provider.of<ProductRepositoryProvider>(context, listen: false);
     double originalPrice = double.parse(widget.price ?? "50");
@@ -318,8 +320,11 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 InkWell(
                   onTap: () async {
+                    final userModel = await userPreferences
+                        .getUser(); // Await the Future<UserModel> result
+                    final token = userModel.key;
                     proRepoProvider.saveCartProducts(widget.proId!,
-                        widget.title!, "null", discountedPrice, amount);
+                        widget.title!, "null", discountedPrice, amount, token);
                     // Future<bool> isInCart =
                     //     proRepoProvider.isProductInCart(widget.proId!);
                     // if (await isInCart) {
