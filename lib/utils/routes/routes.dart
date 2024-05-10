@@ -86,10 +86,10 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const ShopView(),
         );
-      case RoutesName.checkOut:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => const CheckOutScreen(),
-        );
+      // case RoutesName.checkOut:
+      //   return MaterialPageRoute(
+      //     builder: (BuildContext context) => const CheckOutScreen(),
+      //   );
       case RoutesName.addAddress:
         return MaterialPageRoute(
           builder: (BuildContext context) => const AddAddresScreen(),
