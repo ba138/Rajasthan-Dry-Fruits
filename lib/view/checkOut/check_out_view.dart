@@ -60,7 +60,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
     print(
-        '...........................Selcted Address ${jsonSelectedAddress}...................');
+        '...........................Selcted Address $jsonSelectedAddress...................');
 
     if (jsonSelectedAddress != null) {
       Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
