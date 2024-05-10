@@ -4,11 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
+import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
-import '../../utils/routes/utils.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -18,56 +18,11 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  late Razorpay _razorPay;
-
-  void openCheckout(String amount) async {
-    int amountInPaise = (double.parse(amount) * 100).toInt();
-    var options = {
-      "key": "rzp_test_Jg802qU7X2QjKh",
-      "amount": amountInPaise,
-      "name": 'CodeWithHasnain',
-      "description": 'for T-shirt',
-      "prefill": {"contact": "value1", "email": "value2"},
-      'external': {
-        'wallet': ['Paytm'],
-      }
-    };
-    try {
-      _razorPay.open(options);
-    } catch (e) {
-      Utils.flushBarErrorMessage('catch error while Payment: $e', context);
-    }
-  }
-
-  @override
-  void dispose() {
-    _razorPay.clear();
-    super.dispose();
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    String? paymentId = response.paymentId;
-    String? orderId = response.orderId;
-    Utils.toastMessage('Payment SuccessFully Done: ${response.paymentId}');
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    Utils.toastMessage('Payment Fail: ${response.message}');
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    Utils.toastMessage('External wallet: ${response.walletName}');
-  }
-
   @override
   void initState() {
-    super.initState();
     Provider.of<CartRepositoryProvider>(context, listen: false)
         .getCachedProducts();
-    _razorPay = Razorpay();
-    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
   }
 
   @override
@@ -292,10 +247,14 @@ class _CartViewState extends State<CartView> {
                                   onTap: () {
                                     Navigator.pushNamed(
                                         context, RoutesName.checkOut);
-
-                                    // openCheckout(cartProvider
-                                    //     .cartRepositoryProvider.totalPrice
-                                    //     .toStringAsFixed(2));
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return CheckOutScreen(
+                                        totalPrice: cartProvider
+                                            .cartRepositoryProvider.totalPrice
+                                            .toStringAsFixed(2),
+                                      );
+                                    }));
                                   },
                                   child: Container(
                                     height: 56,
