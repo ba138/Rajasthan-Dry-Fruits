@@ -39,23 +39,22 @@ class ProductDetailRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> saveProductToCache({
-    required String productId,
-    required String name,
-    required String productWeight,
-    required String price,
-    required int quantity,
-  }) async {
+  Future<void> saveProductToCache(
+      {required String productId,
+      required String name,
+      required String productWeight,
+      required String price,
+      required int quantity,
+      required String token}) async {
     try {
       debugPrint("function has been called");
       final url = Uri.parse('http://103.117.180.187/cart/items/');
-      int? we; // Declare as nullable
+      int? we;
 
-      // Check if productWeight is "null" (as a string) before parsing
       if (productWeight == "null") {
-        we = 0; // Assign null if productWeight is "null"
+        we = null;
       } else {
-        we = int.parse(productWeight); // Parse to integer otherwise
+        we = int.parse(productWeight);
       }
       debugPrint("function has been called2");
 

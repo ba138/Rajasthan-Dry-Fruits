@@ -11,6 +11,7 @@ import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.detail});
@@ -41,6 +42,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
     ProductRepositoryProvider proRepoProvider =
@@ -413,12 +415,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   children: [
                     InkWell(
                       onTap: () async {
+                        final userModel = await userPreferences
+                            .getUser(); // Await the Future<UserModel> result
+                        final token = userModel.key;
                         proRepoProvider.saveCartProducts(
                             widget.detail.id,
                             widget.detail.title,
-                            weight ?? "null",
+                            weightid ?? "null",
                             discountedPrice,
-                            1);
+                            1,
+                            token);
                         // Future<bool> isInCart =
                         //     proRepoProvider.isProductInCart(widget.detail.id);
                         // if (await isInCart) {

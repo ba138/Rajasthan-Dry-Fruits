@@ -20,6 +20,7 @@ class ProductRepositoryProvider extends ChangeNotifier {
     String weight,
     String price,
     int quantity,
+    String token,
   ) {
     _productRepository.saveProductToCache(
       productId: productId,
@@ -27,6 +28,7 @@ class ProductRepositoryProvider extends ChangeNotifier {
       productWeight: weight,
       price: price,
       quantity: quantity,
+      token: token,
     );
     notifyListeners();
   }
