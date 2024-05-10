@@ -22,7 +22,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? weight;
   String? weightPrice;
-
+  String? weightid;
   int amount = 1;
   void increament() {
     setState(() {
@@ -209,6 +209,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           ? null
                                           : productWeight.weight.name;
                                       weightPrice = productWeight.price;
+                                      weightid = productWeight.id.toString();
                                     });
                                   },
                                   child: Container(
@@ -412,18 +413,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   children: [
                     InkWell(
                       onTap: () async {
-                        Future<bool> isInCart =
-                            proRepoProvider.isProductInCart(widget.detail.id);
-                        if (await isInCart) {
-                          Utils.toastMessage("Product is already in the cart");
-                        } else {
-                          proRepoProvider.saveCartProducts(
-                              widget.detail.id,
-                              widget.detail.title,
-                              widget.detail.thumbnailImage,
-                              discountedPrice,
-                              1);
-                        }
+                        proRepoProvider.saveCartProducts(
+                            widget.detail.id,
+                            widget.detail.title,
+                            weight ?? "null",
+                            discountedPrice,
+                            1);
+                        // Future<bool> isInCart =
+                        //     proRepoProvider.isProductInCart(widget.detail.id);
+                        // if (await isInCart) {
+                        //   Utils.toastMessage("Product is already in the cart");
+                        // } else {
+
+                        // }
                       },
                       child: Container(
                         height: 60,
