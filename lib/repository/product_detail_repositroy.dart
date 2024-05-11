@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailRepository extends ChangeNotifier {
   Future<void> fetchProductDetails(BuildContext context, String id) async {
-    final String url = 'http://103.117.180.187/product/$id/';
+    final String url = 'http://103.117.180.187/api/product/$id/';
     final Map<String, String> headers = {
       'accept': 'application/json',
       'X-CSRFToken':
