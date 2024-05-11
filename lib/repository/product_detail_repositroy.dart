@@ -49,7 +49,7 @@ class ProductDetailRepository extends ChangeNotifier {
     try {
       debugPrint("function has been called");
       final url = Uri.parse('http://103.117.180.187/cart/items/');
-      int? we;
+      dynamic we;
 
       if (productWeight == "null") {
         we = null;

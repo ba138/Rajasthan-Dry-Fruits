@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 import '../../../res/components/colors.dart';
 
 class SaveListCart extends StatefulWidget {
@@ -42,8 +43,11 @@ class _SaveListCartState extends State<SaveListCart> {
 
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     ProductRepositoryProvider proRepoProvider =
         Provider.of<ProductRepositoryProvider>(context, listen: false);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -126,13 +130,16 @@ class _SaveListCartState extends State<SaveListCart> {
                 ),
                 InkWell(
                   onTap: () async {
+                    final userModel = await userPreferences
+                        .getUser(); // Await the Future<UserModel> result
+                    final token = userModel.key;
                     Future<bool> isInCart =
                         proRepoProvider.isProductInCart(widget.id);
                     if (await isInCart) {
                       Utils.toastMessage("Product is already in the cart");
                     } else {
                       proRepoProvider.saveCartProducts(widget.id, widget.name,
-                          widget.image, widget.price, 1);
+                          "null", widget.price, 1, token);
                     }
                   },
                   child: const ImageIcon(
