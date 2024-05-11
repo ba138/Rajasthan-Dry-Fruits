@@ -17,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void startSessionCheck() {
     // Start a timer with a 6-second delay
     Timer(const Duration(seconds: 6), () {
+      Navigator.pushNamed(context, RoutesName.onboarding1);
       checkSession();
     });
   }

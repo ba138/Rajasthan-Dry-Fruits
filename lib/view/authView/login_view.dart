@@ -24,6 +24,7 @@ class _LoginViewState extends State<LoginView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -32,8 +33,6 @@ class _LoginViewState extends State<LoginView> {
     passwordController.dispose();
     nameController.dispose();
   }
-
-  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -153,38 +152,32 @@ class _LoginViewState extends State<LoginView> {
                             ],
                           ),
                           const VerticalSpeacing(30),
-                          _isLoading
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : RoundedButton(
-                                  title: "Login",
-                                  onpress: () {
-                                    if (emailController.text.isEmpty) {
-                                      Utils.flushBarErrorMessage(
-                                          'please enter your email', context);
-                                    } else if (passwordController
-                                        .text.isEmpty) {
-                                      Utils.flushBarErrorMessage(
-                                          'please enter your password',
-                                          context);
-                                    } else if (passwordController.text.length <
-                                        4) {
-                                      Utils.flushBarErrorMessage(
-                                          'plase enter more than four digits',
-                                          context);
-                                    } else {
-                                      Map<String, String> data = ({
-                                        'username':
-                                            nameController.text.toString(),
-                                        'email':
-                                            emailController.text.toString(),
-                                        'password':
-                                            passwordController.text.toString(),
-                                      });
-                                      authViewModel.loginApi(data, context);
-                                    }
-                                  }),
+                          RoundedButton(
+                              title: "Login",
+                              onpress: () {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                if (emailController.text.isEmpty) {
+                                  Utils.flushBarErrorMessage(
+                                      'please enter your email', context);
+                                } else if (passwordController.text.isEmpty) {
+                                  Utils.flushBarErrorMessage(
+                                      'please enter your password', context);
+                                } else if (passwordController.text.length < 4) {
+                                  Utils.flushBarErrorMessage(
+                                      'plase enter more than four digits',
+                                      context);
+                                } else {
+                                  Map<String, String> data = ({
+                                    'username': nameController.text.toString(),
+                                    'email': emailController.text.toString(),
+                                    'password':
+                                        passwordController.text.toString(),
+                                  });
+                                  authViewModel.loginApi(data, context);
+                                }
+                              }),
                         ],
                       ),
                     ),

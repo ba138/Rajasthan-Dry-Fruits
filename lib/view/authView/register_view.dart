@@ -25,6 +25,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordController2 = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -34,8 +35,6 @@ class _RegisterViewState extends State<RegisterView> {
     nameController.dispose();
     passwordController2.dispose();
   }
-
-  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -174,36 +173,43 @@ class _RegisterViewState extends State<RegisterView> {
                               : RoundedButton(
                                   title: "Register",
                                   onpress: () {
-                                    if (emailController.text.isEmpty) {
-                                      Utils.flushBarErrorMessage(
-                                          'please enter your email', context);
-                                    } else if (passwordController
-                                        .text.isEmpty) {
-                                      Utils.flushBarErrorMessage(
-                                          'please enter your password',
-                                          context);
-                                    } else if (passwordController2.text.length <
-                                        4) {
-                                      Utils.flushBarErrorMessage(
-                                          'please enter more than four digits',
-                                          context);
-                                    } else {
-                                      Map<String, String> data = {
-                                        // Ensure type safety
-                                        "username":
-                                            emailController.text.toString(),
-                                        "email":
-                                            emailController.text.toString(),
-                                        "password1":
-                                            passwordController.text.toString(),
-                                        "password2":
-                                            passwordController2.text.toString(),
-                                      };
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        _isLoading =
+                                            true; // Show loading indicator
+                                      });
+                                      if (emailController.text.isEmpty) {
+                                        Utils.flushBarErrorMessage(
+                                            'please enter your email', context);
+                                      } else if (passwordController
+                                          .text.isEmpty) {
+                                        Utils.flushBarErrorMessage(
+                                            'please enter your password',
+                                            context);
+                                      } else if (passwordController2
+                                              .text.length <
+                                          4) {
+                                        Utils.flushBarErrorMessage(
+                                            'please enter more than four digits',
+                                            context);
+                                      } else {
+                                        Map<String, String> data = {
+                                          // Ensure type safety
+                                          "username":
+                                              emailController.text.toString(),
+                                          "email":
+                                              emailController.text.toString(),
+                                          "password1": passwordController.text
+                                              .toString(),
+                                          "password2": passwordController2.text
+                                              .toString(),
+                                        };
 
-                                      // Consider validation before creating data to avoid unnecessary API calls
-                                      // if (data.isNotEmpty) { // If empty data is an issue
-                                      authViewModel.signUpApi(data, context);
-                                      // }
+                                        // Consider validation before creating data to avoid unnecessary API calls
+                                        // if (data.isNotEmpty) { // If empty data is an issue
+                                        authViewModel.signUpApi(data, context);
+                                        // }
+                                      }
                                     }
                                   },
                                 ),
