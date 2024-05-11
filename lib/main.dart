@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:provider/provider.dart';
 import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/repository/search_section_ui.dart';

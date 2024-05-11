@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,8 +56,9 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     List<String> encodedAddresses =
         addresses.map((address) => jsonEncode(address)).toList();
     await prefs.setStringList('addresses', encodedAddresses);
-
-    Navigator.pushNamed(context, RoutesName.checkOut);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return CheckOutScreen();
+    }));
   }
 
   @override
