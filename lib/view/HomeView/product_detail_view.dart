@@ -9,6 +9,7 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
+import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
@@ -464,10 +465,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.checkOut,
-                        );
+                       Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CheckOutScreen();
+                       }));
                       },
                       child: Container(
                         height: 55.0,

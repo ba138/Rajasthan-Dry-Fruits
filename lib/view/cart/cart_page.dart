@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
@@ -245,8 +244,6 @@ class _CartViewState extends State<CartView> {
                                 width: double.infinity,
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, RoutesName.checkOut);
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return CheckOutScreen(

@@ -6,6 +6,7 @@ import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 import '../../view_model/service/auth_services.dart';
+import '../checkOut/check_out_view.dart';
 import 'widgets/profile_center_btn.dart';
 import 'widgets/profile_widget.dart';
 
@@ -235,7 +236,9 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
-                        Navigator.pushNamed(context, RoutesName.checkOut);
+                       Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CheckOutScreen();
+                       }));
                       },
                       tColor: const Color(0xff9E93F4),
                       bColor: const Color(0xff7465EC),

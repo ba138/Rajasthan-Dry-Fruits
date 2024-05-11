@@ -15,10 +15,11 @@ import 'package:http/http.dart' as http;
 
 import '../../view_model/user_view_model.dart';
 
+// ignore: must_be_immutable
 class CheckOutScreen extends StatefulWidget {
-  const CheckOutScreen({super.key, required this.totalPrice});
+  CheckOutScreen({super.key, this.totalPrice});
 
-  final String totalPrice;
+  String? totalPrice;
 
   @override
   State<CheckOutScreen> createState() => _CheckOutScreenState();
@@ -77,14 +78,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       };
       final userPreferences =
           Provider.of<UserViewModel>(context, listen: false);
-      final userModel =
-          await userPreferences.getUser(); // Await the Future<UserModel> result
-      final token = userModel.key;
+      final userModel = await userPreferences.getUser();
+      final token = userModel.key; // Ensure this is the CSRF token
       print('...........................token: $token...................');
       Map<String, String> headers = {
         'accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        'X-CSRFToken': 'Bearer $token', // Corrected header format
       };
 
       try {
@@ -112,9 +112,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             },
           );
         } else {
-          // Handle API request failure
+          // Handle API request failure with more specific message based on response body
           Utils.toastMessage(
-              'Failed to submit payment data. Please try again.');
+              'Failed to submit payment data. Status code: ${apiResponse.statusCode}'); // Include status code
         }
       } catch (e) {
         // Handle exceptions during API request
@@ -271,7 +271,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 RoundedButton(
                   title: "Proceed to Payment: ${widget.totalPrice}",
                   onpress: () {
-                    openCheckout(widget.totalPrice);
+                    openCheckout(widget.totalPrice.toString());
                   },
                 ),
                 const VerticalSpeacing(20),
