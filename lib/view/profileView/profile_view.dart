@@ -236,9 +236,10 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CheckOutScreen();
-                       }));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CheckOutScreen();
+                        }));
                       },
                       tColor: const Color(0xff9E93F4),
                       bColor: const Color(0xff7465EC),
@@ -250,6 +251,9 @@ class _ProfileViewState extends State<ProfileView> {
                     ontap: () async {
                       String csrfToken =
                           'X2YwF4fdbiTMNSJ1bZLSCeKIR2y1BiwOpeuLmgtik1ZtieXxdGThLSyAXergkmjG';
+                      // final userPrefrences =
+                      //     Provider.of<UserViewModel>(context, listen: false);
+                      // userPrefrences.removerUser();
 
                       // Call logout method from AuthService
                       await authService.logout(csrfToken);
