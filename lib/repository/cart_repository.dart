@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:rjfruits/model/cart_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
 class CartRepository extends ChangeNotifier {
@@ -66,60 +66,168 @@ class CartRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteProduct(String productId) async {
+  Future<void> deleteProduct(int productId) async {
     try {
-      cartList.removeWhere((product) => product['productId'] == productId);
+      final url = 'http://103.117.180.187/api/cart/$productId/';
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: {
+          'accept': 'application/json',
+          'X-CSRFToken':
+              'eG9gGWbYQxkNMKGGvw4XSUDJ7PN27N8mTIXxQstDy8SiQM3pjx4L6xwnVJTAweWC',
+          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+        },
+      );
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String> updatedProducts =
-          cartList.map((product) => json.encode(product)).toList();
-      prefs.setStringList('products', updatedProducts);
-      calculateTotalPrice();
+      if (response.statusCode == 204) {
+        cartItems.removeWhere((item) => item.id == productId);
 
-      notifyListeners();
+        notifyListeners();
+        // Successful deletion
+        Utils.toastMessage("Product has been Delete");
+      } else {
+        // Handle other status codes
+        Utils.toastMessage("Check your internet connection");
+      }
+
+      // Optionally, you can notify listeners here if needed
     } catch (e) {
-      debugPrint("Error deleting product: $e");
+      print("Error deleting product: $e");
     }
   }
 
-  void addQuantity(String productId) {
-    Map<String, dynamic>? product = cartList.firstWhere(
-      (item) => item['productId'] == productId,
-      orElse: () => <String, dynamic>{},
-    );
+  // Add other methods as needed...
 
-    if (product != null) {
-      int currentQuantity = product['quantity'] ?? 1;
-      int newQuantity = currentQuantity + 1;
-      product['quantity'] = newQuantity;
+  // Future<void> deleteProduct(String productId) async {
+  //   try {
+  //     cartList.removeWhere((product) => product['productId'] == productId);
 
-      double price = double.tryParse(product['price'] ?? '0.0') ?? 0.0;
-      double individualTotal = price * newQuantity;
-      product['individualTotal'] = individualTotal.toString();
-      calculateTotalPrice();
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     List<String> updatedProducts =
+  //         cartList.map((product) => json.encode(product)).toList();
+  //     prefs.setStringList('products', updatedProducts);
+  //     calculateTotalPrice();
 
-      notifyListeners();
+  //     notifyListeners();
+  //   } catch (e) {
+  //     debugPrint("Error deleting product: $e");
+  //   }
+  // }
+  Future<void> addQuantity(int itemId, String product, int quantity) async {
+    final updatedQuantity = quantity + 1;
+    final url = 'http://103.117.180.187/api/cart/$itemId/';
+
+    try {
+      final response = await http.patch(
+        Uri.parse(url),
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken':
+              "2yZ0t55418A2ce1TyGaKD5RmNUsFAwe6HANhDBnJJJ8xggoCmHayRIK0BOydZX2m",
+          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+        },
+        body: jsonEncode({
+          'product': product,
+          'quantity': updatedQuantity,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Successful update
+        print('Item with ID $itemId updated successfully');
+      } else {
+        // Handle other status codes
+        print(
+            'Failed to update item with ID $itemId. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error updating item: $e');
     }
   }
+// void addQuantity(String productId) {
+//   CartItem? cartItem = cartItems.firstWhere(
+//     (item) => item.product.id == productId,
+//     orElse: () => null,
+//   );
 
-  void removeQuantity(String productId) {
-    Map<String, dynamic>? product = cartList.firstWhere(
-      (item) => item['productId'] == productId,
-      orElse: () => <String, dynamic>{},
-    );
+//   if (cartItem != null) {
+//     int currentQuantity = cartItem.quantity;
+//     int newQuantity = currentQuantity + 1;
 
-    if (product != null && (product['quantity'] ?? 1) > 1) {
-      int quantity = (product['quantity'] ?? 1) - 1;
-      product['quantity'] = quantity;
+//     // Create a new CartItem with updated quantity
+//     CartItem updatedCartItem = CartItem(
+//       id: cartItem.id,
+//       product: cartItem.product,
+//       quantity: newQuantity,
+//       productWeight: cartItem.productWeight,
+//     );
 
-      double price = double.tryParse(product['price'] ?? '0.0') ?? 0.0;
-      double individualTotal = price * quantity;
-      product['individualTotal'] = individualTotal.toString();
-      calculateTotalPrice();
+//     // Replace the old CartItem with the updated one in the cartItems list
+//     int index = cartItems.indexOf(cartItem);
+//     if (index != -1) {
+//       cartItems[index] = updatedCartItem;
+//     }
 
-      notifyListeners();
+//     double price = cartItem.product.price;
+//     double individualTotal = price * newQuantity;
+//     updatedCartItem.individualTotal = individualTotal.toString();
+
+//     calculateTotalPrice();
+
+//     notifyListeners();
+//   }
+// }
+  Future<void> removeQuantity(int itemId, String product, int quantity) async {
+    final updatedQuantity = quantity - 1;
+    final url = 'http://103.117.180.187/api/cart/$itemId/';
+
+    try {
+      final response = await http.patch(
+        Uri.parse(url),
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken':
+              "2yZ0t55418A2ce1TyGaKD5RmNUsFAwe6HANhDBnJJJ8xggoCmHayRIK0BOydZX2m",
+          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+        },
+        body: jsonEncode({
+          'product': product,
+          'quantity': updatedQuantity,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Successful update
+        print('Item with ID $itemId updated successfully');
+      } else {
+        // Handle other status codes
+        print(
+            'Failed to update item with ID $itemId. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error updating item: $e');
     }
   }
+  // void removeQuantity(String productId) {
+  //   Map<String, dynamic>? product = cartList.firstWhere(
+  //     (item) => item['productId'] == productId,
+  //     orElse: () => <String, dynamic>{},
+  //   );
+
+  //   if (product != null && (product['quantity'] ?? 1) > 1) {
+  //     int quantity = (product['quantity'] ?? 1) - 1;
+  //     product['quantity'] = quantity;
+
+  //     double price = double.tryParse(product['price'] ?? '0.0') ?? 0.0;
+  //     double individualTotal = price * quantity;
+  //     product['individualTotal'] = individualTotal.toString();
+  //     calculateTotalPrice();
+
+  //     notifyListeners();
+  //   }
+  // }
 
   void calculateTotalPrice() {
     double _totalPrice = 0.0;

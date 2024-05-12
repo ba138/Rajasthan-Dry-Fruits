@@ -11,20 +11,20 @@ class CartRepositoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteProduct(String id) async {
-    await _cartRepositoryProvider.deleteProduct(
+  Future<void> deleteProduct(int id) async {
+    _cartRepositoryProvider.deleteProduct(
       id,
     );
     notifyListeners();
   }
 
-  void addQuantity(String id) {
-    _cartRepositoryProvider.addQuantity(id);
+  void addQuantity(int id, String productId, int quantity) {
+    _cartRepositoryProvider.addQuantity(id, productId, quantity);
     notifyListeners();
   }
 
-  void removeQuantity(String id) {
-    _cartRepositoryProvider.removeQuantity(id);
+  void removeQuantity(int id, String productId, int quantity) {
+    _cartRepositoryProvider.removeQuantity(id, productId, quantity);
     notifyListeners();
   }
 

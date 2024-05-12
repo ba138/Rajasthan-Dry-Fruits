@@ -9,19 +9,21 @@ class CartWidget extends StatefulWidget {
     super.key,
     required this.name,
     required this.price,
-    required this.id,
+    required this.productId,
     required this.guantity,
     required this.img,
     required this.onpress,
     this.individualPrice,
+    required this.id,
   });
   final String name;
   final String price;
-  final String id;
+  final String productId;
   final int guantity;
   final String img;
   final VoidCallback onpress;
   final String? individualPrice;
+  final int id;
 
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -99,7 +101,11 @@ class _CartWidgetState extends State<CartWidget> {
                           onTap: () {
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .removeQuantity(widget.id);
+                                .removeQuantity(
+                              widget.id,
+                              widget.productId,
+                              widget.guantity,
+                            );
                           },
                           child: Container(
                             height: 25,
@@ -133,7 +139,14 @@ class _CartWidgetState extends State<CartWidget> {
                           onTap: () {
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .addQuantity(widget.id);
+                                .addQuantity(
+                              widget.id,
+                              widget.productId,
+                              widget.guantity,
+                            );
+                            Provider.of<CartRepositoryProvider>(context,
+                                    listen: false)
+                                .getCachedProducts();
                           },
                           child: Container(
                             height: 25,

@@ -126,7 +126,7 @@ class _CartViewState extends State<CartView> {
                         width: double.infinity,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
-                          itemCount: cartProducts.length,
+                          itemCount: cartItems.length,
                           itemBuilder: (context, index) {
                             final product = cartProducts[index];
                             final carPro = cartItems[index];
@@ -135,15 +135,19 @@ class _CartViewState extends State<CartView> {
                               child: CartWidget(
                                 onpress: () {
                                   // Assuming you want to delete the product
-                                  cartRepoProvider.deleteProduct(product.id);
+                                  cartRepoProvider.deleteProduct(carPro.id);
+                                  Provider.of<CartRepositoryProvider>(context,
+                                          listen: false)
+                                      .getCachedProducts();
                                 },
-                                id: product.id,
+                                productId: product.id.toString(),
                                 name: product.title,
                                 img: product.thumbnailImage,
                                 price: product.price.toString(),
                                 guantity: carPro.quantity,
-                                individualPrice: product.price
-                                    .toString(), // Assuming individual price is same as product price
+                                individualPrice: product.price.toString(),
+                                id: carPro
+                                    .id, // Assuming individual price is same as product price
                               ),
                             );
                           },
