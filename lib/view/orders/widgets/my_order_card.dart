@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:rjfruits/data/response/status.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
@@ -9,14 +10,32 @@ class myOrderCard extends StatefulWidget {
   const myOrderCard({
     super.key,
     required this.ontap,
+    required this.orderId,
+    required this.status,
+    required this.cartImg,
+    required this.cartTitle,
+    required this.quantity,
   });
   final Function ontap;
+  final String orderId;
+  final String status;
+  final String cartImg;
+  final String cartTitle;
+  final String quantity;
 
   @override
   State<myOrderCard> createState() => _myOrderCardState();
 }
 
 class _myOrderCardState extends State<myOrderCard> {
+  // String _truncateText(String text, int maxLength) {
+  //   if (text.length <= maxLength) {
+  //     return text; // Return the original text if it's within the limit
+  //   } else {
+  //     return '${text.substring(0, maxLength)}...'; // Truncate and add ellipsis
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,12 +61,12 @@ class _myOrderCardState extends State<myOrderCard> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text.rich(
                   TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'order ID: ',
                       style: TextStyle(
                         color: AppColor.cardTxColor,
@@ -56,8 +75,8 @@ class _myOrderCardState extends State<myOrderCard> {
                       ),
                     ),
                     TextSpan(
-                      text: '223456422',
-                      style: TextStyle(
+                      text: widget.orderId,
+                      style: const TextStyle(
                         color: AppColor.textColor1,
                         fontWeight: FontWeight.w600,
                         fontSize: 14.0,
@@ -67,7 +86,7 @@ class _myOrderCardState extends State<myOrderCard> {
                 ),
                 Text.rich(
                   TextSpan(children: [
-                    TextSpan(
+                    const TextSpan(
                       text: 'Status: ',
                       style: TextStyle(
                         color: AppColor.cardTxColor,
@@ -76,8 +95,8 @@ class _myOrderCardState extends State<myOrderCard> {
                       ),
                     ),
                     TextSpan(
-                      text: 'Completed',
-                      style: TextStyle(
+                      text: widget.status,
+                      style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 14.0,
@@ -96,16 +115,24 @@ class _myOrderCardState extends State<myOrderCard> {
                   width: 50.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    image: const DecorationImage(
-                        image: AssetImage('images/cartImg.png'),
+                    image: DecorationImage(
+                        image: NetworkImage(widget.cartImg),
                         fit: BoxFit.contain),
                   ),
                   // child: Image.asset('images/cartImg.png'),
                 ),
-                const Text.rich(
+                Text.rich(
                   TextSpan(children: [
                     TextSpan(
-                      text: 'Dryfruit of mix fresh of new\n',
+                      text: '${widget.cartTitle}\n',
+                      style: const TextStyle(
+                        color: AppColor.cardTxColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    const TextSpan(
+                      text: 'Qty: ',
                       style: TextStyle(
                         color: AppColor.cardTxColor,
                         fontWeight: FontWeight.w600,
@@ -113,16 +140,8 @@ class _myOrderCardState extends State<myOrderCard> {
                       ),
                     ),
                     TextSpan(
-                      text: 'And organic   ',
-                      style: TextStyle(
-                        color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    TextSpan(
-                      text: 'Qty:1',
-                      style: TextStyle(
+                      text: widget.quantity,
+                      style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 14.0,
