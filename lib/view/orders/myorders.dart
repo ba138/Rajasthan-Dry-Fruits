@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
 import '../../model/orders_model.dart';
@@ -147,7 +146,7 @@ class _MyOrdersState extends State<MyOrders>
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
-                print('...................full name: ${order.city}.........≥');
+                print('...................full name: ${order.city}.........');
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: myOrderCard(
