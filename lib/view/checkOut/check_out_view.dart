@@ -60,31 +60,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     String? razorpayPaymentId = response.paymentId;
     String? razorpayOrderId = response.orderId;
     String? razorpaySignature = response.signature;
-    // var headers = {
-    //   'Content-Type': 'application/json',
-    //   'authorization': 'Token 7233ff67ade230cfc7abe911657c331cfaf3fdff',
-    // };
-    // var request =
-    //     http.Request('POST', Uri.parse('http://103.117.180.187/api/checkout/'));
-    // request.body = json.encode({
-    //   "full_name": "string",
-    //   "contact": "string",
-    //   "postal_code": "string",
-    //   "address": "string",
-    //   "city": "string",
-    //   "state": "string",
-    //   "country": "USA",
-    //   "payment_type": "online"
-    // });
-    // request.headers.addAll(headers);
-
-    // http.StreamedResponse response = await request.send();
-
-    // if (response.statusCode == 201) {
-    //   print(await response.stream.bytesToString());
-    // } else {
-    //   print('${response.reasonPhrase} :  status code ${response.statusCode}');
-    // }
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
@@ -114,7 +89,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         // Construct the request headers with the authentication token
         Map<String, String> headers = {
           'Content-Type': 'application/json',
-          'authorization': 'Token 7233ff67ade230cfc7abe911657c331cfaf3fdff',
+          'authorization': 'Token $token',
         };
 
         // Send the POST request to the API endpoint with the prepared headers and data
@@ -129,9 +104,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         if (apiResponse.statusCode == 201) {
           Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
           Utils.toastMessage('Payment orderId: $razorpayOrderId');
+          Utils.toastMessage('Payment signatureId: $razorpaySignature');
 
           print('Selected address: $selectedAddress');
           print('Total amount: ${widget.totalPrice}');
+          print('RazorPay order Id: $razorpayOrderId');
+          print('RazorPay payment Id: $razorpayPaymentId');
+          print('RazorPay Signature Id: $razorpaySignature');
 
           Navigator.pushNamed(
             context,
