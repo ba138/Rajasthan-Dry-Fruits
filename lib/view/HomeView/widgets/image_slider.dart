@@ -9,7 +9,7 @@ import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 
 class ImageSlider extends StatefulWidget {
-  ImageSlider(
+  const ImageSlider(
       {super.key,
       required this.image,
       required this.listImage,

@@ -115,7 +115,7 @@ class _TotalRatingScreenState extends State<TotalRatingScreen> {
                       ),
                     ],
                   ),
-                  VerticalSpeacing(20.0),
+                  const VerticalSpeacing(20.0),
                   Column(
                     children: [
                       Row(

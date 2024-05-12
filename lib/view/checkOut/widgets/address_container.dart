@@ -60,7 +60,7 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
                   onTap: () {
                     setState(() {
                       isPressed = !isPressed;
-                      if (isPressed && widget.onpress != null) {
+                      if (isPressed) {
                         widget.onpress();
                       }
                     });

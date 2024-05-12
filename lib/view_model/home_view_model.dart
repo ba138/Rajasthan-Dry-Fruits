@@ -3,7 +3,7 @@ import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/repository/home_repository.dart';
 
 class HomeRepositoryProvider extends ChangeNotifier {
-  HomeRepository _homeRepository = HomeRepository();
+  final HomeRepository _homeRepository = HomeRepository();
 
   HomeRepository get homeRepository => _homeRepository;
 

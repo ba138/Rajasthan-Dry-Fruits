@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:rjfruits/model/cart_model.dart';
+
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
@@ -20,8 +23,15 @@ class _CartViewState extends State<CartView> {
   @override
   void initState() {
     Provider.of<CartRepositoryProvider>(context, listen: false)
-        .getCachedProducts();
+
+        .getCachedProducts(context);
+    _razorPay = Razorpay();
+    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
     super.initState();
+
   }
 
   @override
@@ -71,8 +81,10 @@ class _CartViewState extends State<CartView> {
                   // CartWidget(),
                   Consumer<CartRepositoryProvider>(
                     builder: (context, cartRepoProvider, child) {
-                      List<Map<String, dynamic>> cartItems =
-                          cartRepoProvider.cartRepositoryProvider.cartList;
+                      List<Product> cartProducts =
+                          cartRepoProvider.cartRepositoryProvider.cartProducts;
+                      List<CartItem> cartItems =
+                          cartRepoProvider.cartRepositoryProvider.cartItems;
 
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
@@ -81,41 +93,37 @@ class _CartViewState extends State<CartView> {
                           scrollDirection: Axis.vertical,
                           itemCount: cartItems.length,
                           itemBuilder: (context, index) {
-                            if (index < cartItems.length) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 12.0),
-                                child: CartWidget(
-                                  onpress: () {
-                                    Provider.of<CartRepositoryProvider>(context,
-                                            listen: false)
-                                        .deleteProduct(
-                                            cartItems[index]['productId']);
-                                    Provider.of<CartRepositoryProvider>(context,
-                                            listen: false)
-                                        .getCachedProducts();
-                                  },
-                                  id: cartItems[index]['productId'],
-                                  name: cartItems[index]['name'],
-                                  img: cartItems[index]['image'],
-                                  price: cartItems[index]['price'],
-                                  guantity: cartItems[index]['quantity'],
-                                  individualPrice: cartItems[index]
-                                          ['individualTotal'] ??
-                                      cartItems[index]['price'],
-                                ),
-                              );
-                            } else {
-                              return const SizedBox.shrink(
-                                child: Center(
-                                  child: Text("No Products to Show"),
-                                ),
-                              );
-                            }
+                            final product = cartProducts[index];
+                            final carPro = cartItems[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: CartWidget(
+                                onpress: () {
+                                  // Assuming you want to delete the product
+                                  cartRepoProvider.deleteProduct(
+                                      carPro.id, context);
+                                  Provider.of<CartRepositoryProvider>(context,
+                                          listen: false)
+                                      .getCachedProducts(context);
+                                },
+                                productId: product.id.toString(),
+                                name: product.title,
+                                img: product.thumbnailImage,
+                                price: product.price.toString(),
+                                guantity: carPro.quantity,
+                                individualPrice: product.price.toString(),
+                                id: carPro
+                                    .id, // Assuming individual price is same as product price
+                              ),
+                            );
                           },
                         ),
                       );
                     },
                   ),
+                  //  individualPrice: cartItems[index]
+                  //                         ['individualTotal'] ??
+                  //                     cartItems[index]['price'],
                   const VerticalSpeacing(10.0),
                   Container(
                     height: 357,
@@ -224,7 +232,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    '\$${cartProvider.calculateTotalPrice()}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -244,14 +252,16 @@ class _CartViewState extends State<CartView> {
                                 width: double.infinity,
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                      return CheckOutScreen(
-                                        totalPrice: cartProvider
-                                            .cartRepositoryProvider.totalPrice
-                                            .toStringAsFixed(2),
-                                      );
-                                    }));
+
+                                    Navigator.pushNamed(
+                                        context, RoutesName.checkOut);
+
+                                    // openCheckout(cartProvider
+                                    //     .cartRepositoryProvider.totalPrice
+                                    //     .toStringAsFixed(2));
+
+                                );
+
                                   },
                                   child: Container(
                                     height: 56,

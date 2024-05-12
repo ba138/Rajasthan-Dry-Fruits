@@ -5,7 +5,7 @@ import 'package:rjfruits/repository/save_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SaveProductRepositoryProvider extends ChangeNotifier {
-  SaveRepository _saveRepository = SaveRepository();
+  final SaveRepository _saveRepository = SaveRepository();
 
   SaveRepository get saveRepository => _saveRepository;
   void saveCartProducts(

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:convert';
 
@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailRepository extends ChangeNotifier {
   Future<void> fetchProductDetails(BuildContext context, String id) async {
-    final String url = 'http://103.117.180.187/product/$id/';
+    final String url = 'http://103.117.180.187/api/product/$id/';
     final Map<String, String> headers = {
       'accept': 'application/json',
       'X-CSRFToken':
@@ -48,7 +48,7 @@ class ProductDetailRepository extends ChangeNotifier {
       required String token}) async {
     try {
       debugPrint("function has been called");
-      final url = Uri.parse('http://103.117.180.187/cart/items/');
+      final url = Uri.parse('http://103.117.180.187/api/cart/items/');
       dynamic we;
 
       if (productWeight == "null") {
@@ -57,7 +57,7 @@ class ProductDetailRepository extends ChangeNotifier {
         we = int.parse(productWeight);
       }
       debugPrint("function has been called2");
-
+      debugPrint("this is the token of the user= $token");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -65,6 +65,7 @@ class ProductDetailRepository extends ChangeNotifier {
           'Content-Type': 'application/json',
           'X-CSRFToken':
               'kktm3pokcNxKVGEeXSiJrkLrmWNgCL4fZmhDdVGZUo5fZI1XLTixFXE5aQTO1cSv',
+          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff"
         },
         body: jsonEncode(<String, dynamic>{
           'product': productId,
@@ -74,7 +75,7 @@ class ProductDetailRepository extends ChangeNotifier {
       );
       debugPrint("function has been called3${response.statusCode}");
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         debugPrint("function has been called4");
 
         // Data sent successfully

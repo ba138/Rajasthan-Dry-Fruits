@@ -4,10 +4,10 @@ import 'package:rjfruits/res/components/colors.dart';
 
 class LoadingManager extends StatelessWidget {
   const LoadingManager({
-    Key? key,
+    super.key,
     required this.isLoading,
     required this.child,
-  }) : super(key: key);
+  });
 
   final bool isLoading;
   final Widget child;
@@ -23,7 +23,7 @@ class LoadingManager extends StatelessWidget {
             child: Center(
               child: Container(
                 width: 200,
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
                   color: AppColor.whiteColor,
                   borderRadius: BorderRadius.circular(10.0),

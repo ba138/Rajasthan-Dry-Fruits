@@ -7,7 +7,6 @@ import 'package:rjfruits/model/product_detail_model.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';

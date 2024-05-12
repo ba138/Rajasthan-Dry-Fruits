@@ -1,11 +1,10 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
 
-// ignore: camel_case_types
 class myOrderCard extends StatefulWidget {
   const myOrderCard({
     super.key,

@@ -1,11 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class PopularItems extends StatelessWidget {
   const PopularItems({super.key});

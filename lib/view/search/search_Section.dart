@@ -1,8 +1,11 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/shop_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SearchSectionUi extends StatelessWidget {
   const SearchSectionUi({super.key});
