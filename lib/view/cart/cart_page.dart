@@ -23,15 +23,9 @@ class _CartViewState extends State<CartView> {
   @override
   void initState() {
     Provider.of<CartRepositoryProvider>(context, listen: false)
-
         .getCachedProducts(context);
-    _razorPay = Razorpay();
-    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
     super.initState();
-
   }
 
   @override
@@ -252,16 +246,18 @@ class _CartViewState extends State<CartView> {
                                 width: double.infinity,
                                 child: InkWell(
                                   onTap: () {
-
-                                    Navigator.pushNamed(
-                                        context, RoutesName.checkOut);
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return CheckOutScreen(
+                                        totalPrice: cartProvider
+                                            .cartRepositoryProvider.totalPrice
+                                            .toStringAsFixed(2),
+                                      );
+                                    }));
 
                                     // openCheckout(cartProvider
                                     //     .cartRepositoryProvider.totalPrice
                                     //     .toStringAsFixed(2));
-
-                                );
-
                                   },
                                   child: Container(
                                     height: 56,

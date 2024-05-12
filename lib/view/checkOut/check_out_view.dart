@@ -57,108 +57,104 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    // String? razorpayPaymentId = response.paymentId;
-    // String? razorpayOrderId = response.orderId;
-    // String? razorpaySignature = response.signature;
-    var headers = {
-      'Content-Type': 'application/json',
-      'authorization': 'Token 7233ff67ade230cfc7abe911657c331cfaf3fdff',
-    };
-    var request =
-        http.Request('POST', Uri.parse('http://103.117.180.187/api/checkout/'));
-    request.body = json.encode({
-      "full_name": "string",
-      "contact": "string",
-      "postal_code": "string",
-      "address": "string",
-      "city": "string",
-      "state": "string",
-      "country": "USA",
-      "payment_type": "online"
-    });
-    request.headers.addAll(headers);
+    String? razorpayPaymentId = response.paymentId;
+    String? razorpayOrderId = response.orderId;
+    String? razorpaySignature = response.signature;
+    // var headers = {
+    //   'Content-Type': 'application/json',
+    //   'authorization': 'Token 7233ff67ade230cfc7abe911657c331cfaf3fdff',
+    // };
+    // var request =
+    //     http.Request('POST', Uri.parse('http://103.117.180.187/api/checkout/'));
+    // request.body = json.encode({
+    //   "full_name": "string",
+    //   "contact": "string",
+    //   "postal_code": "string",
+    //   "address": "string",
+    //   "city": "string",
+    //   "state": "string",
+    //   "country": "USA",
+    //   "payment_type": "online"
+    // });
+    // request.headers.addAll(headers);
 
-    http.StreamedResponse response = await request.send();
+    // http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    } else {
-      print('${response.reasonPhrase} :  status code ${response.statusCode}');
-    }
-
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // String? jsonSelectedAddress = prefs.getString('selectedAddress');
-    // print('Selected Address: $jsonSelectedAddress');
-
-    // if (jsonSelectedAddress != null) {
-    //   Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
-
-    //   Map<String, dynamic> requestData = {
-    //     "full_name": selectedAddress['fullName'],
-    //     "contact": selectedAddress['phone'],
-    //     "postal_code": selectedAddress['zipCode'],
-    //     "address": selectedAddress['address'],
-    //     "city": selectedAddress['city'],
-    //     "state": selectedAddress['state'],
-    //     "country": "USA",
-    //     "payment_type": "online",
-    //     "razorpay_order_id": razorpayOrderId,
-    //     // "razorpay_payment_id": razorpayPaymentId,
-    //     // "razorpay_signature": razorpaySignature,
-    //   };
-
-    //   try {
-    //     // Retrieve the user's authentication token
-    //     final userPreferences =
-    //         Provider.of<UserViewModel>(context, listen: false);
-    //     final userModel = await userPreferences.getUser();
-    //     final token = userModel.key;
-
-    //     // Construct the request headers with the authentication token
-    //     Map<String, String> headers = {
-    //       'accept': 'application/json',
-    //       'Content-Type': 'application/json',
-    //       'authorization': 'Token 7233ff67ade230cfc7abe911657c331cfaf3fdff',
-    //     };
-
-    //     // Send the POST request to the API endpoint with the prepared headers and data
-    //     http.Response apiResponse = await http.post(
-    //       Uri.parse('http://103.117.180.187/api/checkout/'),
-    //       headers: headers,
-    //       body: jsonEncode(requestData),
-    //     );
-
-    //     print('API Response Status Code: ${apiResponse.statusCode}');
-
-    //     if (apiResponse.statusCode == 201) {
-    //       Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
-    //       Utils.toastMessage('Payment orderId: $razorpayOrderId');
-
-    //       print('Selected address: $selectedAddress');
-    //       print('Total amount: ${widget.totalPrice}');
-
-    //       Navigator.pushNamed(
-    //         context,
-    //         RoutesName.paymentDone,
-    //         arguments: {
-    //           'selectedAddress': selectedAddress,
-    //           'totalAmount': widget.totalPrice,
-    //         },
-    //       );
-    //     } else {
-    //       // Handle API request failure with more specific message based on response body
-    //       Utils.toastMessage(
-    //           'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
-    //     }
-    //   } catch (e) {
-    //     // Handle exceptions during API request
-    //     if (e is http.ClientException) {
-    //       Utils.toastMessage('Network error occurred: $e');
-    //     } else {
-    //       Utils.toastMessage('Error occurred while processing payment: $e');
-    //     }
-    //   }
+    // if (response.statusCode == 201) {
+    //   print(await response.stream.bytesToString());
+    // } else {
+    //   print('${response.reasonPhrase} :  status code ${response.statusCode}');
     // }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonSelectedAddress = prefs.getString('selectedAddress');
+    print('Selected Address: $jsonSelectedAddress');
+
+    if (jsonSelectedAddress != null) {
+      Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
+
+      Map<String, dynamic> requestData = {
+        "full_name": selectedAddress['fullName'],
+        "contact": selectedAddress['phone'],
+        "postal_code": selectedAddress['zipCode'],
+        "address": selectedAddress['address'],
+        "city": selectedAddress['city'],
+        "state": selectedAddress['state'],
+        "country": "USA",
+        "payment_type": "online",
+      };
+
+      try {
+        // Retrieve the user's authentication token
+        final userPreferences =
+            Provider.of<UserViewModel>(context, listen: false);
+        final userModel = await userPreferences.getUser();
+        final token = userModel.key;
+
+        // Construct the request headers with the authentication token
+        Map<String, String> headers = {
+          'Content-Type': 'application/json',
+          'authorization': 'Token 7233ff67ade230cfc7abe911657c331cfaf3fdff',
+        };
+
+        // Send the POST request to the API endpoint with the prepared headers and data
+        http.Response apiResponse = await http.post(
+          Uri.parse('http://103.117.180.187/api/checkout/'),
+          headers: headers,
+          body: jsonEncode(requestData),
+        );
+
+        print('API Response Status Code: ${apiResponse.statusCode}');
+
+        if (apiResponse.statusCode == 201) {
+          Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
+          Utils.toastMessage('Payment orderId: $razorpayOrderId');
+
+          print('Selected address: $selectedAddress');
+          print('Total amount: ${widget.totalPrice}');
+
+          Navigator.pushNamed(
+            context,
+            RoutesName.paymentDone,
+            arguments: {
+              'selectedAddress': selectedAddress,
+              'totalAmount': widget.totalPrice,
+            },
+          );
+        } else {
+          // Handle API request failure with more specific message based on response body
+          Utils.toastMessage(
+              'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
+        }
+      } catch (e) {
+        // Handle exceptions during API request
+        if (e is http.ClientException) {
+          Utils.toastMessage('Network error occurred: $e');
+        } else {
+          Utils.toastMessage('Error occurred while processing payment: $e');
+        }
+      }
+    }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -307,11 +303,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 RoundedButton(
                   title: "Proceed to Payment: ${widget.totalPrice}",
                   onpress: () {
-                    double amout = 50;
                     if (selectedAddress == null) {
                       Utils.toastMessage('Please select the shipping address');
                     } else {
-                      openCheckout(amout.toString());
+                      openCheckout(widget.totalPrice.toString());
                     }
                   },
                 ),
