@@ -6,29 +6,35 @@ class CartRepositoryProvider extends ChangeNotifier {
 
   CartRepository get cartRepositoryProvider => _cartRepositoryProvider;
 
-  Future<void> getCachedProducts() async {
-    await _cartRepositoryProvider.getCachedProducts();
+  Future<void> getCachedProducts(BuildContext context) async {
+    await _cartRepositoryProvider.getCachedProducts(context);
     notifyListeners();
   }
 
-  Future<void> deleteProduct(int id) async {
-    _cartRepositoryProvider.deleteProduct(
-      id,
-    );
+  Future<void> deleteProduct(int id, BuildContext context) async {
+    _cartRepositoryProvider.deleteProduct(id, context);
     notifyListeners();
   }
 
-  void addQuantity(int id, String productId, int quantity) {
-    _cartRepositoryProvider.addQuantity(id, productId, quantity);
+  void addQuantity(
+      int id, String productId, int quantity, BuildContext context) {
+    _cartRepositoryProvider.addQuantity(id, productId, quantity, context);
     notifyListeners();
   }
 
-  void removeQuantity(int id, String productId, int quantity) {
-    _cartRepositoryProvider.removeQuantity(id, productId, quantity);
+  void removeQuantity(
+      int id, String productId, int quantity, BuildContext context) {
+    _cartRepositoryProvider.removeQuantity(id, productId, quantity, context);
     notifyListeners();
   }
 
-  void calculateTotalPrice() {
-    _cartRepositoryProvider.calculateTotalPrice();
+  String calculateTotalPrice() {
+    String totalPrice = _cartRepositoryProvider.calculateTotalPrice();
+
+    // Notify listeners
+    notifyListeners();
+
+    // Return the total price
+    return totalPrice;
   }
 }

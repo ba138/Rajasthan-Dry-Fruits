@@ -101,14 +101,11 @@ class _CartWidgetState extends State<CartWidget> {
                           onTap: () {
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .removeQuantity(
-                              widget.id,
-                              widget.productId,
-                              widget.guantity,
-                            );
+                                .removeQuantity(widget.id, widget.productId,
+                                    widget.guantity, context);
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .getCachedProducts();
+                                .getCachedProducts(context);
                           },
                           child: Container(
                             height: 25,
@@ -142,14 +139,11 @@ class _CartWidgetState extends State<CartWidget> {
                           onTap: () {
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .addQuantity(
-                              widget.id,
-                              widget.productId,
-                              widget.guantity,
-                            );
+                                .addQuantity(widget.id, widget.productId,
+                                    widget.guantity, context);
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .getCachedProducts();
+                                .getCachedProducts(context);
                           },
                           child: Container(
                             height: 25,

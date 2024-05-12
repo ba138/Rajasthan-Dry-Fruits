@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison, no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_null_comparison, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'dart:convert';
 
@@ -31,7 +31,7 @@ class CartRepository extends ChangeNotifier {
   //     debugPrint("Error getting cached products: $e");
   //   }
   // }
-  Future<void> getCachedProducts() async {
+  Future<void> getCachedProducts(BuildContext context) async {
     try {
       var url = Uri.parse('http://103.117.180.187/api/cart/items/');
       var headers = {
@@ -62,11 +62,11 @@ class CartRepository extends ChangeNotifier {
         throw Exception('Failed to load cart items');
       }
     } catch (e) {
-      debugPrint("Error getting cart items: $e");
+      Utils.flushBarErrorMessage("Check your internet connection", context);
     }
   }
 
-  Future<void> deleteProduct(int productId) async {
+  Future<void> deleteProduct(int productId, BuildContext context) async {
     try {
       final url = 'http://103.117.180.187/api/cart/$productId/';
       final response = await http.delete(
@@ -89,31 +89,13 @@ class CartRepository extends ChangeNotifier {
         // Handle other status codes
         Utils.toastMessage("Check your internet connection");
       }
-
-      // Optionally, you can notify listeners here if needed
     } catch (e) {
-      print("Error deleting product: $e");
+      Utils.flushBarErrorMessage("Problem in removeing product", context);
     }
   }
 
-  // Add other methods as needed...
-
-  // Future<void> deleteProduct(String productId) async {
-  //   try {
-  //     cartList.removeWhere((product) => product['productId'] == productId);
-
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     List<String> updatedProducts =
-  //         cartList.map((product) => json.encode(product)).toList();
-  //     prefs.setStringList('products', updatedProducts);
-  //     calculateTotalPrice();
-
-  //     notifyListeners();
-  //   } catch (e) {
-  //     debugPrint("Error deleting product: $e");
-  //   }
-  // }
-  Future<void> addQuantity(int itemId, String product, int quantity) async {
+  Future<void> addQuantity(
+      int itemId, String product, int quantity, BuildContext context) async {
     final updatedQuantity = quantity + 1;
     final url = 'http://103.117.180.187/api/cart/$itemId/';
 
@@ -135,50 +117,16 @@ class CartRepository extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         // Successful update
-        print('Item with ID $itemId updated successfully');
       } else {
         // Handle other status codes
-        print(
-            'Failed to update item with ID $itemId. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error updating item: $e');
+      Utils.flushBarErrorMessage("problem in updating product", context);
     }
   }
-// void addQuantity(String productId) {
-//   CartItem? cartItem = cartItems.firstWhere(
-//     (item) => item.product.id == productId,
-//     orElse: () => null,
-//   );
 
-//   if (cartItem != null) {
-//     int currentQuantity = cartItem.quantity;
-//     int newQuantity = currentQuantity + 1;
-
-//     // Create a new CartItem with updated quantity
-//     CartItem updatedCartItem = CartItem(
-//       id: cartItem.id,
-//       product: cartItem.product,
-//       quantity: newQuantity,
-//       productWeight: cartItem.productWeight,
-//     );
-
-//     // Replace the old CartItem with the updated one in the cartItems list
-//     int index = cartItems.indexOf(cartItem);
-//     if (index != -1) {
-//       cartItems[index] = updatedCartItem;
-//     }
-
-//     double price = cartItem.product.price;
-//     double individualTotal = price * newQuantity;
-//     updatedCartItem.individualTotal = individualTotal.toString();
-
-//     calculateTotalPrice();
-
-//     notifyListeners();
-//   }
-// }
-  Future<void> removeQuantity(int itemId, String product, int quantity) async {
+  Future<void> removeQuantity(
+      int itemId, String product, int quantity, BuildContext context) async {
     final updatedQuantity = quantity - 1;
     final url = 'http://103.117.180.187/api/cart/$itemId/';
 
@@ -200,48 +148,24 @@ class CartRepository extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         // Successful update
-        print('Item with ID $itemId updated successfully');
       } else {
         // Handle other status codes
-        print(
-            'Failed to update item with ID $itemId. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error updating item: $e');
+      Utils.flushBarErrorMessage("Check your internet connection", context);
     }
   }
-  // void removeQuantity(String productId) {
-  //   Map<String, dynamic>? product = cartList.firstWhere(
-  //     (item) => item['productId'] == productId,
-  //     orElse: () => <String, dynamic>{},
-  //   );
 
-  //   if (product != null && (product['quantity'] ?? 1) > 1) {
-  //     int quantity = (product['quantity'] ?? 1) - 1;
-  //     product['quantity'] = quantity;
+  String calculateTotalPrice() {
+    double totalPrice = 0.0;
 
-  //     double price = double.tryParse(product['price'] ?? '0.0') ?? 0.0;
-  //     double individualTotal = price * quantity;
-  //     product['individualTotal'] = individualTotal.toString();
-  //     calculateTotalPrice();
-
-  //     notifyListeners();
-  //   }
-  // }
-
-  void calculateTotalPrice() {
-    double _totalPrice = 0.0;
-
-    for (var product in cartList) {
-      double price = product['individualTotal'] != null
-          ? double.tryParse(product['individualTotal']) ?? 0.0
-          : double.tryParse(product['price']) ?? 0.0;
-
-      _totalPrice += price;
+    for (var cartItem in cartItems) {
+      totalPrice += cartItem.product.price * cartItem.quantity;
     }
 
-    totalPrice = _totalPrice;
-
+    this.totalPrice = totalPrice;
     notifyListeners();
+
+    return totalPrice.toString();
   }
 }

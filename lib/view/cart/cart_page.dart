@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/model/cart_model.dart';
+import 'package:rjfruits/repository/cart_repository.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
@@ -62,7 +63,7 @@ class _CartViewState extends State<CartView> {
   void initState() {
     super.initState();
     Provider.of<CartRepositoryProvider>(context, listen: false)
-        .getCachedProducts();
+        .getCachedProducts(context);
     _razorPay = Razorpay();
     _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -135,10 +136,11 @@ class _CartViewState extends State<CartView> {
                               child: CartWidget(
                                 onpress: () {
                                   // Assuming you want to delete the product
-                                  cartRepoProvider.deleteProduct(carPro.id);
+                                  cartRepoProvider.deleteProduct(
+                                      carPro.id, context);
                                   Provider.of<CartRepositoryProvider>(context,
                                           listen: false)
-                                      .getCachedProducts();
+                                      .getCachedProducts(context);
                                 },
                                 productId: product.id.toString(),
                                 name: product.title,
@@ -266,7 +268,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    '\$${cartProvider.calculateTotalPrice()}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
