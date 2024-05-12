@@ -65,7 +65,7 @@ class ProductDetailRepository extends ChangeNotifier {
           'Content-Type': 'application/json',
           'X-CSRFToken':
               'kktm3pokcNxKVGEeXSiJrkLrmWNgCL4fZmhDdVGZUo5fZI1XLTixFXE5aQTO1cSv',
-          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff"
+          'authorization': "Token $token"
         },
         body: jsonEncode(<String, dynamic>{
           'product': productId,
