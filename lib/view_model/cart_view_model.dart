@@ -6,25 +6,27 @@ class CartRepositoryProvider extends ChangeNotifier {
 
   CartRepository get cartRepositoryProvider => _cartRepositoryProvider;
 
-  Future<void> getCachedProducts(BuildContext context) async {
-    await _cartRepositoryProvider.getCachedProducts(context);
+  Future<void> getCachedProducts(BuildContext context, String token) async {
+    await _cartRepositoryProvider.getCachedProducts(context, token);
     notifyListeners();
   }
 
-  Future<void> deleteProduct(int id, BuildContext context) async {
-    _cartRepositoryProvider.deleteProduct(id, context);
+  Future<void> deleteProduct(int id, BuildContext context, String token) async {
+    _cartRepositoryProvider.deleteProduct(id, context, token);
     notifyListeners();
   }
 
-  void addQuantity(
-      int id, String productId, int quantity, BuildContext context) {
-    _cartRepositoryProvider.addQuantity(id, productId, quantity, context);
+  void addQuantity(int id, String productId, int quantity, BuildContext context,
+      String token) {
+    _cartRepositoryProvider.addQuantity(
+        id, productId, quantity, context, token);
     notifyListeners();
   }
 
-  void removeQuantity(
-      int id, String productId, int quantity, BuildContext context) {
-    _cartRepositoryProvider.removeQuantity(id, productId, quantity, context);
+  void removeQuantity(int id, String productId, int quantity,
+      BuildContext context, String token) {
+    _cartRepositoryProvider.removeQuantity(
+        id, productId, quantity, context, token);
     notifyListeners();
   }
 

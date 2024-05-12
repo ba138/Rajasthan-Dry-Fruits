@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +8,7 @@ import 'package:rjfruits/model/cart_model.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
@@ -18,16 +21,26 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
+  gettingAllRequiredData() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel =
+        await userPreferences.getUser(); // Await the Future<UserModel> result
+    final token = userModel.key;
+    Provider.of<CartRepositoryProvider>(context, listen: false)
+        .getCachedProducts(context, token);
+  }
+
   @override
   void initState() {
-    Provider.of<CartRepositoryProvider>(context, listen: false)
-        .getCachedProducts(context);
+    gettingAllRequiredData();
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -90,13 +103,16 @@ class _CartViewState extends State<CartView> {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
                               child: CartWidget(
-                                onpress: () {
+                                onpress: () async {
+                                  final userModel = await userPreferences
+                                      .getUser(); // Await the Future<UserModel> result
+                                  final token = userModel.key;
                                   // Assuming you want to delete the product
                                   cartRepoProvider.deleteProduct(
-                                      carPro.id, context);
+                                      carPro.id, context, token);
                                   Provider.of<CartRepositoryProvider>(context,
                                           listen: false)
-                                      .getCachedProducts(context);
+                                      .getCachedProducts(context, token);
                                 },
                                 productId: product.id.toString(),
                                 name: product.title,

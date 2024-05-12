@@ -1,4 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks
+// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -424,14 +424,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             weightid ?? "null",
                             discountedPrice,
                             1,
-                            token);
-                        // Future<bool> isInCart =
-                        //     proRepoProvider.isProductInCart(widget.detail.id);
-                        // if (await isInCart) {
-                        //   Utils.toastMessage("Product is already in the cart");
-                        // } else {
-
-                        // }
+                            token,
+                            context);
                       },
                       child: Container(
                         height: 60,
@@ -464,9 +458,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CheckOutScreen();
-                       }));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CheckOutScreen();
+                        }));
                       },
                       child: Container(
                         height: 55.0,

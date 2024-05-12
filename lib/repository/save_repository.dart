@@ -16,6 +16,7 @@ class SaveRepository extends ChangeNotifier {
     required String image,
     required String price,
     required BuildContext context,
+    required String token,
   }) async {
     final url = Uri.parse('http://103.117.180.187/api/wish-list/');
     const csrfToken =
@@ -25,7 +26,7 @@ class SaveRepository extends ChangeNotifier {
       'accept': 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': csrfToken,
-      'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+      'authorization': "Token $token",
     };
 
     final body = jsonEncode({
@@ -45,7 +46,7 @@ class SaveRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> getCachedProducts(BuildContext context) async {
+  Future<void> getCachedProducts(BuildContext context, String token) async {
     final url = Uri.parse('http://103.117.180.187/api/wish-list/');
     const csrfToken =
         'NGxAa947Y1IH8kL6Y0H28OV42wsR98ZvsIlRkFmMGCgccm8PM1HQmrOIQqypyzNL';
@@ -53,7 +54,7 @@ class SaveRepository extends ChangeNotifier {
     final headers = {
       'accept': 'application/json',
       'X-CSRFToken': csrfToken,
-      'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+      'authorization': "Token $token",
     };
 
     try {
@@ -77,7 +78,8 @@ class SaveRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteProduct(String saveProductId, BuildContext context) async {
+  Future<void> deleteProduct(
+      String saveProductId, BuildContext context, String token) async {
     final url = Uri.parse(
         'http://103.117.180.187/api/wish-list/$saveProductId/delete/');
     const csrfToken =
@@ -86,12 +88,12 @@ class SaveRepository extends ChangeNotifier {
     final headers = {
       'accept': 'application/json',
       'X-CSRFToken': csrfToken,
-      'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+      'authorization': "Token $token",
     };
 
     try {
       final response = await http.delete(url, headers: headers);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 204) {
         Utils.toastMessage('Save product deleted successfully');
       } else {
         Utils.toastMessage('Error deleting save product');

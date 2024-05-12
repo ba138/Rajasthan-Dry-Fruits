@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 import '../../../res/components/colors.dart';
 
 class CartWidget extends StatefulWidget {
@@ -32,6 +35,8 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -98,14 +103,17 @@ class _CartWidgetState extends State<CartWidget> {
                     Row(
                       children: [
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            final userModel = await userPreferences
+                                .getUser(); // Await the Future<UserModel> result
+                            final token = userModel.key;
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
                                 .removeQuantity(widget.id, widget.productId,
-                                    widget.guantity, context);
+                                    widget.guantity, context, token);
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .getCachedProducts(context);
+                                .getCachedProducts(context, token);
                           },
                           child: Container(
                             height: 25,
@@ -136,14 +144,17 @@ class _CartWidgetState extends State<CartWidget> {
                           width: 10,
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            final userModel = await userPreferences
+                                .getUser(); // Await the Future<UserModel> result
+                            final token = userModel.key;
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
                                 .addQuantity(widget.id, widget.productId,
-                                    widget.guantity, context);
+                                    widget.guantity, context, token);
                             Provider.of<CartRepositoryProvider>(context,
                                     listen: false)
-                                .getCachedProducts(context);
+                                .getCachedProducts(context, token);
                           },
                           child: Container(
                             height: 25,

@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rjfruits/model/product_detail_model.dart';
 
 import 'package:http/http.dart' as http;
@@ -39,13 +40,15 @@ class ProductDetailRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> saveProductToCache(
-      {required String productId,
-      required String name,
-      required String productWeight,
-      required String price,
-      required int quantity,
-      required String token}) async {
+  Future<void> saveProductToCache({
+    required String productId,
+    required String name,
+    required String productWeight,
+    required String price,
+    required int quantity,
+    required String token,
+    required BuildContext context,
+  }) async {
     try {
       debugPrint("function has been called");
       final url = Uri.parse('http://103.117.180.187/api/cart/items/');
@@ -73,58 +76,18 @@ class ProductDetailRepository extends ChangeNotifier {
           'product_weight': we,
         }),
       );
-      debugPrint("function has been called3${response.statusCode}");
 
       if (response.statusCode == 201) {
-        debugPrint("function has been called4");
-
         // Data sent successfully
         Utils.toastMessage("Product has been added to cart");
         notifyListeners();
-        debugPrint("function has been called4");
-
-        print('Failed to send cart data to server: ${response.statusCode}');
       } else {
         Utils.toastMessage("Unable to Add to cart");
       }
     } catch (e) {
-      debugPrint("function has been called5");
-
-      print('Error sending cart data to server: $e');
+      handleApiError(e, context);
     }
   }
-
-  // Future<void> saveProductToCache({
-  //   required String productId,
-  //   required String name,
-  //   required String image,
-  //   required String price,
-  //   required int quantity,
-  // }) async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  //     Map<String, dynamic> newProduct = {
-  //       'productId': productId,
-  //       'name': name,
-  //       'image': image,
-  //       'price': price,
-  //       'quantity': quantity,
-  //     };
-
-  //     String newProductJson = json.encode(newProduct);
-
-  //     List<String> cachedProducts = prefs.getStringList('products') ?? [];
-
-  //     cachedProducts.add(newProductJson);
-
-  //     prefs.setStringList('products', cachedProducts);
-  //     Utils.toastMessage("Product has been added to cart");
-  //     notifyListeners();
-  //   } catch (e) {
-  //     debugPrint("Error saving product to cache: $e");
-  //   }
-  // }
 
   Future<bool> isProductInCart(String productId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
