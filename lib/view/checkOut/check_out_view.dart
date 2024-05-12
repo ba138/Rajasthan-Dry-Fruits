@@ -128,7 +128,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       } catch (e) {
         // Handle exceptions during API request
         if (e is http.ClientException) {
-          Utils.toastMessage('Network error occurred: $e');
+          Utils.toastMessage('Network error occurred: ${e.message}');
         } else {
           Utils.toastMessage('Error occurred while processing payment: $e');
         }
