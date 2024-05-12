@@ -3,25 +3,66 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:rjfruits/model/cart_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class CartRepository extends ChangeNotifier {
   List<Map<String, dynamic>> cartList = [];
+  // List<ProductCategory> cartList2 = [];
+  List<ProductCategory> productCategories = [];
+
+  List<Product> cartProducts = [];
+  List<CartItem> cartItems = [];
   double totalPrice = 0;
+  // Future<void> getCachedProducts() async {
+  //   try {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  //     List<String> cachedProducts = prefs.getStringList('products') ?? [];
+
+  //     cartList = cachedProducts.map((productJson) {
+  //       return json.decode(productJson) as Map<String, dynamic>;
+  //     }).toList();
+  //     calculateTotalPrice();
+
+  //     notifyListeners();
+  //   } catch (e) {
+  //     debugPrint("Error getting cached products: $e");
+  //   }
+  // }
   Future<void> getCachedProducts() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var url = Uri.parse('http://103.117.180.187/api/cart/items/');
+      var headers = {
+        'accept': 'application/json',
+        'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+        'X-CSRFToken':
+            '8ztwmgXx792DE5T8vL5kBl7KKbXArImwNBhNwMfcPKA8I7gRjM58PY0oy538Q9aM'
+      };
 
-      List<String> cachedProducts = prefs.getStringList('products') ?? [];
-
-      cartList = cachedProducts.map((productJson) {
-        return json.decode(productJson) as Map<String, dynamic>;
-      }).toList();
-      calculateTotalPrice();
-
-      notifyListeners();
+      var response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+        productCategories = jsonResponse
+            .map(
+                (item) => ProductCategory.fromJson(item['product']['category']))
+            .toList();
+        cartProducts = jsonResponse
+            .map((item) => Product.fromJson(item['product']))
+            .toList();
+        cartItems =
+            jsonResponse.map((item) => CartItem.fromJson(item)).toList();
+        // cartList = jsonResponse.cast<Map<String, dynamic>>().toList();
+        debugPrint("this is the response=$jsonResponse");
+        debugPrint("this is cartlist=$cartList");
+        calculateTotalPrice();
+        notifyListeners();
+      } else {
+        throw Exception('Failed to load cart items');
+      }
     } catch (e) {
-      debugPrint("Error getting cached products: $e");
+      debugPrint("Error getting cart items: $e");
     }
   }
 

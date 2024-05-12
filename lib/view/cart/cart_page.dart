@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:rjfruits/model/cart_model.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
@@ -115,51 +116,44 @@ class _CartViewState extends State<CartView> {
                   // CartWidget(),
                   Consumer<CartRepositoryProvider>(
                     builder: (context, cartRepoProvider, child) {
-                      List<Map<String, dynamic>> cartItems =
-                          cartRepoProvider.cartRepositoryProvider.cartList;
+                      List<Product> cartProducts =
+                          cartRepoProvider.cartRepositoryProvider.cartProducts;
+                      List<CartItem> cartItems =
+                          cartRepoProvider.cartRepositoryProvider.cartItems;
 
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         width: double.infinity,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
-                          itemCount: cartItems.length,
+                          itemCount: cartProducts.length,
                           itemBuilder: (context, index) {
-                            if (index < cartItems.length) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 12.0),
-                                child: CartWidget(
-                                  onpress: () {
-                                    Provider.of<CartRepositoryProvider>(context,
-                                            listen: false)
-                                        .deleteProduct(
-                                            cartItems[index]['productId']);
-                                    Provider.of<CartRepositoryProvider>(context,
-                                            listen: false)
-                                        .getCachedProducts();
-                                  },
-                                  id: cartItems[index]['productId'],
-                                  name: cartItems[index]['name'],
-                                  img: cartItems[index]['image'],
-                                  price: cartItems[index]['price'],
-                                  guantity: cartItems[index]['quantity'],
-                                  individualPrice: cartItems[index]
-                                          ['individualTotal'] ??
-                                      cartItems[index]['price'],
-                                ),
-                              );
-                            } else {
-                              return const SizedBox.shrink(
-                                child: Center(
-                                  child: Text("No Products to Show"),
-                                ),
-                              );
-                            }
+                            final product = cartProducts[index];
+                            final carPro = cartItems[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: CartWidget(
+                                onpress: () {
+                                  // Assuming you want to delete the product
+                                  cartRepoProvider.deleteProduct(product.id);
+                                },
+                                id: product.id,
+                                name: product.title,
+                                img: product.thumbnailImage,
+                                price: product.price.toString(),
+                                guantity: carPro.quantity,
+                                individualPrice: product.price
+                                    .toString(), // Assuming individual price is same as product price
+                              ),
+                            );
                           },
                         ),
                       );
                     },
                   ),
+                  //  individualPrice: cartItems[index]
+                  //                         ['individualTotal'] ??
+                  //                     cartItems[index]['price'],
                   const VerticalSpeacing(10.0),
                   Container(
                     height: 357,
@@ -290,7 +284,6 @@ class _CartViewState extends State<CartView> {
                                   onTap: () {
                                     Navigator.pushNamed(
                                         context, RoutesName.checkOut);
-
 
                                     // openCheckout(cartProvider
                                     //     .cartRepositoryProvider.totalPrice

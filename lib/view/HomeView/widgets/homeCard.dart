@@ -320,9 +320,11 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 InkWell(
                   onTap: () async {
-                    final userModel = await userPreferences
-                        .getUser(); // Await the Future<UserModel> result
+                    final userModel = await userPreferences.getUser();
+                    // Await the Future<UserModel> result
                     final token = userModel.key;
+                    debugPrint("this is the token:$token");
+
                     proRepoProvider.saveCartProducts(widget.proId!,
                         widget.title!, "null", discountedPrice, amount, token);
                     // Future<bool> isInCart =
