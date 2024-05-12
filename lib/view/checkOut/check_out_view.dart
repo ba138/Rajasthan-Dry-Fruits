@@ -57,8 +57,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    String? paymentId = response.paymentId;
-    String? orderId = response.orderId;
+    String? razorpayPaymentId = response.paymentId;
+    String? razorpayOrderId = response.orderId;
+    String? razorpaySignature = response.signature;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
@@ -75,11 +76,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "city": selectedAddress['city'],
         "state": selectedAddress['state'],
         "country": "USA",
-        "payment_type": "online"
+        "payment_type": "online",
       };
 
       try {
-        // Retrieve the user's authentication token 
+        // Retrieve the user's authentication token
         final userPreferences =
             Provider.of<UserViewModel>(context, listen: false);
         final userModel = await userPreferences.getUser();
@@ -87,11 +88,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         // Construct the request headers with the authentication token
         Map<String, String> headers = {
-          'accept': 'application/json',
           'Content-Type': 'application/json',
-          'X-CSRFToken':
-              'kRWqrSSxl1EedHHJNQuWBmGofniQ1XU0uwnaLZbEf3RnSEO6y7nKl4NuQADOpUgw',
-          'Authorization': 'Token $token',
+          'authorization': 'Token $token',
         };
 
         // Send the POST request to the API endpoint with the prepared headers and data
@@ -103,12 +101,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         print('API Response Status Code: ${apiResponse.statusCode}');
 
-        if (apiResponse.statusCode == 200) {
-          Utils.toastMessage('Payment Successfully Done: $paymentId');
-          Utils.toastMessage('Payment orderId: $orderId');
+        if (apiResponse.statusCode == 201) {
+          Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
+          Utils.toastMessage('Payment orderId: $razorpayOrderId');
+          Utils.toastMessage('Payment signatureId: $razorpaySignature');
 
           print('Selected address: $selectedAddress');
           print('Total amount: ${widget.totalPrice}');
+          print('RazorPay order Id: $razorpayOrderId');
+          print('RazorPay payment Id: $razorpayPaymentId');
+          print('RazorPay Signature Id: $razorpaySignature');
 
           Navigator.pushNamed(
             context,
@@ -280,11 +282,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 RoundedButton(
                   title: "Proceed to Payment: ${widget.totalPrice}",
                   onpress: () {
-                    double amout = 50;
                     if (selectedAddress == null) {
                       Utils.toastMessage('Please select the shipping address');
                     } else {
-                      openCheckout(amout.toString());
+                      openCheckout(widget.totalPrice.toString());
                     }
                   },
                 ),

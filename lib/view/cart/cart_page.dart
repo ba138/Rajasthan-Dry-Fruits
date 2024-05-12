@@ -33,6 +33,7 @@ class _CartViewState extends State<CartView> {
   @override
   void initState() {
     gettingAllRequiredData();
+        
 
     super.initState();
   }
