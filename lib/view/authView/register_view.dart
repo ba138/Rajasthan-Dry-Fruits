@@ -8,7 +8,6 @@ import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
-
 import '../../res/components/loading_manager.dart';
 import '../../view_model/auth_view_model.dart';
 
@@ -169,7 +168,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           const VerticalSpeacing(30),
                           _isLoading
-                              ? Center(child: CircularProgressIndicator())
+                              ? const Center(child: CircularProgressIndicator())
                               : RoundedButton(
                                   title: "Register",
                                   onpress: () {
