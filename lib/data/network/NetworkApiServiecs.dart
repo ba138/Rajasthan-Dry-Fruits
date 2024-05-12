@@ -1,9 +1,13 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+
 import 'package:rjfruits/data/app_excenptions.dart';
 import 'package:rjfruits/data/network/BaseApiServices.dart';
-import 'package:http/http.dart' as http;
 
 class NetworkApiService extends BaseApiServices {
   @override
@@ -43,9 +47,7 @@ class NetworkApiService extends BaseApiServices {
         return (response.body.toString());
       default:
         throw FetchDataException(
-            'Error occure while communicating with server ' +
-                'with statis code' +
-                response.statusCode.toString());
+            'Error occure while communicating with server with statis code${response.statusCode}');
     }
   }
 }

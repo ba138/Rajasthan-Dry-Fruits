@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print, prefer_final_fields
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';

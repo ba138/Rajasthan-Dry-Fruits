@@ -30,8 +30,8 @@ class NotificationWidget extends StatelessWidget {
           leading: Container(
             height: 50.0,
             width: 50.0,
-            decoration: BoxDecoration(color: AppColor.primaryColor),
-            child: Center(
+            decoration: const BoxDecoration(color: AppColor.primaryColor),
+            child: const Center(
                 child: ImageIcon(
               AssetImage(
                 'images/notification.png',

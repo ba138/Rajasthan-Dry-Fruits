@@ -1,5 +1,6 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:flutter/material.dart';
-import 'package:rjfruits/model/shop_model.dart';
 import 'package:rjfruits/repository/shop_repository.dart';
 
 class ShopRepositoryProvider extends ChangeNotifier {

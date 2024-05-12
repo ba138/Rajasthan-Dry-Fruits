@@ -21,7 +21,7 @@ class LoginContainer extends StatelessWidget {
             color: Colors.white.withOpacity(0.5), // Shadow color
             blurRadius: 2, // Blur radius
             spreadRadius: 0, // Spread radius
-            offset: Offset(0, 0), // Offset
+            offset: const Offset(0, 0), // Offset
           ),
         ],
       ),

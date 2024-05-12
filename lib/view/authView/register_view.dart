@@ -170,7 +170,7 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                           const VerticalSpeacing(30),
                           _isLoading
-                              ? Center(child: CircularProgressIndicator())
+                              ? const Center(child: CircularProgressIndicator())
                               : RoundedButton(
                                   title: "Register",
                                   onpress: () {

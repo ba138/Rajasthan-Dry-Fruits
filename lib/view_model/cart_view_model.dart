@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rjfruits/repository/cart_repository.dart';
 
 class CartRepositoryProvider extends ChangeNotifier {
-  CartRepository _cartRepositoryProvider = CartRepository();
+  final CartRepository _cartRepositoryProvider = CartRepository();
 
   CartRepository get cartRepositoryProvider => _cartRepositoryProvider;
 

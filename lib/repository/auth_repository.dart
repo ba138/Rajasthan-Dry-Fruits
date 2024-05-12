@@ -12,7 +12,7 @@ class AuthRepository {
           await _apiServices.getPostApiResponse(AppUrl.loginEndPoint, data);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -22,7 +22,7 @@ class AuthRepository {
           await _apiServices.getPostApiResponse(AppUrl.registerEndPoint, data);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

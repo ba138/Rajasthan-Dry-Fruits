@@ -64,10 +64,9 @@ class NotificationView extends StatelessWidget {
                     crossAxisSpacing: 0.0, // Spacing between columns
                     children: List.generate(
                         10,
-                        (index) => Container(
+                        (index) => const SizedBox(
                             height: 100.0,
-                            child:
-                                const NotificationWidget())), // Wrap in Container
+                            child: NotificationWidget())), // Wrap in Container
                   ),
                 ],
               )
