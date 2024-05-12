@@ -31,8 +31,8 @@ class CartRepositoryProvider extends ChangeNotifier {
   String calculateTotalPrice() {
     String totalPrice = _cartRepositoryProvider.calculateTotalPrice();
 
-    // Notify listeners
-    notifyListeners();
+    // // Notify listeners
+    // notifyListeners();
 
     // Return the total price
     return totalPrice;
