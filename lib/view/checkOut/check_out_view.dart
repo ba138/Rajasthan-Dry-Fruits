@@ -60,8 +60,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
-    print(
-        '...........................Selcted Address $jsonSelectedAddress...................');
+    print('Selected Address: $jsonSelectedAddress');
 
     if (jsonSelectedAddress != null) {
       Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
@@ -76,25 +75,31 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "country": "USA",
         "payment_type": "online"
       };
-      final userPreferences =
-          Provider.of<UserViewModel>(context, listen: false);
-      final userModel = await userPreferences.getUser();
-      final token = userModel.key; // Ensure this is the CSRF token
-      print('...........................token: $token...................');
-      Map<String, String> headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': 'Bearer $token', // Corrected header format
-      };
 
       try {
+        // Retrieve the user's authentication token 
+        final userPreferences =
+            Provider.of<UserViewModel>(context, listen: false);
+        final userModel = await userPreferences.getUser();
+        final token = userModel.key;
+
+        // Construct the request headers with the authentication token
+        Map<String, String> headers = {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken':
+              'kRWqrSSxl1EedHHJNQuWBmGofniQ1XU0uwnaLZbEf3RnSEO6y7nKl4NuQADOpUgw',
+          'Authorization': 'Token $token',
+        };
+
+        // Send the POST request to the API endpoint with the prepared headers and data
         http.Response apiResponse = await http.post(
-          Uri.parse('http://103.117.180.187/checkout/'),
+          Uri.parse('http://103.117.180.187/api/checkout/'),
           headers: headers,
           body: jsonEncode(requestData),
         );
-        print(
-            '...........................Api Response : ${apiResponse.statusCode}.....................');
+
+        print('API Response Status Code: ${apiResponse.statusCode}');
 
         if (apiResponse.statusCode == 200) {
           Utils.toastMessage('Payment Successfully Done: $paymentId');
@@ -114,14 +119,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         } else {
           // Handle API request failure with more specific message based on response body
           Utils.toastMessage(
-              'Failed to submit payment data. Status code: ${apiResponse.statusCode}'); // Include status code
+              'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
         }
       } catch (e) {
         // Handle exceptions during API request
-        Utils.toastMessage('Error occurred while processing payment: $e');
+        if (e is http.ClientException) {
+          Utils.toastMessage('Network error occurred: $e');
+        } else {
+          Utils.toastMessage('Error occurred while processing payment: $e');
+        }
       }
-    } else {
-      Utils.toastMessage('Payment details or selected address missing.');
     }
   }
 
@@ -271,7 +278,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 RoundedButton(
                   title: "Proceed to Payment: ${widget.totalPrice}",
                   onpress: () {
-                    openCheckout(widget.totalPrice.toString());
+                    double amout = 50;
+                    if (selectedAddress == null) {
+                      Utils.toastMessage('Please select the shipping address');
+                    } else {
+                      openCheckout(amout.toString());
+                    }
                   },
                 ),
                 const VerticalSpeacing(20),
