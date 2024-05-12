@@ -1,8 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view/saveView/widgets/save_list_cart.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 
@@ -14,15 +17,24 @@ class SaveView extends StatefulWidget {
 }
 
 class _SaveViewState extends State<SaveView> {
+  gettingAllRequiredData() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel =
+        await userPreferences.getUser(); // Await the Future<UserModel> result
+    final token = userModel.key;
+    Provider.of<SaveProductRepositoryProvider>(context, listen: false)
+        .getCachedProducts(context, token);
+  }
+
   @override
   void initState() {
     super.initState();
-    Provider.of<SaveProductRepositoryProvider>(context, listen: false)
-        .getCachedProducts();
   }
 
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -77,27 +89,37 @@ class _SaveViewState extends State<SaveView> {
                           scrollDirection: Axis.vertical,
                           itemCount: cartItems.length,
                           itemBuilder: (context, index) {
+                            // Check if index is within the bounds of the cartItems list
                             if (index < cartItems.length) {
                               return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
-                                  child: SaveListCart(
-                                    onpress: () {
-                                      Provider.of<SaveProductRepositoryProvider>(
-                                              context,
-                                              listen: false)
-                                          .deleteProduct(
-                                              cartItems[index]['productId']);
-                                      Provider.of<SaveProductRepositoryProvider>(
-                                              context,
-                                              listen: false)
-                                          .getCachedProducts();
-                                    },
-                                    name: cartItems[index]['name'],
-                                    price: cartItems[index]['price'],
-                                    image: cartItems[index]['image'],
-                                    id: cartItems[index]['productId'],
-                                  ));
+                                padding: const EdgeInsets.only(bottom: 12.0),
+                                child: SaveListCart(
+                                  onpress: () async {
+                                    final userModel = await userPreferences
+                                        .getUser(); // Await the Future<UserModel> result
+                                    final token = userModel.key;
+                                    Provider.of<SaveProductRepositoryProvider>(
+                                      context,
+                                      listen: false,
+                                    ).deleteProduct(
+                                        cartItems[index]['id'].toString(),
+                                        context,
+                                        token);
+                                    Provider.of<SaveProductRepositoryProvider>(
+                                            context,
+                                            listen: false)
+                                        .getCachedProducts(context, token);
+                                  },
+                                  name: cartItems[index]['product']['title'],
+                                  price: cartItems[index]['product']['price']
+                                      .toString(),
+                                  image: cartItems[index]['product']
+                                      ['thumbnail_image'],
+                                  id: cartItems[index]['product']['id'],
+                                ),
+                              );
                             } else {
+                              // If index exceeds the length of cartItems, display a message
                               return const SizedBox.shrink(
                                 child: Center(
                                   child: Text("No Products to Show"),

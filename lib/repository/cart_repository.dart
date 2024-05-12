@@ -15,28 +15,13 @@ class CartRepository extends ChangeNotifier {
   List<Product> cartProducts = [];
   List<CartItem> cartItems = [];
   double totalPrice = 0;
-  // Future<void> getCachedProducts() async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //     List<String> cachedProducts = prefs.getStringList('products') ?? [];
-
-  //     cartList = cachedProducts.map((productJson) {
-  //       return json.decode(productJson) as Map<String, dynamic>;
-  //     }).toList();
-  //     calculateTotalPrice();
-
-  //     notifyListeners();
-  //   } catch (e) {
-  //     debugPrint("Error getting cached products: $e");
-  //   }
-  // }
-  Future<void> getCachedProducts(BuildContext context) async {
+  Future<void> getCachedProducts(BuildContext context, String token) async {
     try {
       var url = Uri.parse('http://103.117.180.187/api/cart/items/');
       var headers = {
         'accept': 'application/json',
-        'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+        'authorization': "Token $token",
         'X-CSRFToken':
             '8ztwmgXx792DE5T8vL5kBl7KKbXArImwNBhNwMfcPKA8I7gRjM58PY0oy538Q9aM'
       };
@@ -53,9 +38,7 @@ class CartRepository extends ChangeNotifier {
             .toList();
         cartItems =
             jsonResponse.map((item) => CartItem.fromJson(item)).toList();
-        // cartList = jsonResponse.cast<Map<String, dynamic>>().toList();
-        debugPrint("this is the response=$jsonResponse");
-        debugPrint("this is cartlist=$cartList");
+
         calculateTotalPrice();
         notifyListeners();
       } else {
@@ -66,7 +49,8 @@ class CartRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteProduct(int productId, BuildContext context) async {
+  Future<void> deleteProduct(
+      int productId, BuildContext context, String token) async {
     try {
       final url = 'http://103.117.180.187/api/cart/$productId/';
       final response = await http.delete(
@@ -75,7 +59,7 @@ class CartRepository extends ChangeNotifier {
           'accept': 'application/json',
           'X-CSRFToken':
               'eG9gGWbYQxkNMKGGvw4XSUDJ7PN27N8mTIXxQstDy8SiQM3pjx4L6xwnVJTAweWC',
-          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+          'authorization': "Token $token",
         },
       );
 
@@ -94,8 +78,8 @@ class CartRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> addQuantity(
-      int itemId, String product, int quantity, BuildContext context) async {
+  Future<void> addQuantity(int itemId, String product, int quantity,
+      BuildContext context, String token) async {
     final updatedQuantity = quantity + 1;
     final url = 'http://103.117.180.187/api/cart/$itemId/';
 
@@ -107,7 +91,7 @@ class CartRepository extends ChangeNotifier {
           'Content-Type': 'application/json',
           'X-CSRFToken':
               "2yZ0t55418A2ce1TyGaKD5RmNUsFAwe6HANhDBnJJJ8xggoCmHayRIK0BOydZX2m",
-          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+          'authorization': "Token $token",
         },
         body: jsonEncode({
           'product': product,
@@ -125,8 +109,8 @@ class CartRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> removeQuantity(
-      int itemId, String product, int quantity, BuildContext context) async {
+  Future<void> removeQuantity(int itemId, String product, int quantity,
+      BuildContext context, String token) async {
     final updatedQuantity = quantity - 1;
     final url = 'http://103.117.180.187/api/cart/$itemId/';
 
@@ -138,7 +122,7 @@ class CartRepository extends ChangeNotifier {
           'Content-Type': 'application/json',
           'X-CSRFToken':
               "2yZ0t55418A2ce1TyGaKD5RmNUsFAwe6HANhDBnJJJ8xggoCmHayRIK0BOydZX2m",
-          'authorization': "Token 7233ff67ade230cfc7abe911657c331cfaf3fdff",
+          'authorization': "Token $token",
         },
         body: jsonEncode({
           'product': product,

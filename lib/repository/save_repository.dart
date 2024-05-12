@@ -1,79 +1,112 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class SaveRepository extends ChangeNotifier {
   List<Map<String, dynamic>> saveList = [];
-
   Future<void> saveProductToSave({
     required String productId,
     required String name,
     required String image,
     required String price,
+    required BuildContext context,
+    required String token,
   }) async {
+    final url = Uri.parse('http://103.117.180.187/api/wish-list/');
+    const csrfToken =
+        'NGxAa947Y1IH8kL6Y0H28OV42wsR98ZvsIlRkFmMGCgccm8PM1HQmrOIQqypyzNL';
+
+    final headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'authorization': "Token $token",
+    };
+
+    final body = jsonEncode({
+      'product': productId,
+    });
+
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      Map<String, dynamic> newProduct = {
-        'productId': productId,
-        'name': name,
-        'image': image,
-        'price': price,
-      };
-
-      String newProductJson = json.encode(newProduct);
-
-      List<String> saveProducts = prefs.getStringList('SaveProducts') ?? [];
-
-      saveProducts.add(newProductJson);
-
-      prefs.setStringList('SaveProducts', saveProducts);
-      Utils.toastMessage("Product has been added to Save");
-      notifyListeners();
+      final response = await http.post(url, headers: headers, body: body);
+      if (response.statusCode == 201) {
+        Utils.toastMessage("Product added to wishlist successfully");
+        // print('');
+      } else {
+        Utils.toastMessage("Unable to add product to wishlist");
+      }
     } catch (e) {
-      debugPrint("Error saving product to cache: $e");
+      handleApiError(e, context);
     }
   }
 
-  Future<void> getCachedProducts() async {
+  Future<void> getCachedProducts(BuildContext context, String token) async {
+    final url = Uri.parse('http://103.117.180.187/api/wish-list/');
+    const csrfToken =
+        'NGxAa947Y1IH8kL6Y0H28OV42wsR98ZvsIlRkFmMGCgccm8PM1HQmrOIQqypyzNL';
+
+    final headers = {
+      'accept': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'authorization': "Token $token",
+    };
+
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        List<Map<String, dynamic>> saveList =
+            (json.decode(response.body) as List<dynamic>)
+                .map((item) => item as Map<String, dynamic>)
+                .toList();
+        debugPrint("this is the savelist data=$saveList");
+        // Assuming you have a variable called saveList defined in your class
+        this.saveList = saveList;
 
-      List<String> saveProducts = prefs.getStringList('SaveProducts') ?? [];
-
-      saveList = saveProducts.map((productJson) {
-        return json.decode(productJson) as Map<String, dynamic>;
-      }).toList();
-      notifyListeners();
+        // Notify listeners if necessary
+        notifyListeners();
+      } else {
+        Utils.flushBarErrorMessage("Unable to get wishlist products", context);
+      }
     } catch (e) {
-      debugPrint("Error getting cached products: $e");
+      handleApiError(e, context);
     }
   }
 
-  Future<void> deleteProduct(String productId) async {
+  Future<void> deleteProduct(
+      String saveProductId, BuildContext context, String token) async {
+    final url = Uri.parse(
+        'http://103.117.180.187/api/wish-list/$saveProductId/delete/');
+    const csrfToken =
+        'NGxAa947Y1IH8kL6Y0H28OV42wsR98ZvsIlRkFmMGCgccm8PM1HQmrOIQqypyzNL';
+
+    final headers = {
+      'accept': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'authorization': "Token $token",
+    };
+
     try {
-      saveList.removeWhere(
-          (saveProducts) => saveProducts['productId'] == productId);
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String> updatedProducts =
-          saveList.map((saveProducts) => json.encode(saveProducts)).toList();
-      prefs.setStringList('SaveProducts', updatedProducts);
-
-      notifyListeners();
+      final response = await http.delete(url, headers: headers);
+      if (response.statusCode == 204) {
+        Utils.toastMessage('Save product deleted successfully');
+      } else {
+        Utils.toastMessage('Error deleting save product');
+      }
     } catch (e) {
-      debugPrint("Error deleting product: $e");
+      handleApiError(e, context);
     }
   }
 
   Future<bool> isProductInCart(String productId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> saveProducts = prefs.getStringList('SaveProducts') ?? [];
-
-    for (String productJson in saveProducts) {
-      Map<String, dynamic> productMap = json.decode(productJson);
-      if (productMap['productId'] == productId) {
+    // Assuming cartList is a global variable or accessible within this scope
+    for (var product in saveList) {
+      if (product['product']['id'] == productId) {
         return true;
       }
     }

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +7,7 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 class ImageSlider extends StatefulWidget {
   const ImageSlider(
@@ -54,6 +55,8 @@ class _ImageSliderState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     imgList = widget.listImage;
     SaveProductRepositoryProvider saveRepo =
         Provider.of<SaveProductRepositoryProvider>(context, listen: false);
@@ -93,6 +96,9 @@ class _ImageSliderState extends State<ImageSlider> {
                   child: Center(
                     child: InkWell(
                       onTap: () async {
+                        final userModel = await userPreferences
+                            .getUser(); // Await the Future<UserModel> result
+                        final token = userModel.key;
                         debugPrint("loved");
                         Future<bool> isInCart =
                             saveRepo.isProductInCart(widget.id);
@@ -106,8 +112,9 @@ class _ImageSliderState extends State<ImageSlider> {
                           setState(() {
                             isLike = true;
                           });
+
                           saveRepo.saveCartProducts(widget.id, widget.name,
-                              widget.image, widget.discount, 1);
+                              widget.image, widget.discount, 1, context, token);
                         }
                       },
                       child: Icon(

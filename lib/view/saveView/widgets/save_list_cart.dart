@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
@@ -139,7 +141,7 @@ class _SaveListCartState extends State<SaveListCart> {
                       Utils.toastMessage("Product is already in the cart");
                     } else {
                       proRepoProvider.saveCartProducts(widget.id, widget.name,
-                          "null", widget.price, 1, token);
+                          "null", widget.price, 1, token, context);
                     }
                   },
                   child: const ImageIcon(

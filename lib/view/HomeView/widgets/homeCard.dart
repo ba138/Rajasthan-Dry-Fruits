@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, file_names
+// ignore_for_file: public_member_api_docs, sort_constructors_first, file_names, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -324,15 +324,14 @@ class _HomeCardState extends State<HomeCard> {
                     final token = userModel.key;
                     debugPrint("this is the token:$token");
 
-                    proRepoProvider.saveCartProducts(widget.proId!,
-                        widget.title!, "null", discountedPrice, amount, token);
-                    // Future<bool> isInCart =
-                    //     proRepoProvider.isProductInCart(widget.proId!);
-                    // if (await isInCart) {
-                    //   Utils.toastMessage("Product is already in the cart");
-                    // } else {
-
-                    // }
+                    proRepoProvider.saveCartProducts(
+                        widget.proId!,
+                        widget.title!,
+                        "null",
+                        discountedPrice,
+                        amount,
+                        token,
+                        context);
                   },
                   child: Container(
                     height: 37,
