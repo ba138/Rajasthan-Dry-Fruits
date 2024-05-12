@@ -104,12 +104,9 @@ class SaveRepository extends ChangeNotifier {
   }
 
   Future<bool> isProductInCart(String productId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> saveProducts = prefs.getStringList('SaveProducts') ?? [];
-
-    for (String productJson in saveProducts) {
-      Map<String, dynamic> productMap = json.decode(productJson);
-      if (productMap['productId'] == productId) {
+    // Assuming cartList is a global variable or accessible within this scope
+    for (var product in saveList) {
+      if (product['product']['id'] == productId) {
         return true;
       }
     }

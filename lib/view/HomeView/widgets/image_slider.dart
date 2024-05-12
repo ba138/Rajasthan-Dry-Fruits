@@ -96,6 +96,9 @@ class _ImageSliderState extends State<ImageSlider> {
                   child: Center(
                     child: InkWell(
                       onTap: () async {
+                        final userModel = await userPreferences
+                            .getUser(); // Await the Future<UserModel> result
+                        final token = userModel.key;
                         debugPrint("loved");
                         Future<bool> isInCart =
                             saveRepo.isProductInCart(widget.id);
@@ -109,9 +112,7 @@ class _ImageSliderState extends State<ImageSlider> {
                           setState(() {
                             isLike = true;
                           });
-                          final userModel = await userPreferences
-                              .getUser(); // Await the Future<UserModel> result
-                          final token = userModel.key;
+
                           saveRepo.saveCartProducts(widget.id, widget.name,
                               widget.image, widget.discount, 1, context, token);
                         }

@@ -11,6 +11,7 @@ import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
+import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -38,6 +39,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         amount--;
       });
     }
+  }
+
+  gettingAllTheData() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel =
+        await userPreferences.getUser(); // Await the Future<UserModel> result
+    final token = userModel.key;
+    Provider.of<SaveProductRepositoryProvider>(context, listen: false)
+        .getCachedProducts(context, token);
+    super.initState();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    gettingAllTheData();
   }
 
   @override

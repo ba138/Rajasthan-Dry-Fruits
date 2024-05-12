@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:rjfruits/repository/save_repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SaveProductRepositoryProvider extends ChangeNotifier {
   final SaveRepository _saveRepository = SaveRepository();
@@ -22,14 +19,7 @@ class SaveProductRepositoryProvider extends ChangeNotifier {
   }
 
   Future<bool> isProductInCart(String productId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> saveProducts = prefs.getStringList('SaveProducts') ?? [];
-
-    return saveProducts.any((productJson) {
-      Map<String, dynamic> existingProduct =
-          json.decode(productJson) as Map<String, dynamic>;
-      return existingProduct['productId'] == productId;
-    });
+    return _saveRepository.isProductInCart(productId);
   }
 
   Future<void> getCachedProducts(BuildContext context, String token) async {
