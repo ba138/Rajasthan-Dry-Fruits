@@ -106,6 +106,9 @@ class _CartWidgetState extends State<CartWidget> {
                               widget.productId,
                               widget.guantity,
                             );
+                            Provider.of<CartRepositoryProvider>(context,
+                                    listen: false)
+                                .getCachedProducts();
                           },
                           child: Container(
                             height: 25,
