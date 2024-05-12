@@ -18,7 +18,7 @@ class _SaveViewState extends State<SaveView> {
   void initState() {
     super.initState();
     Provider.of<SaveProductRepositoryProvider>(context, listen: false)
-        .getCachedProducts();
+        .getCachedProducts(context);
   }
 
   @override
@@ -77,27 +77,33 @@ class _SaveViewState extends State<SaveView> {
                           scrollDirection: Axis.vertical,
                           itemCount: cartItems.length,
                           itemBuilder: (context, index) {
+                            // Check if index is within the bounds of the cartItems list
                             if (index < cartItems.length) {
                               return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
-                                  child: SaveListCart(
-                                    onpress: () {
-                                      Provider.of<SaveProductRepositoryProvider>(
-                                              context,
-                                              listen: false)
-                                          .deleteProduct(
-                                              cartItems[index]['productId']);
-                                      Provider.of<SaveProductRepositoryProvider>(
-                                              context,
-                                              listen: false)
-                                          .getCachedProducts();
-                                    },
-                                    name: cartItems[index]['name'],
-                                    price: cartItems[index]['price'],
-                                    image: cartItems[index]['image'],
-                                    id: cartItems[index]['productId'],
-                                  ));
+                                padding: const EdgeInsets.only(bottom: 12.0),
+                                child: SaveListCart(
+                                  onpress: () {
+                                    Provider.of<SaveProductRepositoryProvider>(
+                                      context,
+                                      listen: false,
+                                    ).deleteProduct(
+                                        cartItems[index]['id'].toString(),
+                                        context);
+                                    Provider.of<SaveProductRepositoryProvider>(
+                                            context,
+                                            listen: false)
+                                        .getCachedProducts(context);
+                                  },
+                                  name: cartItems[index]['product']['title'],
+                                  price: cartItems[index]['product']['price']
+                                      .toString(),
+                                  image: cartItems[index]['product']
+                                      ['thumbnail_image'],
+                                  id: cartItems[index]['product']['id'],
+                                ),
+                              );
                             } else {
+                              // If index exceeds the length of cartItems, display a message
                               return const SizedBox.shrink(
                                 child: Center(
                                   child: Text("No Products to Show"),

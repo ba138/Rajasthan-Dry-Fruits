@@ -15,22 +15,7 @@ class CartRepository extends ChangeNotifier {
   List<Product> cartProducts = [];
   List<CartItem> cartItems = [];
   double totalPrice = 0;
-  // Future<void> getCachedProducts() async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //     List<String> cachedProducts = prefs.getStringList('products') ?? [];
-
-  //     cartList = cachedProducts.map((productJson) {
-  //       return json.decode(productJson) as Map<String, dynamic>;
-  //     }).toList();
-  //     calculateTotalPrice();
-
-  //     notifyListeners();
-  //   } catch (e) {
-  //     debugPrint("Error getting cached products: $e");
-  //   }
-  // }
   Future<void> getCachedProducts(BuildContext context) async {
     try {
       var url = Uri.parse('http://103.117.180.187/api/cart/items/');

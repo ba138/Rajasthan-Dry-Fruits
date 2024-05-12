@@ -14,12 +14,14 @@ class SaveProductRepositoryProvider extends ChangeNotifier {
     String image,
     String price,
     int quantity,
+    BuildContext context,
   ) {
     _saveRepository.saveProductToSave(
       productId: productId,
       name: name,
       image: image,
       price: price,
+      context: context,
     );
     notifyListeners();
   }
@@ -35,14 +37,15 @@ class SaveProductRepositoryProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> getCachedProducts() async {
-    await _saveRepository.getCachedProducts();
+  Future<void> getCachedProducts(BuildContext context) async {
+    await _saveRepository.getCachedProducts(context);
     notifyListeners();
   }
 
-  Future<void> deleteProduct(String id) async {
+  Future<void> deleteProduct(String id, BuildContext context) async {
     await _saveRepository.deleteProduct(
       id,
+      context,
     );
     notifyListeners();
   }

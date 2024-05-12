@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,7 +107,7 @@ class _ImageSliderState extends State<ImageSlider> {
                             isLike = true;
                           });
                           saveRepo.saveCartProducts(widget.id, widget.name,
-                              widget.image, widget.discount, 1);
+                              widget.image, widget.discount, 1, context);
                         }
                       },
                       child: Icon(

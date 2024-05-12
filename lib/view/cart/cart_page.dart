@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/model/cart_model.dart';
 
-import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
@@ -23,15 +21,9 @@ class _CartViewState extends State<CartView> {
   @override
   void initState() {
     Provider.of<CartRepositoryProvider>(context, listen: false)
-
         .getCachedProducts(context);
-    _razorPay = Razorpay();
-    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
     super.initState();
-
   }
 
   @override
@@ -252,16 +244,18 @@ class _CartViewState extends State<CartView> {
                                 width: double.infinity,
                                 child: InkWell(
                                   onTap: () {
-
-                                    Navigator.pushNamed(
-                                        context, RoutesName.checkOut);
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return CheckOutScreen(
+                                        totalPrice: cartProvider
+                                            .cartRepositoryProvider.totalPrice
+                                            .toStringAsFixed(2),
+                                      );
+                                    }));
 
                                     // openCheckout(cartProvider
                                     //     .cartRepositoryProvider.totalPrice
                                     //     .toStringAsFixed(2));
-
-                                );
-
                                   },
                                   child: Container(
                                     height: 56,
