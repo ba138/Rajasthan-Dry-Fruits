@@ -6,9 +6,11 @@ import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 import '../../view_model/service/auth_services.dart';
+import '../../view_model/user_view_model.dart';
 import '../checkOut/check_out_view.dart';
 import 'widgets/profile_center_btn.dart';
 import 'widgets/profile_widget.dart';
+import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -20,6 +22,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final double tHeight = 200.0;
   final double top = 130.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
