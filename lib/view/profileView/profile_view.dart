@@ -6,8 +6,11 @@ import 'package:rjfruits/utils/routes/routes_name.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 import '../../view_model/service/auth_services.dart';
+import '../../view_model/user_view_model.dart';
+import '../checkOut/check_out_view.dart';
 import 'widgets/profile_center_btn.dart';
 import 'widgets/profile_widget.dart';
+import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -19,6 +22,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final double tHeight = 200.0;
   final double top = 130.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,7 +239,10 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
-                        Navigator.pushNamed(context, RoutesName.checkOut);
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CheckOutScreen();
+                        }));
                       },
                       tColor: const Color(0xff9E93F4),
                       bColor: const Color(0xff7465EC),
@@ -247,6 +254,9 @@ class _ProfileViewState extends State<ProfileView> {
                     ontap: () async {
                       String csrfToken =
                           'X2YwF4fdbiTMNSJ1bZLSCeKIR2y1BiwOpeuLmgtik1ZtieXxdGThLSyAXergkmjG';
+                      // final userPrefrences =
+                      //     Provider.of<UserViewModel>(context, listen: false);
+                      // userPrefrences.removerUser();
 
                       // Call logout method from AuthService
                       await authService.logout(csrfToken);
