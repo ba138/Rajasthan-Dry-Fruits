@@ -12,7 +12,8 @@ import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddAddresScreen extends StatefulWidget {
-  const AddAddresScreen({super.key});
+  const AddAddresScreen({super.key, required this.totalAmount});
+  final String totalAmount;
 
   @override
   State<AddAddresScreen> createState() => _AddAddresScreenState();
@@ -59,7 +60,9 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
         addresses.map((address) => jsonEncode(address)).toList();
     await prefs.setStringList('addresses', encodedAddresses);
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return CheckOutScreen();
+      return CheckOutScreen(
+        totalPrice: widget.totalAmount,
+      );
     }));
   }
 

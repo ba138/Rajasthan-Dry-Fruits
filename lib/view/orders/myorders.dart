@@ -3,11 +3,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
 import 'package:http/http.dart' as http;
+
+import '../../view_model/user_view_model.dart';
 
 class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
@@ -36,12 +39,15 @@ class _MyOrdersState extends State<MyOrders>
   // Method to fetch orders from the API
   List<OrderDetailedModel> orders = [];
   void fetchOrders() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel = await userPreferences.getUser();
+    final token = userModel.key;
     try {
       final response = await http.get(
         Uri.parse('http://103.117.180.187/api/order/'),
         headers: {
           'accept': 'application/json',
-          'authorization': 'Basic c2FxaWJAZ21haWwuY29tOnNhcWli',
+          'authorization': 'Token $token',
           'X-CSRFToken':
               'kRWqrSSxl1EedHHJNQuWBmGofniQ1XU0uwnaLZbEf3RnSEO6y7nKl4NuQADOpUgw',
         },
@@ -112,18 +118,18 @@ class _MyOrdersState extends State<MyOrders>
                 ),
                 Tab(
                   text:
-                      'Running(${orders.where((order) => order.orderStatus == 'Running').length})',
+                      'Pending(${orders.where((order) => order.orderStatus == 'Pending').length})',
                 ),
                 Tab(
                   text:
-                      'Previous(${orders.where((order) => order.orderStatus == 'Previous').length})',
+                      'Approved(${orders.where((order) => order.orderStatus == 'Approved').length})',
                 ),
                 Tab(
                   text:
                       'Completed(${orders.where((order) => order.orderStatus == 'Completed').length})',
                 ),
                 const Tab(
-                  text: 'Canceled',
+                  text: 'cancelled',
                 ),
               ],
             ),
@@ -146,111 +152,96 @@ class _MyOrdersState extends State<MyOrders>
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
-                print('...................full name: ${order.city}.........');
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: myOrderCard(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.trackOrder);
-                    },
-                    orderId: order.id.toString(),
-                    status: order.contact,
-                    cartImg:
-                        'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg', // Set your cart image URL here
-                    cartTitle: order.fullName,
-                    quantity: order.city.toString(),
-                  ),
-                );
-              },
-            ),
-            // Content for the "Running",
-            ListView.builder(
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: myOrderCard(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.trackOrder);
-                    },
-                    orderId: order.id.toString(),
-                    status: order.orderStatus,
-                    cartImg:
-                        'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg', // Set your cart image URL here
-                    cartTitle: order.fullName,
-                    quantity: order.city.toString(),
-                  ),
-                );
-              },
-            ),
-            // Content for the "Previous",
-            ListView.builder(
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: myOrderCard(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.trackOrder);
-                    },
-                    orderId: order.id.toString(),
-                    status: order.orderStatus,
-                    cartImg:
-                        'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg', // Set your cart image URL here
-                    cartTitle: order.fullName,
-                    quantity: order.city.toString(),
-                  ),
-                );
+                return _buildOrderCard(order);
               },
             ),
 
-            //"Previous", "Completed",
+            // Content for the "Running" tab (show orders with status "Running")
             ListView.builder(
-              itemCount: orders.length,
+              itemCount: orders
+                  .where((order) => order.orderStatus == 'Pending')
+                  .length,
               itemBuilder: (context, index) {
                 final order = orders[index];
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: myOrderCard(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.trackOrder);
-                    },
-                    orderId: order.fullName,
-                    status: order.country,
-                    cartImg:
-                        'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg', // Set your cart image URL here
-                    cartTitle: order.fullName,
-                    quantity: order.city.toString(),
-                  ),
-                );
+                if (order.orderStatus == 'Pending') {
+                  return _buildOrderCard(order);
+                } else {
+                  return const Center(
+                    child: Text('Empty Pending Orders'),
+                  );
+                }
               },
             ),
 
-            // and "Canceled" tabs
+            // Content for the "Previous" tab (show orders with status "Previous")
             ListView.builder(
-              itemCount: orders.length,
+              itemCount: orders
+                  .where((order) => order.orderStatus == 'Approved')
+                  .length,
               itemBuilder: (context, index) {
                 final order = orders[index];
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: myOrderCard(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.trackOrder);
-                    },
-                    orderId: order.id.toString(),
-                    status: order.orderStatus,
-                    cartImg:
-                        'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg', // Set your cart image URL here
-                    cartTitle: order.fullName,
-                    quantity: order.city.toString(),
-                  ),
-                );
+                if (order.orderStatus == 'Approved') {
+                  return _buildOrderCard(order);
+                } else {
+                  return const Center(
+                    child: Text('Empty Approved Orders'),
+                  );
+                }
+              },
+            ),
+
+            // Content for the "Completed" tab (show orders with status "Completed")
+            ListView.builder(
+              itemCount: orders
+                  .where((order) => order.orderStatus == 'Completed')
+                  .length,
+              itemBuilder: (context, index) {
+                final order = orders[index];
+                if (order.orderStatus == 'Completed') {
+                  return _buildOrderCard(order);
+                } else {
+                  return const Center(
+                    child: Text('Empty Completed Orders'),
+                  );
+                }
+              },
+            ),
+
+            // Content for the "Canceled" tab (show orders with status "Canceled")
+            ListView.builder(
+              itemCount: orders
+                  .where((order) => order.orderStatus == 'cancelled')
+                  .length,
+              itemBuilder: (context, index) {
+                final order = orders[index];
+                if (order.orderStatus == 'cancelled') {
+                  return _buildOrderCard(order);
+                } else {
+                  return const Center(
+                    child: Text('Empty cancelled Orders'),
+                  );
+                }
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _buildOrderCard(OrderDetailedModel order) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: myOrderCard(
+        ontap: () {
+          Navigator.pushNamed(context, RoutesName.trackOrder);
+        },
+        orderId: order.id.toString(),
+        status: order.orderStatus,
+        cartImg:
+            'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg',
+        cartTitle: order.fullName,
+        quantity: order.city.toString(),
       ),
     );
   }
