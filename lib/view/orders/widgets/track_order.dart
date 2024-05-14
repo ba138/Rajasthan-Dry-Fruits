@@ -1,6 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
+
+import 'package:rjfruits/model/order_detailed_model.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
 import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
@@ -10,7 +13,11 @@ import '../../../res/components/vertical_spacing.dart';
 import '../../../utils/routes/routes_name.dart';
 
 class TrackOrder extends StatefulWidget {
-  const TrackOrder({super.key});
+  final OrderDetailedModel orderDetailModel;
+  const TrackOrder({
+    super.key,
+    required this.orderDetailModel,
+  });
 
   @override
   State<TrackOrder> createState() => _TrackOrderState();
@@ -48,7 +55,6 @@ class _TrackOrderState extends State<TrackOrder> {
 
   @override
   void initState() {
-    getAllTheData();
     super.initState();
   }
 
@@ -95,9 +101,10 @@ class _TrackOrderState extends State<TrackOrder> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      '   Order id #30398505202',
-                      style: TextStyle(
+                    Text(
+                      widget.orderDetailModel.orderItems[0].product.id
+                          .toString(),
+                      style: const TextStyle(
                         fontFamily: 'CenturyGothic',
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

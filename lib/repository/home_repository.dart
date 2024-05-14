@@ -230,14 +230,14 @@ class HomeRepository extends ChangeNotifier {
 
         // Toggle the flag to indicate that data storage is complete
         isStoringData = false;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => DashBoardScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (c) => const DashBoardScreen()));
       } else {
         Navigator.of(context).pop();
 
         // Toggle the flag to indicate that data storage is complete
         isStoringData = false;
-        print(
+        debugPrint(
             'Failed to update user profile. Status code: ${response.statusCode}');
       }
     } catch (e) {
@@ -245,7 +245,7 @@ class HomeRepository extends ChangeNotifier {
 
       // Toggle the flag to indicate that data storage is complete
       isStoringData = false;
-      print('Error updating user profile: $e');
+      debugPrint('Error updating user profile: $e');
     }
   }
 }

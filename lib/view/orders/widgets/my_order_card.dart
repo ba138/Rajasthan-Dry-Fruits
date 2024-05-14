@@ -151,10 +151,7 @@ class _myOrderCardState extends State<myOrderCard> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      RoutesName.trackOrder,
-                    );
+                    widget.ontap();
                   },
                   child: Container(
                     height: 32,

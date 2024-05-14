@@ -67,7 +67,7 @@ class PaymentDoneScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutesName.trackOrder);
+                  Navigator.pushNamed(context, RoutesName.myorders);
                 },
                 child: Container(
                   height: 56,
