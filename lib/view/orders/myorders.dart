@@ -1,11 +1,9 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
-import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
@@ -38,7 +36,7 @@ class _MyOrdersState extends State<MyOrders>
   }
 
   // Method to fetch orders from the API
-  List<OrderDetailedModel> orders = [];
+  List<OrdersModel> orders = [];
   void fetchOrders() async {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
     final userModel = await userPreferences.getUser();
@@ -55,13 +53,9 @@ class _MyOrdersState extends State<MyOrders>
       );
 
       if (response.statusCode == 200) {
-        // If the request is successful, parse the JSON response
-        print('................responce: ${response.body}..............');
-        print('...................full name: ${orders.length}');
-
         List<dynamic> jsonResponse = jsonDecode(response.body);
-        List<OrderDetailedModel> fetchedOrders = jsonResponse
-            .map((item) => OrderDetailedModel.fromJson(item))
+        List<OrdersModel> fetchedOrders = jsonResponse
+            .map((item) => OrdersModel.fromJson(item))
             .toList();
 
         setState(() {
@@ -108,14 +102,13 @@ class _MyOrdersState extends State<MyOrders>
           preferredSize: const Size.fromHeight(70.0),
           child: SafeArea(
             child: TabBar(
-              controller: _tabController, // Provide the TabController here
+              controller: _tabController,
               indicatorColor: AppColor.primaryColor,
               labelColor: AppColor.primaryColor,
               unselectedLabelColor: AppColor.textColor1,
               tabs: <Widget>[
                 Tab(
-                  text:
-                      'All(${orders.length})', // Display total count of orders
+                  text: 'All(${orders.length})',
                 ),
                 Tab(
                   text:
@@ -252,7 +245,7 @@ class _MyOrdersState extends State<MyOrders>
     );
   }
 
-  _buildOrderCard(OrderDetailedModel order) {
+  _buildOrderCard(OrdersModel order) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
