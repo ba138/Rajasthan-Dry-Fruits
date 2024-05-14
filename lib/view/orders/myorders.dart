@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
+import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
@@ -54,9 +55,8 @@ class _MyOrdersState extends State<MyOrders>
 
       if (response.statusCode == 200) {
         List<dynamic> jsonResponse = jsonDecode(response.body);
-        List<OrdersModel> fetchedOrders = jsonResponse
-            .map((item) => OrdersModel.fromJson(item))
-            .toList();
+        List<OrdersModel> fetchedOrders =
+            jsonResponse.map((item) => OrdersModel.fromJson(item)).toList();
 
         setState(() {
           orders = fetchedOrders; // Update the orders list with fetched data
@@ -250,7 +250,9 @@ class _MyOrdersState extends State<MyOrders>
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
         ontap: () {
-          Navigator.pushNamed(context, RoutesName.trackOrder);
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return TrackOrder();
+          }));
         },
         orderId: order.id.toString(),
         status: order.orderStatus,
