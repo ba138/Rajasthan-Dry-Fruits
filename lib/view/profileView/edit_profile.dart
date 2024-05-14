@@ -55,7 +55,7 @@ class EditProfile extends StatelessWidget {
                       textStyle: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: AppColor.primaryColor,
+                        color: Colors.transparent,
                       ),
                     ),
                   ),
@@ -99,25 +99,10 @@ class EditProfile extends StatelessWidget {
                           ),
                           const PaymentField(
                             maxLines: 2,
-                            text: 'Phone Number',
-                            hintText: '+923554337111',
+                            text: 'Email',
+                            hintText: 'Example@gmail.com',
                           ),
-                          const PaymentField(
-                            maxLines: 2,
-                            text: 'Gender',
-                            hintText: 'Male',
-                          ),
-                          const PaymentField(
-                            maxLines: 2,
-                            text: 'Birthday',
-                            hintText: '01/02/2003',
-                          ),
-                          const PaymentField(
-                            maxLines: 2,
-                            text: 'Password',
-                            hintText: '******',
-                          ),
-                          const VerticalSpeacing(20.0),
+                          const VerticalSpeacing(60.0),
                           RoundedButton(
                               title: 'Save',
                               onpress: () {
