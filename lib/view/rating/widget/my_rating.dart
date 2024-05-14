@@ -1,11 +1,18 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 
 import 'package:rjfruits/view/rating/widget/complete_review_card.dart';
 import 'package:rjfruits/view/rating/widget/rating_card.dart';
+
+import '../../../model/orders_model.dart';
+import '../../../view_model/user_view_model.dart';
+import 'package:http/http.dart' as http;
 
 class MyRating extends StatefulWidget {
   const MyRating({super.key});
@@ -28,6 +35,41 @@ class _MyRatingState extends State<MyRating>
   void dispose() {
     _tabController.dispose(); // Dispose of the TabController when done
     super.dispose();
+  }
+
+  // Method to fetch orders from the API
+  List<OrdersModel> orders = [];
+  void fetchOrders() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel = await userPreferences.getUser();
+    final token = userModel.key;
+    try {
+      final response = await http.get(
+        Uri.parse('http://103.117.180.187/api/order/'),
+        headers: {
+          'accept': 'application/json',
+          'authorization': 'Token $token',
+          'X-CSRFToken':
+              'kRWqrSSxl1EedHHJNQuWBmGofniQ1XU0uwnaLZbEf3RnSEO6y7nKl4NuQADOpUgw',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = jsonDecode(response.body);
+        List<OrdersModel> fetchedOrders =
+            jsonResponse.map((item) => OrdersModel.fromJson(item)).toList();
+
+        setState(() {
+          orders = fetchedOrders; // Update the orders list with fetched data
+        });
+      } else {
+        // Handle API request failure
+        print('Failed to fetch orders. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle exceptions during API request
+      print('Error occurred while fetching  orders: $e');
+    }
   }
 
   @override
