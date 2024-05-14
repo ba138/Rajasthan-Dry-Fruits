@@ -102,7 +102,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         print('API Response Status Code: ${apiResponse.statusCode}');
 
-        if (apiResponse.statusCode == 201) {
+        if (apiResponse.statusCode == 200) {
           Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
           Utils.toastMessage('Payment orderId: $razorpayOrderId');
           Utils.toastMessage('Payment signatureId: $razorpaySignature');
