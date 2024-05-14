@@ -10,7 +10,6 @@ import 'package:rjfruits/view_model/user_view_model.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 import '../../view_model/service/auth_services.dart';
-import '../checkOut/check_out_view.dart';
 import 'widgets/profile_center_btn.dart';
 import 'widgets/profile_widget.dart';
 
