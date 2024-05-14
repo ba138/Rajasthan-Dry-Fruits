@@ -8,6 +8,7 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
+import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -101,7 +102,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         print('API Response Status Code: ${apiResponse.statusCode}');
 
-        if (apiResponse.statusCode == 201) {
+        if (apiResponse.statusCode == 200) {
           Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
           Utils.toastMessage('Payment orderId: $razorpayOrderId');
           Utils.toastMessage('Payment signatureId: $razorpaySignature');
@@ -218,10 +219,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.addAddress,
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AddAddresScreen(
+                            totalAmount: widget.totalPrice.toString(),
+                          );
+                        }));
                       },
                       child: Text(
                         "Add New",

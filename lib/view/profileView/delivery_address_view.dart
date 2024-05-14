@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
+import 'package:rjfruits/view/profileView/add_address_view.dart';
 
 class DeliveryAddressScreen extends StatelessWidget {
   const DeliveryAddressScreen({super.key});
@@ -66,10 +66,10 @@ class DeliveryAddressScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.addAddress,
-                        );
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const AddAddresScreen(totalAmount: '50');
+                        }));
                       },
                       child: Text(
                         "Add New",
