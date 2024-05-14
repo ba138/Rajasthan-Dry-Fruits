@@ -1,8 +1,7 @@
 // ignore_for_file: file_names, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:rjfruits/data/response/status.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
+
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
 

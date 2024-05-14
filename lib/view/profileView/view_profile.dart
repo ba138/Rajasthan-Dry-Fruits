@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/profileView/edit_profile.dart';
 
 import '../../res/components/colors.dart';
