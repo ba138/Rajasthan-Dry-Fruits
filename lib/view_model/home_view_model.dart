@@ -57,4 +57,17 @@ class HomeRepositoryProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  Future<Map<String, dynamic>> getUserData(String token) async {
+    final Map<String, dynamic> data = await _homeRepository.getUserData(token);
+    notifyListeners();
+
+    return data;
+  }
+
+  void updateUserData(
+      String firstName, String lastName, String token, BuildContext context) {
+    _homeRepository.updateUserProfile(token, firstName, lastName, context);
+    notifyListeners();
+  }
 }

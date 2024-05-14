@@ -1,16 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/profileView/view_profile.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 import '../../view_model/service/auth_services.dart';
-import '../../view_model/user_view_model.dart';
 import '../checkOut/check_out_view.dart';
 import 'widgets/profile_center_btn.dart';
 import 'widgets/profile_widget.dart';
-import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -22,6 +24,35 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final double tHeight = 200.0;
   final double top = 130.0;
+  Map userData = {};
+
+  String token = "";
+
+  Future<void> _getUserData() async {
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      // Await the Future<UserModel> result
+      token = userModel.key;
+      final userData =
+          await Provider.of<HomeRepositoryProvider>(context, listen: false)
+              .getUserData(token);
+      setState(() {
+        this.userData = userData;
+      });
+      debugPrint("this is user data2: $userData");
+    } catch (e) {
+      debugPrint('Error fetching user data: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserData();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +95,7 @@ class _ProfileViewState extends State<ProfileView> {
                   Positioned(
                     top: 1.0,
                     left: MediaQuery.of(context).size.width / 2.5,
-                    child: _buildProfile(),
+                    child: _buildProfile('${userData['last']}'),
                   ),
                   Positioned(
                     top: tHeight - top / 2 - 10,
@@ -73,7 +104,8 @@ class _ProfileViewState extends State<ProfileView> {
                 ],
               ),
               const VerticalSpeacing(55.0),
-              _buildProfileFeatures(),
+              _buildProfileFeatures('${userData['first_name']}',
+                  '${userData['last_name']}', '${userData['email']}'),
             ],
           ),
         ),
@@ -95,12 +127,12 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  _buildProfile() {
-    return const Column(
+  _buildProfile(String name) {
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Stack(
+        const Stack(
           children: [
             CircleAvatar(
               radius: 35,
@@ -111,14 +143,14 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         Text.rich(
           TextSpan(
-            text: 'Hiren user\n',
-            style: TextStyle(
+            text: '$name\n',
+            style: const TextStyle(
               fontFamily: 'CenturyGothic',
               fontSize: 18,
               fontWeight: FontWeight.w600,
               color: AppColor.whiteColor,
             ),
-            children: <TextSpan>[
+            children: const <TextSpan>[
               TextSpan(
                 text: ' ID: 1540580',
                 style: TextStyle(
@@ -181,7 +213,7 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  _buildProfileFeatures() {
+  _buildProfileFeatures(String? firstName, String? lastName, String? email) {
     final AuthService authService = AuthService();
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
@@ -209,7 +241,14 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   ProfileWidgets(
                       ontap: () {
-                        Navigator.pushNamed(context, RoutesName.viewProfile);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (c) => ViewProfile(
+                                      firstname: firstName,
+                                      lastName: lastName,
+                                      email: email,
+                                    )));
                       },
                       tColor: const Color(0xff6DF5FC),
                       bColor: const Color(0xff46C5CA),

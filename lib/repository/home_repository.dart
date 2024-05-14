@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/res/app_url.dart';
+import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:rjfruits/view/dashBoard/dashboard.dart';
 
 class HomeRepository extends ChangeNotifier {
   List<Category> productCategories = [];
@@ -155,6 +157,95 @@ class HomeRepository extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       debugPrint("Error in the filterProducts: ${e.toString()}");
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserData(String token) async {
+    final url = Uri.parse('http://103.117.180.187/rest-auth/user/');
+    const csrfToken =
+        'XITMQkr5pQsag0M81aHHGNPIoaCGlYbfwwqJhkab7uzOG9XZvHpDYqf0sckwPRmU';
+
+    final headers = {
+      'accept': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'authorization': "Token $token",
+    };
+
+    try {
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        final userData = json.decode(response.body) as Map<String, dynamic>;
+        debugPrint("this is the user data= $userData");
+        notifyListeners();
+
+        return userData;
+      } else {
+        // Handle HTTP error response
+        debugPrint(
+            'Failed to get user data. Status code: ${response.statusCode}');
+        return {}; // Return empty map in case of failure
+      }
+    } catch (e) {
+      // Handle network error
+      debugPrint('Error fetching user data: $e');
+      return {}; // Return empty map in case of error
+    }
+  }
+
+  Future<void> updateUserProfile(String token, String firstName,
+      String lastName, BuildContext context) async {
+    bool isStoringData = true;
+
+    // Show circular indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: AppColor.primaryColor,
+          ),
+        );
+      },
+    );
+
+    final url = Uri.parse('http://103.117.180.187/rest-auth/user/');
+    final headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken':
+          "XITMQkr5pQsag0M81aHHGNPIoaCGlYbfwwqJhkab7uzOG9XZvHpDYqf0sckwPRmU",
+      'authorization': "Token $token",
+    };
+
+    final body = jsonEncode({
+      'first_name': firstName,
+      'last_name': lastName,
+    });
+
+    try {
+      final response = await http.patch(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        Navigator.of(context).pop();
+
+        // Toggle the flag to indicate that data storage is complete
+        isStoringData = false;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => DashBoardScreen()));
+      } else {
+        Navigator.of(context).pop();
+
+        // Toggle the flag to indicate that data storage is complete
+        isStoringData = false;
+        print(
+            'Failed to update user profile. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      Navigator.of(context).pop();
+
+      // Toggle the flag to indicate that data storage is complete
+      isStoringData = false;
+      print('Error updating user profile: $e');
     }
   }
 }
