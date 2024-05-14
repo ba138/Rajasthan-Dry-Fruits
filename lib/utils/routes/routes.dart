@@ -19,7 +19,6 @@ import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/orders/cancel_order_view.dart';
 import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
-import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view/rating/widget/my_rating.dart';
 
 import 'package:rjfruits/view/profileView/edit_profile.dart';
