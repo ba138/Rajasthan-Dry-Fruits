@@ -94,9 +94,7 @@ class AuthViewModel with ChangeNotifier {
       _isLoading = false;
       Utils.toastMessage('Successfully Registered');
 
-      Navigator.pushNamed(context, RoutesName.dashboard);
-      final userPrefrences = Provider.of<UserViewModel>(context, listen: false);
-      userPrefrences.saveUser(UserModel(key: response.data['key'].toString()));
+      Navigator.pushNamed(context, RoutesName.login);
 
       if (kDebugMode) {
         print(response.toString());

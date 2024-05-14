@@ -290,17 +290,7 @@ class _ProfileViewState extends State<ProfileView> {
                   // const Divider(),
                   ProfileWidgets(
                     ontap: () async {
-                      String csrfToken =
-                          'X2YwF4fdbiTMNSJ1bZLSCeKIR2y1BiwOpeuLmgtik1ZtieXxdGThLSyAXergkmjG';
-                      // final userPrefrences =
-                      //     Provider.of<UserViewModel>(context, listen: false);
-                      // userPrefrences.removerUser();
-
-                      // Call logout method from AuthService
-                      await authService.logout(csrfToken);
-
-                      // Navigate to login screen after logout
-                      Navigator.pushNamed(context, RoutesName.login);
+                      await authService.logout(context);
                     },
                     tColor: const Color(0xffFF9CCB),
                     bColor: const Color(0xffEC4091),

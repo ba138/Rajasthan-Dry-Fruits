@@ -167,59 +167,50 @@ class _RegisterViewState extends State<RegisterView> {
                             },
                           ),
                           const VerticalSpeacing(30),
-                          _isLoading
-                              ? const Center(child: CircularProgressIndicator())
-                              : RoundedButton(
-                                  title: "Register",
-                                  onpress: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        _isLoading =
-                                            true; // Show loading indicator
-                                      });
-                                      if (emailController.text.isEmpty) {
-                                        Utils.flushBarErrorMessage(
-                                            'please enter your email', context);
-                                      } else if (passwordController
-                                          .text.isEmpty) {
-                                        Utils.flushBarErrorMessage(
-                                            'please enter your password',
-                                            context);
-                                      } else if (passwordController2
-                                              .text.length <
-                                          4) {
-                                        Utils.flushBarErrorMessage(
-                                            'please enter more than four digits',
-                                            context);
-                                      } else {
-                                        try {
-                                          Map<String, String> data = {
-                                            // Ensure type safety
-                                            "username":
-                                                emailController.text.toString(),
-                                            "email":
-                                                emailController.text.toString(),
-                                            "password1": passwordController.text
-                                                .toString(),
-                                            "password2": passwordController2
-                                                .text
-                                                .toString(),
-                                          };
+                          RoundedButton(
+                            title: "Register",
+                            onpress: () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _isLoading = true; // Show loading indicator
+                                });
+                                if (emailController.text.isEmpty) {
+                                  Utils.flushBarErrorMessage(
+                                      'please enter your email', context);
+                                } else if (passwordController.text.isEmpty) {
+                                  Utils.flushBarErrorMessage(
+                                      'please enter your password', context);
+                                } else if (passwordController2.text.length <
+                                    4) {
+                                  Utils.flushBarErrorMessage(
+                                      'please enter more than four digits',
+                                      context);
+                                } else {
+                                  try {
+                                    Map<String, String> data = {
+                                      // Ensure type safety
+                                      "username":
+                                          emailController.text.toString(),
+                                      "email": emailController.text.toString(),
+                                      "password1":
+                                          passwordController.text.toString(),
+                                      "password2":
+                                          passwordController2.text.toString(),
+                                    };
 
-                                          await authViewModel.signUpApi(
-                                              data, context);
-                                        } catch (e) {
-                                          Utils.flushBarErrorMessage(
-                                              '$e', context);
-                                        } finally {
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                        }
-                                      }
-                                    }
-                                  },
-                                ),
+                                    await authViewModel.signUpApi(
+                                        data, context);
+                                  } catch (e) {
+                                    Utils.flushBarErrorMessage('$e', context);
+                                  } finally {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
+                                }
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),
