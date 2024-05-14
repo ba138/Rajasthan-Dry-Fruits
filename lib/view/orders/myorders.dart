@@ -3,11 +3,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
+import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
 import 'package:http/http.dart' as http;
+
+import '../../view_model/user_view_model.dart';
 
 class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
@@ -150,8 +154,17 @@ class _MyOrdersState extends State<MyOrders>
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: myOrderCard(
-                    ontap: () {
-                      Navigator.pushNamed(context, RoutesName.trackOrder);
+                    ontap: () async {
+                      final userPreferences =
+                          Provider.of<UserViewModel>(context, listen: false);
+                      final userModel = await userPreferences
+                          .getUser(); // Await the Future<UserModel> result
+                      final token = userModel.key;
+                      Provider.of<TrackOrderRepositoryProvider>(context,
+                              listen: false)
+                          .fetchOrderDetails(
+                              context, order.id.toString(), token);
+                      debugPrint("this is the order detail button");
                     },
                     orderId: order.id.toString(),
                     status: order.contact,

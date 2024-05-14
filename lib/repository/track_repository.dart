@@ -8,14 +8,16 @@ import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 
 class TrackOrderRepository extends ChangeNotifier {
-  Future<void> fetchOrderDetails(BuildContext context, String orderId) async {
+  Future<void> fetchOrderDetails(
+      BuildContext context, String orderId, String token) async {
     try {
       final response = await http.get(
         Uri.parse("http://103.117.180.187/api/order/$orderId/"),
         headers: {
           'accept': 'application/json',
           'X-CSRFToken':
-              'umFU4LBxVgOwgYL6jgTynbGicCd47wKL9otbehTcDRm1k08P7hTmBOzW0wjCwXy1',
+              'XITMQkr5pQsag0M81aHHGNPIoaCGlYbfwwqJhkab7uzOG9XZvHpDYqf0sckwPRmU',
+          'authorization': "Token $token",
         },
       );
       if (response.statusCode == 200) {
@@ -26,6 +28,8 @@ class TrackOrderRepository extends ChangeNotifier {
 
         // shopProducts.clear(); // Clear the existing list
         // shopProducts.addAll(shops); // Add the new items
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (c) => const TrackOrder()));
 
         notifyListeners();
       } else {
