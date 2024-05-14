@@ -32,10 +32,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       _isLoading = true;
     });
     try {
-      final userPreferences =
-          Provider.of<UserViewModel>(context, listen: false);
-      final userModel = await userPreferences.getUser();
-      final token = userModel.key;
+      // final userPreferences =
+      //     Provider.of<UserViewModel>(context, listen: false);
+      // final userModel = await userPreferences.getUser();
+      // final token = userModel.key;
       final url = Uri.parse(
           'http://103.117.180.187/rest-auth/registration/resend-email/');
 
@@ -46,7 +46,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           'Content-Type': 'application/json',
           'X-CSRFToken':
               'Heojc4dezP2iHfqRHAG41VUOr0dQEFj0RTP3wbwltRfrmcxesRzSLD1U2dyO2CFw',
-          'authorization': 'Token $token',
         },
         body: jsonEncode({'email': email}),
       );
