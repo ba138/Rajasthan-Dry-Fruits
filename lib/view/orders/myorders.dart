@@ -7,7 +7,6 @@ import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
 import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
-import '../../utils/routes/routes_name.dart';
 import 'package:http/http.dart' as http;
 
 import '../../view_model/user_view_model.dart';

@@ -96,7 +96,7 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: '\n(${widget.phNo}\n',
+                        text: '\n${widget.phNo}\n',
                         style: const TextStyle(
                           color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
