@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
+import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
@@ -152,7 +153,35 @@ class _MyOrdersState extends State<MyOrders>
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
+
                 print('orders status is: ${order.orderStatus}..........≥');
+
+                print('...................full name: ${order.city}.........');
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: myOrderCard(
+                    ontap: () async {
+                      final userPreferences =
+                          Provider.of<UserViewModel>(context, listen: false);
+                      final userModel = await userPreferences
+                          .getUser(); // Await the Future<UserModel> result
+                      final token = userModel.key;
+                      Provider.of<TrackOrderRepositoryProvider>(context,
+                              listen: false)
+                          .fetchOrderDetails(
+                              context, order.id.toString(), token);
+                      debugPrint("this is the order detail button");
+                    },
+                    orderId: order.id.toString(),
+                    status: order.contact,
+                    cartImg:
+                        'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg', // Set your cart image URL here
+                    cartTitle: order.fullName,
+                    quantity: order.city.toString(),
+                  ),
+                );
+
+
                 return _buildOrderCard(order);
               },
             ),
