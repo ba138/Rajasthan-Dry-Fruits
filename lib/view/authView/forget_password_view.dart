@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/loading_manager.dart';
@@ -13,6 +14,7 @@ import 'package:rjfruits/view/onboardingViews/widgets/back_container.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/routes/utils.dart';
+import '../../view_model/user_view_model.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -25,20 +27,23 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   bool _isLoading = false;
   final _emailController = TextEditingController();
 
-  Future<void> sendPasswordResetRequest(String email, String csrfToken) async {
+  Future<void> sendPasswordResetRequest(String email) async {
     setState(() {
       _isLoading = true;
     });
     try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      final token = userModel.key;
       final url = Uri.parse(
           'http://103.117.180.187/rest-auth/registration/resend-email/');
 
       final response = await http.post(
         url,
         headers: {
-          'accept': 'application/json',
           'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken,
+          'authorization': 'Token $token',
         },
         body: jsonEncode({'email': email}),
       );
@@ -146,12 +151,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 RoundedButton(
                     title: "send",
                     onpress: () async {
-                      const csrfToken =
-                          'X2YwF4fdbiTMNSJ1bZLSCeKIR2y1BiwOpeuLmgtik1ZtieXxdGThLSyAXergkmjG';
-
                       try {
-                        await sendPasswordResetRequest(
-                            _emailController.text, csrfToken);
+                        await sendPasswordResetRequest(_emailController.text);
                       } catch (e) {
                         Utils.flushBarErrorMessage(
                             'error while forget password $e', context);
