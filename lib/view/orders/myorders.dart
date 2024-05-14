@@ -118,15 +118,15 @@ class _MyOrdersState extends State<MyOrders>
                 ),
                 Tab(
                   text:
-                      'Pending(${orders.where((order) => order.orderStatus == 'Pending').length})',
+                      'pending(${orders.where((order) => order.orderStatus == 'pending').length})',
                 ),
                 Tab(
                   text:
-                      'Approved(${orders.where((order) => order.orderStatus == 'Approved').length})',
+                      'approved(${orders.where((order) => order.orderStatus == 'approved').length})',
                 ),
                 Tab(
                   text:
-                      'Completed(${orders.where((order) => order.orderStatus == 'Completed').length})',
+                      'completed(${orders.where((order) => order.orderStatus == 'completed').length})',
                 ),
                 const Tab(
                   text: 'cancelled',
@@ -152,6 +152,7 @@ class _MyOrdersState extends State<MyOrders>
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
+                print('orders status is: ${order.orderStatus}..........≥');
                 return _buildOrderCard(order);
               },
             ),
@@ -159,51 +160,63 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Running" tab (show orders with status "Running")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'Pending')
+                  .where((order) => order.orderStatus == 'pending')
                   .length,
               itemBuilder: (context, index) {
-                final order = orders[index];
-                if (order.orderStatus == 'Pending') {
-                  return _buildOrderCard(order);
-                } else {
+                final pendingOrders = orders
+                    .where((order) => order.orderStatus == 'pending')
+                    .toList();
+
+                if (pendingOrders.isEmpty) {
                   return const Center(
-                    child: Text('Empty Pending Orders'),
+                    child: Text('No pending orders found.'),
                   );
                 }
+
+                final order = pendingOrders[index];
+                return _buildOrderCard(order);
               },
             ),
 
             // Content for the "Previous" tab (show orders with status "Previous")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'Approved')
+                  .where((order) => order.orderStatus == 'approved')
                   .length,
               itemBuilder: (context, index) {
-                final order = orders[index];
-                if (order.orderStatus == 'Approved') {
-                  return _buildOrderCard(order);
-                } else {
+                final approvedOrders = orders
+                    .where((order) => order.orderStatus == 'approved')
+                    .toList();
+
+                if (approvedOrders.isEmpty) {
                   return const Center(
-                    child: Text('Empty Approved Orders'),
+                    child: Text('No approved orders found.'),
                   );
                 }
+
+                final order = approvedOrders[index];
+                return _buildOrderCard(order);
               },
             ),
 
             // Content for the "Completed" tab (show orders with status "Completed")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'Completed')
+                  .where((order) => order.orderStatus == 'completed')
                   .length,
               itemBuilder: (context, index) {
-                final order = orders[index];
-                if (order.orderStatus == 'Completed') {
-                  return _buildOrderCard(order);
-                } else {
+                final completedOrders = orders
+                    .where((order) => order.orderStatus == 'completed')
+                    .toList();
+
+                if (completedOrders.isEmpty) {
                   return const Center(
-                    child: Text('Empty Completed Orders'),
+                    child: Text('No completed orders found.'),
                   );
                 }
+
+                final order = completedOrders[index];
+                return _buildOrderCard(order);
               },
             ),
 
@@ -213,14 +226,18 @@ class _MyOrdersState extends State<MyOrders>
                   .where((order) => order.orderStatus == 'cancelled')
                   .length,
               itemBuilder: (context, index) {
-                final order = orders[index];
-                if (order.orderStatus == 'cancelled') {
-                  return _buildOrderCard(order);
-                } else {
+                final cancelledOrders = orders
+                    .where((order) => order.orderStatus == 'cancelled')
+                    .toList();
+
+                if (cancelledOrders.isEmpty) {
                   return const Center(
-                    child: Text('Empty cancelled Orders'),
+                    child: Text('No cancelled orders found.'),
                   );
                 }
+
+                final order = cancelledOrders[index];
+                return _buildOrderCard(order);
               },
             ),
           ],

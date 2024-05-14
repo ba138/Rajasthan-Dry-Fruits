@@ -13,23 +13,25 @@ import '../utils/routes/utils.dart';
 class AuthViewModel with ChangeNotifier {
   // final _myRepo = AuthRepository();
 
-  // bool get isloading => _isLoading;
-  // void setLoading(bool value) {
-  //   _isLoading = value;
-  //   notifyListeners();
-  // }
+  bool get isloading => _isLoading;
+  void setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
-  // bool _signupLoading = false;
-  // bool get signupLoading => _signupLoading;
+  bool _signupLoading = false;
+  bool get signupLoading => _signupLoading;
 
-  // void setSignUpLaoding(bool value) {
-  //   _signupLoading = value;
-  //   notifyListeners();
-  // }
+  void setSignUpLaoding(bool value) {
+    _signupLoading = value;
+    notifyListeners();
+  }
+
   bool _isLoading = false;
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
     _isLoading = true;
+    notifyListeners();
 
     try {
       final dio = Dio();
@@ -66,6 +68,9 @@ class AuthViewModel with ChangeNotifier {
     } catch (error) {
       Utils.flushBarErrorMessage('An unexpected error occurred.', context);
       _isLoading = false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
     }
   }
 

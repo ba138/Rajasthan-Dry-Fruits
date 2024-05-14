@@ -153,31 +153,57 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           const VerticalSpeacing(30),
                           RoundedButton(
-                              title: "Login",
-                              onpress: () {
+                            title: "Login",
+                            onpress: () async {
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   _isLoading = true;
                                 });
-                                if (emailController.text.isEmpty) {
+
+                                String email = emailController.text.trim();
+                                String password =
+                                    passwordController.text.trim();
+
+                                if (email.isEmpty) {
                                   Utils.flushBarErrorMessage(
-                                      'please enter your email', context);
-                                } else if (passwordController.text.isEmpty) {
-                                  Utils.flushBarErrorMessage(
-                                      'please enter your password', context);
-                                } else if (passwordController.text.length < 4) {
-                                  Utils.flushBarErrorMessage(
-                                      'plase enter more than four digits',
-                                      context);
-                                } else {
-                                  Map<String, String> data = ({
-                                    'username': nameController.text.toString(),
-                                    'email': emailController.text.toString(),
-                                    'password':
-                                        passwordController.text.toString(),
+                                      'Please enter your email', context);
+                                  setState(() {
+                                    _isLoading = false;
                                   });
-                                  authViewModel.loginApi(data, context);
+                                } else if (password.isEmpty) {
+                                  Utils.flushBarErrorMessage(
+                                      'Please enter your password', context);
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                } else if (password.length < 4) {
+                                  Utils.flushBarErrorMessage(
+                                      'Password must be at least 4 characters',
+                                      context);
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                } else {
+                                  try {
+                                    Map<String, String> data = {
+                                      'username': nameController.text
+                                          .trim(), // Assuming you also have a username field
+                                      'email': email,
+                                      'password': password,
+                                    };
+
+                                    await authViewModel.loginApi(data, context);
+                                  } catch (e) {
+                                    Utils.flushBarErrorMessage('$e', context);
+                                  } finally {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
                                 }
-                              }),
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),
