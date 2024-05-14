@@ -1,12 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:order_tracker/order_tracker.dart';
-import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import 'package:rjfruits/model/order_detailed_model.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
-import 'package:rjfruits/view_model/service/track_order_view_model.dart';
-import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
@@ -24,34 +21,20 @@ class TrackOrder extends StatefulWidget {
 }
 
 class _TrackOrderState extends State<TrackOrder> {
-  List<TextDto> orderList = [
-    TextDto("Your order has been placed", "Fri, 25th Mar '22 - 10:47pm"),
-    TextDto("Seller ha processed your order", "Sun, 27th Mar '22 - 10:19am"),
-    TextDto("Your item has been picked up by courier partner.",
-        "Tue, 29th Mar '22 - 5:00pm"),
-  ];
+  List<TextDto> orderList = [];
 
   List<TextDto> shippedList = [
-    TextDto("Your order has been shipped", "Tue, 29th Mar '22 - 5:04pm"),
-    TextDto("Your item has been received in the nearest hub to you.", null),
+    TextDto("Your order has been shipped", ""),
   ];
 
   List<TextDto> outOfDeliveryList = [
-    TextDto("Your order is out for delivery", "Thu, 31th Mar '22 - 2:27pm"),
+    TextDto("Your order is out for delivery", ""),
   ];
 
   List<TextDto> deliveredList = [
-    TextDto("Your order has been delivered", "Thu, 31th Mar '22 - 3:58pm"),
+    TextDto("Your order has been delivered", ""),
   ];
   final bool isTrue = true;
-  getAllTheData() async {
-    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-    final userModel =
-        await userPreferences.getUser(); // Await the Future<UserModel> result
-    final token = userModel.key;
-    Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-        .fetchOrderDetails(context, "3", token);
-  }
 
   @override
   void initState() {
@@ -60,6 +43,22 @@ class _TrackOrderState extends State<TrackOrder> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = widget.orderDetailModel.createdOn;
+    String formattedDate = DateFormat("E, d'th' MMM ''yy - hh:mma").format(now);
+    orderList.clear();
+    orderList.insert(
+      0,
+      TextDto("Your order has been placed", formattedDate),
+    );
+
+    String addEllipsis(String text, int maxLength) {
+      if (text.length <= maxLength) {
+        return text;
+      } else {
+        return '${text.substring(0, maxLength)}...';
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -102,8 +101,11 @@ class _TrackOrderState extends State<TrackOrder> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.orderDetailModel.orderItems[0].product.id
-                          .toString(),
+                      addEllipsis(
+                        widget.orderDetailModel.orderItems[0].product.id
+                            .toString(),
+                        20, // Maximum length before adding ellipsis
+                      ),
                       style: const TextStyle(
                         fontFamily: 'CenturyGothic',
                         fontSize: 16,
@@ -152,6 +154,8 @@ class _TrackOrderState extends State<TrackOrder> {
                     shippedTitleAndDateList: shippedList,
                     outOfDeliveryTitleAndDateList: outOfDeliveryList,
                     deliveredTitleAndDateList: deliveredList,
+                    headingDateTextStyle:
+                        const TextStyle(color: Colors.transparent),
                   ),
                 ),
                 const Text(
@@ -165,80 +169,33 @@ class _TrackOrderState extends State<TrackOrder> {
                 ),
                 const VerticalSpeacing(10.0),
                 // This is not favourite list card but i use it in order track in Prodcut details
-                const ProductDetailsWidget(
-                  img: 'images/cartImg.png',
-                  title: 'Arnotts grans',
-                  subTitle: 'Form The Farmer',
-                  price: '3 KG',
-                  productPrice: '\$30',
-                  procustAverate: '3x',
-                  id: '',
-                  productId: '',
-                ),
-                const VerticalSpeacing(10.0),
-                const ProductDetailsWidget(
-                  img: 'images/cartImg.png',
-                  title: 'cauliflower',
-                  subTitle: 'Form The Farmer',
-                  price: '5 KG',
-                  productPrice: '\$20',
-                  procustAverate: '6x',
-                  id: '',
-                  productId: '',
-                ),
-                const VerticalSpeacing(10.0),
-                const ProductDetailsWidget(
-                  img: 'images/cartImg.png',
-                  title: 'girlGuide',
-                  subTitle: 'Form The Farmer',
-                  price: '2 KG',
-                  productPrice: '\$80',
-                  procustAverate: '9x',
-                  id: '',
-                  productId: '',
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  child: ListView.separated(
+                    itemCount: widget.orderDetailModel.orderItems.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const SizedBox(
+                          height: 16); // Adjust the height as needed
+                    },
+                    itemBuilder: (context, index) {
+                      final data =
+                          widget.orderDetailModel.orderItems[index].product;
+                      return ProductDetailsWidget(
+                        img: data.thumbnailImage,
+                        title: data.title,
+                        subTitle: 'Form The Farmer',
+                        price:
+                            '${widget.orderDetailModel.orderItems[0].productWeight?.weight ?? "null"}KG',
+                        productPrice: '₹${data.price.toString()}',
+                        procustAverate:
+                            '${widget.orderDetailModel.orderItems[index].qty}X',
+                        id: '',
+                        productId: '',
+                      );
+                    },
+                  ),
                 ),
 
-                const VerticalSpeacing(30.0),
-                const ListTile(
-                  title: Text(
-                    'Total Amount',
-                    style: TextStyle(
-                      fontFamily: 'CenturyGothic',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.blackColor,
-                    ),
-                  ),
-                  trailing: Text(
-                    '\$130',
-                    style: TextStyle(
-                      fontFamily: 'CenturyGothic',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.blackColor,
-                    ),
-                  ),
-                ),
-                const ListTile(
-                  title: Text(
-                    'Paid From',
-                    style: TextStyle(
-                      fontFamily: 'CenturyGothic',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.blackColor,
-                    ),
-                  ),
-                  trailing: Text(
-                    'Credit Card',
-                    style: TextStyle(
-                      fontFamily: 'CenturyGothic',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.blackColor,
-                    ),
-                  ),
-                ),
                 const VerticalSpeacing(50.0),
               ],
             ),

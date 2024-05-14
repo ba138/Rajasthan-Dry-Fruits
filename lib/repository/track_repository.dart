@@ -13,6 +13,7 @@ import 'package:rjfruits/view/orders/widgets/track_order.dart';
 class TrackOrderRepository extends ChangeNotifier {
   Future<void> fetchOrderDetails(
       BuildContext context, String orderId, String token) async {
+    bool isStoringData = true;
     try {
       // Show circular indicator
       showDialog(
@@ -37,8 +38,6 @@ class TrackOrderRepository extends ChangeNotifier {
         },
       );
 
-      Navigator.of(context).pop(); // Dismiss the progress indicator
-
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
 
@@ -49,7 +48,12 @@ class TrackOrderRepository extends ChangeNotifier {
           final orderDetailMap = jsonResponse[0] as Map<String, dynamic>;
 
           final orderDetail = OrderDetailedModel.fromJson(orderDetailMap);
+          debugPrint("this is the response code: ${response.statusCode}");
+          debugPrint("this is the response body: $jsonResponse");
+          Navigator.of(context).pop();
 
+          // Toggle the flag to indicate that data storage is complete
+          isStoringData = false;
           // Navigate to the next screen with order details
           Navigator.push(
             context,
@@ -59,21 +63,40 @@ class TrackOrderRepository extends ChangeNotifier {
           );
         } else {
           debugPrint("Failed to parse order details from response");
+          Navigator.of(context).pop();
+
+          // Toggle the flag to indicate that data storage is complete
+          isStoringData = false;
           Utils.flushBarErrorMessage(
               "Failed to parse order details from response", context);
         }
       } else {
+        Navigator.of(context).pop();
+
+        // Toggle the flag to indicate that data storage is complete
+        isStoringData = false;
         debugPrint(
             "Failed to fetch order details. Status code: ${response.statusCode}");
         // Show error message based on status code
         if (response.statusCode == 404) {
+          Navigator.of(context).pop();
+
+          // Toggle the flag to indicate that data storage is complete
+          isStoringData = false;
           Utils.flushBarErrorMessage("Order not found", context);
         } else {
+          Navigator.of(context).pop();
+
+          // Toggle the flag to indicate that data storage is complete
+          isStoringData = false;
           Utils.flushBarErrorMessage("Unexpected error", context);
         }
       }
     } catch (e) {
-      debugPrint("Error fetching order details: $e");
+      Navigator.of(context).pop();
+
+      // Toggle the flag to indicate that data storage is complete
+      isStoringData = false;
       handleApiError(e, context);
     }
   }

@@ -41,7 +41,6 @@ class _ProfileViewState extends State<ProfileView> {
       setState(() {
         this.userData = userData;
       });
-      debugPrint("this is user data2: $userData");
     } catch (e) {
       debugPrint('Error fetching user data: $e');
     }
@@ -95,7 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
                   Positioned(
                     top: 1.0,
                     left: MediaQuery.of(context).size.width / 2.5,
-                    child: _buildProfile('${userData['last']}'),
+                    child: _buildProfile('${userData['first_name']}'),
                   ),
                   Positioned(
                     top: tHeight - top / 2 - 10,
