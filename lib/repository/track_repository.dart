@@ -12,7 +12,7 @@ class TrackOrderRepository extends ChangeNotifier {
       BuildContext context, String orderId, String token) async {
     try {
       final response = await http.get(
-        Uri.parse("http://103.117.180.187/api/order/$orderId/"),
+        Uri.parse("http://103.117.180.187/api/order/$orderId/$token"),
         headers: {
           'accept': 'application/json',
           'X-CSRFToken':
