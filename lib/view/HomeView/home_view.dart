@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,8 @@ import '../../res/components/categorycard.dart';
 import '../../res/components/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../view_model/user_view_model.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -25,6 +29,35 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   TextEditingController searchController = TextEditingController();
+  Map userData = {};
+
+  String token = "";
+
+  Future<void> _getUserData() async {
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      // Await the Future<UserModel> result
+      token = userModel.key;
+      final userData =
+          await Provider.of<HomeRepositoryProvider>(context, listen: false)
+              .getUserData(token);
+      setState(() {
+        this.userData = userData;
+      });
+      debugPrint("this is user data2: $userData");
+    } catch (e) {
+      debugPrint('Error fetching user data: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserData();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,15 +93,17 @@ class _HomeViewState extends State<HomeView> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  subtitle: Text(
-                    'Hiren user',
-                    style: GoogleFonts.getFont(
-                      "Roboto",
-                      color: AppColor.textColor1,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  subtitle: userData.isNotEmpty
+                      ? Text(
+                          '${userData['username']}',
+                          style: GoogleFonts.getFont(
+                            "Roboto",
+                            color: AppColor.textColor1,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
                   trailing: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, RoutesName.notificationView);

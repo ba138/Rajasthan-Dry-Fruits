@@ -157,4 +157,36 @@ class HomeRepository extends ChangeNotifier {
       debugPrint("Error in the filterProducts: ${e.toString()}");
     }
   }
+
+  Future<Map<String, dynamic>> getUserData(String token) async {
+    final url = Uri.parse('http://103.117.180.187/rest-auth/user/');
+    const csrfToken =
+        'XITMQkr5pQsag0M81aHHGNPIoaCGlYbfwwqJhkab7uzOG9XZvHpDYqf0sckwPRmU';
+
+    final headers = {
+      'accept': 'application/json',
+      'X-CSRFToken': csrfToken,
+      'authorization': "Token $token",
+    };
+
+    try {
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        final userData = json.decode(response.body) as Map<String, dynamic>;
+        debugPrint("this is the user data= $userData");
+        notifyListeners();
+
+        return userData;
+      } else {
+        // Handle HTTP error response
+        debugPrint(
+            'Failed to get user data. Status code: ${response.statusCode}');
+        return {}; // Return empty map in case of failure
+      }
+    } catch (e) {
+      // Handle network error
+      debugPrint('Error fetching user data: $e');
+      return {}; // Return empty map in case of error
+    }
+  }
 }

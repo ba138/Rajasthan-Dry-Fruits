@@ -57,4 +57,11 @@ class HomeRepositoryProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  Future<Map<String, dynamic>> getUserData(String token) async {
+    final Map<String, dynamic> data = await _homeRepository.getUserData(token);
+    notifyListeners();
+
+    return data;
+  }
 }
