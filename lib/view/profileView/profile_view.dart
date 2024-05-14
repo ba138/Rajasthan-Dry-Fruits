@@ -276,19 +276,19 @@ class _ProfileViewState extends State<ProfileView> {
                       trIcon: Icons.arrow_forward_ios,
                       title: 'My Rating'),
                   const Divider(),
-                  ProfileWidgets(
-                      ontap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return CheckOutScreen();
-                        }));
-                      },
-                      tColor: const Color(0xff9E93F4),
-                      bColor: const Color(0xff7465EC),
-                      icon: Icons.wallet_outlined,
-                      trIcon: Icons.arrow_forward_ios,
-                      title: 'Payment'),
-                  const Divider(),
+                  // ProfileWidgets(
+                  //     ontap: () {
+                  //       Navigator.push(context,
+                  //           MaterialPageRoute(builder: (context) {
+                  //         return CheckOutScreen(totalPrice: ,);
+                  //       }));
+                  //     },
+                  //     tColor: const Color(0xff9E93F4),
+                  //     bColor: const Color(0xff7465EC),
+                  //     icon: Icons.wallet_outlined,
+                  //     trIcon: Icons.arrow_forward_ios,
+                  //     title: 'Payment'),
+                  // const Divider(),
                   ProfileWidgets(
                     ontap: () async {
                       String csrfToken =

@@ -48,7 +48,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final token = userModel.key;
     Provider.of<SaveProductRepositoryProvider>(context, listen: false)
         .getCachedProducts(context, token);
-    super.initState();
   }
 
   @override

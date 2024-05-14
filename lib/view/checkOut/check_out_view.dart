@@ -32,7 +32,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   late Map<String, dynamic> selectedAddress = {};
   late Razorpay _razorPay;
 
-  void openCheckout(String amount) async {
+  void openCheckout(String amount) {
     int amountInPaise = (double.parse(amount) * 100).toInt();
     var options = {
       "key": "rzp_test_Jg802qU7X2QjKh",
@@ -102,7 +102,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         print('API Response Status Code: ${apiResponse.statusCode}');
 
-        if (apiResponse.statusCode == 200) {
+        if (apiResponse.statusCode == 201) {
           Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
           Utils.toastMessage('Payment orderId: $razorpayOrderId');
           Utils.toastMessage('Payment signatureId: $razorpaySignature');
@@ -266,10 +266,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''}',
                                   onpress: () async {
                                     // Store the selected address in shared preferences
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    prefs.setString(
-                                        'selectedAddress', jsonEncode(address));
+                                    await _storeSelectedAddress(address);
+                                    selectedAddress = address;
+                                    print(
+                                        '.........>>>$selectedAddress............');
                                   },
                                 ),
                                 const VerticalSpeacing(20),
@@ -285,10 +285,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 RoundedButton(
                   title: "Proceed to Payment: ${widget.totalPrice}",
                   onpress: () {
-                    if (selectedAddress == null) {
-                      Utils.toastMessage('Please select the shipping address');
+                    if (selectedAddress.isEmpty) {
+                      print('.........>>>$selectedAddress............');
+                      Utils.toastMessage('please select the Address');
                     } else {
                       openCheckout(widget.totalPrice.toString());
+                      print('.........>>>$selectedAddress............');
                     }
                   },
                 ),
@@ -299,6 +301,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> _checkStoredAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonSelectedAddress = prefs.getString('selectedAddress');
+    return jsonSelectedAddress != null;
+  }
+
+  Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedAddress', jsonEncode(address));
   }
 
   Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
