@@ -42,7 +42,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       final response = await http.post(
         url,
         headers: {
+          'accept': 'application/json',
           'Content-Type': 'application/json',
+          'X-CSRFToken':
+              'Heojc4dezP2iHfqRHAG41VUOr0dQEFj0RTP3wbwltRfrmcxesRzSLD1U2dyO2CFw',
           'authorization': 'Token $token',
         },
         body: jsonEncode({'email': email}),
@@ -64,10 +67,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         });
       }
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
       // Handle network or unexpected errors
       print('Error sending password reset request: $e');
       Utils.toastMessage(
           'An error occurred. Please try again later. Network error');
+    } finally {
       setState(() {
         _isLoading = false;
       });
