@@ -29,12 +29,12 @@ class TrackOrderRepository extends ChangeNotifier {
       );
 
       final response = await http.get(
-        Uri.parse("http://103.117.180.187/api/order/3/"),
+        Uri.parse("http://103.117.180.187/api/order/$orderId/"),
         headers: {
           'accept': 'application/json',
           'X-CSRFToken':
               'XITMQkr5pQsag0M81aHHGNPIoaCGlYbfwwqJhkab7uzOG9XZvHpDYqf0sckwPRmU',
-          'authorization': "Token d9455fc2a211e2798420ffa341807ea709d8cd33",
+          'authorization': "Token $token",
         },
       );
 

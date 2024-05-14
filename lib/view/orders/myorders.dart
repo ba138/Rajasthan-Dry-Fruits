@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -246,13 +246,13 @@ class _MyOrdersState extends State<MyOrders>
     );
   }
 
-  getAllTheData() async {
+  getAllTheData({required String orderId}) async {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
     final userModel =
         await userPreferences.getUser(); // Await the Future<UserModel> result
     final token = userModel.key;
     Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-        .fetchOrderDetails(context, "3", token);
+        .fetchOrderDetails(context, orderId, token);
   }
 
   _buildOrderCard(OrdersModel order) {
@@ -260,7 +260,7 @@ class _MyOrdersState extends State<MyOrders>
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
         ontap: () {
-          getAllTheData();
+          getAllTheData(orderId: order.id.toString());
         },
         orderId: order.id.toString(),
         status: order.orderStatus,
