@@ -64,4 +64,10 @@ class HomeRepositoryProvider extends ChangeNotifier {
 
     return data;
   }
+
+  void updateUserData(
+      String firstName, String lastName, String token, BuildContext context) {
+    _homeRepository.updateUserProfile(token, firstName, lastName, context);
+    notifyListeners();
+  }
 }

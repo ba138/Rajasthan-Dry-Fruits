@@ -95,7 +95,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   subtitle: userData.isNotEmpty
                       ? Text(
-                          '${userData['username']}',
+                          '${userData['first_name']} ${userData['last_name']}',
                           style: GoogleFonts.getFont(
                             "Roboto",
                             color: AppColor.textColor1,
