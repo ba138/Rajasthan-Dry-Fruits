@@ -7,11 +7,11 @@ class OrderDetailedModel {
   String city;
   String state;
   String country;
-  String? razorpayOrderId; // Nullable razorpayOrderId
+  String? razorpayOrderId; 
   double total;
   double serviceCharges;
-  double shippingCharges; // Changed to double
-  double subTotal; // Changed to double
+  double shippingCharges; 
+  double subTotal; 
   String paymentType;
   String orderStatus;
   String paymentStatus;

@@ -171,7 +171,7 @@ class _RegisterViewState extends State<RegisterView> {
                               ? const Center(child: CircularProgressIndicator())
                               : RoundedButton(
                                   title: "Register",
-                                  onpress: () {
+                                  onpress: () async {
                                     if (_formKey.currentState!.validate()) {
                                       setState(() {
                                         _isLoading =
@@ -192,22 +192,30 @@ class _RegisterViewState extends State<RegisterView> {
                                             'please enter more than four digits',
                                             context);
                                       } else {
-                                        Map<String, String> data = {
-                                          // Ensure type safety
-                                          "username":
-                                              emailController.text.toString(),
-                                          "email":
-                                              emailController.text.toString(),
-                                          "password1": passwordController.text
-                                              .toString(),
-                                          "password2": passwordController2.text
-                                              .toString(),
-                                        };
+                                        try {
+                                          Map<String, String> data = {
+                                            // Ensure type safety
+                                            "username":
+                                                emailController.text.toString(),
+                                            "email":
+                                                emailController.text.toString(),
+                                            "password1": passwordController.text
+                                                .toString(),
+                                            "password2": passwordController2
+                                                .text
+                                                .toString(),
+                                          };
 
-                                        // Consider validation before creating data to avoid unnecessary API calls
-                                        // if (data.isNotEmpty) { // If empty data is an issue
-                                        authViewModel.signUpApi(data, context);
-                                        // }
+                                          await authViewModel.signUpApi(
+                                              data, context);
+                                        } catch (e) {
+                                          Utils.flushBarErrorMessage(
+                                              '$e', context);
+                                        } finally {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        }
                                       }
                                     }
                                   },
