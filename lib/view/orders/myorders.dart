@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
 import 'package:rjfruits/view/orders/widgets/track_order.dart';
+import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
 import '../../utils/routes/routes_name.dart';
@@ -245,14 +246,21 @@ class _MyOrdersState extends State<MyOrders>
     );
   }
 
+  getAllTheData() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel =
+        await userPreferences.getUser(); // Await the Future<UserModel> result
+    final token = userModel.key;
+    Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+        .fetchOrderDetails(context, "3", token);
+  }
+
   _buildOrderCard(OrdersModel order) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
         ontap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return TrackOrder();
-          }));
+          getAllTheData();
         },
         orderId: order.id.toString(),
         status: order.orderStatus,
