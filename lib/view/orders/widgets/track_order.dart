@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:order_tracker/order_tracker.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
+import 'package:rjfruits/view_model/service/track_order_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
@@ -34,6 +37,21 @@ class _TrackOrderState extends State<TrackOrder> {
     TextDto("Your order has been delivered", "Thu, 31th Mar '22 - 3:58pm"),
   ];
   final bool isTrue = true;
+  getAllTheData() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel =
+        await userPreferences.getUser(); // Await the Future<UserModel> result
+    final token = userModel.key;
+    Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+        .fetchOrderDetails(context, "3", token);
+  }
+
+  @override
+  void initState() {
+    getAllTheData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
