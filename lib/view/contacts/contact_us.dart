@@ -96,12 +96,7 @@ class ContactUs extends StatelessWidget {
                                 text: 'Address',
                               ),
                               const VerticalSpeacing(20.0),
-                              RoundedButton(
-                                  title: 'Submit',
-                                  onpress: () {
-                                    Navigator.pushNamed(
-                                        context, RoutesName.viewProfile);
-                                  }),
+                              RoundedButton(title: 'Submit', onpress: () {}),
                             ],
                           ),
                         ],

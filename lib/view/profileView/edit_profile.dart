@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 
 import '../../res/components/colors.dart';
@@ -122,8 +121,7 @@ class EditProfile extends StatelessWidget {
                           RoundedButton(
                               title: 'Save',
                               onpress: () {
-                                Navigator.pushNamed(
-                                    context, RoutesName.viewProfile);
+                                Navigator.pop(context);
                               }),
                           const VerticalSpeacing(20.0),
                         ],

@@ -1,12 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:rjfruits/utils/routes/routes_name.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 
 class ViewProfile extends StatelessWidget {
-  const ViewProfile({super.key});
+  final String? firstname;
+  final String? lastName;
+  final String? email;
+  const ViewProfile({
+    super.key,
+    this.firstname,
+    this.lastName,
+    this.email,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +93,8 @@ class ViewProfile extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(20.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,15 +103,15 @@ class ViewProfile extends StatelessWidget {
                         textAlign: TextAlign.start,
                         TextSpan(
                           text: 'First Name\n\n',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: AppColor.cardTxColor,
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: 'Hiren',
-                              style: TextStyle(
+                              text: firstname,
+                              style: const TextStyle(
                                 color: AppColor.textColor1,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w500,
@@ -110,20 +120,20 @@ class ViewProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      VerticalSpeacing(20.0),
+                      const VerticalSpeacing(20.0),
                       Text.rich(
                         textAlign: TextAlign.start,
                         TextSpan(
                           text: 'Last Name\n\n',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: AppColor.cardTxColor,
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: 'user',
-                              style: TextStyle(
+                              text: lastName,
+                              style: const TextStyle(
                                 color: AppColor.textColor1,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w500,
@@ -132,20 +142,20 @@ class ViewProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      VerticalSpeacing(20.0),
+                      const VerticalSpeacing(20.0),
                       Text.rich(
                         textAlign: TextAlign.start,
                         TextSpan(
-                          text: 'Phone Number\n\n',
-                          style: TextStyle(
+                          text: 'Email\n\n',
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: AppColor.cardTxColor,
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '+923554337111',
-                              style: TextStyle(
+                              text: email,
+                              style: const TextStyle(
                                 color: AppColor.textColor1,
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.w500,
@@ -154,8 +164,8 @@ class ViewProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      VerticalSpeacing(20.0),
-                      Text.rich(
+                      const VerticalSpeacing(20.0),
+                      const Text.rich(
                         textAlign: TextAlign.start,
                         TextSpan(
                           text: 'Gender\n\n',
@@ -176,8 +186,8 @@ class ViewProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      VerticalSpeacing(20.0),
-                      Text.rich(
+                      const VerticalSpeacing(20.0),
+                      const Text.rich(
                         textAlign: TextAlign.start,
                         TextSpan(
                           text: 'Birthday\n\n',
@@ -198,8 +208,8 @@ class ViewProfile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      VerticalSpeacing(20.0),
-                      Text.rich(
+                      const VerticalSpeacing(20.0),
+                      const Text.rich(
                         textAlign: TextAlign.start,
                         TextSpan(
                           text: 'Password\n\n',
