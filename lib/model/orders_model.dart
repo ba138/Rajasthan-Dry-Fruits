@@ -1,4 +1,4 @@
-class OrderDetailedModel {
+class OrdersModel {
   int id;
   String fullName;
   String contact;
@@ -19,7 +19,7 @@ class OrderDetailedModel {
   DateTime createdOn;
   int client;
 
-  OrderDetailedModel({
+  OrdersModel({
     required this.id,
     required this.fullName,
     required this.contact,
@@ -41,8 +41,8 @@ class OrderDetailedModel {
     required this.client,
   });
 
-  factory OrderDetailedModel.fromJson(Map<String, dynamic> json) {
-    return OrderDetailedModel(
+  factory OrdersModel.fromJson(Map<String, dynamic> json) {
+    return OrdersModel(
       id: json["id"],
       fullName: json["full_name"],
       contact: json["contact"],
