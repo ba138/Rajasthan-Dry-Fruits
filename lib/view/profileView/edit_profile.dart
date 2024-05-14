@@ -1,13 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 
-class EditProfile extends StatelessWidget {
-  const EditProfile({super.key});
+class EditProfile extends StatefulWidget {
+  final String firstName;
+  final String lastName;
+  final String email;
+  const EditProfile({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+  });
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

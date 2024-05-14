@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/profileView/edit_profile.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
@@ -59,7 +60,15 @@ class ViewProfile extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutesName.editProfile);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (c) => EditProfile(
+                              firstName: firstname!,
+                              lastName: lastName!,
+                              email: email!),
+                        ),
+                      );
                     },
                     child: Text(
                       'Edit Profile',

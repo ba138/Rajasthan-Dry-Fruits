@@ -21,8 +21,6 @@ import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
 import 'package:rjfruits/view/rating/widget/my_rating.dart';
 
-import 'package:rjfruits/view/profileView/edit_profile.dart';
-
 import 'package:rjfruits/view/search/search_view.dart';
 
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
@@ -133,9 +131,6 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const CancelOrderScreen());
 
-      case RoutesName.editProfile:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const EditProfile());
       case RoutesName.totalReview:
         return MaterialPageRoute(
             builder: (BuildContext context) => const TotalRatingScreen());
