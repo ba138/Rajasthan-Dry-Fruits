@@ -3,13 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
-import 'package:rjfruits/res/components/login_container.dart';
+import 'package:rjfruits/view/authView/Social_Auth/google_auth.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import '../../res/components/loading_manager.dart';
 import '../../view_model/auth_view_model.dart';
+import 'Social_Auth/fb_auth.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -232,18 +233,16 @@ class _RegisterViewState extends State<RegisterView> {
                       ],
                     ),
                     const VerticalSpeacing(20),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        LoginContainer(
-                          img: "images/google.png",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        LoginContainer(
-                          img: "images/fb.png",
-                        ),
+                        _isLoading
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : const GoogleAuthButton(),
+                        const SizedBox(width: 10),
+                        const FbAuth(),
                       ],
                     ),
                     const VerticalSpeacing(20),
