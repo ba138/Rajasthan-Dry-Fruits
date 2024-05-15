@@ -2,7 +2,6 @@
 //
 //     final googleAuthModel = googleAuthModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 GoogleAuthModel googleAuthModelFromJson(String str) =>
