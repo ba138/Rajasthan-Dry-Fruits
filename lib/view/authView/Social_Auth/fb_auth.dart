@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/res/components/colors.dart';
 
-class LoginContainer extends StatelessWidget {
-  final String img;
-  const LoginContainer({super.key, required this.img});
+class FbAuth extends StatelessWidget {
+  const FbAuth({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class LoginContainer extends StatelessWidget {
         ],
       ),
       child: Image.asset(
-        img,
+        "images/fb.png",
         height: 24,
         width: 24,
       ),
