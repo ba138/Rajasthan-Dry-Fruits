@@ -9,6 +9,7 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/image_slider.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
+import 'package:rjfruits/view/total_review/total_review.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
@@ -374,7 +375,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 const VerticalSpeacing(12),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, RoutesName.totalReview);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) => TotalRatingScreen(
+                          reviews: widget.detail.productReview,
+                          averageReview: widget.detail.averageReview.toString(),
+                          totalReviews: widget.detail.totalReviews.toString(),
+                        ),
+                      ),
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

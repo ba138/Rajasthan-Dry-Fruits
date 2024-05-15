@@ -33,6 +33,9 @@ class DeaultSearchSection extends StatelessWidget {
                   shopRepositoryProvider.shopRepository.shopProducts[index].id,
               price: shopRepositoryProvider
                   .shopRepository.shopProducts[index].price,
+              averageReview: shopRepositoryProvider
+                  .shopRepository.shopProducts[index].averageReview
+                  .toString(),
               // Pass other data properties here
             ),
           ),

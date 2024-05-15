@@ -6,6 +6,8 @@ class Product {
   final double price;
   final int discount;
   final Category category;
+  final double averageReview;
+  final int totalReviews;
 
   Product({
     required this.id,
@@ -15,6 +17,8 @@ class Product {
     required this.price,
     required this.discount,
     required this.category,
+    required this.averageReview,
+    required this.totalReviews,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -26,6 +30,8 @@ class Product {
       price: double.parse(json['price']),
       discount: json['discount'],
       category: Category.fromJson(json['category']),
+      averageReview: json['average_review'].toDouble(),
+      totalReviews: json['total_reviews'],
     );
   }
 }

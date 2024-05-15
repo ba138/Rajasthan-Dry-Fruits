@@ -175,7 +175,6 @@ class HomeRepository extends ChangeNotifier {
       final response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         final userData = json.decode(response.body) as Map<String, dynamic>;
-        debugPrint("this is the user data= $userData");
         notifyListeners();
 
         return userData;

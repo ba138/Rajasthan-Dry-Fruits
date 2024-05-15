@@ -63,7 +63,8 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                     (index) => Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(isdiscount: true),
+                      child:
+                          const HomeCard(isdiscount: true, averageReview: "4"),
                     ),
                   ),
                 );
@@ -91,6 +92,9 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                           .homeRepository.categriousProduct[index].price
                           .toString(),
                       proId: homeRepo.homeRepository.categriousProduct[index].id
+                          .toString(),
+                      averageReview: homeRepo
+                          .homeRepository.categriousProduct[index].averageReview
                           .toString(),
                     ),
                   ),

@@ -1,14 +1,32 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/rating/rating_view.dart';
 
 class RatingCard extends StatelessWidget {
-  const RatingCard({super.key});
+  const RatingCard({
+    super.key,
+    required this.onpress,
+    this.title,
+    this.image,
+    this.buyDate,
+    this.id,
+    required this.order,
+  });
+
+  final String? title;
+  final String? image;
+  final DateTime? buyDate;
+  final VoidCallback onpress;
+  final String? id;
+  final int order;
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("this is the id of the product$id");
     return Container(
       height: 114.0,
       width: double.infinity,
@@ -36,7 +54,7 @@ class RatingCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "dry fruit of mix",
+                  title ?? "dry fruit of mix",
                   style: GoogleFonts.getFont(
                     "Poppins",
                     textStyle: const TextStyle(
@@ -68,9 +86,8 @@ class RatingCard extends StatelessWidget {
                   width: 50.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    image: const DecorationImage(
-                        image: AssetImage('images/cartImg.png'),
-                        fit: BoxFit.contain),
+                    image: DecorationImage(
+                        image: NetworkImage(image!), fit: BoxFit.contain),
                   ),
                   // child: Image.asset('images/cartImg.png'),
                 ),
@@ -87,9 +104,15 @@ class RatingCard extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      RoutesName.rating,
+                      MaterialPageRoute(
+                        builder: (c) => RatingScreen(
+                          prodId: id!,
+                          img: image!,
+                          order: order,
+                        ),
+                      ),
                     );
                   },
                   child: Container(

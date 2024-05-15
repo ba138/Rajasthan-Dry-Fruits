@@ -145,6 +145,9 @@ class _ShopViewState extends State<ShopView> {
                                 .shopRepository.shopProducts[index].id,
                             price: shopRepositoryProvider
                                 .shopRepository.shopProducts[index].price,
+                            averageReview: shopRepositoryProvider.shopRepository
+                                .shopProducts[index].averageReview
+                                .toString(),
                             // Pass other data properties here
                           ),
                         ),

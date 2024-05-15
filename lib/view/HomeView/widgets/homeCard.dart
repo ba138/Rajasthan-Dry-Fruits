@@ -22,6 +22,7 @@ class HomeCard extends StatefulWidget {
     this.title,
     this.proId,
     this.weight,
+    required this.averageReview,
   });
   final bool isdiscount;
   final String? image;
@@ -30,6 +31,7 @@ class HomeCard extends StatefulWidget {
   final String? title;
   final String? proId;
   final List<dynamic>? weight;
+  final String averageReview;
 
   @override
   State<HomeCard> createState() => _HomeCardState();
@@ -273,7 +275,7 @@ class _HomeCardState extends State<HomeCard> {
                       size: 20,
                     ),
                     Text(
-                      '4.5',
+                      widget.averageReview,
                       style: GoogleFonts.getFont(
                         "Roboto",
                         textStyle: const TextStyle(
@@ -319,10 +321,12 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 InkWell(
                   onTap: () async {
+                    debugPrint("this is the product id:${widget.proId}");
+
                     final userModel = await userPreferences.getUser();
                     // Await the Future<UserModel> result
                     final token = userModel.key;
-
+                    debugPrint("this is the product id:${widget.proId}");
                     proRepoProvider.saveCartProducts(
                         widget.proId!,
                         widget.title!,
@@ -357,6 +361,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
                 CartButton(
                     onTap: () {
+                      debugPrint("this is prodid:${widget.proId}");
                       final productDetailsProvider =
                           Provider.of<ProductRepositoryProvider>(context,
                               listen: false);

@@ -112,10 +112,6 @@ class Routes {
         return MaterialPageRoute(
           builder: (BuildContext context) => const FilterScreen(),
         );
-      case RoutesName.rating:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => const RatingScreen(),
-        );
 
       case RoutesName.myorders:
         return MaterialPageRoute(
@@ -128,9 +124,6 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const CancelOrderScreen());
 
-      case RoutesName.totalReview:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const TotalRatingScreen());
       case RoutesName.contactUs:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ContactUs());

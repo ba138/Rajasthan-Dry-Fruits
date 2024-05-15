@@ -29,6 +29,5 @@ class RoutesName {
   static const String myorders = 'my_orders';
   static const String myRating = 'my_Rating';
   static const String cancelOrder = 'cancel_Order_view';
-  static const String totalReview = 'total_review';
   static const String contactUs = 'contact_us';
 }

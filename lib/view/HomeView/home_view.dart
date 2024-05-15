@@ -46,7 +46,7 @@ class _HomeViewState extends State<HomeView> {
       setState(() {
         this.userData = userData;
       });
-      debugPrint("this is user data2: $userData");
+      debugPrint("this is the cliecnt details:$userData");
     } catch (e) {
       debugPrint('Error fetching user data: $e');
     }
@@ -103,7 +103,19 @@ class _HomeViewState extends State<HomeView> {
                             fontWeight: FontWeight.w600,
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Text(
+                            '${userData['first_name']} ${userData['last_name']}',
+                            style: GoogleFonts.getFont(
+                              "Roboto",
+                              color: AppColor.textColor1,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                   trailing: InkWell(
                     onTap: () {
                       Navigator.pushNamed(context, RoutesName.notificationView);

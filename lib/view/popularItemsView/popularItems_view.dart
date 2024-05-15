@@ -75,7 +75,10 @@ class PopularItems extends StatelessWidget {
                           (index) => Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
                             highlightColor: Colors.grey[100]!,
-                            child: const HomeCard(isdiscount: true),
+                            child: const HomeCard(
+                              isdiscount: true,
+                              averageReview: "4",
+                            ),
                           ),
                         ),
                       );
@@ -105,6 +108,9 @@ class PopularItems extends StatelessWidget {
                                 .toString(),
                             proId: homeRepo
                                 .homeRepository.productsTopOrder[index].id
+                                .toString(),
+                            averageReview: homeRepo.homeRepository
+                                .productsTopOrder[index].averageReview
                                 .toString(),
                           ),
                         ),

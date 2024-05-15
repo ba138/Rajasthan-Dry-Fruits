@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/profileView/view_profile.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
+import 'package:rjfruits/view_model/rating_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../res/components/colors.dart';
@@ -37,6 +38,8 @@ class _ProfileViewState extends State<ProfileView> {
       final userData =
           await Provider.of<HomeRepositoryProvider>(context, listen: false)
               .getUserData(token);
+      Provider.of<RatingRepositoryProvider>(context, listen: false)
+          .pedingReview(token, context);
       setState(() {
         this.userData = userData;
       });
@@ -267,6 +270,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Divider(),
                   ProfileWidgets(
                       ontap: () {
+                        _getUserData();
                         Navigator.pushNamed(context, RoutesName.myRating);
                       },
                       tColor: const Color(0xffDF9EF5),

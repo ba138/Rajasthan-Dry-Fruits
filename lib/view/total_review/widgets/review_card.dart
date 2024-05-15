@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 import '../../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
 
@@ -14,15 +15,26 @@ class ReviewCard extends StatefulWidget {
   final String profilePic;
   final String name;
   final String rating;
-  final String time;
+  final DateTime time;
   final String comment;
   @override
   State<ReviewCard> createState() => _ReviewCardState();
 }
 
 class _ReviewCardState extends State<ReviewCard> {
+  String addEllipsis(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return '${text.substring(0, maxLength)}...';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double doublereview = double.parse(widget.rating);
+    DateTime now = widget.time;
+    String formattedDate = DateFormat("E, d'th' MMM '").format(now);
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -61,7 +73,10 @@ class _ReviewCardState extends State<ReviewCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.name,
+                          addEllipsis(
+                            widget.name.toString(),
+                            12, // Maximum length before adding ellipsis
+                          ),
                           style: const TextStyle(
                             fontFamily: 'CenturyGothic',
                             fontSize: 16,
@@ -70,12 +85,13 @@ class _ReviewCardState extends State<ReviewCard> {
                           ),
                         ),
                         RatingBar.builder(
-                            initialRating: 3,
+                            initialRating: doublereview,
                             minRating: 1,
                             allowHalfRating: true,
                             glowColor: Colors.amber,
                             itemCount: 5,
                             itemSize: 18,
+                            ignoreGestures: true,
                             itemPadding:
                                 const EdgeInsets.symmetric(horizontal: 0),
                             itemBuilder: (context, _) => const Icon(
@@ -88,7 +104,7 @@ class _ReviewCardState extends State<ReviewCard> {
                   ],
                 ),
                 Text(
-                  widget.time,
+                  formattedDate,
                   style: const TextStyle(
                     fontFamily: 'CenturyGothic',
                     fontSize: 12,
