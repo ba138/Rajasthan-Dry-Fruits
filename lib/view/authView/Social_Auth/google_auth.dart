@@ -9,7 +9,7 @@ import '../../../utils/routes/utils.dart';
 // Import your GoogleAuthModel here
 
 class GoogleAuthButton extends StatefulWidget {
-  const GoogleAuthButton({Key? key}) : super(key: key);
+  const GoogleAuthButton({super.key});
 
   @override
   State<GoogleAuthButton> createState() => _GoogleAuthButtonState();
@@ -103,7 +103,7 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
         }
       },
       child: _isLoading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Container(
