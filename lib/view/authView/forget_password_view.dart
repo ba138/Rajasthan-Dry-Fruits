@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/loading_manager.dart';
@@ -14,7 +13,6 @@ import 'package:rjfruits/view/onboardingViews/widgets/back_container.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/routes/utils.dart';
-import '../../view_model/user_view_model.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});

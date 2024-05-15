@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import '../../../model/google_auth_model.dart';
+import '../../../res/components/colors.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../utils/routes/utils.dart';
 
@@ -48,7 +50,7 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       // Step 3: Prepare the request body using GoogleAuthModel
       final GoogleAuthModel authData = GoogleAuthModel(
         accessToken: googleAuth.accessToken.toString(),
-        code: 'string', // Set code if required by your API
+        code: 'string',
         idToken: googleAuth.idToken.toString(),
       );
 
@@ -108,7 +110,7 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
             )
           : Container(
               height: 48,
-              width: 98,
+              width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 border:
@@ -123,10 +125,30 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
                   ),
                 ],
               ),
-              child: Image.asset(
-                "images/google.png",
-                height: 24,
-                width: 24,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "images/google.png",
+                      height: 28,
+                      width: 28,
+                    ),
+                    const SizedBox(width: 20.0),
+                    Text(
+                      "Continue with Google",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: AppColor.textColor1,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
     );

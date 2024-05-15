@@ -12,7 +12,6 @@ import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import '../../res/components/loading_manager.dart';
 import '../../view_model/auth_view_model.dart';
-import 'Social_Auth/fb_auth.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -235,18 +234,10 @@ class _RegisterViewState extends State<RegisterView> {
                       ],
                     ),
                     const VerticalSpeacing(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : const GoogleAuthButton(),
-                        const SizedBox(width: 10),
-                        const FbAuth(),
-                      ],
-                    ),
+                    const SizedBox(
+                        height: 46,
+                        width: double.infinity,
+                        child: GoogleAuthButton()),
                     const VerticalSpeacing(20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

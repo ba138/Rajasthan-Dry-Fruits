@@ -303,11 +303,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     );
   }
 
-  Future<bool> _checkStoredAddress() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonSelectedAddress = prefs.getString('selectedAddress');
-    return jsonSelectedAddress != null;
-  }
 
   Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -476,7 +476,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return CheckOutScreen();
+                          return CheckOutScreen(
+                            totalPrice: widget.detail.price,
+                          );
                         }));
                       },
                       child: Container(

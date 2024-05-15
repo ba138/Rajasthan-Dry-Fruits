@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/loading_manager.dart';
-import 'package:rjfruits/view/authView/Social_Auth/fb_auth.dart';
 import 'package:rjfruits/view/authView/Social_Auth/google_auth.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
@@ -228,16 +227,10 @@ class _LoginViewState extends State<LoginView> {
                       ],
                     ),
                     const VerticalSpeacing(20),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GoogleAuthButton(),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FbAuth(),
-                      ],
-                    ),
+                    const SizedBox(
+                        height: 46,
+                        width: double.infinity,
+                        child: GoogleAuthButton()),
                     const VerticalSpeacing(20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
