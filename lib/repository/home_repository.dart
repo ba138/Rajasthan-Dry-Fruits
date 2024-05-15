@@ -228,7 +228,6 @@ class HomeRepository extends ChangeNotifier {
       if (response.statusCode == 200) {
         Navigator.of(context).pop();
 
-        // Toggle the flag to indicate that data storage is complete
         isStoringData = false;
         Navigator.push(context,
             MaterialPageRoute(builder: (c) => const DashBoardScreen()));

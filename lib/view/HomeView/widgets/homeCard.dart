@@ -322,7 +322,6 @@ class _HomeCardState extends State<HomeCard> {
                     final userModel = await userPreferences.getUser();
                     // Await the Future<UserModel> result
                     final token = userModel.key;
-                    debugPrint("this is the token:$token");
 
                     proRepoProvider.saveCartProducts(
                         widget.proId!,
