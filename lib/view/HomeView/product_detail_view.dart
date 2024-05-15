@@ -379,7 +379,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (c) => TotalRatingScreen(
-                                reviews: widget.detail.productReview)));
+                                  reviews: widget.detail.productReview,
+                                  averageReview:
+                                      widget.detail.averageReview.toString(),
+                                  totalReviews:
+                                      widget.detail.totalReviews.toString(),
+                                )));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
