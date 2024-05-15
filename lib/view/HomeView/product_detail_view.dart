@@ -376,15 +376,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (c) => TotalRatingScreen(
-                                  reviews: widget.detail.productReview,
-                                  averageReview:
-                                      widget.detail.averageReview.toString(),
-                                  totalReviews:
-                                      widget.detail.totalReviews.toString(),
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) => TotalRatingScreen(
+                          reviews: widget.detail.productReview,
+                          averageReview: widget.detail.averageReview.toString(),
+                          totalReviews: widget.detail.totalReviews.toString(),
+                        ),
+                      ),
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
