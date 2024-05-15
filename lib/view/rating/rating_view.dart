@@ -1,17 +1,28 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/rating_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 class RatingScreen extends StatefulWidget {
-  const RatingScreen({super.key});
+  final String prodId;
+  final String img;
+  final int order;
+  const RatingScreen({
+    super.key,
+    required this.prodId,
+    required this.img,
+    required this.order,
+  });
 
   @override
   State<RatingScreen> createState() => _RatingScreenState();
@@ -20,10 +31,66 @@ class RatingScreen extends StatefulWidget {
 class _RatingScreenState extends State<RatingScreen> {
   double initalRating = 3;
   TextEditingController commentController = TextEditingController();
+  Map userData = {};
+
+  String token = "";
+
+  Future<void> _getUserData() async {
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      // Await the Future<UserModel> result
+      token = userModel.key;
+      final userData =
+          await Provider.of<HomeRepositoryProvider>(context, listen: false)
+              .getUserData(token);
+      setState(() {
+        this.userData = userData;
+      });
+      debugPrint("this is the cliecnt details:$userData");
+    } catch (e) {
+      debugPrint('Error fetching user data: $e');
+    }
+  }
+
+  void postRating() async {
+    try {
+      String rating = initalRating.toString();
+      double doubleRating = double.parse(rating); // Parse as double
+
+      int intRating = doubleRating.round(); // Convert to int by rounding
+
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+
+      final userModel =
+          await userPreferences.getUser(); // Await the Future<UserModel> result
+      final token = userModel.key;
+
+      Provider.of<RatingRepositoryProvider>(context, listen: false).rating(
+        intRating,
+        widget.prodId,
+        commentController.text,
+        context,
+        token,
+        userData['pk'],
+        widget.order,
+      );
+    } catch (e) {
+      print("Error parsing rating: $e");
+      // Handle error appropriately, e.g., show an error message to the user
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -84,10 +151,9 @@ class _RatingScreenState extends State<RatingScreen> {
                     child: Column(
                       children: [
                         const VerticalSpeacing(20),
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 50,
-                          backgroundImage: NetworkImage(
-                              "https://proflowers.pk/wp-content/uploads/2022/09/2-kg-mixed-dry-fruits.jpg"),
+                          backgroundImage: NetworkImage(widget.img),
                         ),
                         const VerticalSpeacing(20),
                         Text(
@@ -193,16 +259,8 @@ class _RatingScreenState extends State<RatingScreen> {
                               const EdgeInsets.only(left: 20.0, right: 20.0),
                           child: RoundedButton(
                               title: "Submit",
-                              onpress: () async {
-                                String rating = initalRating.toString();
-                                int intRating = int.parse(rating);
-                                final userModel = await userPreferences
-                                    .getUser(); // Await the Future<UserModel> result
-                                final token = userModel.key;
-                                Provider.of<RatingRepositoryProvider>(context,
-                                        listen: false)
-                                    .rating(intRating, "prodId",
-                                        commentController.text, context, token);
+                              onpress: () {
+                                postRating();
                               }),
                         ),
                         const VerticalSpeacing(40),

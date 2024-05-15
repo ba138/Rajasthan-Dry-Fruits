@@ -361,6 +361,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
                 CartButton(
                     onTap: () {
+                      debugPrint("this is prodid:${widget.proId}");
                       final productDetailsProvider =
                           Provider.of<ProductRepositoryProvider>(context,
                               listen: false);

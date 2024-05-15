@@ -6,7 +6,15 @@ class RatingRepositoryProvider extends ChangeNotifier {
 
   RatingRepository get ratingRepository => _ratingRepository;
   void rating(int rating, String prodId, String comment, BuildContext context,
-      String token) {
-    _ratingRepository.postOrderRating(rating, prodId, comment, context, token);
+      String token, int client, int order) {
+    _ratingRepository.postOrderRating(
+        rating, prodId, comment, context, token, client, order);
+  }
+
+  void pedingReview(
+    String token,
+    BuildContext context,
+  ) {
+    _ratingRepository.getPendingReviews(context, token);
   }
 }
