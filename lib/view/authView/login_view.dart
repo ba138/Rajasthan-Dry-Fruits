@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/custom_text_field.dart';
 import 'package:rjfruits/res/components/loading_manager.dart';
-import 'package:rjfruits/res/components/login_container.dart';
+import 'package:rjfruits/view/authView/Social_Auth/fb_auth.dart';
+import 'package:rjfruits/view/authView/Social_Auth/google_auth.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
@@ -230,15 +231,11 @@ class _LoginViewState extends State<LoginView> {
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        LoginContainer(
-                          img: "images/google.png",
-                        ),
+                        GoogleAuthButton(),
                         SizedBox(
                           width: 10,
                         ),
-                        LoginContainer(
-                          img: "images/fb.png",
-                        ),
+                        FbAuth(),
                       ],
                     ),
                     const VerticalSpeacing(20),
