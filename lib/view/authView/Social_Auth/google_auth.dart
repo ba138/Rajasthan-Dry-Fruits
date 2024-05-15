@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import '../../../model/google_auth_model.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../utils/routes/utils.dart';
-import '../../../view_model/user_view_model.dart';
+
+// Import your GoogleAuthModel here
 
 class GoogleAuthButton extends StatefulWidget {
   const GoogleAuthButton({Key? key}) : super(key: key);
@@ -16,9 +17,14 @@ class GoogleAuthButton extends StatefulWidget {
 
 class _GoogleAuthButtonState extends State<GoogleAuthButton> {
   bool _isLoading = false;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email', // Request basic profile information (email is common)
+      // Add other required scopes based on your API needs
+    ],
+  );
 
   Future<void> _authenticateWithGoogle(BuildContext context) async {
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
     setState(() {
       _isLoading = true;
     });
@@ -38,54 +44,46 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       // Step 2: Obtain the auth token
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-      final userPreferences =
-          Provider.of<UserViewModel>(context, listen: false);
-      final userModel = await userPreferences.getUser();
-      final token = userModel.key;
-      print(
-          '..........................${googleAuth.accessToken}...............');
-      print('..........................${googleAuth.idToken}...............');
 
-      // Step 3: Make a POST request to your API endpoint with the token
+      // Step 3: Prepare the request body using GoogleAuthModel
+      final GoogleAuthModel authData = GoogleAuthModel(
+        accessToken: googleAuth.accessToken.toString(),
+        code: 'string', // Set code if required by your API
+        idToken: googleAuth.idToken.toString(),
+      );
+
+      // Step 4: Make a POST request to your API endpoint
       final response = await http.post(
         Uri.parse('http://103.117.180.187/api/accounts/google/login/'),
         headers: {
           'accept': 'application/json',
           'Content-Type': 'application/json',
-          'authorization': 'Token $token',
+          'X-CSRFToken':
+              'tXaYOF0LE9ZSZ1vxlr8hs2VjppvLvzN5DCBI8MjSybc1EYCU6I15cK2p0CQJTw9B',
         },
-        body: jsonEncode({
-          'access_token': googleAuth.accessToken,
-          'id_token': googleAuth.idToken,
-          // Optionally include other data required by your API
-        }),
+        body: googleAuthModelToJson(authData),
       );
-      print(
-          '.............................${response.statusCode}.......................');
-      // Step 4: Handle the response
+
+      // Step 5: Handle the response from your backend
       if (response.statusCode == 200) {
-        print(
-            '..........................${googleAuth.accessToken}...............');
-        print('..........................${googleAuth.idToken}...............');
-
-        Utils.toastMessage('Successfully loggedIn with google');
-        // final userPrefrences =
-        //     Provider.of<UserViewModel>(context, listen: false);
-
-        // userPrefrences
-        //     .saveUser(UserModel(key: response.data['key'].toString()));
+        // Authentication successful
+        final data = jsonDecode(response.body);
+        print('Successfully logged in with Google!');
+        Utils.toastMessage('Successfully logged in with Google');
+        // Implement user data saving logic from response data (replace with your logic)
+        // final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+        // userPreferences.saveUser(UserModel(key: data['key'].toString()));
         Navigator.pushNamed(context, RoutesName.dashboard);
       } else {
+        // Authentication failed
+        final errorData = jsonDecode(response.body);
         print(
-            '..........................${googleAuth.accessToken}...............');
-        print('..........................${googleAuth.idToken}...............');
-
+            'Error: ${response.statusCode} - ${errorData['message'] ?? 'Unknown error'}');
         Utils.flushBarErrorMessage(
-            'Error occure please try again later', context);
+            'Authentication failed. Please try again.', context);
       }
     } catch (error) {
-      // Handle sign-in errors (e.g., network issues)
-
+      // Handle sign-in errors
       print('Error signing in with Google: $error');
       Utils.flushBarErrorMessage(
           'Error signing in with Google: $error', context);
@@ -99,29 +97,38 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => _isLoading ? null : _authenticateWithGoogle(context),
-      child: Container(
-        height: 48,
-        width: 98,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.withOpacity(0.5), width: 3),
-          color: const Color.fromRGBO(255, 255, 255, 0.2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withOpacity(0.5),
-              blurRadius: 2,
-              spreadRadius: 0,
-              offset: const Offset(0, 0),
+      onTap: () {
+        if (!_isLoading) {
+          _authenticateWithGoogle(context);
+        }
+      },
+      child: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
+              height: 48,
+              width: 98,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border:
+                    Border.all(color: Colors.grey.withOpacity(0.5), width: 3),
+                color: const Color.fromRGBO(255, 255, 255, 0.2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.5),
+                    blurRadius: 2,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
+              ),
+              child: Image.asset(
+                "images/google.png",
+                height: 24,
+                width: 24,
+              ),
             ),
-          ],
-        ),
-        child: Image.asset(
-          "images/google.png",
-          height: 24,
-          width: 24,
-        ),
-      ),
     );
   }
 }
