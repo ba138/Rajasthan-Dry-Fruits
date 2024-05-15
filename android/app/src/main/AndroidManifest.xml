@@ -1,31 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.your_app_package">
-
-    <!-- Internet permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- Network state permission -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="rjfruits"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-
-        <!-- Google services configuration -->
-        <!-- Add the following meta-data tags for Google Sign-In -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <meta-data
-            android:name="com.google.android.gms.games.APP_ID"
-            android:value="@string/app_id" />
-
-        <meta-data
-            android:name="com.google.android.gms.auth.api.signin.CLIENT_ID"
-            android:value="@string/default_web_client_id" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -34,34 +11,34 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-                android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme" />
-
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
-        <!-- Queries for activities that can process text -->
-        <queries>
-            <intent>
-                <action android:name="android.intent.action.PROCESS_TEXT" />
-                <data android:mimeType="text/plain" />
-            </intent>
-        </queries>
     </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility?hl=en and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
 </manifest>
-ß
