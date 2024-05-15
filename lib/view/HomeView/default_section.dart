@@ -70,7 +70,10 @@ class _DefaultSectionState extends State<DefaultSection> {
                     (index) => Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(isdiscount: true),
+                      child: const HomeCard(
+                        isdiscount: true,
+                        averageReview: "4",
+                      ),
                     ),
                   ),
                 );
@@ -101,6 +104,9 @@ class _DefaultSectionState extends State<DefaultSection> {
                           .homeRepository.productsTopOrder[index].price
                           .toString(),
                       proId: homeRepo.homeRepository.productsTopOrder[index].id
+                          .toString(),
+                      averageReview: homeRepo
+                          .homeRepository.productsTopOrder[index].averageReview
                           .toString(),
                     ),
                   ),
@@ -149,7 +155,10 @@ class _DefaultSectionState extends State<DefaultSection> {
                     (index) => Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(isdiscount: true),
+                      child: const HomeCard(
+                        isdiscount: true,
+                        averageReview: "4",
+                      ),
                     ),
                   ),
                 );
@@ -180,6 +189,9 @@ class _DefaultSectionState extends State<DefaultSection> {
                           .homeRepository.productsTopRated[index].price
                           .toString(),
                       proId: homeRepo.homeRepository.productsTopRated[index].id
+                          .toString(),
+                      averageReview: homeRepo
+                          .homeRepository.productsTopOrder[index].averageReview
                           .toString(),
                     ),
                   ),
@@ -229,7 +241,10 @@ class _DefaultSectionState extends State<DefaultSection> {
                     (index) => Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(isdiscount: true),
+                      child: const HomeCard(
+                        isdiscount: true,
+                        averageReview: "4",
+                      ),
                     ),
                   ),
                 );
@@ -261,6 +276,9 @@ class _DefaultSectionState extends State<DefaultSection> {
                           .toString(),
                       proId: homeRepo
                           .homeRepository.productsTopDiscount[index].id
+                          .toString(),
+                      averageReview: homeRepo
+                          .homeRepository.productsTopOrder[index].averageReview
                           .toString(),
                     ),
                   ),

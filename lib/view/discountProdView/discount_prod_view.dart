@@ -72,7 +72,10 @@ class DisCountProd extends StatelessWidget {
                           (index) => Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
                             highlightColor: Colors.grey[100]!,
-                            child: const HomeCard(isdiscount: true),
+                            child: const HomeCard(
+                              isdiscount: true,
+                              averageReview: "4",
+                            ),
                           ),
                         ),
                       );
@@ -102,6 +105,9 @@ class DisCountProd extends StatelessWidget {
                                 .toString(),
                             proId: homeRepo
                                 .homeRepository.productsTopDiscount[index].id
+                                .toString(),
+                            averageReview: homeRepo.homeRepository
+                                .productsTopDiscount[index].averageReview
                                 .toString(),
                           ),
                         ),

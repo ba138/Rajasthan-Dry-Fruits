@@ -8,6 +8,7 @@ class ProductDetail {
   final List<String> images;
   final String description;
   final String thumbnailImage;
+  final double averageReview;
   final String? videoLink;
   final int quantity;
   final String price;
@@ -15,6 +16,7 @@ class ProductDetail {
   final String? promotional;
   final int totalReviews;
   final List<ProductWeight> productWeight;
+  final List<ProductReview> productReview;
 
   ProductDetail({
     required this.id,
@@ -26,6 +28,7 @@ class ProductDetail {
     required this.images,
     required this.description,
     required this.thumbnailImage,
+    required this.averageReview,
     required this.videoLink,
     required this.quantity,
     required this.price,
@@ -33,6 +36,7 @@ class ProductDetail {
     required this.promotional,
     required this.totalReviews,
     required this.productWeight,
+    required this.productReview,
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
@@ -46,6 +50,7 @@ class ProductDetail {
       images: List<String>.from(json['images']),
       description: json['description'],
       thumbnailImage: json['thumbnail_image'],
+      averageReview: json['average_review'].toDouble(),
       videoLink: json['video_link'],
       quantity: json['quantity'],
       price: json['price'],
@@ -54,6 +59,8 @@ class ProductDetail {
       totalReviews: json['total_reviews'],
       productWeight: List<ProductWeight>.from(
           json['product_weight'].map((x) => ProductWeight.fromJson(x))),
+      productReview: List<ProductReview>.from(
+          json['product_review'].map((x) => ProductReview.fromJson(x))),
     );
   }
 }
@@ -67,7 +74,7 @@ class Category {
   Category({
     required this.id,
     required this.name,
-    required this.parent,
+    this.parent,
     required this.thumbnailImage,
   });
 
@@ -114,6 +121,61 @@ class Weight {
     return Weight(
       id: json['id'],
       name: json['name'],
+    );
+  }
+}
+
+class ProductReview {
+  final Client client;
+  final int rate;
+  final String comment;
+  final DateTime createdOn;
+
+  ProductReview({
+    required this.client,
+    required this.rate,
+    required this.comment,
+    required this.createdOn,
+  });
+
+  factory ProductReview.fromJson(Map<String, dynamic> json) {
+    return ProductReview(
+      client: Client.fromJson(json['client']),
+      rate: json['rate'],
+      comment: json['comment'],
+      createdOn: DateTime.parse(json['created_on']),
+    );
+  }
+}
+
+class Client {
+  final int id;
+  final String username;
+  final String email;
+  final String? profileImage;
+  final String? phoneNumber;
+  final String dateOfBirth;
+  final String gender;
+
+  Client({
+    required this.id,
+    required this.username,
+    required this.email,
+    this.profileImage,
+    this.phoneNumber,
+    required this.dateOfBirth,
+    required this.gender,
+  });
+
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
+      id: json['id'],
+      username: json['username'],
+      email: json['email'],
+      profileImage: json['profile_image'],
+      phoneNumber: json['phone_number'],
+      dateOfBirth: json['date_of_birth'],
+      gender: json['gender'],
     );
   }
 }

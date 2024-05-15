@@ -1,13 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:rjfruits/model/product_detail_model.dart';
+
 import 'package:rjfruits/view/total_review/widgets/review_card.dart';
 
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 
 class TotalRatingScreen extends StatefulWidget {
+  final List<ProductReview> reviews;
   const TotalRatingScreen({
     super.key,
+    required this.reviews,
   });
   @override
   State<TotalRatingScreen> createState() => _TotalRatingScreenState();
@@ -278,14 +283,26 @@ class _TotalRatingScreenState extends State<TotalRatingScreen> {
                 ],
               ),
               const Divider(),
-              const ReviewCard(
-                  profilePic:
-                      'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
-                  name: 'Hasnain',
-                  rating: 'rating',
-                  time: '12:50pm',
-                  comment:
-                      'Aliqua officia duis occaecat consectetur fugiat nostrud anim dolor commodo officia proident. Voluptate nisi reprehenderit.'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2.5,
+                child: ListView.separated(
+                  itemCount: widget.reviews.length,
+                  itemBuilder: (context, index) {
+                    final review = widget.reviews[index];
+                    return ReviewCard(
+                      profilePic: review.client.profileImage ??
+                          'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg',
+                      name: review.client.username,
+                      rating: review.rate.toString(),
+                      time: review.createdOn
+                          .toLocal()
+                          .toString(), // You might want to format this properly
+                      comment: review.comment,
+                    );
+                  },
+                  separatorBuilder: (context, index) => Divider(),
+                ),
+              )
             ],
           ),
         ),

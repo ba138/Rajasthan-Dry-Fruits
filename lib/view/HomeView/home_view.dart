@@ -46,6 +46,7 @@ class _HomeViewState extends State<HomeView> {
       setState(() {
         this.userData = userData;
       });
+      debugPrint("this is the cliecnt details:$userData");
     } catch (e) {
       debugPrint('Error fetching user data: $e');
     }

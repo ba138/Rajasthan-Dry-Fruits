@@ -128,9 +128,6 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => const CancelOrderScreen());
 
-      case RoutesName.totalReview:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const TotalRatingScreen());
       case RoutesName.contactUs:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ContactUs());

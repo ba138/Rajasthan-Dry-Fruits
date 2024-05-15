@@ -62,7 +62,10 @@ class _SearchSectionState extends State<SearchSection> {
                     (index) => Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(isdiscount: true),
+                      child: const HomeCard(
+                        isdiscount: true,
+                        averageReview: "4",
+                      ),
                     ),
                   ),
                 );
@@ -88,7 +91,8 @@ class _SearchSectionState extends State<SearchSection> {
                       title: homeRepo.homeRepository.searchResults[index].title,
                       price: homeRepo.homeRepository.searchResults[index].price
                           .toString(),
-                      proId: homeRepo.homeRepository.searchResults[index].id
+                      averageReview: homeRepo
+                          .homeRepository.searchResults[index].averageReview
                           .toString(),
                     ),
                   ),
