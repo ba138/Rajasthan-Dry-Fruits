@@ -50,19 +50,20 @@ class ProductDetailsWidget extends StatelessWidget {
               leading: SizedBox(
                 height: 80.0,
                 width: 58.0,
-                child: Image.asset(img),
+                child: Image.network(img),
               ),
               title: Row(
                 children: [
-                  const SizedBox(width: 30.0),
+                  const SizedBox(width: 20.0),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text.rich(
                         TextSpan(
                           text: '$title \n',
                           style: const TextStyle(
                             fontFamily: 'CenturyGothic',
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w700,
                             color: AppColor.textColor1,
                           ),
@@ -72,7 +73,7 @@ class ProductDetailsWidget extends StatelessWidget {
                               style: const TextStyle(
                                 color: AppColor.textColor1,
                                 // fontWeight: FontWeight.w100,
-                                fontSize: 16.0,
+                                fontSize: 14.0,
                               ),
                             ),
                             TextSpan(
@@ -97,7 +98,7 @@ class ProductDetailsWidget extends StatelessWidget {
                     productPrice,
                     style: const TextStyle(
                       fontFamily: 'CenturyGothic',
-                      fontSize: 20,
+                      fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: AppColor.textColor1,
                     ),
