@@ -1,9 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:rjfruits/view_model/rating_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 class RatingScreen extends StatefulWidget {
   const RatingScreen({super.key});
@@ -13,8 +18,12 @@ class RatingScreen extends StatefulWidget {
 }
 
 class _RatingScreenState extends State<RatingScreen> {
+  double initalRating = 3;
+  TextEditingController commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -108,7 +117,7 @@ class _RatingScreenState extends State<RatingScreen> {
                         ),
                         const VerticalSpeacing(24),
                         RatingBar.builder(
-                          initialRating: 3,
+                          initialRating: initalRating,
                           minRating: 1,
                           unratedColor: AppColor.boxColor,
                           allowHalfRating: true,
@@ -121,7 +130,9 @@ class _RatingScreenState extends State<RatingScreen> {
                             Icons.star_rate_rounded,
                             color: Colors.amber,
                           ),
-                          onRatingUpdate: (rating) {},
+                          onRatingUpdate: (rating) {
+                            initalRating = rating;
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -149,7 +160,7 @@ class _RatingScreenState extends State<RatingScreen> {
                             right: 20,
                           ),
                           child: TextField(
-                            // controller: _controller,
+                            controller: commentController,
                             keyboardType: TextInputType.multiline,
                             maxLines: null, // Allows unlimited number of lines
                             decoration: InputDecoration(
@@ -180,7 +191,19 @@ class _RatingScreenState extends State<RatingScreen> {
                         Padding(
                           padding:
                               const EdgeInsets.only(left: 20.0, right: 20.0),
-                          child: RoundedButton(title: "Submit", onpress: () {}),
+                          child: RoundedButton(
+                              title: "Submit",
+                              onpress: () async {
+                                String rating = initalRating.toString();
+                                int intRating = int.parse(rating);
+                                final userModel = await userPreferences
+                                    .getUser(); // Await the Future<UserModel> result
+                                final token = userModel.key;
+                                Provider.of<RatingRepositoryProvider>(context,
+                                        listen: false)
+                                    .rating(intRating, "prodId",
+                                        commentController.text, context, token);
+                              }),
                         ),
                         const VerticalSpeacing(40),
                       ],

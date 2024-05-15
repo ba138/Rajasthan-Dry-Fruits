@@ -9,6 +9,7 @@ import 'package:rjfruits/view_model/auth_view_model.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
+import 'package:rjfruits/view_model/rating_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import 'package:rjfruits/view_model/shop_view_model.dart';
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => TrackOrderRepositoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => RatingRepositoryProvider(),
         ),
       ],
       child: MaterialApp(
