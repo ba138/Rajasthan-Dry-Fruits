@@ -237,6 +237,7 @@ class _ProfileViewState extends State<ProfileView> {
             children: [
               Column(
                 children: [
+                  const Divider(),
                   ProfileWidgets(
                       ontap: () {
                         Navigator.push(
@@ -297,6 +298,7 @@ class _ProfileViewState extends State<ProfileView> {
                     trIcon: Icons.arrow_forward_ios,
                     title: 'Log Out',
                   ),
+                  const Divider(),
                 ],
               ),
             ],
