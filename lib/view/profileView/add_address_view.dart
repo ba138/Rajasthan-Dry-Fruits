@@ -68,22 +68,6 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       _saveAddress();
     }
   }
-
-  // Validate address
-  //   if () {
-  //     setState(() {
-
-  //     });
-  //   }
-  //   addressValid = false;
-
-  //   // Validate zip code
-  //   if () {
-
-  //   }
-  //   return zipValid;
-  // }
-
   Future<void> _saveAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
