@@ -178,7 +178,48 @@ class _TrackOrderState extends State<TrackOrder> {
                       const TextStyle(color: Colors.transparent),
                 ),
                 const Text(
-                  '   Product Details',
+                  'Delivery Details',
+                  style: TextStyle(
+                    fontFamily: 'CenturyGothic',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.blackColor,
+                  ),
+                ),
+                const VerticalSpeacing(12.0),
+
+                Text(
+                  'CourierName: ${trackOrder.trackOrderRepositoryProvider.deliveryCompany}',
+                  style: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
+                ),
+                const VerticalSpeacing(12.0),
+
+                Text(
+                  'Destination: ${trackOrder.trackOrderRepositoryProvider.destination}',
+                  style: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
+                ),
+                const VerticalSpeacing(12.0),
+
+                Text(
+                  'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
+                  style: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
+                ),
+                const VerticalSpeacing(30.0),
+
+                const Text(
+                  'Product Details',
                   style: TextStyle(
                     fontFamily: 'CenturyGothic',
                     fontSize: 16,

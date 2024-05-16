@@ -17,6 +17,9 @@ class TrackOrderRepository extends ChangeNotifier {
   List<TextDto> outOfDeliveryList = [];
   List<TextDto> shippedList = [];
   List<TextDto> deliveredList = [];
+  String trackingId = "";
+  String deliveryCompany = "";
+  String destination = "";
   Future<void> fetchOrderDetails(BuildContext context, String orderId,
       String token, String shopRocketId) async {
     bool isStoringData = true;
@@ -131,6 +134,7 @@ class TrackOrderRepository extends ChangeNotifier {
         // Parse the response JSON
         final ShipmentTrackResponse shipmentDetail =
             ShipmentTrackResponse.fromJson(jsonDecode(response.body));
+        debugPrint("this is delivery response:${response.body}");
         outOfDeliveryList.clear();
         outOfDeliveryList.add(TextDto("Your order has been Picked",
             shipmentDetail.shipmentTrack[0].pickupDate));
@@ -149,6 +153,9 @@ class TrackOrderRepository extends ChangeNotifier {
             shipmentDetail.shipmentTrack[0].deliveredDate,
           ),
         );
+        trackingId = shipmentDetail.shipmentTrack[0].shipmentId.toString();
+        destination = shipmentDetail.shipmentTrack[0].destination;
+        deliveryCompany = shipmentDetail.shipmentTrack[0].courierName;
 // TextDto("Your order is out for delivery", ""),
         notifyListeners();
       } else {
