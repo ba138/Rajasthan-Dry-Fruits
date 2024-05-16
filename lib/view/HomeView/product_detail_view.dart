@@ -542,7 +542,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             widget.detail.title,
                             weightid ?? "null",
                             discountedPrice,
-                            1,
+                            amount,
                             token,
                             context);
                         Navigator.push(context,
