@@ -2,8 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/model/order_detailed_model.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
+import 'package:rjfruits/view_model/service/track_order_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
@@ -24,26 +27,32 @@ class TrackOrder extends StatefulWidget {
 class _TrackOrderState extends State<TrackOrder> {
   List<TextDto> orderList = [];
 
-  List<TextDto> shippedList = [
-    TextDto("Your order has been shipped", ""),
-  ];
-
-  List<TextDto> outOfDeliveryList = [
-    TextDto("Your order is out for delivery", ""),
-  ];
-
-  List<TextDto> deliveredList = [
-    TextDto("Your order has been delivered", ""),
-  ];
   final bool isTrue = true;
+  Future<void> _getUserData() async {
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      // Await the Future<UserModel> result
+      final token = userModel.key;
+
+      await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+          .fetchShipData(widget.shipRocketId, token);
+    } catch (e) {
+      debugPrint('Error fetching user data: $e');
+    }
+  }
 
   @override
   void initState() {
+    _getUserData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final trackOrder =
+        Provider.of<TrackOrderRepositoryProvider>(context, listen: false);
     debugPrint("this is ship id${widget.shipRocketId}");
     DateTime now = widget.orderDetailModel.createdOn;
     String formattedDate = DateFormat("E, d'th' MMM ''yy - hh:mma").format(now);
@@ -93,7 +102,10 @@ class _TrackOrderState extends State<TrackOrder> {
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,19 +158,24 @@ class _TrackOrderState extends State<TrackOrder> {
                     // ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: OrderTracker(
-                    status: Status.delivered,
-                    activeColor: AppColor.primaryColor,
-                    inActiveColor: Colors.grey[300],
-                    orderTitleAndDateList: orderList,
-                    shippedTitleAndDateList: shippedList,
-                    outOfDeliveryTitleAndDateList: outOfDeliveryList,
-                    deliveredTitleAndDateList: deliveredList,
-                    headingDateTextStyle:
-                        const TextStyle(color: Colors.transparent),
+                OrderTracker(
+                  status: Status.delivered,
+                  activeColor: AppColor.primaryColor,
+                  inActiveColor: Colors.grey[300],
+                  orderTitleAndDateList: orderList,
+                  subDateTextStyle: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
                   ),
+                  shippedTitleAndDateList:
+                      trackOrder.trackOrderRepositoryProvider.shippedList,
+                  outOfDeliveryTitleAndDateList:
+                      trackOrder.trackOrderRepositoryProvider.outOfDeliveryList,
+                  deliveredTitleAndDateList:
+                      trackOrder.trackOrderRepositoryProvider.deliveredList,
+                  headingDateTextStyle:
+                      const TextStyle(color: Colors.transparent),
                 ),
                 const Text(
                   '   Product Details',
@@ -170,9 +187,10 @@ class _TrackOrderState extends State<TrackOrder> {
                   ),
                 ),
                 const VerticalSpeacing(30.0),
+
                 // This is not favourite list card but i use it in order track in Prodcut details
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 2.5,
+                  height: MediaQuery.of(context).size.height / 2.4,
                   child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.orderDetailModel.orderItems.length,
@@ -198,8 +216,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     },
                   ),
                 ),
-
-                const VerticalSpeacing(50.0),
+                const VerticalSpeacing(20),
               ],
             ),
           ),

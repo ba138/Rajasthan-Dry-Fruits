@@ -13,4 +13,15 @@ class TrackOrderRepositoryProvider extends ChangeNotifier {
         context, id, token, shopRocketId);
     notifyListeners();
   }
+
+  Future<void> fetchShipData(
+    String id,
+    String token,
+  ) async {
+    await _trackOrderRepositoryProvider.fetchShipmentDetail(
+      id,
+      token,
+    );
+    notifyListeners();
+  }
 }
