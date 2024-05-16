@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -302,7 +302,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       ),
     );
   }
-
 
   Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

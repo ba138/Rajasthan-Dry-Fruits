@@ -70,10 +70,10 @@ class _MyRatingState extends State<MyRating>
               unselectedLabelColor: AppColor.textColor1,
               tabs: const <Widget>[
                 Tab(
-                  text: 'To reviews(12)',
+                  text: 'To reviews',
                 ),
                 Tab(
-                  text: 'History(10)',
+                  text: 'History',
                 ),
               ],
             ),
@@ -109,8 +109,7 @@ class _MyRatingState extends State<MyRating>
                       itemBuilder: (context, index) => Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
-                        child: RatingCard(
-                          onpress: () {},
+                        child: const RatingCard(
                           order: 0,
                         ),
                       ),
@@ -123,7 +122,6 @@ class _MyRatingState extends State<MyRating>
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 10.0), // Spacing between cards
                       itemBuilder: (context, index) => RatingCard(
-                        onpress: () {},
                         id: homeRepo.ratingRepository.orders[index].product.id,
                         title: homeRepo
                             .ratingRepository.orders[index].product.title,

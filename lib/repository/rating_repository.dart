@@ -13,7 +13,6 @@ class RatingRepository extends ChangeNotifier {
   Future<void> postOrderRating(int rating, String prodId, String comment,
       BuildContext context, String token, int client, int order) async {
     try {
-      print(("this is the start"));
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -25,7 +24,6 @@ class RatingRepository extends ChangeNotifier {
           );
         },
       );
-      print(("this is the after indicater"));
 
       final url = Uri.parse('http://103.117.180.187/api/order/add/rating/');
       const csrfToken =
@@ -45,15 +43,10 @@ class RatingRepository extends ChangeNotifier {
         "comment": comment,
         "client": client
       });
-      print(("this is the after body"));
 
       final response = await http.post(url, headers: headers, body: body);
-      print(("this is the after response"));
-      print(("this is the  response:${response.statusCode}"));
 
       if (response.statusCode == 200) {
-        print(("this is the after respose code 200"));
-
         Utils.flushBarErrorMessage("Rating added successfully.", context);
         Navigator.of(context).pop();
       } else {
@@ -80,7 +73,7 @@ class RatingRepository extends ChangeNotifier {
     );
 
     try {
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         List<dynamic> jsonResponse = json.decode(response.body);
         orders = jsonResponse.map((json) => Order.fromJson(json)).toList();
         debugPrint("this is the orderid$jsonResponse");
@@ -90,9 +83,12 @@ class RatingRepository extends ChangeNotifier {
 
         // For demonstration, printing orders
       } else {
+        debugPrint("this is response code after 200: ${response.statusCode}");
         if (response.statusCode == 404) {
           Utils.flushBarErrorMessage("Products not found", context);
         } else {
+          debugPrint("this is response code after 200: ${response.statusCode}");
+
           Utils.flushBarErrorMessage("Unexpected error", context);
         }
       }

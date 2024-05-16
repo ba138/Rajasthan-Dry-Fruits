@@ -9,12 +9,12 @@ class ProductDetail {
   final String description;
   final String thumbnailImage;
   final double averageReview;
-  final String? videoLink;
+  final String? videoLink; // Nullable
   final int quantity;
   final String price;
   final int discount;
-  final String? promotional;
-  final int totalReviews;
+  final String? promotional; // Nullable
+  final int totalReviews; // Nullable
   final List<ProductWeight> productWeight;
   final List<ProductReview> productReview;
 
@@ -68,13 +68,13 @@ class ProductDetail {
 class Category {
   final String id;
   final String name;
-  final String? parent;
+  final String? parent; // Nullable
   final String thumbnailImage;
 
   Category({
     required this.id,
     required this.name,
-    this.parent,
+    required this.parent,
     required this.thumbnailImage,
   });
 
@@ -152,17 +152,17 @@ class Client {
   final int id;
   final String username;
   final String email;
-  final String? profileImage;
-  final String? phoneNumber;
-  final String dateOfBirth;
-  final String gender;
+  final String? profileImage; // Nullable
+  final String? phoneNumber; // Nullable
+  final String? dateOfBirth; // Nullable
+  final String? gender; // Nullable
 
   Client({
     required this.id,
     required this.username,
     required this.email,
-    this.profileImage,
-    this.phoneNumber,
+    required this.profileImage,
+    required this.phoneNumber,
     required this.dateOfBirth,
     required this.gender,
   });

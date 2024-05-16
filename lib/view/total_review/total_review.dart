@@ -303,7 +303,7 @@ class _TotalRatingScreenState extends State<TotalRatingScreen> {
                       comment: review.comment,
                     );
                   },
-                  separatorBuilder: (context, index) => Divider(),
+                  separatorBuilder: (context, index) => const Divider(),
                 ),
               )
             ],

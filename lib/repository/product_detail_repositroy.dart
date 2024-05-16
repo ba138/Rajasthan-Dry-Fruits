@@ -22,6 +22,7 @@ class ProductDetailRepository extends ChangeNotifier {
 
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
+
       if (response.statusCode == 200) {
         final productDetail = ProductDetail.fromJson(jsonDecode(response.body));
         // Navigate to the next screen and pass the product detail
@@ -58,7 +59,7 @@ class ProductDetailRepository extends ChangeNotifier {
       } else {
         we = int.parse(productWeight);
       }
-      debugPrint("function has been called2");
+
       debugPrint("this is the token of the user= $token");
       final response = await http.post(
         url,
