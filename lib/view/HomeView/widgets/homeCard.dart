@@ -94,13 +94,13 @@ class _HomeCardState extends State<HomeCard> {
     double originalDiscount = double.parse(widget.discount ?? "20");
     String discountedPrice = homeRepoProvider.homeRepository
         .calculateDiscountedPrice(originalPrice, originalDiscount);
-    String formattedPrice = '\$$discountedPrice';
+    String formattedPrice = '₹$discountedPrice';
     final dotIndex = formattedPrice.indexOf('.');
     if (dotIndex != -1) {
       // Decimal point found, remove it and everything after
       formattedPrice = formattedPrice.substring(0, dotIndex);
     }
-    String totalPrice = '\$$originalPrice';
+    String totalPrice = '₹$originalPrice';
     final dotNdex = totalPrice.indexOf('.');
     if (dotNdex != -1) {
       // Decimal point found, remove it and everything after
@@ -292,7 +292,7 @@ class _HomeCardState extends State<HomeCard> {
             Row(
               children: [
                 Text(
-                  widget.price == null ? '\$50 ' : totalPrice,
+                  widget.price == null ? '₹50 ' : totalPrice,
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
