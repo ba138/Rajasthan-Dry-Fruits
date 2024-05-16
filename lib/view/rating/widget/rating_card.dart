@@ -9,7 +9,6 @@ import 'package:rjfruits/view/rating/rating_view.dart';
 class RatingCard extends StatelessWidget {
   const RatingCard({
     super.key,
-    required this.onpress,
     this.title,
     this.image,
     this.buyDate,
@@ -20,7 +19,6 @@ class RatingCard extends StatelessWidget {
   final String? title;
   final String? image;
   final DateTime? buyDate;
-  final VoidCallback onpress;
   final String? id;
   final int order;
 

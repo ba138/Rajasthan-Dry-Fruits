@@ -110,7 +110,6 @@ class _MyRatingState extends State<MyRating>
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
                         child: RatingCard(
-                          onpress: () {},
                           order: 0,
                         ),
                       ),
@@ -123,7 +122,6 @@ class _MyRatingState extends State<MyRating>
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 10.0), // Spacing between cards
                       itemBuilder: (context, index) => RatingCard(
-                        onpress: () {},
                         id: homeRepo.ratingRepository.orders[index].product.id,
                         title: homeRepo
                             .ratingRepository.orders[index].product.title,
