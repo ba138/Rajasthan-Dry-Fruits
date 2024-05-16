@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rjfruits/model/pending_review_model.dart';
-import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 
@@ -13,17 +12,17 @@ class RatingRepository extends ChangeNotifier {
   Future<void> postOrderRating(int rating, String prodId, String comment,
       BuildContext context, String token, int client, int order) async {
     try {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: AppColor.primaryColor,
-            ),
-          );
-        },
-      );
+      // showDialog(
+      //   context: context,
+      //   barrierDismissible: false,
+      //   builder: (BuildContext context) {
+      //     return const Center(
+      //       child: CircularProgressIndicator(
+      //         color: AppColor.primaryColor,
+      //       ),
+      //     );
+      //   },
+      // );
 
       final url = Uri.parse('http://103.117.180.187/api/order/add/rating/');
       const csrfToken =
@@ -45,17 +44,17 @@ class RatingRepository extends ChangeNotifier {
       });
 
       final response = await http.post(url, headers: headers, body: body);
-
+      debugPrint(
+          "this is the response code and body :${response.body}:${response.statusCode}");
       if (response.statusCode == 200) {
         Utils.flushBarErrorMessage("Rating added successfully.", context);
-        Navigator.of(context).pop();
+      } else if (response.statusCode == 400) {
+        Utils.flushBarErrorMessage("Product already rated", context);
       } else {
-        Utils.flushBarErrorMessage("Unexpected error", context);
-        Navigator.of(context).pop();
+        Utils.flushBarErrorMessage("Unexcepeted error occure", context);
       }
     } catch (e) {
       handleApiError(e, context);
-      Navigator.of(context).pop();
     }
   }
 
