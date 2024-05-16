@@ -54,7 +54,8 @@ class AuthViewModel with ChangeNotifier {
       await SessionManager.setLoggedIn(true);
       final userPrefrences = Provider.of<UserViewModel>(context, listen: false);
       userPrefrences.saveUser(UserModel(key: response.data['key'].toString()));
-      Navigator.pushNamed(context, RoutesName.dashboard);
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.dashboard, (route) => false);
 
       if (kDebugMode) {
         print(response.toString());
@@ -93,8 +94,8 @@ class AuthViewModel with ChangeNotifier {
 
       _isLoading = false;
       Utils.toastMessage('Successfully Registered');
-
-      Navigator.pushNamed(context, RoutesName.login);
+      Navigator.pushNamedAndRemoveUntil(
+          context, RoutesName.login, (route) => false);
 
       if (kDebugMode) {
         print(response.toString());
