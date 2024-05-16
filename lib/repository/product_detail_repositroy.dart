@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailRepository extends ChangeNotifier {
   Future<void> fetchProductDetails(BuildContext context, String id) async {
+    debugPrint("this is the detail response product Id:${id}");
+
     final String url = 'http://103.117.180.187/api/product/$id/';
     final Map<String, String> headers = {
       'accept': 'application/json',
@@ -22,9 +24,13 @@ class ProductDetailRepository extends ChangeNotifier {
 
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
+      debugPrint(
+          "this is the detail response product code:${response.statusCode}");
+
       if (response.statusCode == 200) {
         final productDetail = ProductDetail.fromJson(jsonDecode(response.body));
         // Navigate to the next screen and pass the product detail
+        debugPrint("this is the detail response:${response.body}");
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ProductDetailScreen(detail: productDetail),
