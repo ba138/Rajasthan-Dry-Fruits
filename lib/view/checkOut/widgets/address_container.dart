@@ -85,8 +85,8 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
               children: [
                 Text.rich(
                   TextSpan(
-                    text: widget.title.length > 20
-                        ? '${widget.title.substring(0, 20)}...\n'
+                    text: widget.title.length > 10
+                        ? '${widget.title.substring(0, 10)}...\n'
                         : widget.title,
                     style: TextStyle(
                       fontFamily: 'CenturyGothic',
@@ -104,7 +104,9 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
                         ),
                       ),
                       TextSpan(
-                        text: widget.address,
+                        text: widget.address.length > 10
+                            ? '${widget.address.substring(0, 10)}...\n'
+                            : widget.address,
                         style: const TextStyle(
                           color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,

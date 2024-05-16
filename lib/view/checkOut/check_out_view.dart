@@ -79,6 +79,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "country": "USA",
         "payment_type": "online",
       };
+      print('..............required data: $requestData............');
 
       try {
         // Retrieve the user's authentication token
@@ -89,7 +90,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         // Construct the request headers with the authentication token
         Map<String, String> headers = {
+          'accept': 'application/json',
           'Content-Type': 'application/json',
+          'X-CSRFToken':
+              'kVkAd4GoV0CSQ4zfGvhKOo5Q93I8QR2jXNwylIuqdn1BTIVuWKMnYCRGNP5JahMY',
           'authorization': 'Token $token',
         };
 

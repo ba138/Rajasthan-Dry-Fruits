@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
   final TextEditingController _stateController = TextEditingController();
 
   final TextEditingController _zipCodeController = TextEditingController();
+  // String _errorMessage = '';
   Future<void> _saveAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -39,6 +41,29 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String city = _cityController.text;
     String state = _stateController.text;
     String zipCode = _zipCodeController.text;
+    // Validate phone number
+    if (phone.length < 10 || !phone.startsWith('9')) {
+      setState(() {
+        Utils.toastMessage('Invalid phone number');
+      });
+      return;
+    }
+
+    // Validate address
+    if (address.length < 10) {
+      setState(() {
+        Utils.toastMessage('Address must be at least 10 characters long');
+      });
+      return;
+    }
+
+    // Validate zip code
+    if (zipCode.length < 6) {
+      setState(() {
+        Utils.toastMessage('Zip code must be at least 6 characters long');
+      });
+      return;
+    }
 
     Map<String, dynamic> addressMap = {
       'fullName': fullName,
@@ -46,7 +71,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       'address': address,
       'city': city,
       'state': state,
-      'zipCode': zipCode,
+      'zipCode': int.parse(zipCode),
     };
 
     List<Map<String, dynamic>> addresses =
