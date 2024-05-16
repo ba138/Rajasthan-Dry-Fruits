@@ -499,7 +499,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             widget.detail.title,
                             weightid ?? "null",
                             discountedPrice,
-                            1,
+                            amount,
                             token,
                             context);
                       },
@@ -533,7 +533,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        final userModel = await userPreferences
+                            .getUser(); // Await the Future<UserModel> result
+                        final token = userModel.key;
+                        proRepoProvider.saveCartProducts(
+                            widget.detail.id,
+                            widget.detail.title,
+                            weightid ?? "null",
+                            discountedPrice,
+                            amount,
+                            token,
+                            context);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return CheckOutScreen(

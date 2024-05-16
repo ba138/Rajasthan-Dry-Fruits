@@ -2,18 +2,22 @@
 import 'package:flutter/material.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/model/order_detailed_model.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
+import 'package:rjfruits/view_model/service/track_order_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
-import '../../../utils/routes/routes_name.dart';
 
 class TrackOrder extends StatefulWidget {
   final OrderDetailedModel orderDetailModel;
+  final String shipRocketId;
   const TrackOrder({
     super.key,
     required this.orderDetailModel,
+    required this.shipRocketId,
   });
 
   @override
@@ -23,26 +27,33 @@ class TrackOrder extends StatefulWidget {
 class _TrackOrderState extends State<TrackOrder> {
   List<TextDto> orderList = [];
 
-  List<TextDto> shippedList = [
-    TextDto("Your order has been shipped", ""),
-  ];
-
-  List<TextDto> outOfDeliveryList = [
-    TextDto("Your order is out for delivery", ""),
-  ];
-
-  List<TextDto> deliveredList = [
-    TextDto("Your order has been delivered", ""),
-  ];
   final bool isTrue = true;
+  Future<void> _getUserData() async {
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      // Await the Future<UserModel> result
+      final token = userModel.key;
+
+      await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+          .fetchShipData(widget.shipRocketId, token);
+    } catch (e) {
+      debugPrint('Error fetching user data: $e');
+    }
+  }
 
   @override
   void initState() {
+    _getUserData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final trackOrder =
+        Provider.of<TrackOrderRepositoryProvider>(context, listen: false);
+    debugPrint("this is ship id${widget.shipRocketId}");
     DateTime now = widget.orderDetailModel.createdOn;
     String formattedDate = DateFormat("E, d'th' MMM ''yy - hh:mma").format(now);
     orderList.clear();
@@ -82,15 +93,18 @@ class _TrackOrderState extends State<TrackOrder> {
               color: AppColor.blackColor,
             )),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: AppColor.whiteColor,
-            image: DecorationImage(
-                image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          color: AppColor.whiteColor,
+          image: DecorationImage(
+              image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -113,53 +127,58 @@ class _TrackOrderState extends State<TrackOrder> {
                         color: AppColor.blackColor,
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.cancelOrder,
-                        );
-                      },
-                      child: Container(
-                        height: 32,
-                        width: 85,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          color: AppColor.primaryColor,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: Center(
-                            child: Text(
-                              'Cancel order',
-                              style: TextStyle(
-                                color: AppColor.whiteColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.pushNamed(
+                    //       context,
+                    //       RoutesName.cancelOrder,
+                    //     );
+                    //   },
+                    //   child: Container(
+                    //     height: 32,
+                    //     width: 85,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(30.0),
+                    //       color: AppColor.primaryColor,
+                    //     ),
+                    //     child: const Padding(
+                    //       padding: EdgeInsets.all(2.0),
+                    //       child: Center(
+                    //         child: Text(
+                    //           'Cancel order',
+                    //           style: TextStyle(
+                    //             color: AppColor.whiteColor,
+                    //             fontWeight: FontWeight.w400,
+                    //             fontSize: 12.0,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: OrderTracker(
-                    status: Status.delivered,
-                    activeColor: AppColor.primaryColor,
-                    inActiveColor: Colors.grey[300],
-                    orderTitleAndDateList: orderList,
-                    shippedTitleAndDateList: shippedList,
-                    outOfDeliveryTitleAndDateList: outOfDeliveryList,
-                    deliveredTitleAndDateList: deliveredList,
-                    headingDateTextStyle:
-                        const TextStyle(color: Colors.transparent),
+                OrderTracker(
+                  status: Status.delivered,
+                  activeColor: AppColor.primaryColor,
+                  inActiveColor: Colors.grey[300],
+                  orderTitleAndDateList: orderList,
+                  subDateTextStyle: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
                   ),
+                  shippedTitleAndDateList:
+                      trackOrder.trackOrderRepositoryProvider.shippedList,
+                  outOfDeliveryTitleAndDateList:
+                      trackOrder.trackOrderRepositoryProvider.outOfDeliveryList,
+                  deliveredTitleAndDateList:
+                      trackOrder.trackOrderRepositoryProvider.deliveredList,
+                  headingDateTextStyle:
+                      const TextStyle(color: Colors.transparent),
                 ),
                 const Text(
-                  '   Product Details',
+                  'Delivery Details',
                   style: TextStyle(
                     fontFamily: 'CenturyGothic',
                     fontSize: 16,
@@ -167,11 +186,54 @@ class _TrackOrderState extends State<TrackOrder> {
                     color: AppColor.blackColor,
                   ),
                 ),
-                const VerticalSpeacing(10.0),
+                const VerticalSpeacing(12.0),
+
+                Text(
+                  'CourierName: ${trackOrder.trackOrderRepositoryProvider.deliveryCompany}',
+                  style: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
+                ),
+                const VerticalSpeacing(12.0),
+
+                Text(
+                  'Destination: ${trackOrder.trackOrderRepositoryProvider.destination}',
+                  style: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
+                ),
+                const VerticalSpeacing(12.0),
+
+                Text(
+                  'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
+                  style: const TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
+                  ),
+                ),
+                const VerticalSpeacing(30.0),
+
+                const Text(
+                  'Product Details',
+                  style: TextStyle(
+                    fontFamily: 'CenturyGothic',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.blackColor,
+                  ),
+                ),
+                const VerticalSpeacing(30.0),
+
                 // This is not favourite list card but i use it in order track in Prodcut details
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 2.5,
+                  height: MediaQuery.of(context).size.height / 2.4,
                   child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.orderDetailModel.orderItems.length,
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(
@@ -195,8 +257,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     },
                   ),
                 ),
-
-                const VerticalSpeacing(50.0),
+                const VerticalSpeacing(20),
               ],
             ),
           ),
