@@ -73,7 +73,7 @@ class _ProfileViewState extends State<ProfileView> {
         centerTitle: true,
         leading: const Icon(
           Icons.west,
-          color: AppColor.whiteColor,
+          color: Colors.transparent,
         ),
       ),
       body: Container(
@@ -96,7 +96,8 @@ class _ProfileViewState extends State<ProfileView> {
                   Positioned(
                     top: 1.0,
                     left: MediaQuery.of(context).size.width / 2.5,
-                    child: _buildProfile('${userData['first_name']}'),
+                    child: _buildProfile(
+                        '${userData['first_name']}', '${userData['pk']}'),
                   ),
                   Positioned(
                     top: tHeight - top / 2 - 10,
@@ -128,7 +129,11 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  _buildProfile(String name) {
+  _buildProfile(String name, String id) {
+    if (name == "null") {
+      name = "wait...";
+      id = "wait...";
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,7 +143,7 @@ class _ProfileViewState extends State<ProfileView> {
             CircleAvatar(
               radius: 35,
               backgroundImage: NetworkImage(
-                  'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'),
+                  'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/271deea8-e28c-41a3-aaf5-2913f5f48be6/de7834s-6515bd40-8b2c-4dc6-a843-5ac1a95a8b55.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3MWRlZWE4LWUyOGMtNDFhMy1hYWY1LTI5MTNmNWY0OGJlNlwvZGU3ODM0cy02NTE1YmQ0MC04YjJjLTRkYzYtYTg0My01YWMxYTk1YThiNTUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BopkDn1ptIwbmcKHdAOlYHyAOOACXW0Zfgbs0-6BY-E'),
             ),
           ],
         ),
@@ -151,10 +156,10 @@ class _ProfileViewState extends State<ProfileView> {
               fontWeight: FontWeight.w600,
               color: AppColor.whiteColor,
             ),
-            children: const <TextSpan>[
+            children: <TextSpan>[
               TextSpan(
-                text: ' ID: 1540580',
-                style: TextStyle(
+                text: ' ID: $id',
+                style: const TextStyle(
                   color: AppColor.whiteColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0,

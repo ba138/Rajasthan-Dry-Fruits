@@ -56,12 +56,10 @@ class _SaveViewState extends State<SaveView> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           Icons.west,
-                          color: AppColor.appBarTxColor,
+                          color: Colors.transparent,
                         ),
                       ),
                       const SizedBox(width: 80.0),

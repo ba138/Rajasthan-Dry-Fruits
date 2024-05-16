@@ -49,12 +49,10 @@ class _ShopViewState extends State<ShopView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           Icons.arrow_back,
-                          color: AppColor.appBarTxColor,
+                          color: Colors.transparent,
                         ),
                       ),
                       Text(
