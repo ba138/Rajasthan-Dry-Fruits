@@ -54,7 +54,7 @@ class _MyOrdersState extends State<MyOrders>
 
       if (response.statusCode == 200) {
         List<dynamic> jsonResponse = jsonDecode(response.body);
-        print('${response.body}');
+        debugPrint(response.body);
         List<OrdersModel> fetchedOrders =
             jsonResponse.map((item) => OrdersModel.fromJson(item)).toList();
 

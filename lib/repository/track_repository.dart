@@ -160,11 +160,11 @@ class TrackOrderRepository extends ChangeNotifier {
         notifyListeners();
       } else {
         // If the request was not successful, print the error status code
-        print('Failed with status code: ${response.statusCode}');
+        debugPrint('Failed with status code: ${response.statusCode}');
       }
     } catch (error) {
       // If an error occurs during the request, print the error
-      print('Error: $error');
+      debugPrint('Error: $error');
     }
   }
 }
