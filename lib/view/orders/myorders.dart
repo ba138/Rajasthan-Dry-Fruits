@@ -113,15 +113,15 @@ class _MyOrdersState extends State<MyOrders>
                 ),
                 Tab(
                   text:
-                      'pending(${orders.where((order) => order.paymentStatus == 'pending').length})',
+                      'pending(${orders.where((order) => order.orderStatus == 'pending').length})',
                 ),
                 Tab(
                   text:
-                      'approved(${orders.where((order) => order.paymentStatus == 'approved').length})',
+                      'approved(${orders.where((order) => order.orderStatus == 'approved').length})',
                 ),
                 Tab(
                   text:
-                      'completed(${orders.where((order) => order.paymentStatus == 'completed').length})',
+                      'completed(${orders.where((order) => order.orderStatus == 'completed').length})',
                 ),
                 const Tab(
                   text: 'cancelled',
@@ -160,11 +160,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Running" tab (show orders with status "Running")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.paymentStatus == 'pending')
+                  .where((order) => order.orderStatus == 'pending')
                   .length,
               itemBuilder: (context, index) {
                 final pendingOrders = orders
-                    .where((order) => order.paymentStatus == 'pending')
+                    .where((order) => order.orderStatus == 'pending')
                     .toList();
 
                 if (pendingOrders.isEmpty) {
@@ -181,11 +181,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Previous" tab (show orders with status "Previous")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.paymentStatus == 'approved')
+                  .where((order) => order.orderStatus == 'approved')
                   .length,
               itemBuilder: (context, index) {
                 final approvedOrders = orders
-                    .where((order) => order.paymentStatus == 'approved')
+                    .where((order) => order.orderStatus == 'approved')
                     .toList();
 
                 if (approvedOrders.isEmpty) {
@@ -202,11 +202,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Completed" tab (show orders with status "Completed")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.paymentStatus == 'completed')
+                  .where((order) => order.orderStatus == 'completed')
                   .length,
               itemBuilder: (context, index) {
                 final completedOrders = orders
-                    .where((order) => order.paymentStatus == 'completed')
+                    .where((order) => order.orderStatus == 'completed')
                     .toList();
 
                 if (completedOrders.isEmpty) {
@@ -223,11 +223,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Canceled" tab (show orders with status "Canceled")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.paymentStatus == 'cancelled')
+                  .where((order) => order.orderStatus == 'cancelled')
                   .length,
               itemBuilder: (context, index) {
                 final cancelledOrders = orders
-                    .where((order) => order.paymentStatus == 'cancelled')
+                    .where((order) => order.orderStatus == 'cancelled')
                     .toList();
 
                 if (cancelledOrders.isEmpty) {
@@ -260,10 +260,10 @@ class _MyOrdersState extends State<MyOrders>
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
         ontap: () {
-          // getAllTheData(orderId: order.id.toString());
+          getAllTheData(orderId: order.id.toString());
         },
-        orderId: order.isActive.toString(),
-        status: order.paymentStatus,
+        orderId: order.id.toString(),
+        status: order.orderStatus,
         cartImg:
             'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg',
         cartTitle: order.fullName,
