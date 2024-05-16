@@ -82,17 +82,18 @@ class _TrackOrderState extends State<TrackOrder> {
               color: AppColor.blackColor,
             )),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: AppColor.whiteColor,
-            image: DecorationImage(
-                image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
-          ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          color: AppColor.whiteColor,
+          image: DecorationImage(
+              image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -113,35 +114,35 @@ class _TrackOrderState extends State<TrackOrder> {
                         color: AppColor.blackColor,
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          RoutesName.cancelOrder,
-                        );
-                      },
-                      child: Container(
-                        height: 32,
-                        width: 85,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),
-                          color: AppColor.primaryColor,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(2.0),
-                          child: Center(
-                            child: Text(
-                              'Cancel order',
-                              style: TextStyle(
-                                color: AppColor.whiteColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.pushNamed(
+                    //       context,
+                    //       RoutesName.cancelOrder,
+                    //     );
+                    //   },
+                    //   child: Container(
+                    //     height: 32,
+                    //     width: 85,
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(30.0),
+                    //       color: AppColor.primaryColor,
+                    //     ),
+                    //     child: const Padding(
+                    //       padding: EdgeInsets.all(2.0),
+                    //       child: Center(
+                    //         child: Text(
+                    //           'Cancel order',
+                    //           style: TextStyle(
+                    //             color: AppColor.whiteColor,
+                    //             fontWeight: FontWeight.w400,
+                    //             fontSize: 12.0,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 Padding(
