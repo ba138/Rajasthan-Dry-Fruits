@@ -70,14 +70,16 @@ class _CartViewState extends State<CartView> {
                         ),
                       ),
                       const SizedBox(width: 80.0),
-                      Text(
-                        'Cart Page',
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.appBarTxColor,
+                      Center(
+                        child: Text(
+                          'Cart Page',
+                          style: GoogleFonts.getFont(
+                            "Poppins",
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.appBarTxColor,
+                            ),
                           ),
                         ),
                       ),
