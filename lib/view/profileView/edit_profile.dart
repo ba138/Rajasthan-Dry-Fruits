@@ -158,7 +158,7 @@ class _EditProfileState extends State<EditProfile> {
                               text: 'Email',
                               hintText: 'Example@gmail.com',
                             ),
-                            const VerticalSpeacing(60.0),
+                            const VerticalSpeacing(70.0),
                             RoundedButton(
                                 title: 'Save',
                                 onpress: () {

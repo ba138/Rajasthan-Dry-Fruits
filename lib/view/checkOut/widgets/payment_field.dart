@@ -49,6 +49,7 @@ class _PaymentFieldState extends State<PaymentField> {
           ),
           const SizedBox(height: 8),
           Container(
+            height: 56,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: const Color(0xffEEEEEE),
