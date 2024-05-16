@@ -144,7 +144,7 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         Text.rich(
           TextSpan(
-            text: name = "null",
+            text: "$name\n",
             style: const TextStyle(
               fontFamily: 'CenturyGothic',
               fontSize: 18,
