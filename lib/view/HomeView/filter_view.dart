@@ -186,48 +186,6 @@ class _FilterScreenState extends State<FilterScreen> {
                 const VerticalSpeacing(30),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Sort By",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.textColor1,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Popularity",
-                              style: GoogleFonts.getFont(
-                                "Poppins",
-                                textStyle: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.textColor1,
-                                ),
-                              ),
-                            ),
-                            const Icon(
-                              Icons.expand_more,
-                              color: AppColor.primaryColor,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                const VerticalSpeacing(24),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Container(
                     height: 75, // Adjust the height as needed
                     width: double.infinity,
@@ -238,7 +196,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Price Range: \$${_values.start.toInt()} - \$${_values.end.toInt()}',
+                          'Price Range: ₹${_values.start.toInt()} - ₹${_values.end.toInt()}',
                           style: const TextStyle(
                             fontFamily: 'CenturyGothic',
                             fontSize: 18,
@@ -265,127 +223,6 @@ class _FilterScreenState extends State<FilterScreen> {
                         ),
                       ],
                     ),
-                  ),
-                ),
-                const VerticalSpeacing(14),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Text(
-                    "Product",
-                    style: GoogleFonts.getFont(
-                      "Poppins",
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.textColor1,
-                      ),
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const Padding(
-                  padding: EdgeInsets.only(
-                    left: 20.0,
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        FilterContainer(
-                          textColor: AppColor.whiteColor,
-                          bgColor: AppColor.primaryColor,
-                          text: "Peanut",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.textColor1,
-                          bgColor: Colors.transparent,
-                          text: "Walnut",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.whiteColor,
-                          bgColor: AppColor.primaryColor,
-                          text: "dried fig",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.textColor1,
-                          bgColor: Colors.transparent,
-                          text: "Categories",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(14),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Text(
-                    "Default Sorting",
-                    style: GoogleFonts.getFont(
-                      "Poppins",
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.textColor1,
-                      ),
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        FilterContainer(
-                          textColor: AppColor.whiteColor,
-                          bgColor: AppColor.primaryColor,
-                          text: "Polularty",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.textColor1,
-                          bgColor: Colors.transparent,
-                          text: "Best sellar",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.whiteColor,
-                          bgColor: AppColor.primaryColor,
-                          text: "Trending",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.textColor1,
-                          bgColor: Colors.transparent,
-                          text: "Categories",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20),
-                  child: FilterContainer(
-                    textColor: AppColor.nextColor,
-                    bgColor: Colors.transparent,
-                    text: "See All",
                   ),
                 ),
                 const VerticalSpeacing(14),
@@ -456,46 +293,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     },
                   ),
                 ),
-                const VerticalSpeacing(14),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Text(
-                    "Appliance Price",
-                    style: GoogleFonts.getFont(
-                      "Poppins",
-                      textStyle: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.textColor1,
-                      ),
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(16),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0, right: 20),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        FilterContainer(
-                          textColor: AppColor.whiteColor,
-                          bgColor: AppColor.primaryColor,
-                          text: "high to low",
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        FilterContainer(
-                          textColor: AppColor.textColor1,
-                          bgColor: Colors.transparent,
-                          text: "low to high",
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const VerticalSpeacing(40),
+                const VerticalSpeacing(80),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: RoundedButton(

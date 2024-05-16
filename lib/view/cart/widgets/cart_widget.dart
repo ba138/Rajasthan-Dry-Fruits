@@ -189,7 +189,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 Text(
                   widget.individualPrice == null
-                      ? '\$${widget.price}'
+                      ? '₹${widget.price}'
                       : double.parse(widget.individualPrice!)
                           .toStringAsFixed(2),
                   style: const TextStyle(

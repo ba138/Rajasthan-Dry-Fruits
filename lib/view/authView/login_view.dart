@@ -100,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
                         children: [
                           TextFieldCustom(
                             controller: nameController,
-                            preIcon: Icons.email,
+                            preIcon: Icons.person,
                             maxLines: 2,
                             text: "sfsdadf",
                             hintText: "name",

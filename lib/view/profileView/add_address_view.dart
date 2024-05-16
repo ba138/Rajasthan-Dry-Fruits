@@ -205,35 +205,6 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                             ),
                           ],
                         ),
-                        const VerticalSpeacing(30),
-                        Row(
-                          children: [
-                            Container(
-                              height: 16,
-                              width: 16,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: AppColor.primaryColor,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 12,
-                            ),
-                            Text(
-                              "Make Default Default Shipping Address",
-                              style: GoogleFonts.getFont(
-                                "Poppins",
-                                textStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.textColor1,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         const VerticalSpeacing(38),
                         RoundedButton(
                             title: "Save Address", onpress: _saveAddress),
