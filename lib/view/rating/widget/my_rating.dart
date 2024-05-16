@@ -70,10 +70,10 @@ class _MyRatingState extends State<MyRating>
               unselectedLabelColor: AppColor.textColor1,
               tabs: const <Widget>[
                 Tab(
-                  text: 'To reviews(12)',
+                  text: 'To reviews',
                 ),
                 Tab(
-                  text: 'History(10)',
+                  text: 'History',
                 ),
               ],
             ),

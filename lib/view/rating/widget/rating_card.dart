@@ -87,7 +87,9 @@ class RatingCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     image: DecorationImage(
-                        image: NetworkImage(image!), fit: BoxFit.contain),
+                        image: NetworkImage(image ??
+                            "https://images.deliveryhero.io/image/darsktores-pk/840940800001.JPG?height=480"),
+                        fit: BoxFit.contain),
                   ),
                   // child: Image.asset('images/cartImg.png'),
                 ),

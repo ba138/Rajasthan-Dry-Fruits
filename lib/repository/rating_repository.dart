@@ -80,7 +80,7 @@ class RatingRepository extends ChangeNotifier {
     );
 
     try {
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         List<dynamic> jsonResponse = json.decode(response.body);
         orders = jsonResponse.map((json) => Order.fromJson(json)).toList();
         debugPrint("this is the orderid$jsonResponse");
@@ -90,9 +90,12 @@ class RatingRepository extends ChangeNotifier {
 
         // For demonstration, printing orders
       } else {
+        debugPrint("this is response code after 200: ${response.statusCode}");
         if (response.statusCode == 404) {
           Utils.flushBarErrorMessage("Products not found", context);
         } else {
+          debugPrint("this is response code after 200: ${response.statusCode}");
+
           Utils.flushBarErrorMessage("Unexpected error", context);
         }
       }
