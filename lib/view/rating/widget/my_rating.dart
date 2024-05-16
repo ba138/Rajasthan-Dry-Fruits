@@ -109,7 +109,7 @@ class _MyRatingState extends State<MyRating>
                       itemBuilder: (context, index) => Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
-                        child: RatingCard(
+                        child: const RatingCard(
                           order: 0,
                         ),
                       ),

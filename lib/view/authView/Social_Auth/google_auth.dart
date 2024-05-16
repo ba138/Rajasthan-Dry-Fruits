@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,8 +71,6 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       // Step 5: Handle the response from your backend
       if (response.statusCode == 200) {
         // Authentication successful
-        final data = jsonDecode(response.body);
-        print('Successfully logged in with Google!');
         Utils.toastMessage('Successfully logged in with Google');
         // Implement user data saving logic from response data (replace with your logic)
         // final userPreferences = Provider.of<UserViewModel>(context, listen: false);
@@ -79,14 +79,14 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       } else {
         // Authentication failed
         final errorData = jsonDecode(response.body);
-        print(
+        debugPrint(
             'Error: ${response.statusCode} - ${errorData['message'] ?? 'Unknown error'}');
         Utils.flushBarErrorMessage(
             'Authentication failed. Please try again.', context);
       }
     } catch (error) {
       // Handle sign-in errors
-      print('Error signing in with Google: $error');
+      debugPrint('Error signing in with Google: $error');
       Utils.flushBarErrorMessage(
           'Error signing in with Google: $error', context);
     } finally {

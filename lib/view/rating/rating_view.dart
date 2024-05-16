@@ -78,7 +78,7 @@ class _RatingScreenState extends State<RatingScreen> {
         widget.order,
       );
     } catch (e) {
-      print("Error parsing rating: $e");
+      debugPrint("Error parsing rating: $e");
       // Handle error appropriately, e.g., show an error message to the user
     }
   }

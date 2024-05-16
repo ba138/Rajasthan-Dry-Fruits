@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/view/orders/widgets/my_order_card.dart';
-import 'package:rjfruits/view/orders/widgets/track_order.dart';
 import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import '../../model/orders_model.dart';
 import '../../res/components/colors.dart';
@@ -63,11 +62,12 @@ class _MyOrdersState extends State<MyOrders>
         });
       } else {
         // Handle API request failure
-        print('Failed to fetch orders. Status code: ${response.statusCode}');
+        debugPrint(
+            'Failed to fetch orders. Status code: ${response.statusCode}');
       }
     } catch (e) {
       // Handle exceptions during API request
-      print('Error occurred while fetching  orders: $e');
+      debugPrint('Error occurred while fetching  orders: $e');
     }
   }
 
