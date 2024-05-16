@@ -148,6 +148,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               color: AppColor.primaryColor,
                               shape: BoxShape.circle),
                         ),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Text(
                           "In stock",
                           style: GoogleFonts.getFont(
@@ -554,7 +557,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       },
                       child: Container(
                         height: 55.0,
-                        width: 264.0,
+                        width: MediaQuery.of(context).size.width / 1.5,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
                             color: AppColor.primaryColor,
