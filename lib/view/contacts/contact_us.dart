@@ -78,19 +78,19 @@ class ContactUs extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const PaymentField(
+                              PaymentField(
                                 maxLines: 2,
                                 text: 'Name',
                               ),
-                              const PaymentField(
+                              PaymentField(
                                 maxLines: 2,
                                 text: 'Email',
                               ),
-                              const PaymentField(
+                              PaymentField(
                                 maxLines: 2,
                                 text: 'Mobile Number',
                               ),
-                              const PaymentField(
+                              PaymentField(
                                 maxLines: 2,
                                 text: 'Address',
                               ),

@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +30,60 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
   final TextEditingController _stateController = TextEditingController();
 
   final TextEditingController _zipCodeController = TextEditingController();
-  // String _errorMessage = '';
+  // String? _errorMessage;
+  String? _errorphone;
+  String? _errorAddress;
+  String? _errorZipcode;
+  bool phoneValid = false;
+  bool addressValid = false;
+  bool zipValid = false;
+  void validateFields() {
+    // Validate phone number
+    if (_phoneController.text.length != 10 ||
+        !['9', '8', '7', '6'].contains(_phoneController.text[0])) {
+      setState(() {
+        _errorphone = 'Invalid phone number';
+        phoneValid = true;
+        addressValid = false;
+        zipValid = false;
+      });
+    } else if (_addressController.text.length < 10) {
+      setState(() {
+        _errorAddress = 'Address must be at least 10 characters long';
+        addressValid = true;
+        phoneValid = false;
+        zipValid = false;
+      });
+    } else if (_zipCodeController.text.length < 6) {
+      setState(() {
+        _errorZipcode = 'Zip code must be at least 6 characters long';
+        zipValid = true;
+        addressValid = false;
+        phoneValid = false;
+      });
+    } else {
+      zipValid = false;
+      addressValid = false;
+      phoneValid = false;
+      _saveAddress();
+    }
+  }
+
+  // Validate address
+  //   if () {
+  //     setState(() {
+
+  //     });
+  //   }
+  //   addressValid = false;
+
+  //   // Validate zip code
+  //   if () {
+
+  //   }
+  //   return zipValid;
+  // }
+
   Future<void> _saveAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -42,28 +94,6 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String state = _stateController.text;
     String zipCode = _zipCodeController.text;
     // Validate phone number
-    if (phone.length != 10 || !['9', '8', '7', '6'].contains(phone[0])) {
-      setState(() {
-        Utils.toastMessage('Invalid phone number');
-      });
-      return;
-    }
-
-    // Validate address
-    if (address.length < 10) {
-      setState(() {
-        Utils.toastMessage('Address must be at least 10 characters long');
-      });
-      return;
-    }
-
-    // Validate zip code
-    if (zipCode.length < 6) {
-      setState(() {
-        Utils.toastMessage('Zip code must be at least 6 characters long');
-      });
-      return;
-    }
 
     Map<String, dynamic> addressMap = {
       'fullName': fullName,
@@ -167,12 +197,14 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           hintText: "Hiren User",
                         ),
                         PaymentField(
+                          errorText: phoneValid ? _errorphone : null,
                           controller: _phoneController,
                           maxLines: 2,
                           text: "Phone Number",
                           hintText: "+9123456789",
                         ),
                         PaymentField(
+                          errorText: addressValid ? _errorAddress : null,
                           controller: _addressController,
                           maxLines: 2,
                           text: "Address",
@@ -197,6 +229,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                             const SizedBox(width: 12),
                             Expanded(
                               child: PaymentField(
+                                errorText: zipValid ? _errorZipcode : null,
                                 controller: _zipCodeController,
                                 maxLines: 2,
                                 text: "Zip Code",
@@ -236,7 +269,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                         ),
                         const VerticalSpeacing(38),
                         RoundedButton(
-                            title: "Save Address", onpress: _saveAddress),
+                            title: "Save Address", onpress: validateFields),
                         const VerticalSpeacing(38),
                       ],
                     ),

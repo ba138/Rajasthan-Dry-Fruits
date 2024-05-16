@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 
 class PaymentField extends StatefulWidget {
-  const PaymentField({
+  PaymentField({
     super.key,
     this.hintText,
     required int maxLines,
@@ -14,6 +14,7 @@ class PaymentField extends StatefulWidget {
     this.keyboardType,
     this.obscureText = false,
     this.validator,
+    this.errorText,
   });
 
   final String text;
@@ -22,6 +23,7 @@ class PaymentField extends StatefulWidget {
   final bool obscureText;
   final String? hintText;
   final String? Function(String?)? validator;
+  String? errorText;
   @override
   State<PaymentField> createState() => _PaymentFieldState();
 }
@@ -83,9 +85,13 @@ class _PaymentFieldState extends State<PaymentField> {
                       )
                     : null,
                 fillColor: const Color(0xffEEEEEE),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xfff1f1f1)),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: widget.errorText != null
+                        ? Colors.red.withOpacity(1) // Set error border color
+                        : Colors.transparent, // Default border color
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Color(0xfff1f1f1)),
@@ -95,6 +101,14 @@ class _PaymentFieldState extends State<PaymentField> {
               validator: widget.validator,
             ),
           ),
+          if (widget.errorText != null)
+            Text(
+              widget.errorText.toString(),
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 12,
+              ),
+            ),
         ],
       ),
     );
