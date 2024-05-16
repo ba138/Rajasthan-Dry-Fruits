@@ -6,10 +6,10 @@ class OrderDetailedModel {
   String city;
   String state;
   String country;
-  double total; // Change type to double
-  double serviceCharges; // Change type to double
-  double shippingCharges; // Change type to double
-  double subTotal; // Change type to double
+  double total;
+  double serviceCharges;
+  double shippingCharges;
+  double subTotal;
   String paymentType;
   String orderStatus;
   String paymentStatus;
@@ -38,31 +38,50 @@ class OrderDetailedModel {
   });
 
   factory OrderDetailedModel.fromJson(Map<String, dynamic> json) {
-    List<OrderItem> orderItems = [];
-    if (json['order_items'] != null) {
-      json['order_items'].forEach((item) {
-        orderItems.add(OrderItem.fromJson(item));
-      });
-    }
     return OrderDetailedModel(
       fullName: json['full_name'],
       contact: json['contact'],
-      postalCode: json['postal_code'],
+      postalCode: json['postal_code'].toString(),
       address: json['address'],
       city: json['city'],
       state: json['state'],
       country: json['country'],
-      total: json['total'].toDouble(), // Convert to double
-      serviceCharges: json['service_charges'].toDouble(), // Convert to double
-      shippingCharges: json['shipping_charges'].toDouble(), // Convert to double
-      subTotal: json['sub_total'].toDouble(), // Convert to double
+      total: (json['total'] as num).toDouble(),
+      serviceCharges: (json['service_charges'] as num).toDouble(),
+      shippingCharges: (json['shipping_charges'] as num).toDouble(),
+      subTotal: (json['sub_total'] as num).toDouble(),
       paymentType: json['payment_type'],
       orderStatus: json['order_status'],
       paymentStatus: json['payment_status'],
       isActive: json['is_active'],
       createdOn: DateTime.parse(json['created_on']),
-      orderItems: orderItems,
+      orderItems: List<OrderItem>.from(
+        json['order_items'].map((item) => OrderItem.fromJson(item)),
+      ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'full_name': fullName,
+      'contact': contact,
+      'postal_code': postalCode,
+      'address': address,
+      'city': city,
+      'state': state,
+      'country': country,
+      'total': total,
+      'service_charges': serviceCharges,
+      'shipping_charges': shippingCharges,
+      'sub_total': subTotal,
+      'payment_type': paymentType,
+      'order_status': orderStatus,
+      'payment_status': paymentStatus,
+      'is_active': isActive,
+      'created_on': createdOn.toIso8601String(),
+      'order_items':
+          List<dynamic>.from(orderItems.map((item) => item.toJson())),
+    };
   }
 }
 
@@ -86,6 +105,14 @@ class OrderItem {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'product': product.toJson(),
+      'product_weight': productWeight?.toJson(),
+      'qty': qty,
+    };
+  }
 }
 
 class Product {
@@ -95,7 +122,7 @@ class Product {
   String slug;
   String description;
   String thumbnailImage;
-  double price; // Changed to double
+  double price;
   int discount;
   dynamic promotional;
   int totalReviews;
@@ -116,47 +143,43 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    // Extract price string and remove extra characters
-    String priceString = json['price'].toString();
-    priceString = priceString.replaceAll(
-        RegExp(r'[^0-9.]'), ''); // Remove non-numeric characters
-
-    // Convert price string to double
-    double price = double.tryParse(priceString) ?? 0.0;
-
+    double price =
+        double.tryParse(json['price'].toString().replaceAll(',', '')) ?? 0.0;
     return Product(
-      id: json["id"],
-      sku: json["sku"],
-      title: json["title"],
-      slug: json["slug"],
-      description: json["description"],
-      thumbnailImage: json["thumbnail_image"],
-      price: price, // Assign the processed price
-      discount: json["discount"],
-      promotional: json["promotional"],
-      totalReviews: json["total_reviews"],
-      averageReview: json["average_review"],
+      id: json['id'],
+      sku: json['sku'],
+      title: json['title'],
+      slug: json['slug'],
+      description: json['description'],
+      thumbnailImage: json['thumbnail_image'],
+      price: price,
+      discount: json['discount'],
+      promotional: json['promotional'],
+      totalReviews: json['total_reviews'],
+      averageReview: json['average_review'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "sku": sku,
-        "title": title,
-        "slug": slug,
-        "description": description,
-        "thumbnail_image": thumbnailImage,
-        "price": price,
-        "discount": discount,
-        "promotional": promotional,
-        "total_reviews": totalReviews,
-        "average_review": averageReview,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'sku': sku,
+      'title': title,
+      'slug': slug,
+      'description': description,
+      'thumbnail_image': thumbnailImage,
+      'price': price,
+      'discount': discount,
+      'promotional': promotional,
+      'total_reviews': totalReviews,
+      'average_review': averageReview,
+    };
+  }
 }
 
 class ProductWeight {
   int id;
-  double price; // Changed to double
+  double price;
   Weight weight;
 
   ProductWeight({
@@ -166,26 +189,22 @@ class ProductWeight {
   });
 
   factory ProductWeight.fromJson(Map<String, dynamic> json) {
-    // Extract price string and remove extra characters
-    String priceString = json['price'].toString();
-    priceString = priceString.replaceAll(
-        RegExp(r'[^0-9.]'), ''); // Remove non-numeric characters
-
-    // Convert price string to double
-    double price = double.tryParse(priceString) ?? 0.0;
-
+    double price =
+        double.tryParse(json['price'].toString().replaceAll(',', '')) ?? 0.0;
     return ProductWeight(
-      id: json["id"],
-      price: price, // Assign the processed price
-      weight: Weight.fromJson(json["weight"]),
+      id: json['id'],
+      price: price,
+      weight: Weight.fromJson(json['weight']),
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "price": price,
-        "weight": weight.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'price': price,
+      'weight': weight.toJson(),
+    };
+  }
 }
 
 class Weight {
@@ -197,13 +216,17 @@ class Weight {
     required this.name,
   });
 
-  factory Weight.fromJson(Map<String, dynamic> json) => Weight(
-        id: json["id"],
-        name: json["name"],
-      );
+  factory Weight.fromJson(Map<String, dynamic> json) {
+    return Weight(
+      id: json['id'],
+      name: json['name'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
 }

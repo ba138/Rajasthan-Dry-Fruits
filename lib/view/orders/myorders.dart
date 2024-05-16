@@ -260,6 +260,7 @@ class _MyOrdersState extends State<MyOrders>
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
         ontap: () {
+          debugPrint("this is the order id${order.id.toString()}");
           getAllTheData(orderId: order.id.toString());
         },
         orderId: order.id.toString(),
