@@ -55,6 +55,7 @@ class _MyOrdersState extends State<MyOrders>
 
       if (response.statusCode == 200) {
         List<dynamic> jsonResponse = jsonDecode(response.body);
+        print('${response.body}');
         List<OrdersModel> fetchedOrders =
             jsonResponse.map((item) => OrdersModel.fromJson(item)).toList();
 
@@ -112,15 +113,15 @@ class _MyOrdersState extends State<MyOrders>
                 ),
                 Tab(
                   text:
-                      'pending(${orders.where((order) => order.orderStatus == 'pending').length})',
+                      'pending(${orders.where((order) => order.paymentStatus == 'pending').length})',
                 ),
                 Tab(
                   text:
-                      'approved(${orders.where((order) => order.orderStatus == 'approved').length})',
+                      'approved(${orders.where((order) => order.paymentStatus == 'approved').length})',
                 ),
                 Tab(
                   text:
-                      'completed(${orders.where((order) => order.orderStatus == 'completed').length})',
+                      'completed(${orders.where((order) => order.paymentStatus == 'completed').length})',
                 ),
                 const Tab(
                   text: 'cancelled',
@@ -159,11 +160,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Running" tab (show orders with status "Running")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'pending')
+                  .where((order) => order.paymentStatus == 'pending')
                   .length,
               itemBuilder: (context, index) {
                 final pendingOrders = orders
-                    .where((order) => order.orderStatus == 'pending')
+                    .where((order) => order.paymentStatus == 'pending')
                     .toList();
 
                 if (pendingOrders.isEmpty) {
@@ -180,11 +181,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Previous" tab (show orders with status "Previous")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'approved')
+                  .where((order) => order.paymentStatus == 'approved')
                   .length,
               itemBuilder: (context, index) {
                 final approvedOrders = orders
-                    .where((order) => order.orderStatus == 'approved')
+                    .where((order) => order.paymentStatus == 'approved')
                     .toList();
 
                 if (approvedOrders.isEmpty) {
@@ -201,11 +202,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Completed" tab (show orders with status "Completed")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'completed')
+                  .where((order) => order.paymentStatus == 'completed')
                   .length,
               itemBuilder: (context, index) {
                 final completedOrders = orders
-                    .where((order) => order.orderStatus == 'completed')
+                    .where((order) => order.paymentStatus == 'completed')
                     .toList();
 
                 if (completedOrders.isEmpty) {
@@ -222,11 +223,11 @@ class _MyOrdersState extends State<MyOrders>
             // Content for the "Canceled" tab (show orders with status "Canceled")
             ListView.builder(
               itemCount: orders
-                  .where((order) => order.orderStatus == 'cancelled')
+                  .where((order) => order.paymentStatus == 'cancelled')
                   .length,
               itemBuilder: (context, index) {
                 final cancelledOrders = orders
-                    .where((order) => order.orderStatus == 'cancelled')
+                    .where((order) => order.paymentStatus == 'cancelled')
                     .toList();
 
                 if (cancelledOrders.isEmpty) {
@@ -259,10 +260,10 @@ class _MyOrdersState extends State<MyOrders>
       padding: const EdgeInsets.all(10.0),
       child: myOrderCard(
         ontap: () {
-          getAllTheData(orderId: order.id.toString());
+          // getAllTheData(orderId: order.id.toString());
         },
-        orderId: order.id.toString(),
-        status: order.orderStatus,
+        orderId: order.isActive.toString(),
+        status: order.paymentStatus,
         cartImg:
             'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg',
         cartTitle: order.fullName,

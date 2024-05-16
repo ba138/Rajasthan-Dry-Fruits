@@ -42,7 +42,11 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String state = _stateController.text;
     String zipCode = _zipCodeController.text;
     // Validate phone number
-    if (phone.length < 10 || !phone.startsWith('9')) {
+    if (phone.length < 10 ||
+        !phone.startsWith('9') ||
+        !phone.startsWith('8') ||
+        !phone.startsWith('7') ||
+        !phone.startsWith('6')) {
       setState(() {
         Utils.toastMessage('Invalid phone number');
       });

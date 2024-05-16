@@ -1,26 +1,21 @@
 class OrdersModel {
-  int id;
   String fullName;
   String contact;
-  String postalCode;
+  num postalCode; // Change type to num to accept both int and double
   String address;
   String city;
   String state;
   String country;
-  String? razorpayOrderId; 
-  double total;
-  double serviceCharges;
-  double shippingCharges; 
-  double subTotal; 
-  String paymentType;
-  String orderStatus;
+  num total; // Change type to num to accept both int and double
   String paymentStatus;
+  String shipmentType;
   bool isActive;
   DateTime createdOn;
-  int client;
+  String shipmentId;
+  bool isOnline;
+  dynamic shiprocketShipmentId;
 
   OrdersModel({
-    required this.id,
     required this.fullName,
     required this.contact,
     required this.postalCode,
@@ -28,65 +23,49 @@ class OrdersModel {
     required this.city,
     required this.state,
     required this.country,
-    required this.razorpayOrderId,
     required this.total,
-    required this.serviceCharges,
-    required this.shippingCharges,
-    required this.subTotal,
-    required this.paymentType,
-    required this.orderStatus,
     required this.paymentStatus,
+    required this.shipmentType,
     required this.isActive,
     required this.createdOn,
-    required this.client,
+    required this.shipmentId,
+    required this.isOnline,
+    required this.shiprocketShipmentId,
   });
 
-  factory OrdersModel.fromJson(Map<String, dynamic> json) {
-    return OrdersModel(
-      id: json["id"],
-      fullName: json["full_name"],
-      contact: json["contact"],
-      postalCode: json["postal_code"],
-      address: json["address"],
-      city: json["city"],
-      state: json["state"],
-      country: json["country"],
-      razorpayOrderId: json["razorpay_order_id"],
-      total: (json["total"] ?? 0.0).toDouble(),
-      serviceCharges: (json["service_charges"] ?? 0.0).toDouble(),
-      shippingCharges:
-          (json["shipping_charges"] ?? 0.0).toDouble(), // Parse as double
-      subTotal: (json["sub_total"] ?? 0.0).toDouble(), // Parse as double
-      paymentType: json["payment_type"],
-      orderStatus: json["order_status"],
-      paymentStatus: json["payment_status"],
-      isActive: json["is_active"],
-      createdOn: DateTime.parse(json["created_on"]),
-      client: json["client"],
-    );
-  }
+  factory OrdersModel.fromJson(Map<String, dynamic> json) => OrdersModel(
+        fullName: json["full_name"],
+        contact: json["contact"],
+        postalCode: json["postal_code"], // Accepts both int and double
+        address: json["address"],
+        city: json["city"],
+        state: json["state"],
+        country: json["country"],
+        total: json["total"], // Accepts both int and double
+        paymentStatus: json["payment_status"],
+        shipmentType: json["shipment_type"],
+        isActive: json["is_active"],
+        createdOn: DateTime.parse(json["created_on"]),
+        shipmentId: json["shipment_id"],
+        isOnline: json["is_online"],
+        shiprocketShipmentId: json["shiprocket_shipment_id"],
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "full_name": fullName,
-      "contact": contact,
-      "postal_code": postalCode,
-      "address": address,
-      "city": city,
-      "state": state,
-      "country": country,
-      "razorpay_order_id": razorpayOrderId,
-      "total": total,
-      "service_charges": serviceCharges,
-      "shipping_charges": shippingCharges,
-      "sub_total": subTotal,
-      "payment_type": paymentType,
-      "order_status": orderStatus,
-      "payment_status": paymentStatus,
-      "is_active": isActive,
-      "created_on": createdOn.toIso8601String(),
-      "client": client,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        "full_name": fullName,
+        "contact": contact,
+        "postal_code": postalCode,
+        "address": address,
+        "city": city,
+        "state": state,
+        "country": country,
+        "total": total,
+        "payment_status": paymentStatus,
+        "shipment_type": shipmentType,
+        "is_active": isActive,
+        "created_on": createdOn.toIso8601String(),
+        "shipment_id": shipmentId,
+        "is_online": isOnline,
+        "shiprocket_shipment_id": shiprocketShipmentId,
+      };
 }
