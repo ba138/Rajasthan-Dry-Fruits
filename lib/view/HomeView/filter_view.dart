@@ -7,7 +7,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/enums.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
-import 'package:rjfruits/view/HomeView/widgets/filter_container.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 
 class FilterScreen extends StatefulWidget {
