@@ -11,8 +11,8 @@ import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/orders/widgets/track_order.dart';
 
 class TrackOrderRepository extends ChangeNotifier {
-  Future<void> fetchOrderDetails(
-      BuildContext context, String orderId, String token) async {
+  Future<void> fetchOrderDetails(BuildContext context, String orderId,
+      String token, String shopRocketId) async {
     bool isStoringData = true;
     try {
       // Show circular indicator
@@ -58,8 +58,10 @@ class TrackOrderRepository extends ChangeNotifier {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    TrackOrder(orderDetailModel: orderDetail)),
+                builder: (context) => TrackOrder(
+                      orderDetailModel: orderDetail,
+                      shipRocketId: shopRocketId,
+                    )),
           );
         } else {
           debugPrint("Failed to parse order details from response");

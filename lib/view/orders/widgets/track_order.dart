@@ -7,13 +7,14 @@ import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
 
 import '../../../res/components/colors.dart';
 import '../../../res/components/vertical_spacing.dart';
-import '../../../utils/routes/routes_name.dart';
 
 class TrackOrder extends StatefulWidget {
   final OrderDetailedModel orderDetailModel;
+  final String shipRocketId;
   const TrackOrder({
     super.key,
     required this.orderDetailModel,
+    required this.shipRocketId,
   });
 
   @override
@@ -43,6 +44,7 @@ class _TrackOrderState extends State<TrackOrder> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("this is ship id${widget.shipRocketId}");
     DateTime now = widget.orderDetailModel.createdOn;
     String formattedDate = DateFormat("E, d'th' MMM ''yy - hh:mma").format(now);
     orderList.clear();
@@ -93,7 +95,6 @@ class _TrackOrderState extends State<TrackOrder> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -168,11 +169,12 @@ class _TrackOrderState extends State<TrackOrder> {
                     color: AppColor.blackColor,
                   ),
                 ),
-                const VerticalSpeacing(10.0),
+                const VerticalSpeacing(30.0),
                 // This is not favourite list card but i use it in order track in Prodcut details
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2.5,
                   child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: widget.orderDetailModel.orderItems.length,
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(

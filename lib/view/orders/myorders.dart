@@ -246,13 +246,13 @@ class _MyOrdersState extends State<MyOrders>
     );
   }
 
-  getAllTheData({required String orderId}) async {
+  getAllTheData({required String orderId, required String shiprocketId}) async {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
     final userModel =
         await userPreferences.getUser(); // Await the Future<UserModel> result
     final token = userModel.key;
     Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-        .fetchOrderDetails(context, orderId, token);
+        .fetchOrderDetails(context, orderId, token, shiprocketId);
   }
 
   _buildOrderCard(OrdersModel order) {
@@ -261,7 +261,8 @@ class _MyOrdersState extends State<MyOrders>
       child: myOrderCard(
         ontap: () {
           debugPrint("this is the order id${order.id.toString()}");
-          getAllTheData(orderId: order.id.toString());
+          getAllTheData(
+              orderId: order.id.toString(), shiprocketId: order.shipmentId);
         },
         orderId: order.id.toString(),
         status: order.orderStatus,
