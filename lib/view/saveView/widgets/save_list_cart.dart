@@ -106,7 +106,7 @@ class _SaveListCartState extends State<SaveListCart> {
                             ),
                           ),
                           TextSpan(
-                            text: '\$${widget.price}',
+                            text: '₹${widget.price}',
                             style: const TextStyle(
                               color: AppColor.appBarTxColor,
                               fontSize: 14.0,

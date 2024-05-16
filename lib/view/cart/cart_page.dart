@@ -33,7 +33,6 @@ class _CartViewState extends State<CartView> {
   @override
   void initState() {
     gettingAllRequiredData();
-        
 
     super.initState();
   }
@@ -188,7 +187,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '\$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    '₹${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -241,7 +240,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '\$${cartProvider.calculateTotalPrice()}',
+                                    '₹${cartProvider.calculateTotalPrice()}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -295,7 +294,7 @@ class _CartViewState extends State<CartView> {
                                         ]),
                                     child: Center(
                                       child: Text(
-                                        "Proceed to CheckOut : \$${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}",
+                                        "Proceed to CheckOut : ₹${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(
