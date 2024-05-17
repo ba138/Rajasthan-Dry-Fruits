@@ -490,7 +490,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 const VerticalSpeacing(30),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(
                       onTap: () async {
@@ -507,8 +507,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             context);
                       },
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -557,7 +557,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       },
                       child: Container(
                         height: 55.0,
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        width: MediaQuery.of(context).size.width / 1.7,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
                             color: AppColor.primaryColor,
