@@ -149,7 +149,7 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         Text.rich(
           TextSpan(
-            text: "$name\n",
+            text: " $name\n",
             style: const TextStyle(
               fontFamily: 'CenturyGothic',
               fontSize: 18,
@@ -158,7 +158,7 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             children: <TextSpan>[
               TextSpan(
-                text: ' ID: $id',
+                text: '  ID: $id',
                 style: const TextStyle(
                   color: AppColor.whiteColor,
                   fontWeight: FontWeight.w400,
