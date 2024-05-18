@@ -96,6 +96,8 @@ class _SaveViewState extends State<SaveView> {
                                     final userModel = await userPreferences
                                         .getUser(); // Await the Future<UserModel> result
                                     final token = userModel.key;
+                                    debugPrint(
+                                        "this is the id of deleted product:${cartItems[index]['id'].toString()}");
                                     Provider.of<SaveProductRepositoryProvider>(
                                       context,
                                       listen: false,
