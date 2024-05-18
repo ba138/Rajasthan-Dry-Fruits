@@ -221,7 +221,7 @@ class _HomeViewState extends State<HomeView> {
                             scrollDirection: Axis.horizontal,
                             itemCount: homeRepo
                                 .homeRepository.productCategories.length,
-                            itemExtent: MediaQuery.of(context).size.width / 3.6,
+                            // itemExtent: MediaQuery.of(context).size.width / 3.6,
                             itemBuilder: (BuildContext context, int index) {
                               Category category = homeRepo
                                   .homeRepository.productCategories[index];
