@@ -156,14 +156,13 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColor.primaryColor, width: 2),
-                    color: const Color.fromRGBO(
-                        255, 255, 255, 0.2), // Background color with opacity
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.5), // Shadow color
-                        blurRadius: 2, // Blur radius
-                        spreadRadius: 0, // Spread radius
-                        offset: const Offset(0, 0), // Offset
+                        color: Colors.white.withOpacity(0.5),
+                        blurRadius: 2,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 0),
                       ),
                     ],
                   ),
@@ -181,16 +180,8 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           text: "Full Name",
                           hintText: "Hiren User",
                         ),
-                        // PaymentField(
-                        //   errorText: phoneValid ? _errorphone : null,
-                        //   controller: _phoneController,
-                        //   maxLines: 2,
-                        //   text: "Phone Number",
-                        //   hintText: "+9123456789",
-                        // ),
                         // phone field
                         Container(
-                          // height: 56,
                           margin: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -227,8 +218,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                                             color: Colors.grey.withOpacity(0.1),
                                             spreadRadius: 2,
                                             blurRadius: 5,
-                                            offset: Offset(0,
-                                                1), // changes position of shadow
+                                            offset: const Offset(0, 1),
                                           ),
                                         ],
                                       ),
