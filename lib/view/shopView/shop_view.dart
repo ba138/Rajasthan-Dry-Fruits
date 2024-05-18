@@ -124,7 +124,7 @@ class _ShopViewState extends State<ShopView> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 2,
-                        childAspectRatio: (180 / 240),
+                        childAspectRatio: (180 / 235),
                         mainAxisSpacing: 10.0, // Spacing between rows
                         crossAxisSpacing: 10.0, // Spacing between columns
                         children: List.generate(

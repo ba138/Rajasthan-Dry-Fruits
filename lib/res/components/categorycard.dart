@@ -45,7 +45,10 @@ class _CategoryCartState extends State<CategoryCart> {
         _textColor = AppColor.textColor1;
       });
     }
-
+    String truncatedTitle = widget.text;
+    if (truncatedTitle.length > 9) {
+      truncatedTitle = truncatedTitle.substring(0, 9);
+    }
     return GestureDetector(
       onTap: () {
         Provider.of<HomeRepositoryProvider>(context, listen: false)
@@ -79,7 +82,7 @@ class _CategoryCartState extends State<CategoryCart> {
                   borderRadius: BorderRadius.circular(30.0)),
               child: Center(
                 child: Text(
-                  widget.text,
+                  truncatedTitle,
                   style: GoogleFonts.getFont(
                     "Poppins",
                     color: _textColor,

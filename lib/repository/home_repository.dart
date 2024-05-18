@@ -172,8 +172,10 @@ class HomeRepository extends ChangeNotifier {
     };
 
     try {
+      debugPrint("this is the token:$token");
       final response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
+        debugPrint("this is the response of the profile api:${response.body}");
         final userData = json.decode(response.body) as Map<String, dynamic>;
         notifyListeners();
 
