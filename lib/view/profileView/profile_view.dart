@@ -70,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
         centerTitle: true,
         leading: const Icon(
           Icons.west,
-          color: AppColor.whiteColor,
+          color: Colors.transparent,
         ),
       ),
       body: Container(
