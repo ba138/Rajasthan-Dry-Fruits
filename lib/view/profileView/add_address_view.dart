@@ -284,14 +284,15 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                                   ],
                                 ),
                               ),
-                              if (_errorphone != null)
-                                Text(
-                                  _errorphone.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 12,
-                                  ),
+                              Text(
+                                _errorphone.toString(),
+                                style: TextStyle(
+                                  color: phoneValid
+                                      ? Colors.red
+                                      : Colors.transparent,
+                                  fontSize: 12,
                                 ),
+                              ),
                             ],
                           ),
                         ),
