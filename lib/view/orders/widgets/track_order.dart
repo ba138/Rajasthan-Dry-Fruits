@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
-import 'package:order_tracker/order_tracker.dart';
 import 'package:intl/intl.dart';
+import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/order_detailed_model.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';

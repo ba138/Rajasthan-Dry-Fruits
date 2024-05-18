@@ -24,6 +24,7 @@ import 'package:rjfruits/view/search/search_view.dart';
 
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view/shopView/shop_view.dart';
+import 'package:rjfruits/view/total_review/total_review.dart';
 
 import '../../view/orders/myorders.dart';
 
@@ -125,6 +126,9 @@ class Routes {
       case RoutesName.contactUs:
         return MaterialPageRoute(
             builder: (BuildContext context) => const ContactUs());
+      // case RoutesName.totalReviews:
+      //   return MaterialPageRoute(
+      //       builder: (BuildContext context) => const TotalRatingScreen());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(
