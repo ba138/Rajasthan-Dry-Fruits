@@ -42,7 +42,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     if (_phoneController.text.length != 10 ||
         !['9', '8', '7', '6'].contains(_phoneController.text[0])) {
       setState(() {
-        _errorphone = 'Invalid phone number';
+        _errorphone = 'Use an Indian phone number';
         phoneValid = true;
         addressValid = false;
         zipValid = false;
@@ -68,6 +68,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       _saveAddress();
     }
   }
+
   Future<void> _saveAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -180,13 +181,121 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           text: "Full Name",
                           hintText: "Hiren User",
                         ),
-                        PaymentField(
-                          errorText: phoneValid ? _errorphone : null,
-                          controller: _phoneController,
-                          maxLines: 2,
-                          text: "Phone Number",
-                          hintText: "+9123456789",
+                        // PaymentField(
+                        //   errorText: phoneValid ? _errorphone : null,
+                        //   controller: _phoneController,
+                        //   maxLines: 2,
+                        //   text: "Phone Number",
+                        //   hintText: "+9123456789",
+                        // ),
+                        // phone field
+                        Container(
+                          // height: 56,
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Phone Number',
+                                style: GoogleFonts.getFont(
+                                  "Poppins",
+                                  textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.dashboardIconColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color(0xffEEEEEE),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            spreadRadius: 2,
+                                            blurRadius: 5,
+                                            offset: Offset(0,
+                                                1), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text(
+                                        '+91',
+                                        style: GoogleFonts.getFont(
+                                          "Roboto",
+                                          textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColor.textColor1,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.phone,
+                                        style: const TextStyle(fontSize: 15),
+                                        controller: _phoneController,
+                                        decoration: InputDecoration(
+                                          hintStyle: GoogleFonts.getFont(
+                                            "Roboto",
+                                            textStyle: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppColor.textColor1,
+                                            ),
+                                          ),
+                                          hintText: 'Enter phone number',
+                                          filled: true,
+                                          fillColor: const Color(0xffEEEEEE),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color: phoneValid
+                                                  ? Colors.red.withOpacity(1)
+                                                  : Colors.transparent,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                          ),
+                                          focusedBorder:
+                                              const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xfff1f1f1)),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (_errorphone != null)
+                                Text(
+                                  _errorphone.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
+                        // address field
                         PaymentField(
                           errorText: addressValid ? _errorAddress : null,
                           controller: _addressController,
