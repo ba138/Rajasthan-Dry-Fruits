@@ -111,7 +111,7 @@ class _HomeCardState extends State<HomeCard> {
       truncatedTitle = '${truncatedTitle.substring(0, 8)}...';
     }
     return Container(
-      height: 250,
+      height: 230,
       width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),

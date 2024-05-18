@@ -36,6 +36,7 @@ class _CartWidgetState extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    int finalPrice = int.parse(widget.price) * widget.guantity;
 
     return Container(
       decoration: BoxDecoration(
@@ -189,7 +190,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
                 Text(
                   widget.individualPrice == null
-                      ? '₹${widget.price}'
+                      ? '₹${finalPrice.toString()}'
                       : double.parse(widget.individualPrice!)
                           .toStringAsFixed(2),
                   style: const TextStyle(
