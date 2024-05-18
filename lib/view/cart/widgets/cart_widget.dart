@@ -27,16 +27,24 @@ class CartWidget extends StatefulWidget {
   final VoidCallback onpress;
   final String? individualPrice;
   final int id;
-
   @override
   State<CartWidget> createState() => _CartWidgetState();
 }
 
 class _CartWidgetState extends State<CartWidget> {
+  int? addPrice;
   @override
   Widget build(BuildContext context) {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-
+    int finalPrice;
+    if (widget.price.contains(".")) {
+      // Price contains decimals, extract the whole number part
+      finalPrice = int.parse(widget.price.split(".")[0]);
+    } else {
+      // No decimals, parse as usual
+      finalPrice = int.parse(widget.price);
+    }
+    addPrice = finalPrice * widget.guantity;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -188,10 +196,9 @@ class _CartWidgetState extends State<CartWidget> {
                   ),
                 ),
                 Text(
-                  widget.individualPrice == null
+                  addPrice == null
                       ? '₹${widget.price}'
-                      : double.parse(widget.individualPrice!)
-                          .toStringAsFixed(2),
+                      : '₹${addPrice.toString()}',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

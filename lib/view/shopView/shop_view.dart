@@ -49,12 +49,10 @@ class _ShopViewState extends State<ShopView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () {},
                         icon: const Icon(
                           Icons.arrow_back,
-                          color: AppColor.appBarTxColor,
+                          color: Colors.transparent,
                         ),
                       ),
                       Text(
@@ -126,7 +124,7 @@ class _ShopViewState extends State<ShopView> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 2,
-                        childAspectRatio: (180 / 230),
+                        childAspectRatio: (180 / 235),
                         mainAxisSpacing: 10.0, // Spacing between rows
                         crossAxisSpacing: 10.0, // Spacing between columns
                         children: List.generate(
@@ -145,8 +143,9 @@ class _ShopViewState extends State<ShopView> {
                                 .shopRepository.shopProducts[index].id,
                             price: shopRepositoryProvider
                                 .shopRepository.shopProducts[index].price,
-                                averageReview: shopRepositoryProvider
-                                .shopRepository.shopProducts[index].averageReview.toString(),
+                            averageReview: shopRepositoryProvider.shopRepository
+                                .shopProducts[index].averageReview
+                                .toString(),
                             // Pass other data properties here
                           ),
                         ),

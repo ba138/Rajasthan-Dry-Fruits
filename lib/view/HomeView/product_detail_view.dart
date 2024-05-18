@@ -25,12 +25,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String? weight;
   String? weightPrice;
   String? weightid;
+  String discountedPrice = "0";
+  String intPrice = "";
+  String intweight = "";
   int amount = 1;
-  void increament() {
-    setState(() {
-      amount++;
-    });
-  }
+  void increament() {}
 
   void decrement() {
     if (amount == 0) {
@@ -39,6 +38,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         amount--;
       });
     }
+  }
+
+  calclutePrice() {
+    HomeRepositoryProvider homeRepoProvider =
+        Provider.of<HomeRepositoryProvider>(context, listen: false);
+    double originalPrice = double.parse(widget.detail.price);
+    String per = widget.detail.discount.toString();
+    double originalDiscount = double.parse(per);
+    discountedPrice = homeRepoProvider.homeRepository
+        .calculateDiscountedPrice(originalPrice, originalDiscount);
+    intPrice = discountedPrice;
   }
 
   gettingAllTheData() async {
@@ -53,21 +63,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
+    calclutePrice();
     gettingAllTheData();
   }
 
   @override
   Widget build(BuildContext context) {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-    HomeRepositoryProvider homeRepoProvider =
-        Provider.of<HomeRepositoryProvider>(context, listen: false);
+
     ProductRepositoryProvider proRepoProvider =
         Provider.of<ProductRepositoryProvider>(context, listen: false);
-    double originalPrice = double.parse(widget.detail.price);
-    String per = widget.detail.discount.toString();
-    double originalDiscount = double.parse(per);
-    String discountedPrice = homeRepoProvider.homeRepository
-        .calculateDiscountedPrice(originalPrice, originalDiscount);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -142,6 +148,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               color: AppColor.primaryColor,
                               shape: BoxShape.circle),
                         ),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Text(
                           "In stock",
                           style: GoogleFonts.getFont(
@@ -174,7 +183,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       children: [
                         Text(
-                          "\$${widget.detail.price.toString()}",
+                          "₹${widget.detail.price.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -188,7 +197,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 6,
                         ),
                         Text(
-                          weightPrice ?? "\$${discountedPrice.toString()}",
+                          weightPrice ?? "₹${discountedPrice.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -218,63 +227,64 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               widget.detail.productWeight[index];
 
                           return Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      weight = productWeight ==
-                                              productWeight.weight.name
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  weight =
+                                      productWeight == productWeight.weight.name
                                           ? null
                                           : productWeight.weight.name;
-                                      weightPrice = productWeight.price;
-                                      weightid = productWeight.id.toString();
-                                    });
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: weight == productWeight.weight.name
-                                          ? AppColor
-                                              .primaryColor // Change the color for the selected category
-                                          : Colors.transparent,
-                                      border: Border.all(
-                                        color: AppColor.primaryColor,
+                                  weightPrice = productWeight.price;
+                                  intweight = productWeight.price;
+                                  weightid = productWeight.id.toString();
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: weight == productWeight.weight.name
+                                      ? AppColor
+                                          .primaryColor // Change the color for the selected category
+                                      : Colors.transparent,
+                                  border: Border.all(
+                                    color: AppColor.primaryColor,
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      productWeight.weight.name,
+                                      style: GoogleFonts.getFont(
+                                        "Poppins",
+                                        textStyle: const TextStyle(
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColor.textColor1,
+                                        ),
                                       ),
                                     ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          productWeight.weight.name,
-                                          style: GoogleFonts.getFont(
-                                            "Poppins",
-                                            textStyle: const TextStyle(
-                                              fontSize: 8,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColor.textColor1,
-                                            ),
-                                          ),
+                                    Text(
+                                      " ${productWeight.price}₹ ",
+                                      style: GoogleFonts.getFont(
+                                        "Poppins",
+                                        textStyle: TextStyle(
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w400,
+                                          color: weight ==
+                                                  productWeight.weight.name
+                                              ? AppColor.whiteColor
+                                              : AppColor.textColor1,
                                         ),
-                                        Text(
-                                          " ${productWeight.price}\$ ",
-                                          style: GoogleFonts.getFont(
-                                            "Poppins",
-                                            textStyle: TextStyle(
-                                              fontSize: 8,
-                                              fontWeight: FontWeight.w400,
-                                              color: weight ==
-                                                      productWeight.weight.name
-                                                  ? AppColor.whiteColor
-                                                  : AppColor.textColor1,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  )));
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -282,7 +292,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            decrement();
+                            if (amount <= 1) {
+                            } else {
+                              setState(() {
+                                if (weightPrice == null) {
+                                  amount--;
+                                  String priceWithoutDecimals =
+                                      intPrice.split('.').first;
+                                  int initPrice =
+                                      int.parse(priceWithoutDecimals);
+
+                                  discountedPrice =
+                                      "${amount * initPrice}".toString();
+                                } else {
+                                  amount--;
+
+                                  String priceWithoutDecimals =
+                                      intweight.split('.').first;
+                                  int initPrice =
+                                      int.parse(priceWithoutDecimals);
+
+                                  weightPrice =
+                                      "${amount * initPrice}".toString();
+                                }
+                              });
+                            }
                           },
                           child: Container(
                             height: 23,
@@ -320,7 +354,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         InkWell(
                           onTap: () {
-                            increament();
+                            setState(() {
+                              if (weightPrice == null) {
+                                amount++;
+
+                                String priceWithoutDecimals =
+                                    intPrice.split('.').first;
+                                int initPrice = int.parse(priceWithoutDecimals);
+
+                                discountedPrice =
+                                    "${amount * initPrice}".toString();
+                              } else {
+                                amount++;
+
+                                String priceWithoutDecimals =
+                                    intweight.split('.').first;
+                                int initPrice = int.parse(priceWithoutDecimals);
+
+                                weightPrice =
+                                    "${amount * initPrice}".toString();
+                              }
+                            });
                           },
                           child: Container(
                             height: 23,
@@ -374,9 +428,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 const VerticalSpeacing(12),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return TotalRatingScreen(reviews: widget.detail.productReview, averageReview: widget.detail.averageReview.toString(), totalReviews: widget.detail.totalReviews.toString(),);
-                    }));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) => TotalRatingScreen(
+                          reviews: widget.detail.productReview,
+                          averageReview: widget.detail.averageReview.toString(),
+                          totalReviews: widget.detail.totalReviews.toString(),
+                        ),
+                      ),
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,7 +490,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 const VerticalSpeacing(30),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(
                       onTap: () async {
@@ -441,13 +502,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             widget.detail.title,
                             weightid ?? "null",
                             discountedPrice,
-                            1,
+                            amount,
                             token,
                             context);
                       },
                       child: Container(
-                        height: 60,
-                        width: 60,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -475,15 +536,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        final userModel = await userPreferences
+                            .getUser(); // Await the Future<UserModel> result
+                        final token = userModel.key;
+                        proRepoProvider.saveCartProducts(
+                            widget.detail.id,
+                            widget.detail.title,
+                            weightid ?? "null",
+                            discountedPrice,
+                            amount,
+                            token,
+                            context);
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return CheckOutScreen();
+                          return CheckOutScreen(
+                            totalPrice: widget.detail.price,
+                          );
                         }));
                       },
                       child: Container(
                         height: 55.0,
-                        width: 264.0,
+                        width: MediaQuery.of(context).size.width / 1.7,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
                             color: AppColor.primaryColor,
