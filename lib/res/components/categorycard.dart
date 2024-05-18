@@ -57,12 +57,9 @@ class _CategoryCartState extends State<CategoryCart> {
           UIType.CategoriesSection,
         );
         setState(() {
-          // Toggle background color
           _backgroundColor = (_backgroundColor == AppColor.boxColor)
               ? AppColor.primaryColor
               : AppColor.boxColor;
-
-          // Toggle text color
           _textColor = (_textColor == AppColor.whiteColor)
               ? AppColor.textColor1
               : AppColor.whiteColor;
@@ -72,19 +69,27 @@ class _CategoryCartState extends State<CategoryCart> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Container(
-              height: 54,
-              decoration: BoxDecoration(
+            IntrinsicWidth(
+              child: Container(
+                height: 54,
+                decoration: BoxDecoration(
                   color: _backgroundColor,
-                  borderRadius: BorderRadius.circular(30.0)),
-              child: Center(
-                child: Text(
-                  widget.text,
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    color: _textColor,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      widget.text,
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        color: _textColor,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ),
