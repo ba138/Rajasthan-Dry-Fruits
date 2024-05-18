@@ -107,6 +107,7 @@ class _MyOrdersState extends State<MyOrders>
               indicatorColor: AppColor.primaryColor,
               labelColor: AppColor.primaryColor,
               unselectedLabelColor: AppColor.textColor1,
+              isScrollable: true,
               tabs: <Widget>[
                 Tab(
                   text: 'All(${orders.length})',
@@ -123,8 +124,9 @@ class _MyOrdersState extends State<MyOrders>
                   text:
                       'completed(${orders.where((order) => order.orderStatus == 'completed').length})',
                 ),
-                const Tab(
-                  text: 'cancelled',
+                Tab(
+                  text:
+                      'cancel(${orders.where((order) => order.orderStatus == 'cancelled').length})',
                 ),
               ],
             ),
