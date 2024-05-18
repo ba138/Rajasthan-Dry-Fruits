@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/home_view.dart';
+import 'package:rjfruits/view/profileView/profile_view.dart';
 
 import '../../res/components/colors.dart';
-import '../profileView/profile_view 2.dart';
 import '../saveView/save_view.dart';
 import '../shopView/shop_view.dart';
 

@@ -126,7 +126,7 @@ class _MyOrdersState extends State<MyOrders>
                 ),
                 Tab(
                   text:
-                      'cancel(${orders.where((order) => order.orderStatus == 'cancelled').length})',
+                      'cancelled(${orders.where((order) => order.orderStatus == 'cancelled').length})',
                 ),
               ],
             ),

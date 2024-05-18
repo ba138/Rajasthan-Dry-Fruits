@@ -10,7 +10,7 @@ import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../view/HomeView/product_detail_view 2.dart';
+import '../view/HomeView/product_detail_view.dart';
 
 class ProductDetailRepository extends ChangeNotifier {
   Future<void> fetchProductDetails(BuildContext context, String id) async {

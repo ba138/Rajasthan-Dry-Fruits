@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/profileView/view_profile.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
-import 'package:rjfruits/view_model/rating_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../../res/components/colors.dart';
@@ -38,8 +37,6 @@ class _ProfileViewState extends State<ProfileView> {
       final userData =
           await Provider.of<HomeRepositoryProvider>(context, listen: false)
               .getUserData(token);
-      Provider.of<RatingRepositoryProvider>(context, listen: false)
-          .pedingReview(token, context);
       setState(() {
         this.userData = userData;
       });
@@ -73,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
         centerTitle: true,
         leading: const Icon(
           Icons.west,
-          color: Colors.transparent,
+          color: AppColor.whiteColor,
         ),
       ),
       body: Container(
@@ -96,8 +93,7 @@ class _ProfileViewState extends State<ProfileView> {
                   Positioned(
                     top: 1.0,
                     left: MediaQuery.of(context).size.width / 2.5,
-                    child: _buildProfile(
-                        '${userData['first_name']}', '${userData['pk']}'),
+                    child: _buildProfile('${userData['first_name']}'),
                   ),
                   Positioned(
                     top: tHeight - top / 2 - 10,
@@ -129,11 +125,7 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  _buildProfile(String name, String id) {
-    if (name == "null") {
-      name = "wait...";
-      id = "wait...";
-    }
+  _buildProfile(String name) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,23 +135,23 @@ class _ProfileViewState extends State<ProfileView> {
             CircleAvatar(
               radius: 35,
               backgroundImage: NetworkImage(
-                  'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/271deea8-e28c-41a3-aaf5-2913f5f48be6/de7834s-6515bd40-8b2c-4dc6-a843-5ac1a95a8b55.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3MWRlZWE4LWUyOGMtNDFhMy1hYWY1LTI5MTNmNWY0OGJlNlwvZGU3ODM0cy02NTE1YmQ0MC04YjJjLTRkYzYtYTg0My01YWMxYTk1YThiNTUuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.BopkDn1ptIwbmcKHdAOlYHyAOOACXW0Zfgbs0-6BY-E'),
+                  'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'),
             ),
           ],
         ),
         Text.rich(
           TextSpan(
-            text: " $name\n",
+            text: '  $name\n',
             style: const TextStyle(
               fontFamily: 'CenturyGothic',
               fontSize: 18,
               fontWeight: FontWeight.w600,
               color: AppColor.whiteColor,
             ),
-            children: <TextSpan>[
+            children: const <TextSpan>[
               TextSpan(
-                text: '  ID: $id',
-                style: const TextStyle(
+                text: 'ID: 1540580',
+                style: TextStyle(
                   color: AppColor.whiteColor,
                   fontWeight: FontWeight.w400,
                   fontSize: 14.0,
@@ -245,7 +237,6 @@ class _ProfileViewState extends State<ProfileView> {
             children: [
               Column(
                 children: [
-                  const Divider(),
                   ProfileWidgets(
                       ontap: () {
                         Navigator.push(
@@ -306,7 +297,6 @@ class _ProfileViewState extends State<ProfileView> {
                     trIcon: Icons.arrow_forward_ios,
                     title: 'Log Out',
                   ),
-                  const Divider(),
                 ],
               ),
             ],
