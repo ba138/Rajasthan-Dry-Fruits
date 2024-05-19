@@ -74,8 +74,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xffffffff),
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white, // Set app bar color to white
-            elevation: 0, // Remove app bar elevation
+            backgroundColor: Colors.white, 
+            elevation: 0,
           ),
         ),
         initialRoute: RoutesName.splash,
