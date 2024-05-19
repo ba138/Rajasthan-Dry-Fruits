@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:rjfruits/view/profileView/edit_profile.dart';
-
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 
@@ -90,14 +88,13 @@ class ViewProfile extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColor.primaryColor, width: 1),
-                  color: const Color.fromRGBO(
-                      255, 255, 255, 0.2), // Background color with opacity
+                  color: const Color.fromRGBO(255, 255, 255, 0.2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white.withOpacity(0.5), // Shadow color
-                      blurRadius: 2, // Blur radius
-                      spreadRadius: 0, // Spread radius
-                      offset: const Offset(0, 0), // Offset
+                      color: Colors.white.withOpacity(0.5),
+                      blurRadius: 2,
+                      spreadRadius: 0,
+                      offset: const Offset(0, 0),
                     ),
                   ],
                 ),
