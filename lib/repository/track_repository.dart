@@ -212,7 +212,7 @@ class TrackOrderRepository extends ChangeNotifier {
         trackingId = shipmentDetail.id;
         destination = shipmentDetail.provider ??
             ""; // Assuming 'provider' means 'destination'
-        deliveryCompany = shipmentDetail.trackingUrl ??
+        deliveryCompany = shipmentDetail.provider ??
             ""; // Assuming 'trackingUrl' is used here for 'deliveryCompany'
 
         // Call notifyListeners() if using ChangeNotifier to update UI
