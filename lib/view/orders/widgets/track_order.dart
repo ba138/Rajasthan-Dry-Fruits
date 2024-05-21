@@ -13,7 +13,7 @@ import '../../../res/components/vertical_spacing.dart';
 
 class TrackOrder extends StatefulWidget {
   final OrderDetailedModel orderDetailModel;
-  final String shipRocketId;
+  final String? shipRocketId;
   final String customShipId;
   const TrackOrder(
       {super.key,
@@ -37,7 +37,14 @@ class _TrackOrderState extends State<TrackOrder> {
       // Await the Future<UserModel> result
       final token = userModel.key;
       await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-          .customShip("acfa489c-71b3-4517-86f0-056502dbffba", token);
+          .customShip(widget.customShipId, token);
+      // if (widget.shipRocketId == "") {
+
+      // } else {
+      //   await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+      //       .fetchShipData(widget.shipRocketId!, token);
+      // }
+
       // if (widget.customShipId != "") {
       //   debugPrint("this is the shipRocket");
       //   await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
