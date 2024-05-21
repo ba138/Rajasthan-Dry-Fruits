@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:rjfruits/model/cart_model.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
@@ -29,7 +28,6 @@ class CartRepository extends ChangeNotifier {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-        print('${response.body}');
         productCategories = jsonResponse
             .map(
                 (item) => ProductCategory.fromJson(item['product']['category']))
@@ -48,7 +46,6 @@ class CartRepository extends ChangeNotifier {
       }
     } catch (e) {
       Utils.flushBarErrorMessage("Check your internet connection", context);
-      print('...........error: $e.........');
     }
   }
 
