@@ -8,9 +8,9 @@ class TrackOrderRepositoryProvider extends ChangeNotifier {
   TrackOrderRepository get trackOrderRepositoryProvider =>
       _trackOrderRepositoryProvider;
   Future<void> fetchOrderDetails(BuildContext context, String id, String token,
-      String shopRocketId) async {
+      String shopRocketId, String customShipId) async {
     await _trackOrderRepositoryProvider.fetchOrderDetails(
-        context, id, token, shopRocketId);
+        context, id, token, shopRocketId, customShipId);
     notifyListeners();
   }
 
@@ -19,6 +19,17 @@ class TrackOrderRepositoryProvider extends ChangeNotifier {
     String token,
   ) async {
     await _trackOrderRepositoryProvider.fetchShipmentDetail(
+      id,
+      token,
+    );
+    notifyListeners();
+  }
+
+  Future<void> customShip(
+    String id,
+    String token,
+  ) async {
+    await _trackOrderRepositoryProvider.fetchCustomDetailData(
       id,
       token,
     );

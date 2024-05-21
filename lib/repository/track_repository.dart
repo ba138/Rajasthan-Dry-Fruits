@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:order_tracker/order_tracker.dart';
 import 'package:rjfruits/model/order_detailed_model.dart';
 import 'package:rjfruits/model/ship_rocket_model.dart';
+import 'package:rjfruits/model/custom_shipment.dart';
+
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
@@ -21,7 +23,7 @@ class TrackOrderRepository extends ChangeNotifier {
   String deliveryCompany = "";
   String destination = "";
   Future<void> fetchOrderDetails(BuildContext context, String orderId,
-      String token, String shopRocketId) async {
+      String token, String shopRocketId, String customId) async {
     bool isStoringData = true;
     try {
       // Show circular indicator
@@ -70,6 +72,7 @@ class TrackOrderRepository extends ChangeNotifier {
                 builder: (context) => TrackOrder(
                       orderDetailModel: orderDetail,
                       shipRocketId: shopRocketId,
+                      customShipId: customId,
                     )),
           );
         } else {
@@ -158,6 +161,62 @@ class TrackOrderRepository extends ChangeNotifier {
         deliveryCompany = shipmentDetail.shipmentTrack[0].courierName;
 // TextDto("Your order is out for delivery", ""),
         notifyListeners();
+      } else {
+        // If the request was not successful, print the error status code
+        debugPrint('Failed with status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      // If an error occurs during the request, print the error
+      debugPrint('Error: $error');
+    }
+  }
+
+  Future<void> fetchCustomDetailData(String id, String token) async {
+    // Define the URL
+    final String url = 'http://103.117.180.187/api/shipment-detail/$id/';
+
+    // Define the headers
+    final Map<String, String> headers = {
+      'accept': 'application/json',
+      'X-CSRFToken':
+          'haUKPWH6GvjdUzMFi9qJlwDzeK9gRDmyLtZKJQoKCqarpTLCQa1sfaDNahz45xs8',
+      'authorization': "Token $token",
+    };
+
+    try {
+      // Send GET request
+      final response = await http.get(Uri.parse(url), headers: headers);
+
+      // Log headers and URL
+      debugPrint("Request URL: $url");
+      debugPrint("Request headers: $headers");
+      debugPrint("Response status code: ${response.statusCode}");
+      debugPrint("Response body: ${response.body}");
+
+      // Check if the request was successful (status code 200)
+      if (response.statusCode == 200) {
+        // Parse the response JSON
+        final shipmentDetail = Shipment.fromJson(jsonDecode(response.body));
+        debugPrint("Parsed shipment detail: ${shipmentDetail}");
+
+        outOfDeliveryList.clear();
+        outOfDeliveryList.add(TextDto(
+            "Your order has been Picked", shipmentDetail.started?.toString()));
+        shippedList.clear();
+        shippedList.add(
+            TextDto("Your order has been ", shipmentDetail.shipmentStatus));
+        deliveredList.clear();
+        deliveredList.add(TextDto("Your order has been delivered",
+            shipmentDetail.reached?.toString()));
+
+        trackingId = shipmentDetail.id;
+        destination = shipmentDetail.provider ??
+            ""; // Assuming 'provider' means 'destination'
+        deliveryCompany = shipmentDetail.trackingUrl ??
+            ""; // Assuming 'trackingUrl' is used here for 'deliveryCompany'
+
+        // Call notifyListeners() if using ChangeNotifier to update UI
+        // notifyListeners();
       } else {
         // If the request was not successful, print the error status code
         debugPrint('Failed with status code: ${response.statusCode}');
