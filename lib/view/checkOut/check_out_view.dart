@@ -9,6 +9,7 @@ import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
+import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -68,6 +69,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
     if (jsonSelectedAddress != null) {
       Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
+      final provider = Provider.of<ShippingProvider>(context, listen: false);
 
       Map<String, dynamic> requestData = {
         "full_name": selectedAddress['fullName'],
@@ -78,6 +80,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "state": selectedAddress['state'],
         "country": "USA",
         "payment_type": "online",
+        "shipment_type": provider.selectedShippingType,
       };
       print('..............required data: $requestData............');
 
@@ -107,15 +110,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         print('API Response Status Code: ${apiResponse.statusCode}');
 
         if (apiResponse.statusCode == 201) {
-          Utils.toastMessage('Payment Successfully Done: $razorpayPaymentId');
-          Utils.toastMessage('Payment orderId: $razorpayOrderId');
-          Utils.toastMessage('Payment signatureId: $razorpaySignature');
 
-          print('Selected address: $selectedAddress');
-          print('Total amount: ${widget.totalPrice}');
-          print('RazorPay order Id: $razorpayOrderId');
-          print('RazorPay payment Id: $razorpayPaymentId');
-          print('RazorPay Signature Id: $razorpaySignature');
+          final provider =
+              Provider.of<ShippingProvider>(context, listen: false);
+          print(
+              '.................Shipping Type ${provider.selectedShippingType}');
+          Utils.toastMessage('Payment Successfully Done');
 
           Navigator.pushNamed(
             context,
@@ -158,6 +158,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
+  int selectedContainerIndex =
+      0; // Keeps track of the currently selected container index (0 or 1)
+  Color selectedContainerColor = AppColor.primaryColor;
+  Color unselectedContainerColor = AppColor.whiteColor;
+  Color selectedIconColor = AppColor.whiteColor;
+  Color unselectedIconColor = AppColor.blackColor;
+  Color selectedTextColor = AppColor.whiteColor;
+  Color unselectedTextColor = AppColor.blackColor;
+  String? custonShipping;
+  String? shipRocket;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -284,6 +294,134 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       }
                     }
                   },
+                ),
+                const VerticalSpeacing(20.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Select shipment type",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.blackColor,
+                        ),
+                      ),
+                    ),
+                    const VerticalSpeacing(10.0),
+                    ChangeNotifierProvider<ShippingProvider>(
+                      create: (context) => ShippingProvider(),
+                      child: Row(
+                        children: [
+                          // Ship rocket
+                          Consumer<ShippingProvider>(
+                            builder: (context, provider, child) => InkWell(
+                              onTap: () {
+                                provider.updateSelection(0);
+                              },
+                              child: Container(
+                                height: 66,
+                                width: 135,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: provider.selectedContainerIndex == 0
+                                      ? selectedContainerColor
+                                      : unselectedContainerColor,
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          Icons.rocket_outlined,
+                                          size: 30.0,
+                                          color:
+                                              provider.selectedContainerIndex ==
+                                                      0
+                                                  ? selectedIconColor
+                                                  : unselectedIconColor,
+                                        ),
+                                        Text(
+                                          "Ship rocket",
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  provider.selectedContainerIndex ==
+                                                          0
+                                                      ? selectedTextColor
+                                                      : unselectedTextColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20.0),
+                          // Custom shipping
+                          Consumer<ShippingProvider>(
+                            builder: (context, provider, child) => InkWell(
+                              onTap: () {
+                                provider.updateSelection(1);
+                              },
+                              child: Container(
+                                height: 66,
+                                width: 135,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: provider.selectedContainerIndex == 1
+                                      ? selectedContainerColor
+                                      : unselectedContainerColor,
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      children: [
+                                        Icon(
+                                          Icons.local_shipping_outlined,
+                                          size: 30.0,
+                                          color:
+                                              provider.selectedContainerIndex ==
+                                                      1
+                                                  ? selectedIconColor
+                                                  : unselectedIconColor,
+                                        ),
+                                        Text(
+                                          "Custom ship",
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  provider.selectedContainerIndex ==
+                                                          1
+                                                      ? selectedTextColor
+                                                      : unselectedTextColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 const VerticalSpeacing(50),
                 RoundedButton(
