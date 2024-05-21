@@ -1,22 +1,22 @@
 class ProductCategory {
   final String id;
   final String name;
-  final String parent;
-  final String thumbnailImage;
+  final String? parent;
+  final String? thumbnailImage;
 
   ProductCategory({
     required this.id,
     required this.name,
-    required this.parent,
-    required this.thumbnailImage,
+    this.parent,
+    this.thumbnailImage,
   });
 
   factory ProductCategory.fromJson(Map<String, dynamic> json) {
     return ProductCategory(
       id: json['id'],
       name: json['name'],
-      parent: json['parent'] ?? '', // Assuming parent can be null
-      thumbnailImage: json['thumbnail_image'],
+      parent: json['parent'] ?? '',
+      thumbnailImage: json['thumbnail_image'] ?? '',
     );
   }
 }
@@ -29,7 +29,7 @@ class Product {
   final double price;
   final double discount;
   final ProductCategory category;
-  final dynamic productWeight; // It can be either null or an object
+  final dynamic productWeight;
 
   Product({
     required this.id,
@@ -46,12 +46,10 @@ class Product {
     return Product(
       id: json['id'],
       title: json['title'],
-      slug: json['slug'],
-      thumbnailImage: json['thumbnail_image'],
-      price: double.tryParse(json['price'].toString()) ??
-          0.0, // Convert price to double
-      discount: double.tryParse(json['discount'].toString()) ??
-          0.0, // Convert discount to double
+      slug: json['slug'] ?? '', // Assuming slug can be empty
+      thumbnailImage: json['thumbnail_image'] ?? '',
+      price: double.tryParse(json['price'].toString()) ?? 0.0,
+      discount: double.tryParse(json['discount'].toString()) ?? 0.0,
       category: ProductCategory.fromJson(json['category']),
       productWeight: json['product_weight'],
     );
@@ -62,7 +60,7 @@ class CartItem {
   final int id;
   final Product product;
   final int quantity;
-  final dynamic productWeight; // It can be either null or an object
+  final dynamic productWeight;
 
   CartItem({
     required this.id,
@@ -76,8 +74,7 @@ class CartItem {
       id: json['id'],
       product: Product.fromJson(json['product']),
       quantity: json['quantity'],
-      productWeight:
-          json['product_weight'], // It can be either null or an object
+      productWeight: json['product_weight'],
     );
   }
 }

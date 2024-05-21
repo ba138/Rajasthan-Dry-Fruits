@@ -29,6 +29,7 @@ class CartRepository extends ChangeNotifier {
       var response = await http.get(url, headers: headers);
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body) as List<dynamic>;
+        print('${response.body}');
         productCategories = jsonResponse
             .map(
                 (item) => ProductCategory.fromJson(item['product']['category']))
@@ -38,6 +39,7 @@ class CartRepository extends ChangeNotifier {
             .toList();
         cartItems =
             jsonResponse.map((item) => CartItem.fromJson(item)).toList();
+        debugPrint('${response.statusCode}');
 
         calculateTotalPrice();
         notifyListeners();
@@ -46,6 +48,7 @@ class CartRepository extends ChangeNotifier {
       }
     } catch (e) {
       Utils.flushBarErrorMessage("Check your internet connection", context);
+      print('...........error: $e.........');
     }
   }
 
