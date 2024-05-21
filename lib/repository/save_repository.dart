@@ -4,11 +4,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
-import 'package:rjfruits/utils/routes/utils.dart';
+// import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
 class SaveRepository extends ChangeNotifier {
   List<Map<String, dynamic>> saveList = [];
+  bool? isLike;
   Future<void> saveProductToSave({
     required String productId,
     required String name,
@@ -35,10 +36,13 @@ class SaveRepository extends ChangeNotifier {
     try {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 201) {
-        Utils.toastMessage("Product added to wishlist successfully");
+        isLike = true;
+        notifyListeners();
+
+        // Utils.toastMessage("Product added to wishlist successfully");
         // print('');
       } else {
-        Utils.toastMessage("Unable to add product to wishlist");
+        // Utils.toastMessage("Unable to add product to wishlist");
       }
     } catch (e) {
       handleApiError(e, context);
@@ -63,14 +67,14 @@ class SaveRepository extends ChangeNotifier {
             (json.decode(response.body) as List<dynamic>)
                 .map((item) => item as Map<String, dynamic>)
                 .toList();
-        debugPrint("this is the savelist data=$saveList");
+        // debugPrint("this is the savelist data=$saveList");
         // Assuming you have a variable called saveList defined in your class
         this.saveList = saveList;
 
         // Notify listeners if necessary
         notifyListeners();
       } else {
-        Utils.flushBarErrorMessage("Unable to get wishlist products", context);
+        // Utils.flushBarErrorMessage("Unable to get wishlist products", context);
       }
     } catch (e) {
       handleApiError(e, context);
@@ -93,9 +97,11 @@ class SaveRepository extends ChangeNotifier {
     try {
       final response = await http.delete(url, headers: headers);
       if (response.statusCode == 204) {
-        Utils.toastMessage('Save product deleted successfully');
+        // Utils.toastMessage('Save product deleted successfully');
+        // isLike = false;
+        // notifyListeners();
       } else {
-        Utils.toastMessage('Error deleting save product');
+        // Utils.toastMessage('Error deleting save product');
       }
     } catch (e) {
       handleApiError(e, context);
@@ -106,6 +112,10 @@ class SaveRepository extends ChangeNotifier {
     // Assuming cartList is a global variable or accessible within this scope
     for (var product in saveList) {
       if (product['product']['id'] == productId) {
+        isLike = true;
+        notifyListeners();
+
+        debugPrint("this is product in the save list:$saveList");
         return true;
       }
     }

@@ -12,6 +12,7 @@ import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
 import '../../utils/routes/routes_name.dart';
 import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +59,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    String? razorpayPaymentId = response.paymentId;
+    String? razorpayOrderId = response.orderId;
+    String? razorpaySignature = response.signature;
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
     print('Selected Address: $jsonSelectedAddress');
@@ -102,7 +107,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           body: jsonEncode(requestData),
         );
 
+        print('API Response Status Code: ${apiResponse.statusCode}');
+
         if (apiResponse.statusCode == 201) {
+
           final provider =
               Provider.of<ShippingProvider>(context, listen: false);
           print(
@@ -119,7 +127,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           );
         } else {
           // Handle API request failure with more specific message based on response body
-          Utils.toastMessage('Failed to submit payment data');
+          Utils.toastMessage(
+              'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
         }
       } catch (e) {
         // Handle exceptions during API request
