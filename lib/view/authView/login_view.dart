@@ -10,7 +10,6 @@ import 'package:rjfruits/view/authView/Social_Auth/google_auth.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-
 import '../../utils/routes/utils.dart';
 import '../../view_model/auth_view_model.dart';
 
@@ -98,15 +97,15 @@ class _LoginViewState extends State<LoginView> {
                       key: _formKey,
                       child: Column(
                         children: [
-                          TextFieldCustom(
-                            controller: nameController,
-                            preIcon: Icons.person,
-                            maxLines: 2,
-                            text: "sfsdadf",
-                            hintText: "name",
-                            preColor: AppColor.primaryColor,
-                            keyboardType: TextInputType.emailAddress,
-                          ),
+                          // TextFieldCustom(
+                          //   controller: nameController,
+                          //   preIcon: Icons.person,
+                          //   maxLines: 2,
+                          //   text: "sfsdadf",
+                          //   hintText: "name",
+                          //   preColor: AppColor.primaryColor,
+                          //   keyboardType: TextInputType.emailAddress,
+                          // ),
                           const VerticalSpeacing(30),
                           TextFieldCustom(
                             controller: emailController,
@@ -188,12 +187,9 @@ class _LoginViewState extends State<LoginView> {
                                 } else {
                                   try {
                                     Map<String, String> data = {
-                                      'username': nameController.text
-                                          .trim(), // Assuming you also have a username field
                                       'email': email,
                                       'password': password,
                                     };
-
                                     await authViewModel.loginApi(data, context);
                                   } catch (e) {
                                     Utils.flushBarErrorMessage('$e', context);

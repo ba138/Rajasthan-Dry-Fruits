@@ -220,14 +220,13 @@ class _ProfileViewState extends State<ProfileView> {
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           border: Border.all(color: AppColor.primaryColor, width: 1),
-          color: const Color.fromRGBO(
-              255, 255, 255, 0.2), // Background color with opacity
+          color: const Color.fromRGBO(255, 255, 255, 0.2),
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withOpacity(0.5), // Shadow color
-              blurRadius: 2, // Blur radius
-              spreadRadius: 0, // Spread radius
-              offset: const Offset(0, 0), // Offset
+              color: Colors.white.withOpacity(0.5),
+              blurRadius: 2,
+              spreadRadius: 0,
+              offset: const Offset(0, 0),
             ),
           ],
         ),
@@ -274,19 +273,6 @@ class _ProfileViewState extends State<ProfileView> {
                       trIcon: Icons.arrow_forward_ios,
                       title: 'My Rating'),
                   const Divider(),
-                  // ProfileWidgets(
-                  //     ontap: () {
-                  //       Navigator.push(context,
-                  //           MaterialPageRoute(builder: (context) {
-                  //         return CheckOutScreen(totalPrice: ,);
-                  //       }));
-                  //     },
-                  //     tColor: const Color(0xff9E93F4),
-                  //     bColor: const Color(0xff7465EC),
-                  //     icon: Icons.wallet_outlined,
-                  //     trIcon: Icons.arrow_forward_ios,
-                  //     title: 'Payment'),
-                  // const Divider(),
                   ProfileWidgets(
                     ontap: () async {
                       await authService.logout(context);
