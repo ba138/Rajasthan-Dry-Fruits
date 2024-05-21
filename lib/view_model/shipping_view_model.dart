@@ -6,11 +6,11 @@ class ShippingProvider with ChangeNotifier {
 
   int get selectedContainerIndex => _selectedContainerIndex;
 
-  String get selectedShippingType =>
-      _shippingTypes[_selectedContainerIndex + 1];
+  String get selectedShippingType => _shippingTypes[_selectedContainerIndex];
 
   void updateSelection(int index) {
     _selectedContainerIndex = index;
+
     notifyListeners();
   }
 }
