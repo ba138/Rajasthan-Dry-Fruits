@@ -27,6 +27,7 @@ class ProductDetailRepository extends ChangeNotifier {
       if (response.statusCode == 200) {
         final productDetail = ProductDetail.fromJson(jsonDecode(response.body));
         // Navigate to the next screen and pass the product detail
+        debugPrint("this is the product details:$productDetail");
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => ProductDetailScreen(detail: productDetail),
@@ -37,6 +38,7 @@ class ProductDetailRepository extends ChangeNotifier {
         throw Exception('Failed to load product detail');
       }
     } catch (e) {
+      debugPrint("this is the error:$e");
       handleApiError(e, context);
     }
   }

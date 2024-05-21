@@ -14,7 +14,7 @@ class ProductDetail {
   final String price;
   final int discount;
   final String? promotional; // Nullable
-  final int totalReviews; // Nullable
+  final int? totalReviews; // Nullable
   final List<ProductWeight> productWeight;
   final List<ProductReview> productReview;
 
@@ -41,26 +41,26 @@ class ProductDetail {
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
     return ProductDetail(
-      id: json['id'],
-      sku: json['sku'],
-      title: json['title'],
-      slug: json['slug'],
-      manufacturerBrand: json['manufacturer_brand'],
-      category: Category.fromJson(json['category']),
-      images: List<String>.from(json['images']),
-      description: json['description'],
-      thumbnailImage: json['thumbnail_image'],
-      averageReview: json['average_review'].toDouble(),
+      id: json['id'] ?? "",
+      sku: json['sku'] ?? "",
+      title: json['title'] ?? "",
+      slug: json['slug'] ?? "",
+      manufacturerBrand: json['manufacturer_brand'] ?? "",
+      category: Category.fromJson(json['category'] ?? {}),
+      images: List<String>.from(json['images'] ?? []),
+      description: json['description'] ?? "",
+      thumbnailImage: json['thumbnail_image'] ?? "",
+      averageReview: (json['average_review'] as num?)?.toDouble() ?? 0.0,
       videoLink: json['video_link'],
-      quantity: json['quantity'],
-      price: json['price'],
-      discount: json['discount'],
+      quantity: json['quantity'] ?? 0,
+      price: json['price'] ?? "",
+      discount: json['discount'] ?? 0,
       promotional: json['promotional'],
       totalReviews: json['total_reviews'],
       productWeight: List<ProductWeight>.from(
-          json['product_weight'].map((x) => ProductWeight.fromJson(x))),
+          (json['product_weight'] ?? []).map((x) => ProductWeight.fromJson(x))),
       productReview: List<ProductReview>.from(
-          json['product_review'].map((x) => ProductReview.fromJson(x))),
+          (json['product_review'] ?? []).map((x) => ProductReview.fromJson(x))),
     );
   }
 }
@@ -80,10 +80,10 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? "",
+      name: json['name'] ?? "",
       parent: json['parent'],
-      thumbnailImage: json['thumbnail_image'],
+      thumbnailImage: json['thumbnail_image'] ?? "",
     );
   }
 }
@@ -101,9 +101,9 @@ class ProductWeight {
 
   factory ProductWeight.fromJson(Map<String, dynamic> json) {
     return ProductWeight(
-      id: json['id'],
-      price: json['price'],
-      weight: Weight.fromJson(json['weight']),
+      id: json['id'] ?? 0,
+      price: json['price'] ?? "",
+      weight: Weight.fromJson(json['weight'] ?? {}),
     );
   }
 }
@@ -119,8 +119,8 @@ class Weight {
 
   factory Weight.fromJson(Map<String, dynamic> json) {
     return Weight(
-      id: json['id'],
-      name: json['name'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
     );
   }
 }
@@ -140,10 +140,10 @@ class ProductReview {
 
   factory ProductReview.fromJson(Map<String, dynamic> json) {
     return ProductReview(
-      client: Client.fromJson(json['client']),
-      rate: json['rate'],
-      comment: json['comment'],
-      createdOn: DateTime.parse(json['created_on']),
+      client: Client.fromJson(json['client'] ?? {}),
+      rate: json['rate'] ?? 0,
+      comment: json['comment'] ?? "",
+      createdOn: DateTime.parse(json['created_on'] ?? ""),
     );
   }
 }
@@ -169,9 +169,9 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
+      id: json['id'] ?? 0,
+      username: json['username'] ?? "",
+      email: json['email'] ?? "",
       profileImage: json['profile_image'],
       phoneNumber: json['phone_number'],
       dateOfBirth: json['date_of_birth'],
