@@ -24,7 +24,10 @@ class RatingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("this is the id of the product$title");
+    debugPrint("this is the id of the product$buyDate");
     debugPrint("this is the id of the product$id");
+    debugPrint("this is the id of the product$order");
     return Container(
       height: 114.0,
       width: double.infinity,

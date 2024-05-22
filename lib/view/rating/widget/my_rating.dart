@@ -8,6 +8,7 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/view/rating/widget/complete_review_card.dart';
 import 'package:rjfruits/view/rating/widget/rating_card.dart';
 import 'package:rjfruits/view_model/rating_view_model.dart';
+import 'package:rjfruits/view_model/user_view_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyRating extends StatefulWidget {
@@ -20,16 +21,26 @@ class MyRating extends StatefulWidget {
 class _MyRatingState extends State<MyRating>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  getAllData() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel = await userPreferences.getUser();
+    // Await the Future<UserModel> result
+    final token = userModel.key;
+    Provider.of<RatingRepositoryProvider>(context, listen: false)
+        .pedingReview(token, context);
+  }
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    getAllData();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+
     super.dispose();
   }
 
@@ -116,22 +127,27 @@ class _MyRatingState extends State<MyRating>
                     );
                   } else {
                     return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: homeRepo.ratingRepository.orders.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 10.0), // Spacing between cards
-                      itemBuilder: (context, index) => RatingCard(
-                        id: homeRepo.ratingRepository.orders[index].product.id,
-                        title: homeRepo
-                            .ratingRepository.orders[index].product.title,
-                        image: homeRepo.ratingRepository.orders[index].product
-                            .thumbnailImage,
-                        order: homeRepo.ratingRepository.orders[index].order,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: homeRepo.ratingRepository.orders.length,
+                        separatorBuilder: (context, index) => const SizedBox(
+                            height: 10.0), // Spacing between cards
+                        itemBuilder: (context, index) {
+                          debugPrint(
+                              "this is the list of the products:${homeRepo.ratingRepository.orders}");
+                          return RatingCard(
+                            id: homeRepo
+                                .ratingRepository.orders[index].product.id,
+                            title: homeRepo
+                                .ratingRepository.orders[index].product.title,
+                            image: homeRepo.ratingRepository.orders[index]
+                                .product.thumbnailImage,
+                            order:
+                                homeRepo.ratingRepository.orders[index].order,
 
-                        // order: homeRepo.ratingRepository.orders[index], // Pass order data
-                      ),
-                    );
+                            // order: homeRepo.ratingRepository.orders[index], // Pass order data
+                          );
+                        });
                   }
                 },
               ),
