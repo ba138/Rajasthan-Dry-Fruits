@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
@@ -222,15 +223,25 @@ class _TrackOrderState extends State<TrackOrder> {
                   ),
                 ),
                 const VerticalSpeacing(12.0),
-
-                Text(
-                  'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
-                  style: const TextStyle(
-                    color: AppColor.textColor1,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.0,
+                GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                        text: trackOrder
+                            .trackOrderRepositoryProvider.trackingId));
+                    const snackBar =
+                        SnackBar(content: Text('Text copied to clipboard'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  child: Text(
+                    'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
+                    style: const TextStyle(
+                      color: AppColor.textColor1,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.0,
+                    ),
                   ),
                 ),
+
                 const VerticalSpeacing(30.0),
 
                 const Text(
