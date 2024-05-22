@@ -22,6 +22,7 @@ class TrackOrderRepository extends ChangeNotifier {
   String trackingId = "";
   String deliveryCompany = "";
   String destination = "";
+  String shipmentCharges = "";
   Future<void> fetchOrderDetails(BuildContext context, String orderId,
       String token, String shopRocketId, String customId) async {
     bool isStoringData = true;
@@ -159,6 +160,7 @@ class TrackOrderRepository extends ChangeNotifier {
         trackingId = shipmentDetail.shipmentTrack[0].shipmentId.toString();
         destination = shipmentDetail.shipmentTrack[0].destination;
         deliveryCompany = shipmentDetail.shipmentTrack[0].courierName;
+
 // TextDto("Your order is out for delivery", ""),
         notifyListeners();
       } else {
@@ -214,9 +216,8 @@ class TrackOrderRepository extends ChangeNotifier {
             ""; // Assuming 'provider' means 'destination'
         deliveryCompany = shipmentDetail.provider ??
             ""; // Assuming 'trackingUrl' is used here for 'deliveryCompany'
-
         // Call notifyListeners() if using ChangeNotifier to update UI
-        // notifyListeners();
+        notifyListeners();
       } else {
         // If the request was not successful, print the error status code
         debugPrint('Failed with status code: ${response.statusCode}');

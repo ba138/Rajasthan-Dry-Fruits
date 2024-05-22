@@ -275,8 +275,8 @@ class _MyOrdersState extends State<MyOrders>
         status: order.orderStatus,
         cartImg:
             'https://i.pinimg.com/736x/4a/53/4e/4a534eba5808e7f207c421b9d9647401.jpg',
-        cartTitle: order.fullName,
-        quantity: order.city.toString(),
+        cartTitle: order.shippingCharges.toString(),
+        quantity: order.address.toString(),
       ),
     );
   }
