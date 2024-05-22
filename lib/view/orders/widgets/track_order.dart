@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/order_detailed_model.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/orders/widgets/prod_detail_widget.dart';
 import 'package:rjfruits/view_model/service/track_order_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
@@ -37,23 +38,22 @@ class _TrackOrderState extends State<TrackOrder> {
       final userModel = await userPreferences.getUser();
       // Await the Future<UserModel> result
       final token = userModel.key;
-      await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-          .customShip(widget.customShipId, token);
-      // if (widget.shipRocketId == "") {
 
-      // } else {
-      //   await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-      //       .fetchShipData(widget.shipRocketId!, token);
-      // }
+      if (widget.shipRocketId == "") {
+        await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+            .customShip(widget.customShipId, token);
+      } else {
+        await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+            .fetchShipData(widget.shipRocketId!, token);
+      }
 
-      // if (widget.customShipId != "") {
-      //   debugPrint("this is the shipRocket");
-      //   await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-      //       .fetchShipData(widget.shipRocketId, token);
-      // } else {
-      //   debugPrint("this is the custom shipping");
+//       if (widget.shipRocketId != "") {
 
-      // }
+//       } else {
+//  debugPrint("this is the shipRocket");
+//         await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+//             .fetchShipData(widget.shipRocketId!, token);
+//       }
     } catch (e) {
       debugPrint('Error fetching user data: $e');
     }
@@ -222,24 +222,29 @@ class _TrackOrderState extends State<TrackOrder> {
                     fontSize: 12.0,
                   ),
                 ),
-                const VerticalSpeacing(12.0),
-                GestureDetector(
-                  onTap: () {
-                    Clipboard.setData(ClipboardData(
-                        text: trackOrder
-                            .trackOrderRepositoryProvider.trackingId));
-                    const snackBar =
-                        SnackBar(content: Text('Text copied to clipboard'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
-                  child: Text(
-                    'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
-                    style: const TextStyle(
-                      color: AppColor.textColor1,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12.0,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
+                      style: const TextStyle(
+                        color: AppColor.textColor1,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12.0,
+                      ),
                     ),
-                  ),
+                    IconButton(
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(
+                              text: trackOrder
+                                  .trackOrderRepositoryProvider.trackingId));
+                          Utils.toastMessage("Text copied to clipboard");
+                        },
+                        icon: const Icon(
+                          Icons.copy,
+                          size: 18,
+                        ))
+                  ],
                 ),
 
                 const VerticalSpeacing(30.0),
