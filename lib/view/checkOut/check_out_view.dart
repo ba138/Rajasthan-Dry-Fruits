@@ -76,6 +76,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "state": selectedAddress['state'],
         "country": "USA",
         "payment_type": "online",
+
         "shipment_type": provider.selectedShippingType,
       };
       // provider.selectedShippingType
