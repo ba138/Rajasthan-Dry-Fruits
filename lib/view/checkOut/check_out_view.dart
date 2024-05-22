@@ -59,10 +59,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    String? razorpayPaymentId = response.paymentId;
-    String? razorpayOrderId = response.orderId;
-    String? razorpaySignature = response.signature;
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonSelectedAddress = prefs.getString('selectedAddress');
     print('Selected Address: $jsonSelectedAddress');
@@ -80,7 +76,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "state": selectedAddress['state'],
         "country": "USA",
         "payment_type": "online",
-        "shipment_type": "ship_rocket",
+        "shipment_type": provider.selectedShippingType
       };
       // provider.selectedShippingType
       print('..............required data: $requestData............');
