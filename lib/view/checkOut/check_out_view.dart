@@ -80,8 +80,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "state": selectedAddress['state'],
         "country": "USA",
         "payment_type": "online",
-        "shipment_type": provider.selectedShippingType,
+        "shipment_type": "ship_rocket",
       };
+      // provider.selectedShippingType
       print('..............required data: $requestData............');
 
       try {
@@ -110,7 +111,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         print('API Response Status Code: ${apiResponse.statusCode}');
 
         if (apiResponse.statusCode == 201) {
-
           final provider =
               Provider.of<ShippingProvider>(context, listen: false);
           print(
