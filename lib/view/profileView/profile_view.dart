@@ -94,8 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
                     top: 1.0,
                     left: MediaQuery.of(context).size.width / 2.5,
                     child: _buildProfile(
-                        '${userData['first_name'] + userData['last_name']}',
-                        '${userData['pk']}'),
+                        '${userData['first_name']}', '${userData['pk']}'),
                   ),
                   Positioned(
                     top: tHeight - top / 2 - 10,
@@ -127,7 +126,7 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  _buildProfile(String name, String id) {
+  _buildProfile(String? name, String? id) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
           ],
         ),
         Text(
-          name,
+          name ?? "Wait",
           style: const TextStyle(
             fontFamily: 'CenturyGothic',
             fontSize: 18,
@@ -151,7 +150,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
         ),
         Text(
-          "ID:$id",
+          id != null ? "ID:$id" : "Wait",
           style: const TextStyle(
             fontFamily: 'CenturyGothic',
             fontSize: 18,
