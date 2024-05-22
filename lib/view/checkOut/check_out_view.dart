@@ -76,7 +76,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "state": selectedAddress['state'],
         "country": "USA",
         "payment_type": "online",
-
         "shipment_type": provider.selectedShippingType,
       };
       // provider.selectedShippingType
@@ -397,11 +396,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   : unselectedIconColor,
                                         ),
                                         Text(
-                                          "Custom ship",
+                                          "custom shipment",
                                           style: GoogleFonts.getFont(
                                             "Poppins",
                                             textStyle: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                               color:
                                                   provider.selectedContainerIndex ==
