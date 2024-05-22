@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:order_tracker/order_tracker.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,7 @@ import '../../../res/components/vertical_spacing.dart';
 
 class TrackOrder extends StatefulWidget {
   final OrderDetailedModel orderDetailModel;
-  final String shipRocketId;
+  final String? shipRocketId;
   final String customShipId;
   const TrackOrder(
       {super.key,
@@ -37,7 +38,14 @@ class _TrackOrderState extends State<TrackOrder> {
       // Await the Future<UserModel> result
       final token = userModel.key;
       await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-          .customShip("acfa489c-71b3-4517-86f0-056502dbffba", token);
+          .customShip(widget.customShipId, token);
+      // if (widget.shipRocketId == "") {
+
+      // } else {
+      //   await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
+      //       .fetchShipData(widget.shipRocketId!, token);
+      // }
+
       // if (widget.customShipId != "") {
       //   debugPrint("this is the shipRocket");
       //   await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
@@ -215,15 +223,25 @@ class _TrackOrderState extends State<TrackOrder> {
                   ),
                 ),
                 const VerticalSpeacing(12.0),
-
-                Text(
-                  'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
-                  style: const TextStyle(
-                    color: AppColor.textColor1,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.0,
+                GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(
+                        text: trackOrder
+                            .trackOrderRepositoryProvider.trackingId));
+                    const snackBar =
+                        SnackBar(content: Text('Text copied to clipboard'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  child: Text(
+                    'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
+                    style: const TextStyle(
+                      color: AppColor.textColor1,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12.0,
+                    ),
                   ),
                 ),
+
                 const VerticalSpeacing(30.0),
 
                 const Text(
