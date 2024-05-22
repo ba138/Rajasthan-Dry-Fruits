@@ -169,7 +169,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ShippingProvider _shippingProvider = ShippingProvider();
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -320,9 +319,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             builder: (context, provider, child) => InkWell(
                               onTap: () {
                                 provider.updateSelection(0);
-                                _shippingProvider.selectedContainerIndex + 1;
                                 print(
-                                    "Selected shipping type: ${_shippingProvider.selectedShippingType}");
+                                    "Selected ship rocket type: ${provider.selectedShippingType}");
                               },
                               child: Container(
                                 height: 66,
@@ -375,9 +373,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             builder: (context, provider, child) => InkWell(
                               onTap: () {
                                 provider.updateSelection(1);
-                                _shippingProvider.selectedContainerIndex + 1;
                                 print(
-                                    "Selected shipping type: ${_shippingProvider.selectedShippingType}");
+                                    "Selected custom shipping type: ${provider.selectedShippingType}");
                               },
                               child: Container(
                                 height: 66,
