@@ -123,7 +123,7 @@ class _myOrderCardState extends State<myOrderCard> {
                 Text.rich(
                   TextSpan(children: [
                     TextSpan(
-                      text: '${widget.cartTitle}\n',
+                      text: 'Shipment Charges: ₹${widget.cartTitle}\n',
                       style: const TextStyle(
                         color: AppColor.cardTxColor,
                         fontWeight: FontWeight.w600,
@@ -131,7 +131,7 @@ class _myOrderCardState extends State<myOrderCard> {
                       ),
                     ),
                     const TextSpan(
-                      text: 'Qty: ',
+                      text: 'Address: ',
                       style: TextStyle(
                         color: AppColor.cardTxColor,
                         fontWeight: FontWeight.w600,
