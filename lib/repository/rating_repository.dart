@@ -46,7 +46,7 @@ class RatingRepository extends ChangeNotifier {
       final response = await http.post(url, headers: headers, body: body);
       debugPrint(
           "this is the response code and body :${response.body}:${response.statusCode}");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         Utils.flushBarErrorMessage("Rating added successfully.", context);
       } else if (response.statusCode == 400) {
         Utils.flushBarErrorMessage("Product already rated", context);
@@ -73,9 +73,10 @@ class RatingRepository extends ChangeNotifier {
 
     try {
       if (response.statusCode == 200) {
+        debugPrint("this is the rating:${response.body}");
         List<dynamic> jsonResponse = json.decode(response.body);
         orders = jsonResponse.map((json) => Order.fromJson(json)).toList();
-        debugPrint("this is the orderid$jsonResponse");
+        debugPrint("this is the orderid$orders");
 
         // Handle your orders here
         // e.g., set state, notify listeners, etc.
