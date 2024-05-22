@@ -131,7 +131,7 @@ class _myOrderCardState extends State<myOrderCard> {
                       ),
                     ),
                     const TextSpan(
-                      text: 'Address: ',
+                      text: 'Sub_Total: ',
                       style: TextStyle(
                         color: AppColor.cardTxColor,
                         fontWeight: FontWeight.w600,
@@ -139,7 +139,7 @@ class _myOrderCardState extends State<myOrderCard> {
                       ),
                     ),
                     TextSpan(
-                      text: widget.quantity,
+                      text: "₹${widget.quantity}",
                       style: const TextStyle(
                         color: AppColor.primaryColor,
                         fontWeight: FontWeight.w600,
