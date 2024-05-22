@@ -127,13 +127,14 @@ class _FilterScreenState extends State<FilterScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount:
                               homeRepo.homeRepository.productCategories.length,
-                          itemExtent: MediaQuery.of(context).size.width / 3.6,
+                          // itemExtent: MediaQuery.of(context).size.width / 3.6,
                           itemBuilder: (BuildContext context, int index) {
                             Category category = homeRepo
                                 .homeRepository.productCategories[index];
 
                             return Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
+                              padding:
+                                  const EdgeInsets.only(left: 10.0, right: 10),
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
@@ -145,7 +146,6 @@ class _FilterScreenState extends State<FilterScreen> {
                                 },
                                 child: Container(
                                   height: 56,
-                                  width: 220,
                                   decoration: BoxDecoration(
                                     color: catergioes == category.name
                                         ? AppColor
@@ -161,7 +161,7 @@ class _FilterScreenState extends State<FilterScreen> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      category.name,
+                                      "  ${category.name}  ",
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 14,

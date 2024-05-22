@@ -93,7 +93,8 @@ class _ProfileViewState extends State<ProfileView> {
                   Positioned(
                     top: 1.0,
                     left: MediaQuery.of(context).size.width / 2.5,
-                    child: _buildProfile('${userData['first_name']}'),
+                    child: _buildProfile(
+                        '${userData['first_name']}', '${userData['pk']}'),
                   ),
                   Positioned(
                     top: tHeight - top / 2 - 10,
@@ -125,7 +126,7 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  _buildProfile(String name) {
+  _buildProfile(String name, String id) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,25 +140,22 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ],
         ),
-        Text.rich(
-          TextSpan(
-            text: '  $name\n',
-            style: const TextStyle(
-              fontFamily: 'CenturyGothic',
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: AppColor.whiteColor,
-            ),
-            children: const <TextSpan>[
-              TextSpan(
-                text: 'ID: 1540580',
-                style: TextStyle(
-                  color: AppColor.whiteColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14.0,
-                ),
-              ),
-            ],
+        Text(
+          name,
+          style: const TextStyle(
+            fontFamily: 'CenturyGothic',
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColor.whiteColor,
+          ),
+        ),
+        Text(
+          "ID:$id",
+          style: const TextStyle(
+            fontFamily: 'CenturyGothic',
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: AppColor.whiteColor,
           ),
         ),
       ],
