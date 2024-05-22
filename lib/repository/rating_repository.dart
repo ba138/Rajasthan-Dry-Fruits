@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rjfruits/model/pending_review_model.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 
 class RatingRepository extends ChangeNotifier {
@@ -48,6 +49,8 @@ class RatingRepository extends ChangeNotifier {
           "this is the response code and body :${response.body}:${response.statusCode}");
       if (response.statusCode == 201) {
         Utils.flushBarErrorMessage("Rating added successfully.", context);
+        Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.dashboard, (route) => false);
       } else if (response.statusCode == 400) {
         Utils.flushBarErrorMessage("Product already rated", context);
       } else {

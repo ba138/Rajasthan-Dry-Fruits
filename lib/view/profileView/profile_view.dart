@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
           ],
         ),
         Text(
-          name ?? "Wait",
+          name ?? "Wait..",
           style: const TextStyle(
             fontFamily: 'CenturyGothic',
             fontSize: 18,
