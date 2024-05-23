@@ -11,11 +11,10 @@ class DeaultSearchSection extends StatelessWidget {
     return Consumer<ShopRepositoryProvider>(
       builder: (context, shopRepositoryProvider, _) {
         return GridView.count(
-          padding: const EdgeInsets.all(5.0), // Add padding around the grid
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
-          childAspectRatio: (180 / 230),
+          childAspectRatio: (180 / 245),
           mainAxisSpacing: 10.0, // Spacing between rows
           crossAxisSpacing: 10.0, // Spacing between columns
           children: List.generate(

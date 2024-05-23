@@ -16,11 +16,10 @@ class SearchSectionUi extends StatelessWidget {
         builder: (context, homeRepo, child) {
       if (homeRepo.shopRepository.searchResults.isEmpty) {
         return GridView.count(
-          padding: const EdgeInsets.all(5.0),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
-          childAspectRatio: (180 / 250),
+          childAspectRatio: (180 / 245),
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
           children: List.generate(
@@ -38,7 +37,7 @@ class SearchSectionUi extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
-          childAspectRatio: (180 / 250),
+          childAspectRatio: (180 / 255),
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
           children: List.generate(

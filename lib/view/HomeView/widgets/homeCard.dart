@@ -111,7 +111,7 @@ class _HomeCardState extends State<HomeCard> {
       truncatedTitle = '${truncatedTitle.substring(0, 8)}...';
     }
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
+      // height: MediaQuery.of(context).size.height / 3,
       width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
@@ -128,7 +128,7 @@ class _HomeCardState extends State<HomeCard> {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
         child: Column(
           children: [
             Row(
@@ -374,6 +374,7 @@ class _HomeCardState extends State<HomeCard> {
                     text: 'View'),
               ],
             ),
+            const VerticalSpeacing(8),
           ],
         ),
       ),

@@ -33,7 +33,7 @@ class _SearchViewState extends State<SearchView> {
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -73,7 +73,7 @@ class _SearchViewState extends State<SearchView> {
                         children: [
                           Container(
                             height: 46,
-                            width: MediaQuery.of(context).size.width * 0.75,
+                            width: MediaQuery.of(context).size.width * 0.66,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: AppColor.boxColor,
@@ -135,7 +135,9 @@ class _SearchViewState extends State<SearchView> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 10.0),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 15,
+                          ),
                           InkWell(
                             onTap: () {
                               Provider.of<SearchUiSwithchRepository>(context,

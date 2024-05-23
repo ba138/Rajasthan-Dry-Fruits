@@ -85,7 +85,7 @@ class ProductDetailRepository extends ChangeNotifier {
         Utils.toastMessage("Product has been added to cart");
         notifyListeners();
       } else {
-        Utils.toastMessage("Unable to Add to cart");
+        Utils.toastMessage("Product is already in the card");
       }
     } catch (e) {
       handleApiError(e, context);
