@@ -8,7 +8,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/view/rating/widget/complete_review_card.dart';
 import 'package:rjfruits/view/rating/widget/rating_card.dart';
 import 'package:rjfruits/view_model/rating_view_model.dart';
-import 'package:rjfruits/view_model/user_view_model.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyRating extends StatefulWidget {
@@ -21,20 +20,11 @@ class MyRating extends StatefulWidget {
 class _MyRatingState extends State<MyRating>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  getAllData() async {
-    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-    final userModel = await userPreferences.getUser();
-    // Await the Future<UserModel> result
-    final token = userModel.key;
-    Provider.of<RatingRepositoryProvider>(context, listen: false)
-        .pedingReview(token, context);
-  }
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    getAllData();
   }
 
   @override

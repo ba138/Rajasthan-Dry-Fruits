@@ -11,16 +11,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  SplashServices splashServices = SplashServices();
-
   @override
   void initState() {
-    splashServices.checkAuthenTication(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    SplashServices splashServices = SplashServices();
+
+    splashServices.checkAuthenTication(context);
+
     return Scaffold(
       body: SafeArea(
           child: Container(

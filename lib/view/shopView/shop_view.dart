@@ -37,7 +37,7 @@ class _ShopViewState extends State<ShopView> {
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -124,7 +124,7 @@ class _ShopViewState extends State<ShopView> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 2,
-                        childAspectRatio: (180 / 235),
+                        childAspectRatio: (180 / 255),
                         mainAxisSpacing: 10.0, // Spacing between rows
                         crossAxisSpacing: 10.0, // Spacing between columns
                         children: List.generate(

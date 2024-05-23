@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 // import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:rjfruits/utils/routes/utils.dart';
 
 class SaveRepository extends ChangeNotifier {
   List<Map<String, dynamic>> saveList = [];
@@ -39,10 +40,11 @@ class SaveRepository extends ChangeNotifier {
         isLike = true;
         notifyListeners();
 
-        // Utils.toastMessage("Product added to wishlist successfully");
-        // print('');
+        Utils.toastMessage("Product added to wishlist successfully");
+        print('thi is the succes of wishlist:${response.body}');
       } else {
-        // Utils.toastMessage("Unable to add product to wishlist");
+        Utils.toastMessage("Unable to add product to wishlist");
+        print('thi is the faild of wishlist:${response.body}');
       }
     } catch (e) {
       handleApiError(e, context);
