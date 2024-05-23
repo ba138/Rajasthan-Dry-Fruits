@@ -161,7 +161,6 @@ class TrackOrderRepository extends ChangeNotifier {
         destination = shipmentDetail.shipmentTrack[0].destination;
         deliveryCompany = shipmentDetail.shipmentTrack[0].courierName;
 
-// TextDto("Your order is out for delivery", ""),
         notifyListeners();
       } else {
         // If the request was not successful, print the error status code
@@ -190,16 +189,11 @@ class TrackOrderRepository extends ChangeNotifier {
       final response = await http.get(Uri.parse(url), headers: headers);
 
       // Log headers and URL
-      debugPrint("Request URL: $url");
-      debugPrint("Request headers: $headers");
-      debugPrint("Response status code: ${response.statusCode}");
-      debugPrint("Response body: ${response.body}");
 
       // Check if the request was successful (status code 200)
       if (response.statusCode == 200) {
         // Parse the response JSON
         final shipmentDetail = Shipment.fromJson(jsonDecode(response.body));
-        debugPrint("Parsed shipment detail: ${shipmentDetail}");
 
         outOfDeliveryList.clear();
         outOfDeliveryList.add(TextDto(

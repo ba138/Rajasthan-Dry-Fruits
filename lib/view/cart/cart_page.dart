@@ -202,27 +202,33 @@ class _CartViewState extends State<CartView> {
                             },
                           ),
                           const VerticalSpeacing(16.0),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "DELIVERY CHARGE",
-                                style: TextStyle(
-                                  fontFamily: 'CenturyGothic',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                              Text(
-                                'FREE',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                            ],
+                          Consumer<CartRepositoryProvider>(
+                            builder: (context, cartProvider, _) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "DELIVERY CHARGE",
+                                    style: TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹${cartProvider.cartRepositoryProvider.shippingCharges.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      fontFamily: 'CenturyGothic',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.blackColor,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                           const Divider(),
                           const VerticalSpeacing(16.0),
@@ -242,7 +248,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '₹${cartProvider.calculateTotalPrice()}',
+                                    '₹${double.parse(cartProvider.calculateTotalPrice()) + cartProvider.cartRepositoryProvider.shippingCharges}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -265,8 +271,12 @@ class _CartViewState extends State<CartView> {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return CheckOutScreen(
-                                        totalPrice: cartProvider
-                                            .cartRepositoryProvider.totalPrice
+                                        totalPrice: (cartProvider
+                                                    .cartRepositoryProvider
+                                                    .totalPrice +
+                                                cartProvider
+                                                    .cartRepositoryProvider
+                                                    .shippingCharges)
                                             .toStringAsFixed(2),
                                       );
                                     }));
@@ -296,7 +306,7 @@ class _CartViewState extends State<CartView> {
                                         ]),
                                     child: Center(
                                       child: Text(
-                                        "Proceed to CheckOut : ₹${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}",
+                                        "Proceed to CheckOut : ₹${double.parse(cartProvider.calculateTotalPrice()) + cartProvider.cartRepositoryProvider.shippingCharges}",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(

@@ -15,9 +15,18 @@ class ProductCategory {
     return ProductCategory(
       id: json['id'],
       name: json['name'],
-      parent: json['parent'] ?? '',
-      thumbnailImage: json['thumbnail_image'] ?? '',
+      parent: json['parent'],
+      thumbnailImage: json['thumbnail_image'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'parent': parent,
+      'thumbnail_image': thumbnailImage,
+    };
   }
 }
 
@@ -26,10 +35,11 @@ class Product {
   final String title;
   final String slug;
   final String thumbnailImage;
-  final double price;
+  final String price;
   final double discount;
   final ProductCategory category;
-  final dynamic productWeight;
+  final double averageReview;
+  final int totalReviews;
 
   Product({
     required this.id,
@@ -39,20 +49,64 @@ class Product {
     required this.price,
     required this.discount,
     required this.category,
-    required this.productWeight,
+    required this.averageReview,
+    required this.totalReviews,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'],
       title: json['title'],
-      slug: json['slug'] ?? '', // Assuming slug can be empty
-      thumbnailImage: json['thumbnail_image'] ?? '',
-      price: double.tryParse(json['price'].toString()) ?? 0.0,
-      discount: double.tryParse(json['discount'].toString()) ?? 0.0,
+      slug: json['slug'],
+      thumbnailImage: json['thumbnail_image'],
+      price: json['price'],
+      discount: json['discount'].toDouble(),
       category: ProductCategory.fromJson(json['category']),
-      productWeight: json['product_weight'],
+      averageReview: json['average_review'].toDouble(),
+      totalReviews: json['total_reviews'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'slug': slug,
+      'thumbnail_image': thumbnailImage,
+      'price': price,
+      'discount': discount,
+      'category': category.toJson(),
+      'average_review': averageReview,
+      'total_reviews': totalReviews,
+    };
+  }
+}
+
+class ProductWeight {
+  final int id;
+  final String name;
+  final double price;
+
+  ProductWeight({
+    required this.id,
+    required this.name,
+    required this.price,
+  });
+
+  factory ProductWeight.fromJson(Map<String, dynamic> json) {
+    return ProductWeight(
+      id: json['id'],
+      name: json['name'],
+      price: json['price'].toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+    };
   }
 }
 
@@ -60,7 +114,7 @@ class CartItem {
   final int id;
   final Product product;
   final int quantity;
-  final dynamic productWeight;
+  final ProductWeight productWeight;
 
   CartItem({
     required this.id,
@@ -74,7 +128,54 @@ class CartItem {
       id: json['id'],
       product: Product.fromJson(json['product']),
       quantity: json['quantity'],
-      productWeight: json['product_weight'],
+      productWeight: ProductWeight.fromJson(json['product_weight']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'product': product.toJson(),
+      'quantity': quantity,
+      'product_weight': productWeight.toJson(),
+    };
+  }
+}
+
+class Cart {
+  final List<CartItem> cartItems;
+  final double totalPrice;
+  final double discountPrice;
+  final double shippingCharges;
+  final double subTotal;
+
+  Cart({
+    required this.cartItems,
+    required this.totalPrice,
+    required this.discountPrice,
+    required this.shippingCharges,
+    required this.subTotal,
+  });
+
+  factory Cart.fromJson(Map<String, dynamic> json) {
+    return Cart(
+      cartItems: (json['cart_items'] as List)
+          .map((item) => CartItem.fromJson(item))
+          .toList(),
+      totalPrice: json['total_price'].toDouble(),
+      discountPrice: json['discount_price'].toDouble(),
+      shippingCharges: json['shipping_charges'].toDouble(),
+      subTotal: json['sub_total'].toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'cart_items': cartItems.map((item) => item.toJson()).toList(),
+      'total_price': totalPrice,
+      'discount_price': discountPrice,
+      'shipping_charges': shippingCharges,
+      'sub_total': subTotal,
+    };
   }
 }

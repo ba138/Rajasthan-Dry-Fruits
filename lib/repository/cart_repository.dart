@@ -7,13 +7,13 @@ import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
 class CartRepository extends ChangeNotifier {
-  List<Map<String, dynamic>> cartList = [];
-  // List<ProductCategory> cartList2 = [];
   List<ProductCategory> productCategories = [];
-
   List<Product> cartProducts = [];
   List<CartItem> cartItems = [];
   double totalPrice = 0;
+  double discountPrice = 0;
+  double shippingCharges = 0;
+  double subTotal = 0;
 
   Future<void> getCachedProducts(BuildContext context, String token) async {
     try {
@@ -26,20 +26,27 @@ class CartRepository extends ChangeNotifier {
       };
 
       var response = await http.get(url, headers: headers);
+      debugPrint("this is the response of the cart: ${response.body}");
       if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body) as List<dynamic>;
-        productCategories = jsonResponse
+        var jsonResponse = jsonDecode(response.body);
+
+        var cartItemsJson = jsonResponse['cart_items'] as List<dynamic>;
+
+        productCategories = cartItemsJson
             .map(
                 (item) => ProductCategory.fromJson(item['product']['category']))
             .toList();
-        cartProducts = jsonResponse
+        cartProducts = cartItemsJson
             .map((item) => Product.fromJson(item['product']))
             .toList();
         cartItems =
-            jsonResponse.map((item) => CartItem.fromJson(item)).toList();
-        debugPrint('${response.statusCode}');
+            cartItemsJson.map((item) => CartItem.fromJson(item)).toList();
 
-        calculateTotalPrice();
+        totalPrice = jsonResponse['total_price'].toDouble();
+        discountPrice = jsonResponse['discount_price'].toDouble();
+        shippingCharges = jsonResponse['shipping_charges'].toDouble();
+        subTotal = jsonResponse['sub_total'].toDouble();
+
         notifyListeners();
       } else {
         throw Exception('Failed to load cart items');
@@ -144,7 +151,8 @@ class CartRepository extends ChangeNotifier {
     double totalPrice = 0.0;
 
     for (var cartItem in cartItems) {
-      totalPrice += cartItem.product.price * cartItem.quantity;
+      double productPrice = double.tryParse(cartItem.product.price) ?? 0.0;
+      totalPrice += (productPrice * cartItem.quantity);
     }
 
     this.totalPrice = totalPrice;

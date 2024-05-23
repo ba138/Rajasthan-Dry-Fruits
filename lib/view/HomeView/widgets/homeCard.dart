@@ -111,7 +111,7 @@ class _HomeCardState extends State<HomeCard> {
       truncatedTitle = '${truncatedTitle.substring(0, 8)}...';
     }
     return Container(
-      height: 230,
+      height: MediaQuery.of(context).size.height / 3,
       width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
@@ -235,6 +235,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
               ],
             ),
+            VerticalSpeacing(8),
             widget.image == null
                 ? Container(
                     height: 85,

@@ -74,7 +74,7 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  childAspectRatio: (180 / 250),
+                  childAspectRatio: (180 / 255),
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(

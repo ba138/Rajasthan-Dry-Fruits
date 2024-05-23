@@ -14,10 +14,12 @@ class SplashServices {
     getUserData().then((value) {
       if (value.key.isEmpty || value.key == '') {
         Future.delayed(const Duration(seconds: 3));
-        Navigator.pushNamed(context, RoutesName.onboarding1);
+        Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.onboarding1, (route) => false);
       } else {
         Future.delayed(const Duration(seconds: 5));
-        Navigator.pushNamed(context, RoutesName.dashboard);
+        Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.dashboard, (route) => false);
       }
     }).onError((error, stackTrace) {
       if (kDebugMode) {
