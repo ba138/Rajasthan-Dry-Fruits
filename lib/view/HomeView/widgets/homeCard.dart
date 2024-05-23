@@ -235,7 +235,7 @@ class _HomeCardState extends State<HomeCard> {
                 ),
               ],
             ),
-            VerticalSpeacing(8),
+            const VerticalSpeacing(8),
             widget.image == null
                 ? Container(
                     height: 85,
