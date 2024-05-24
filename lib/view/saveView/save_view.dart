@@ -62,7 +62,7 @@ class _SaveViewState extends State<SaveView> {
                           color: Colors.transparent,
                         ),
                       ),
-                      const SizedBox(width: 80.0),
+                      const SizedBox(width: 70.0),
                       Text(
                         'Save Items',
                         style: GoogleFonts.getFont(

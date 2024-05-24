@@ -41,7 +41,7 @@ class DisCountProd extends StatelessWidget {
                           color: AppColor.appBarTxColor,
                         ),
                       ),
-                      const SizedBox(width: 80.0),
+                      const SizedBox(width: 60.0),
                       Text(
                         'Discount Products',
                         style: GoogleFonts.getFont(

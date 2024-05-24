@@ -112,7 +112,7 @@ class _HomeCardState extends State<HomeCard> {
     }
     return Container(
       // height: MediaQuery.of(context).size.height / 3,
-      width: 180,
+      // width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: AppColor.primaryColor, width: 2),
