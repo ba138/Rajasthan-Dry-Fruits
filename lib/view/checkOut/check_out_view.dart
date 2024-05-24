@@ -17,6 +17,7 @@ import '../../utils/routes/routes_name.dart';
 import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
+import '../../view_model/cart_view_model.dart';
 import '../../view_model/user_view_model.dart';
 
 // ignore: must_be_immutable
@@ -145,6 +146,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     Utils.toastMessage('External wallet: ${response.walletName}');
   }
 
+  double totalPrice = 0.0;
   @override
   void initState() {
     super.initState();
@@ -152,6 +154,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    totalPrice = double.parse(widget.totalPrice.toString());
   }
 
   int selectedContainerIndex =
@@ -165,6 +168,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final shipCharge = Provider.of<CartRepositoryProvider>(context);
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -315,11 +320,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             builder: (context, provider, child) => InkWell(
                               onTap: () {
                                 provider.updateSelection(0);
-                                print(
-                                    "Selected ship rocket type: ${provider.selectedShippingType}");
+                                setState(() {
+                                  selectedContainerIndex = 0;
+                                  totalPrice = (widget.totalPrice != null
+                                          ? double.parse(widget.totalPrice!)
+                                          : 0.0) +
+                                      shipCharge.cartRepositoryProvider
+                                          .shipRocketCharges;
+                                });
                               },
                               child: Container(
-                                height: 66,
+                                height: 80,
                                 width: 135,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -356,6 +367,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             ),
                                           ),
                                         ),
+                                        Text(
+                                          "₹${shipCharge.cartRepositoryProvider.shipRocketCharges}",
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  provider.selectedContainerIndex ==
+                                                          0
+                                                      ? selectedTextColor
+                                                      : unselectedTextColor,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -369,11 +395,17 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             builder: (context, provider, child) => InkWell(
                               onTap: () {
                                 provider.updateSelection(1);
-                                print(
-                                    "Selected custom shipping type: ${provider.selectedShippingType}");
+                                setState(() {
+                                  selectedContainerIndex = 1;
+                                  totalPrice = (widget.totalPrice != null
+                                          ? double.parse(widget.totalPrice!)
+                                          : 0.0) +
+                                      shipCharge.cartRepositoryProvider
+                                          .customShippingCharges;
+                                });
                               },
                               child: Container(
-                                height: 66,
+                                height: 80,
                                 width: 135,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -410,6 +442,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             ),
                                           ),
                                         ),
+                                        Text(
+                                          "₹${shipCharge.cartRepositoryProvider.customShippingCharges}",
+                                          style: GoogleFonts.getFont(
+                                            "Poppins",
+                                            textStyle: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  provider.selectedContainerIndex ==
+                                                          1
+                                                      ? selectedTextColor
+                                                      : unselectedTextColor,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -423,18 +470,31 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ],
                 ),
                 const VerticalSpeacing(50),
-                RoundedButton(
-                  title: "Proceed to Payment: ${widget.totalPrice}",
-                  onpress: () {
-                    if (selectedAddress.isEmpty) {
-                      print('.........>>>$selectedAddress............');
-                      Utils.toastMessage('please select the Address');
-                    } else {
-                      openCheckout(widget.totalPrice.toString());
-                      print('.........>>>$selectedAddress............');
-                    }
-                  },
-                ),
+                Consumer<ShippingProvider>(builder: (context, provider, child) {
+                  // double basePrice = widget.totalPrice != null
+                  //     ? double.parse(widget.totalPrice!)
+                  //     : 0.0;
+                  // double additionalCharges =
+                  //     provider.selectedContainerIndex == 1
+                  //         ? customShippingCharges
+                  //         : shipRocketCharges;
+                  // double totalPrice = basePrice + additionalCharges;
+                  // String formattedTotalPrice = totalPrice.toStringAsFixed(2);
+                  return RoundedButton(
+                    title: "Proceed to Payment: ₹$totalPrice",
+                    onpress: () {
+                      print("Proceed to Payment: ₹$totalPrice");
+                      // if (selectedAddress.isEmpty) {
+                      //   print('.........>>>$selectedAddress............');
+                      //   Utils.toastMessage('please select the Address');
+                      // } else {
+                      //   openCheckout(
+                      //       '${double.parse(widget.totalPrice.toString())}');
+                      //   print('.........>>>$selectedAddress............');
+                      // }
+                    },
+                  );
+                }),
                 const VerticalSpeacing(20),
               ],
             ),
