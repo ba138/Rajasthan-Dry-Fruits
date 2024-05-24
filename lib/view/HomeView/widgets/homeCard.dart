@@ -130,7 +130,6 @@ class _HomeCardState extends State<HomeCard> {
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,8 +262,8 @@ class _HomeCardState extends State<HomeCard> {
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                       color: AppColor.cardTxColor,
                     ),
                   ),
@@ -274,7 +273,7 @@ class _HomeCardState extends State<HomeCard> {
                     const Icon(
                       Icons.star,
                       color: AppColor.primaryColor,
-                      size: 20,
+                      size: 16,
                     ),
                     Text(
                       widget.averageReview,
