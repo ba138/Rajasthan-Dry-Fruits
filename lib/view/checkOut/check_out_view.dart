@@ -469,19 +469,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 ),
                 const VerticalSpeacing(50),
                 Consumer<ShippingProvider>(builder: (context, provider, child) {
-                  // double basePrice = widget.totalPrice != null
-                  //     ? double.parse(widget.totalPrice!)
-                  //     : 0.0;
-                  // double additionalCharges =
-                  //     provider.selectedContainerIndex == 1
-                  //         ? customShippingCharges
-                  //         : shipRocketCharges;
-                  // double totalPrice = basePrice + additionalCharges;
-                  // String formattedTotalPrice = totalPrice.toStringAsFixed(2);
                   return RoundedButton(
                     title: "Proceed to Payment: ₹$totalPrice",
                     onpress: () {
                       if (selectedAddress.isEmpty) {
+
+                        
                         Utils.toastMessage('please select the Address');
                       } else {
                         openCheckout('${double.parse(totalPrice.toString())}');
