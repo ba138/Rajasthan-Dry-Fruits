@@ -229,7 +229,7 @@ class _TrackOrderState extends State<TrackOrder> {
                       'TrackingId: ${addEllipsis(
                         trackOrder.trackOrderRepositoryProvider.trackingId
                             .toString(),
-                        35, // Maximum length before adding ellipsis
+                        30, // Maximum length before adding ellipsis
                       )}',
                       style: const TextStyle(
                         color: AppColor.textColor1,
@@ -272,17 +272,23 @@ class _TrackOrderState extends State<TrackOrder> {
                     itemCount: widget.orderDetailModel.orderItems.length,
                     separatorBuilder: (BuildContext context, int index) {
                       return const SizedBox(
-                          height: 16); // Adjust the height as needed
+                        height: 16,
+                      ); // Adjust the height as needed
                     },
                     itemBuilder: (context, index) {
                       final data =
                           widget.orderDetailModel.orderItems[index].product;
+                      final weight = widget.orderDetailModel.orderItems[index]
+                              .productWeight?.weight.name ??
+                          "1kg";
                       return ProductDetailsWidget(
                         img: data.thumbnailImage,
-                        title: data.title,
-                        subTitle: 'Form The Farmer',
-                        price:
-                            '${widget.orderDetailModel.orderItems[index].productWeight?.weight ?? "1"}KG',
+                        title: addEllipsis(
+                          data.title.toString(),
+                          12, // Maximum length before adding ellipsis
+                        ),
+                        subTitle: 'From The Farmer',
+                        price: weight.toString(),
                         productPrice: '₹${data.price.toString()}',
                         procustAverate:
                             '${widget.orderDetailModel.orderItems[index].qty}X',
@@ -292,6 +298,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     },
                   ),
                 ),
+
                 const VerticalSpeacing(20),
               ],
             ),

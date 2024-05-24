@@ -110,8 +110,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         if (apiResponse.statusCode == 201) {
           final provider =
               Provider.of<ShippingProvider>(context, listen: false);
-          print(
-              '.................Shipping Type ${provider.selectedShippingType}');
+
           Utils.toastMessage('Payment Successfully Done');
 
           Navigator.pushNamed(
@@ -457,8 +456,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     // Store the selected address in shared preferences
                                     await _storeSelectedAddress(address);
                                     selectedAddress = address;
-                                    print(
-                                        '.........>>>$selectedAddress............');
                                   },
                                 ),
                                 const VerticalSpeacing(20),
@@ -484,15 +481,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   return RoundedButton(
                     title: "Proceed to Payment: ₹$totalPrice",
                     onpress: () {
-                      print("Proceed to Payment: ₹$totalPrice");
-                      // if (selectedAddress.isEmpty) {
-                      //   print('.........>>>$selectedAddress............');
-                      //   Utils.toastMessage('please select the Address');
-                      // } else {
-                      //   openCheckout(
-                      //       '${double.parse(widget.totalPrice.toString())}');
-                      //   print('.........>>>$selectedAddress............');
-                      // }
+                      if (selectedAddress.isEmpty) {
+                        Utils.toastMessage('please select the Address');
+                      } else {
+                        openCheckout('${double.parse(totalPrice.toString())}');
+                      }
                     },
                   );
                 }),
