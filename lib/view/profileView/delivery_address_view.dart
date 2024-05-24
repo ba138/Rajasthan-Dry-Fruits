@@ -23,6 +23,7 @@ class DeliveryAddressScreen extends StatelessWidget {
         ),
         centerTitle: true,
         elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Text(
           "Delivery Address",
           style: GoogleFonts.getFont(
@@ -35,79 +36,77 @@ class DeliveryAddressScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: AppColor.whiteColor,
-            image: DecorationImage(
-              image: AssetImage("images/bgimg.png"),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          color: AppColor.whiteColor,
+          image: DecorationImage(
+            image: AssetImage("images/bgimg.png"),
+            fit: BoxFit.cover,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Select delivery address",
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Select delivery address",
+                    style: GoogleFonts.getFont(
+                      "Poppins",
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.textColor1,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const AddAddresScreen(totalAmount: '50');
+                      }));
+                    },
+                    child: Text(
+                      "Add New",
                       style: GoogleFonts.getFont(
                         "Poppins",
                         textStyle: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: AppColor.textColor1,
+                          color: AppColor.primaryColor,
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const AddAddresScreen(totalAmount: '50');
-                        }));
-                      },
-                      child: Text(
-                        "Add New",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const VerticalSpeacing(12),
-                AddressCheckOutWidget(
-                  bgColor: AppColor.whiteColor,
-                  borderColor: AppColor.primaryColor,
-                  titleColor: AppColor.primaryColor,
-                  title: "Home Address",
-                  phNo: "(309) 071-9396-939",
-                  address: "Delhi  India",
-                  onpress: () {},
-                ),
-                const VerticalSpeacing(20),
-                AddressCheckOutWidget(
-                  bgColor: AppColor.whiteColor,
-                  borderColor: AppColor.primaryColor,
-                  titleColor: AppColor.textColor1,
-                  title: "Office Address",
-                  phNo: "(309) 071-9396-939",
-                  address: "Delhi  India",
-                  onpress: () {},
-                ),
-                const VerticalSpeacing(24),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              const VerticalSpeacing(12),
+              AddressCheckOutWidget(
+                bgColor: AppColor.whiteColor,
+                borderColor: AppColor.primaryColor,
+                titleColor: AppColor.primaryColor,
+                title: "Home Address",
+                phNo: "(309) 071-9396-939",
+                address: "Delhi  India",
+                onpress: () {},
+              ),
+              const VerticalSpeacing(20),
+              AddressCheckOutWidget(
+                bgColor: AppColor.whiteColor,
+                borderColor: AppColor.primaryColor,
+                titleColor: AppColor.textColor1,
+                title: "Office Address",
+                phNo: "(309) 071-9396-939",
+                address: "Delhi  India",
+                onpress: () {},
+              ),
+              const VerticalSpeacing(24),
+            ],
           ),
         ),
       ),

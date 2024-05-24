@@ -216,85 +216,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ),
                   ],
                 ),
-                const VerticalSpeacing(20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Select delivery address",
-                      style: GoogleFonts.getFont(
-                        "Poppins",
-                        textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.textColor1,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return AddAddresScreen(
-                            totalAmount: widget.totalPrice.toString(),
-                          );
-                        }));
-                      },
-                      child: Text(
-                        "Add New",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const VerticalSpeacing(12),
-                FutureBuilder<List<Map<String, dynamic>>>(
-                  future: _getCachedAddresses(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        List<Map<String, dynamic>> addresses =
-                            snapshot.data as List<Map<String, dynamic>>;
-                        return Column(
-                          children: addresses.map((address) {
-                            return Column(
-                              children: [
-                                AddressCheckOutWidget(
-                                  bgColor: AppColor.whiteColor,
-                                  borderColor: AppColor.primaryColor,
-                                  titleColor: AppColor.primaryColor,
-                                  title: address['fullName'] ?? '',
-                                  phNo: address['phone'] ?? '',
-                                  address:
-                                      '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''}',
-                                  onpress: () async {
-                                    // Store the selected address in shared preferences
-                                    await _storeSelectedAddress(address);
-                                    selectedAddress = address;
-                                    print(
-                                        '.........>>>$selectedAddress............');
-                                  },
-                                ),
-                                const VerticalSpeacing(20),
-                              ],
-                            );
-                          }).toList(),
-                        );
-                      }
-                    }
-                  },
-                ),
                 const VerticalSpeacing(20.0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -389,6 +310,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               ),
                             ),
                           ),
+
                           const SizedBox(width: 20.0),
                           // Custom shipping
                           Consumer<ShippingProvider>(
@@ -468,6 +390,85 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       ),
                     ),
                   ],
+                ),
+                const VerticalSpeacing(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Select delivery address",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.textColor1,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AddAddresScreen(
+                            totalAmount: widget.totalPrice.toString(),
+                          );
+                        }));
+                      },
+                      child: Text(
+                        "Add New",
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColor.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const VerticalSpeacing(12),
+                FutureBuilder<List<Map<String, dynamic>>>(
+                  future: _getCachedAddresses(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        List<Map<String, dynamic>> addresses =
+                            snapshot.data as List<Map<String, dynamic>>;
+                        return Column(
+                          children: addresses.map((address) {
+                            return Column(
+                              children: [
+                                AddressCheckOutWidget(
+                                  bgColor: AppColor.whiteColor,
+                                  borderColor: AppColor.primaryColor,
+                                  titleColor: AppColor.primaryColor,
+                                  title: address['fullName'] ?? '',
+                                  phNo: address['phone'] ?? '',
+                                  address:
+                                      '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''}',
+                                  onpress: () async {
+                                    // Store the selected address in shared preferences
+                                    await _storeSelectedAddress(address);
+                                    selectedAddress = address;
+                                    print(
+                                        '.........>>>$selectedAddress............');
+                                  },
+                                ),
+                                const VerticalSpeacing(20),
+                              ],
+                            );
+                          }).toList(),
+                        );
+                      }
+                    }
+                  },
                 ),
                 const VerticalSpeacing(50),
                 Consumer<ShippingProvider>(builder: (context, provider, child) {
