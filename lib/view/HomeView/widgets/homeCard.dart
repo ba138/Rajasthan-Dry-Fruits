@@ -247,8 +247,8 @@ class _HomeCardState extends State<HomeCard> {
                     ),
                   )
                 : Container(
-                    height: MediaQuery.of(context).size.width / 5,
-                    width: MediaQuery.of(context).size.width / 3,
+                    height: MediaQuery.of(context).size.width / 4.8,
+                    width: MediaQuery.of(context).size.width / 2.4,
                     decoration: BoxDecoration(
                       image:
                           DecorationImage(image: NetworkImage(widget.image!)),
