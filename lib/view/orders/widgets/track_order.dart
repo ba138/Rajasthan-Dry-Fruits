@@ -226,7 +226,11 @@ class _TrackOrderState extends State<TrackOrder> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'TrackingId: ${trackOrder.trackOrderRepositoryProvider.trackingId}',
+                      'TrackingId: ${addEllipsis(
+                        trackOrder.trackOrderRepositoryProvider.trackingId
+                            .toString(),
+                        35, // Maximum length before adding ellipsis
+                      )}',
                       style: const TextStyle(
                         color: AppColor.textColor1,
                         fontWeight: FontWeight.w600,
@@ -278,7 +282,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         title: data.title,
                         subTitle: 'Form The Farmer',
                         price:
-                            '${widget.orderDetailModel.orderItems[0].productWeight?.weight ?? "null"}KG',
+                            '${widget.orderDetailModel.orderItems[index].productWeight?.weight ?? "1"}KG',
                         productPrice: '₹${data.price.toString()}',
                         procustAverate:
                             '${widget.orderDetailModel.orderItems[index].qty}X',
