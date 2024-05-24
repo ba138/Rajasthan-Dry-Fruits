@@ -26,6 +26,7 @@ class DeliveryAddressScreen extends StatelessWidget {
         ),
         centerTitle: true,
         elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Text(
           "Delivery Address",
           style: GoogleFonts.getFont(
@@ -38,6 +39,7 @@ class DeliveryAddressScreen extends StatelessWidget {
           ),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         child: FutureBuilder<List<Map<String, dynamic>>>(
