@@ -12,7 +12,9 @@ class CartRepository extends ChangeNotifier {
   List<CartItem> cartItems = [];
   double totalPrice = 0;
   double discountPrice = 0;
-  double shippingCharges = 0;
+  double shipRocketCharges = 0;
+  double customShippingCharges = 0;
+
   double subTotal = 0;
 
   Future<void> getCachedProducts(BuildContext context, String token) async {
@@ -44,8 +46,11 @@ class CartRepository extends ChangeNotifier {
 
         totalPrice = jsonResponse['total_price'].toDouble();
         discountPrice = jsonResponse['discount_price'].toDouble();
-        shippingCharges = jsonResponse['shipping_charges'].toDouble();
+        shipRocketCharges =
+            jsonResponse['shiprocket_shipping_charges'].toDouble();
         subTotal = jsonResponse['sub_total'].toDouble();
+        customShippingCharges =
+            jsonResponse['custom_shipping_charges'].toDouble();
 
         notifyListeners();
       } else {
