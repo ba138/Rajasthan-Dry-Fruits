@@ -146,27 +146,29 @@ class Cart {
   final List<CartItem> cartItems;
   final double totalPrice;
   final double discountPrice;
-  final double shippingCharges;
+  final double shiprocketshippingcharges;
   final double subTotal;
-
+  final double customShippingCharge;
   Cart({
     required this.cartItems,
     required this.totalPrice,
     required this.discountPrice,
-    required this.shippingCharges,
+    required this.shiprocketshippingcharges,
     required this.subTotal,
+    required this.customShippingCharge,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
-      cartItems: (json['cart_items'] as List)
-          .map((item) => CartItem.fromJson(item))
-          .toList(),
-      totalPrice: json['total_price'].toDouble(),
-      discountPrice: json['discount_price'].toDouble(),
-      shippingCharges: json['shipping_charges'].toDouble(),
-      subTotal: json['sub_total'].toDouble(),
-    );
+        cartItems: (json['cart_items'] as List)
+            .map((item) => CartItem.fromJson(item))
+            .toList(),
+        totalPrice: json['total_price'].toDouble(),
+        discountPrice: json['discount_price'].toDouble(),
+        shiprocketshippingcharges:
+            json['shiprocket_shipping_charges'].toDouble(),
+        subTotal: json['sub_total'].toDouble(),
+        customShippingCharge: json['custom_shipping_charges'].toDouble());
   }
 
   Map<String, dynamic> toJson() {
@@ -174,8 +176,9 @@ class Cart {
       'cart_items': cartItems.map((item) => item.toJson()).toList(),
       'total_price': totalPrice,
       'discount_price': discountPrice,
-      'shipping_charges': shippingCharges,
+      'shiprocket_shipping_charges': shiprocketshippingcharges,
       'sub_total': subTotal,
+      'custom_shipping_charges': customShippingCharge,
     };
   }
 }

@@ -62,7 +62,7 @@ class _DefaultSectionState extends State<DefaultSection> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  childAspectRatio: (180 / 250),
+                  childAspectRatio: (180 / 255),
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(
@@ -147,7 +147,7 @@ class _DefaultSectionState extends State<DefaultSection> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  childAspectRatio: (180 / 250),
+                  childAspectRatio: (180 / 255),
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(
@@ -168,7 +168,7 @@ class _DefaultSectionState extends State<DefaultSection> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  childAspectRatio: (180 / 260),
+                  childAspectRatio: (180 / 255),
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(
@@ -233,7 +233,7 @@ class _DefaultSectionState extends State<DefaultSection> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   crossAxisCount: 2,
-                  childAspectRatio: (180 / 230),
+                  childAspectRatio: (180 / 260),
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(

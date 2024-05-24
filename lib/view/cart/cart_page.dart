@@ -209,7 +209,7 @@ class _CartViewState extends State<CartView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    "DELIVERY CHARGE",
+                                    "Discount Price",
                                     style: TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -218,7 +218,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '₹${cartProvider.cartRepositoryProvider.shippingCharges.toStringAsFixed(2)}',
+                                    '₹${cartProvider.cartRepositoryProvider.discountPrice.toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -248,7 +248,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '₹${double.parse(cartProvider.calculateTotalPrice()) + cartProvider.cartRepositoryProvider.shippingCharges}',
+                                    '₹${double.parse(cartProvider.calculateTotalPrice())}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -272,11 +272,8 @@ class _CartViewState extends State<CartView> {
                                         MaterialPageRoute(builder: (context) {
                                       return CheckOutScreen(
                                         totalPrice: (cartProvider
-                                                    .cartRepositoryProvider
-                                                    .totalPrice +
-                                                cartProvider
-                                                    .cartRepositoryProvider
-                                                    .shippingCharges)
+                                                .cartRepositoryProvider
+                                                .totalPrice)
                                             .toStringAsFixed(2),
                                       );
                                     }));
@@ -306,7 +303,7 @@ class _CartViewState extends State<CartView> {
                                         ]),
                                     child: Center(
                                       child: Text(
-                                        "Proceed to CheckOut : ₹${double.parse(cartProvider.calculateTotalPrice()) + cartProvider.cartRepositoryProvider.shippingCharges}",
+                                        "Proceed to CheckOut : ₹${double.parse(cartProvider.calculateTotalPrice())}",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(

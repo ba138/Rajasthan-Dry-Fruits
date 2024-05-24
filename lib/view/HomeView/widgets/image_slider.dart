@@ -96,21 +96,33 @@ class _ImageSliderState extends State<ImageSlider> {
                   child: Center(
                     child: InkWell(
                       onTap: () async {
+                        debugPrint("button is pressed");
+
+                        // Fetch user token
                         final userModel = await userPreferences.getUser();
                         final token = userModel.key;
 
-                        saveRepo.saveRepository
+                        // Get cached products
+                        await saveRepo.saveRepository
                             .getCachedProducts(context, token);
 
                         String? deleteId;
+
+                        // Check if the product exists in the saved list
                         if (saveRepo.saveRepository.saveList.isNotEmpty) {
                           final itemToDelete =
                               saveRepo.saveRepository.saveList.firstWhere(
                             (item) => item["product"]["id"] == widget.id,
+                            orElse: () => <String,
+                                dynamic>{}, // Return an empty map if not found
                           );
-                          deleteId = itemToDelete["id"].toString();
+
+                          if (itemToDelete.isNotEmpty) {
+                            deleteId = itemToDelete["id"].toString();
+                          }
                         }
 
+                        // Delete the product if it exists, otherwise save the product
                         if (deleteId != null) {
                           await saveRepo.deleteProduct(
                               deleteId, context, token);
@@ -144,7 +156,7 @@ class _ImageSliderState extends State<ImageSlider> {
           ),
           widget.listImage.isEmpty
               ? Container(
-                  height: 150,
+                  height: 170,
                   width: 250,
                   decoration: BoxDecoration(
                     image: DecorationImage(
