@@ -18,7 +18,7 @@ class CartButton extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 30.0,
+        height: MediaQuery.of(context).size.height / 28,
         width: 80.0,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30.0),

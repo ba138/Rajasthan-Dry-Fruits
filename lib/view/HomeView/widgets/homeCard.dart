@@ -136,10 +136,10 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 widget.isdiscount
                     ? Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
+                        height: MediaQuery.of(context).size.height / 26,
+                        width: MediaQuery.of(context).size.width / 10,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
                           color: AppColor.cartDiscountColor,
                         ),
                         child: Center(
@@ -190,10 +190,10 @@ class _HomeCardState extends State<HomeCard> {
                             decrement();
                           },
                           child: Container(
-                            height: 18,
-                            width: 18,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
+                            height: MediaQuery.of(context).size.height / 10,
+                            width: MediaQuery.of(context).size.width / 18,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
                               color: AppColor.whiteColor,
                             ),
                             child: const Center(
@@ -214,10 +214,10 @@ class _HomeCardState extends State<HomeCard> {
                             increament();
                           },
                           child: Container(
-                            height: 18,
-                            width: 18,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.0),
+                            height: MediaQuery.of(context).size.height / 10,
+                            width: MediaQuery.of(context).size.width / 18,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
                               color: AppColor.whiteColor,
                             ),
                             child: const Center(
@@ -247,8 +247,8 @@ class _HomeCardState extends State<HomeCard> {
                     ),
                   )
                 : Container(
-                    height: 85,
-                    width: 145,
+                    height: MediaQuery.of(context).size.width / 5,
+                    width: MediaQuery.of(context).size.width / 3,
                     decoration: BoxDecoration(
                       image:
                           DecorationImage(image: NetworkImage(widget.image!)),
@@ -262,8 +262,8 @@ class _HomeCardState extends State<HomeCard> {
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                       color: AppColor.cardTxColor,
                     ),
                   ),
@@ -273,7 +273,7 @@ class _HomeCardState extends State<HomeCard> {
                     const Icon(
                       Icons.star,
                       color: AppColor.primaryColor,
-                      size: 20,
+                      size: 16,
                     ),
                     Text(
                       widget.averageReview,
@@ -338,10 +338,10 @@ class _HomeCardState extends State<HomeCard> {
                         context);
                   },
                   child: Container(
-                    height: 37,
-                    width: 37,
+                    height: MediaQuery.of(context).size.height / 21,
+                    width: MediaQuery.of(context).size.width / 10,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(19),
+                        shape: BoxShape.circle,
                         color: AppColor.primaryColor,
                         boxShadow: [
                           BoxShadow(
@@ -374,7 +374,6 @@ class _HomeCardState extends State<HomeCard> {
                     text: 'View'),
               ],
             ),
-            const VerticalSpeacing(8),
           ],
         ),
       ),

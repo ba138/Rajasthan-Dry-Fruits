@@ -143,35 +143,6 @@ class _TrackOrderState extends State<TrackOrder> {
                         color: AppColor.blackColor,
                       ),
                     ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     Navigator.pushNamed(
-                    //       context,
-                    //       RoutesName.cancelOrder,
-                    //     );
-                    //   },
-                    //   child: Container(
-                    //     height: 32,
-                    //     width: 85,
-                    //     decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(30.0),
-                    //       color: AppColor.primaryColor,
-                    //     ),
-                    //     child: const Padding(
-                    //       padding: EdgeInsets.all(2.0),
-                    //       child: Center(
-                    //         child: Text(
-                    //           'Cancel order',
-                    //           style: TextStyle(
-                    //             color: AppColor.whiteColor,
-                    //             fontWeight: FontWeight.w400,
-                    //             fontSize: 12.0,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
                 OrderTracker(
