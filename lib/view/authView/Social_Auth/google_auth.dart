@@ -21,10 +21,12 @@ class GoogleAuthButton extends StatefulWidget {
 
 class _GoogleAuthButtonState extends State<GoogleAuthButton> {
   bool _isLoading = false;
+
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
-      'email', // Request basic profile information (email is common)
-      // Add other required scopes based on your API needs
+      'email',
+      'profile',
+      'openid',
     ],
   );
 
@@ -48,6 +50,8 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       // Step 2: Obtain the auth token
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+      debugPrint('access Token:${googleAuth.accessToken}');
+      debugPrint('Id Token:${googleAuth.idToken}');
 
       // Step 3: Prepare the request body using GoogleAuthModel
       final GoogleAuthModel authData = GoogleAuthModel(
@@ -67,7 +71,7 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
         },
         body: googleAuthModelToJson(authData),
       );
-
+      debugPrint('Status code:${response.statusCode}');
       // Step 5: Handle the response from your backend
       if (response.statusCode == 200) {
         // Authentication successful
