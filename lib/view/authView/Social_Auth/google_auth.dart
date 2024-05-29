@@ -1,16 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../model/google_auth_model.dart';
 import '../../../res/components/colors.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../utils/routes/utils.dart';
-
-// Import your GoogleAuthModel here
 
 class GoogleAuthButton extends StatefulWidget {
   const GoogleAuthButton({super.key});
@@ -20,6 +17,117 @@ class GoogleAuthButton extends StatefulWidget {
 }
 
 class _GoogleAuthButtonState extends State<GoogleAuthButton> {
+  // final GoogleSignIn _googleSignIn = GoogleSignIn(
+  //   clientId:
+  //       '176072233182-hhg6ae8thrbu73eeukr7rd51el9iugec.apps.googleusercontent.com',
+  //   scopes: [
+  //     'email',
+  //     'profile',
+  //     'openid',
+  //   ],
+  // );
+
+  // bool _isLoading = false;
+
+  Future<void> afterLoginSuccess(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', key);
+  }
+
+  // void setLoading(bool value) {
+  //   setState(() {
+  //     _isLoading = value;
+  //   });
+  // }
+
+  // Future<void> _authenticateWithGoogle(BuildContext context) async {
+  //   setLoading(true);
+
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+  //     if (googleUser == null) {
+  //       setLoading(false);
+  //       return;
+  //     }
+
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+  //     debugPrint('Access Token: ${googleAuth.accessToken}');
+  //     debugPrint('ID Token: ${googleAuth.idToken}');
+
+  //     final Map<String, String> authData = {
+  //       'access_token': googleAuth.accessToken ?? '',
+  //       'code': '',
+  //       'id_token': googleAuth.idToken ?? '',
+  //     };
+
+  //     final response = await http.post(
+  //       Uri.parse('http://103.117.180.187/api/accounts/google/login/'),
+  //       headers: {
+  //         'accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //         'X-CSRFToken':
+  //             '7X8yHQkwHc5IjVH5xZXk41gEzjg2EKQJU1WGKNebZinArN2t54gpSmKrA4HQA1gM',
+  //       },
+  //       body: jsonEncode(authData),
+  //     );
+
+  //     debugPrint('Response Status: ${response.statusCode}');
+  //     debugPrint('Response Body: ${response.body}');
+
+  //     if (response.statusCode == 200) {
+  //       try {
+  //         final responseBody = json.decode(response.body);
+  //         String? userKey = responseBody['key'];
+
+  //         if (userKey != null && userKey.isNotEmpty) {
+  //           await afterLoginSuccess(userKey);
+  //           Utils.toastMessage('Successfully logged in with Google');
+  //           Navigator.pushReplacementNamed(context, RoutesName.dashboard);
+  //         } else {
+  //           throw Exception('Token is missing in the response');
+  //         }
+  //       } catch (e) {
+  //         debugPrint('Error decoding response: $e');
+  //         Utils.flushBarErrorMessage('Error decoding response: $e', context);
+  //       }
+  //     } else {
+  //       _handleErrorResponse(response, context);
+  //     }
+  //   } catch (error) {
+  //     debugPrint('Error signing in with Google: $error');
+  //     Utils.flushBarErrorMessage(
+  //         'Error signing in with Google: $error', context);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
+
+  // void _handleErrorResponse(http.Response response, BuildContext context) {
+  //   debugPrint('Failed Response Body: ${response.body}');
+  //   if (response.headers['content-type']?.contains('application/json') ==
+  //       true) {
+  //     try {
+  //       final errorData = json.decode(response.body);
+  //       Utils.flushBarErrorMessage(
+  //         'Failed to login with Google: ${response.statusCode} - ${errorData['message'] ?? 'Unknown error'}',
+  //         context,
+  //       );
+  //     } catch (e) {
+  //       debugPrint('Error decoding error response: $e');
+  //       Utils.flushBarErrorMessage(
+  //         'Failed to login with Google: ${response.statusCode} - Unexpected error format',
+  //         context,
+  //       );
+  //     }
+  //   } else {
+  //     Utils.flushBarErrorMessage(
+  //       'Failed to login with Google: ${response.statusCode} - Non-JSON response received',
+  //       context,
+  //     );
+  //   }
+  // }
   bool _isLoading = false;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -74,6 +182,16 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       debugPrint('Status code:${response.statusCode}');
       // Step 5: Handle the response from your backend
       if (response.statusCode == 200) {
+        final responseBody = json.decode(response.body);
+        String? userKey = responseBody['key'];
+
+        if (userKey != null && userKey.isNotEmpty) {
+          await afterLoginSuccess(userKey);
+          Utils.toastMessage('Successfully logged in with Google');
+          Navigator.pushReplacementNamed(context, RoutesName.dashboard);
+        } else {
+          throw Exception('Token is missing in the response');
+        }
         // Authentication successful
         Utils.toastMessage('Successfully logged in with Google');
         // Implement user data saving logic from response data (replace with your logic)
@@ -103,10 +221,8 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        if (!_isLoading) {
-          _authenticateWithGoogle(context);
-        }
+      onTap: () async {
+        await _authenticateWithGoogle(context);
       },
       child: _isLoading
           ? const Center(
