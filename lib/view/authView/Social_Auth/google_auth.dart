@@ -183,7 +183,7 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       // Step 5: Handle the response from your backend
       if (response.statusCode == 200) {
         final responseBody = json.decode(response.body);
-        String? userKey = responseBody['key'];
+        String? userKey = responseBody['token'];
 
         if (userKey != null && userKey.isNotEmpty) {
           await afterLoginSuccess(userKey);
