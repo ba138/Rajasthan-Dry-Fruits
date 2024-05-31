@@ -108,8 +108,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         print('API Response Status Code: ${apiResponse.statusCode}');
 
         if (apiResponse.statusCode == 201) {
-          final provider =
-              Provider.of<ShippingProvider>(context, listen: false);
+          // final provider =
+          //     Provider.of<ShippingProvider>(context, listen: false);
 
           Utils.toastMessage('Payment Successfully Done');
 
@@ -473,8 +473,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     title: "Proceed to Payment: ₹$totalPrice",
                     onpress: () {
                       if (selectedAddress.isEmpty) {
-
-                        
                         Utils.toastMessage('please select the Address');
                       } else {
                         openCheckout('${double.parse(totalPrice.toString())}');
