@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
-import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeliveryAddressScreen extends StatelessWidget {
@@ -39,7 +38,6 @@ class DeliveryAddressScreen extends StatelessWidget {
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         child: FutureBuilder<List<Map<String, dynamic>>>(
