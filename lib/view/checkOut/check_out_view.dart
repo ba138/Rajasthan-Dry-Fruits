@@ -51,7 +51,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   void openCheckout(String amount) {
     int amountInPaise = (double.parse(amount) * 100).toInt();
     var options = {
-      "key": "rzp_test_Jg802qU7X2QjKh",
+      "key": "rzp_test_kkUIxwpbhcs1td",
       "amount": amountInPaise,
       "name": 'Rajistan_dry_fruit',
       "description": 'for T-shirt',
@@ -87,12 +87,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "contact": selectedAddress['phone'],
         "postal_code": selectedAddress['zipCode'],
         "address": selectedAddress['address'],
+        "address_label": 'home',
         "city": selectedAddress['city'],
         "state": selectedAddress['state'],
         "country": "USA",
         "payment_type": "online",
         "shipment_type": provider.selectedShippingType,
+        "service_type": 'normal'
       };
+
       // provider.selectedShippingType
       print('..............required data: $requestData............');
 
@@ -108,7 +111,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           'accept': 'application/json',
           'Content-Type': 'application/json',
           'X-CSRFToken':
-              'kVkAd4GoV0CSQ4zfGvhKOo5Q93I8QR2jXNwylIuqdn1BTIVuWKMnYCRGNP5JahMY',
+              'tzQpa32OkgZ9J10JLis380SJQ2IidQIRgDExd0WtCmh1RTl7jnL8WlmwRN96978U',
           'authorization': 'Token $token',
         };
 
