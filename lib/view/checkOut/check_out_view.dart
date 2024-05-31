@@ -31,8 +31,22 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
+  static const menuItems = <String>[
+    'Normal',
+    'Fast',
+  ];
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
+      .map(
+        (String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
+
   late Map<String, dynamic> selectedAddress = {};
   late Razorpay _razorPay;
+  String _btn2SelectedVal = "Normal";
 
   void openCheckout(String amount) {
     int amountInPaise = (double.parse(amount) * 100).toInt();
@@ -219,6 +233,47 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      "Service Type",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.blackColor,
+                        ),
+                      ),
+                    ),
+                    const VerticalSpeacing(10.0),
+                    Container(
+                      height: 38,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                            4.0), // Adjust border radius as needed
+                        border: Border.all(
+                          color: AppColor.primaryColor, // Specify border color
+                          width: 1.0, // Specify border width
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8,
+                        ),
+                        child: DropdownButton(
+                          isExpanded: true,
+                          underline: const SizedBox(),
+                          value: _btn2SelectedVal,
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              setState(() => _btn2SelectedVal = newValue);
+                            }
+                          },
+                          items: _dropDownMenuItems,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20.0),
                     Text(
                       "Select shipment type",
                       style: GoogleFonts.getFont(
