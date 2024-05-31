@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import '../../../model/user_model.dart';
 import '../../../res/components/colors.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../utils/routes/utils.dart';
+import '../../../view_model/user_view_model.dart';
 
 class GoogleAuthButton extends StatefulWidget {
   const GoogleAuthButton({super.key});
@@ -25,96 +27,6 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       'openid',
     ],
   );
-
-  // Future<void> _authenticateWithGoogle(BuildContext context) async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-
-  //   try {
-  //     // Step 1: Start the Google sign-in process
-  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-  //     if (googleUser == null) {
-  //       // User cancelled the sign-in
-  //       setState(() {
-  //         _isLoading = false;
-  //       });
-  //       return;
-  //     }
-
-  //     // Step 2: Obtain the auth token
-  //     final GoogleSignInAuthentication googleAuth =
-  //         await googleUser.authentication;
-  //     debugPrint('Access Token: ${googleAuth.accessToken}');
-  //     debugPrint('ID Token: ${googleAuth.idToken}');
-
-  //     // Step 3: Prepare the request body using GoogleAuthModel
-  //     final GoogleAuthModel authData = GoogleAuthModel(
-  //       accessToken: googleAuth.accessToken.toString(),
-  //       code: 'string',
-  //       idToken: googleAuth.idToken.toString(),
-  //     );
-  //     // final userPreferences =
-  //     //     Provider.of<UserViewModel>(context, listen: false);
-  //     // final userModel = await userPreferences.getgoogleUser();
-  //     // final token = userModel.key;
-
-  //     // Step 4: Make a POST request to your API endpoint
-  //     final response =
-  //      await http.post(
-  //       Uri.parse('http://103.117.180.187/api/accounts/google/login/'),
-  //       headers: {
-  //         'accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //         'access_token': googleAuth.accessToken.toString(),
-  //       },
-  //       body: googleAuthModelToJson(authData),
-  //     );
-  //     debugPrint('Status code: ${response.statusCode}');
-  //     debugPrint('Response body: ${response.body}');
-
-  //     // Step 5: Handle the response from your backend
-  //     if (response.statusCode == 200) {
-  //       print('username: ${googleUser.displayName}');
-  //       print('email: ${googleUser.email}');
-
-  //       final responseBody = await json.decode(json.encode(response.body));
-  //       String? userKey = responseBody['key'];
-  //       debugPrint('user key: $userKey');
-
-  //       if (userKey != null && userKey.isNotEmpty) {
-  //         await afterLoginSuccess(userKey);
-  //         Utils.toastMessage('Successfully logged in with Google');
-  //         Navigator.pushReplacementNamed(context, RoutesName.dashboard);
-  //       } else {
-  //         throw Exception('Token is missing in the response');
-  //       }
-  //     } else {
-  //       // Authentication failed
-  //       final errorData = jsonDecode(utf8.decode(response.bodyBytes));
-  //       debugPrint(
-  //           'Error: ${response.statusCode} - ${errorData['message'] ?? 'Unknown error'}');
-  //       Utils.flushBarErrorMessage(
-  //           'Authentication failed. Please try again.', context);
-  //     }
-  //   } catch (error) {
-  //     // Handle sign-in errors
-  //     debugPrint('Error signing in with Google: $error');
-  //     Utils.flushBarErrorMessage(
-  //         'Error signing in with Google: $error', context);
-  //   } finally {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
-
-  Future<void> afterLoginSuccess(String key) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('key', key);
-  }
-
   Future<void> handleSignOut() => _googleSignIn.disconnect();
 
   Future<void> handleGoogleSignIn(BuildContext context) async {
@@ -130,7 +42,6 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
         final String accessToken = googleSignInAuthentication.accessToken ?? '';
         final String idToken = googleSignInAuthentication.idToken ?? '';
 
-        Utils.toastMessage('$idToken $accessToken');
         handleGoogleLoginServer(context, accessToken, idToken);
       }
     } catch (error) {
@@ -154,11 +65,20 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
         },
         body: jsonEncode(data),
       );
-      await afterLoginSuccess(response.body);
-      debugPrint('response: ${response.statusCode}');
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseBody = jsonDecode(response.body);
+        String key = responseBody['key'].toString();
+        final userPrefrences =
+            Provider.of<UserViewModel>(context, listen: false);
+        userPrefrences.saveUser(UserModel(key: key));
+        Utils.toastMessage('SuccessFully SignIn');
+        Navigator.pushReplacementNamed(context, RoutesName.dashboard);
 
-      _isLoading = false;
-      Navigator.pushReplacementNamed(context, RoutesName.dashboard);
+        _isLoading = false;
+      } else {
+        _isLoading = false;
+        Utils.flushBarErrorMessage('Login Failed', context);
+      }
     } catch (error) {
       Utils.flushBarErrorMessage(error.toString(), context);
       debugPrint('error mesg: $error');
