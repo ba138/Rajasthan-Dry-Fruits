@@ -1,14 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
-import '../../../model/user_model.dart';
+import '../../../model/google_auth_model.dart';
 import '../../../res/components/colors.dart';
 import '../../../utils/routes/routes_name.dart';
 import '../../../utils/routes/utils.dart';
-import '../../../view_model/user_view_model.dart';
+
+// Import your GoogleAuthModel here
 
 class GoogleAuthButton extends StatefulWidget {
   const GoogleAuthButton({super.key});
@@ -27,71 +29,84 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       'openid',
     ],
   );
-  Future<void> handleSignOut() => _googleSignIn.disconnect();
 
-  Future<void> handleGoogleSignIn(BuildContext context) async {
-    handleSignOut();
+  Future<void> _authenticateWithGoogle(BuildContext context) async {
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
-      final GoogleSignInAccount? googleSignInAccount =
-          await _googleSignIn.signIn();
+      // Step 1: Start the Google sign-in process
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-
-        final String accessToken = googleSignInAuthentication.accessToken ?? '';
-        final String idToken = googleSignInAuthentication.idToken ?? '';
-
-        handleGoogleLoginServer(context, accessToken, idToken);
+      if (googleUser == null) {
+        // User cancelled the sign-in
+        setState(() {
+          _isLoading = false;
+        });
+        return;
       }
-    } catch (error) {
-      Utils.flushBarErrorMessage(error.toString(), context);
-      debugPrint('error mesg: $error');
-    }
-  }
 
-  Future<void> handleGoogleLoginServer(
-      BuildContext context, String accessToken, String idToken) async {
-    Map data = {'access_token': accessToken, 'code': '', 'id_token': idToken};
+      // Step 2: Obtain the auth token
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      debugPrint('access Token:${googleAuth.accessToken}');
+      debugPrint('Id Token:${googleAuth.idToken}');
 
-    _isLoading = true;
-    try {
-      var response = await http.post(
+      // Step 3: Prepare the request body using GoogleAuthModel
+      final GoogleAuthModel authData = GoogleAuthModel(
+        accessToken: googleAuth.accessToken.toString(),
+        code: 'string',
+        idToken: googleAuth.idToken.toString(),
+      );
+
+      // Step 4: Make a POST request to your API endpoint
+      final response = await http.post(
         Uri.parse('http://103.117.180.187/api/accounts/google/login/'),
         headers: {
           'accept': 'application/json',
           'Content-Type': 'application/json',
-          'access_token': accessToken,
+          'X-CSRFToken':
+              'tXaYOF0LE9ZSZ1vxlr8hs2VjppvLvzN5DCBI8MjSybc1EYCU6I15cK2p0CQJTw9B',
         },
-        body: jsonEncode(data),
+        body: googleAuthModelToJson(authData),
       );
+      debugPrint('Status code:${response.statusCode}');
+      // Step 5: Handle the response from your backend
       if (response.statusCode == 200) {
-        Map<String, dynamic> responseBody = jsonDecode(response.body);
-        String key = responseBody['key'].toString();
-        final userPrefrences =
-            Provider.of<UserViewModel>(context, listen: false);
-        userPrefrences.saveUser(UserModel(key: key));
-        Utils.toastMessage('SuccessFully SignIn');
-        Navigator.pushReplacementNamed(context, RoutesName.dashboard);
-
-        _isLoading = false;
+        // Authentication successful
+        Utils.toastMessage('Successfully logged in with Google');
+        // Implement user data saving logic from response data (replace with your logic)
+        // final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+        // userPreferences.saveUser(UserModel(key: data['key'].toString()));
+        Navigator.pushNamed(context, RoutesName.dashboard);
       } else {
-        _isLoading = false;
-        Utils.flushBarErrorMessage('Login Failed', context);
+        // Authentication failed
+        final errorData = jsonDecode(response.body);
+        debugPrint(
+            'Error: ${response.statusCode} - ${errorData['message'] ?? 'Unknown error'}');
+        Utils.flushBarErrorMessage(
+            'Authentication failed. Please try again.', context);
       }
     } catch (error) {
-      Utils.flushBarErrorMessage(error.toString(), context);
-      debugPrint('error mesg: $error');
+      // Handle sign-in errors
+      debugPrint('Error signing in with Google: $error');
+      Utils.flushBarErrorMessage(
+          'Error signing in with Google: $error', context);
     } finally {
-      _isLoading = false;
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async {
-        await handleGoogleSignIn(context);
+      onTap: () {
+        if (!_isLoading) {
+          _authenticateWithGoogle(context);
+        }
       },
       child: _isLoading
           ? const Center(
