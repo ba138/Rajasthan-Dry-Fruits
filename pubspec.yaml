@@ -55,6 +55,7 @@ dependencies:
   flutter_facebook_auth: ^6.2.0
   intl: ^0.19.0
   permission_handler: ^11.3.1
+  image_gallery_saver: ^2.0.3
 
 dev_dependencies:
   flutter_test:
