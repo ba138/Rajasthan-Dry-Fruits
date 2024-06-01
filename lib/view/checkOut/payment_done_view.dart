@@ -10,6 +10,10 @@ class PaymentDoneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final selectedAddress = arguments['selectedAddress'];
+    final totalAmount = arguments['totalAmount'];
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -100,7 +104,44 @@ class PaymentDoneScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
+              const VerticalSpeacing(
+                14,
+              ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 56,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    color: const Color.fromRGBO(
+                        255, 255, 255, 0.2), // Background color with opacity
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.5), // Shadow color
+                        blurRadius: 2, // Blur radius
+                        spreadRadius: 0, // Spread radius
+                        offset: const Offset(0, 0), // Offset
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      "DownLoad Invoice",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.primaryColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
