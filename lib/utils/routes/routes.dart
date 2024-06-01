@@ -90,10 +90,10 @@ class Routes {
           builder: (BuildContext context) => const NotificationView(),
         );
 
-      case RoutesName.paymentDone:
-        return MaterialPageRoute(
-          builder: (BuildContext context) => const PaymentDoneScreen(),
-        );
+      // case RoutesName.paymentDone:
+      //   return MaterialPageRoute(
+      //     builder: (BuildContext context) => PaymentDoneScreen(),
+      //   );
 
       case RoutesName.searchView:
         return MaterialPageRoute(
