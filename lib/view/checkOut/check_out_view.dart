@@ -112,11 +112,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "address_label": 'home',
         "city": selectedAddress['city'],
         "state": selectedAddress['state'],
-        "country": "USA",
+        "country": "India",
         "gst_in": "String",
         "payment_type": "online",
         "shipment_type": provider.selectedShippingType,
-        "service_type": 'normal'
+        "service_type": _btn2SelectedVal
       };
 
       print('..............required data: $requestData............');
@@ -151,7 +151,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             RoutesName.paymentDone,
             arguments: {
               'selectedAddress': selectedAddress,
-              'totalAmount': widget.totalPrice,
+              'totalAmount': totalPrice,
             },
           );
         } else {

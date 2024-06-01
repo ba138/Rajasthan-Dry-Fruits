@@ -27,8 +27,6 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
 
   final TextEditingController _cityController = TextEditingController();
 
-  final TextEditingController _stateController = TextEditingController();
-
   final TextEditingController _zipCodeController = TextEditingController();
   // String? _errorMessage;
   String? _errorphone;
