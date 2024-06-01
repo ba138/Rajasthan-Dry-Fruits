@@ -6,7 +6,6 @@ import 'package:rjfruits/view/authView/forget_password_view.dart';
 import 'package:rjfruits/view/authView/login_view.dart';
 import 'package:rjfruits/view/bestSellersView/best_sellers.dart';
 import 'package:rjfruits/view/cart/cart_page.dart';
-import 'package:rjfruits/view/checkOut/payment_done_view.dart';
 import 'package:rjfruits/view/contacts/contact_us.dart';
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 import 'package:rjfruits/view/authView/register_view.dart';
