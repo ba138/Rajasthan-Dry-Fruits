@@ -71,7 +71,7 @@ class _CategoryCartState extends State<CategoryCart> {
           children: [
             IntrinsicWidth(
               child: Container(
-                height: 54,
+                height: 50,
                 decoration: BoxDecoration(
                   color: _backgroundColor,
                   borderRadius: BorderRadius.circular(30.0),
