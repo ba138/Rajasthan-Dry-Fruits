@@ -113,6 +113,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "city": selectedAddress['city'],
         "state": selectedAddress['state'],
         "country": "USA",
+        "gst_in": "String",
         "payment_type": "online",
         "shipment_type": provider.selectedShippingType,
         "service_type": 'normal'
