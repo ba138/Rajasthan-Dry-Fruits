@@ -31,6 +31,11 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
+  late Razorpay _razorPay;
+  double totalPrice = 0.0;
+  int selectedContainerIndex = 0;
+  String _btn2SelectedVal = "Normal";
+
   static const menuItems = <String>[
     'Normal',
     'Fast',
@@ -44,9 +49,131 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       )
       .toList();
 
-  late Map<String, dynamic> selectedAddress = {};
-  late Razorpay _razorPay;
-  String _btn2SelectedVal = "Normal";
+  Color selectedContainerColor = AppColor.primaryColor; // Example color
+  Color unselectedContainerColor = Colors.white; // Example color
+  Color selectedIconColor = Colors.white; // Example color
+  Color unselectedIconColor = Colors.black; // Example color
+  Color selectedTextColor = Colors.white; // Example color
+  Color unselectedTextColor = Colors.black; // Example color
+
+  late Map<String, dynamic> selectedAddress;
+
+  @override
+  void initState() {
+    super.initState();
+    _razorPay = Razorpay();
+    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
+    // Initialize totalPrice with the value from widget if available
+    totalPrice =
+        widget.totalPrice != null ? double.parse(widget.totalPrice!) : 0.0;
+
+    // Load the selected address from shared preferences
+    _loadSelectedAddress();
+  }
+
+  Future<void> _loadSelectedAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonSelectedAddress = prefs.getString('selectedAddress');
+
+    if (jsonSelectedAddress != null) {
+      setState(() {
+        selectedAddress = jsonDecode(jsonSelectedAddress);
+      });
+    } else {
+      setState(() {
+        selectedAddress = {};
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final shipCharge =
+        Provider.of<CartRepositoryProvider>(context, listen: false);
+    setState(() {
+      totalPrice += shipCharge.cartRepositoryProvider.shipRocketCharges;
+    });
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    if (selectedAddress.isNotEmpty) {
+      final provider = Provider.of<ShippingProvider>(context, listen: false);
+
+      Map<String, dynamic> requestData = {
+        "full_name": selectedAddress['fullName'],
+        "contact": selectedAddress['phone'],
+        "postal_code": selectedAddress['zipCode'],
+        "address": selectedAddress['address'],
+        "address_label": 'home',
+        "city": selectedAddress['city'],
+        "state": selectedAddress['state'],
+        "country": "USA",
+        "payment_type": "online",
+        "shipment_type": provider.selectedShippingType,
+        "service_type": 'normal'
+      };
+
+      print('..............required data: $requestData............');
+
+      try {
+        final userPreferences =
+            Provider.of<UserViewModel>(context, listen: false);
+        final userModel = await userPreferences.getUser();
+        final token = userModel.key;
+
+        Map<String, String> headers = {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken':
+              'tzQpa32OkgZ9J10JLis380SJQ2IidQIRgDExd0WtCmh1RTl7jnL8WlmwRN96978U',
+          'authorization': 'Token $token',
+        };
+
+        http.Response apiResponse = await http.post(
+          Uri.parse('http://103.117.180.187/api/checkout/'),
+          headers: headers,
+          body: jsonEncode(requestData),
+        );
+
+        print('API Response Status Code: ${apiResponse.statusCode}');
+
+        if (apiResponse.statusCode == 201) {
+          Utils.toastMessage('Payment Successfully Done');
+
+          Navigator.pushNamed(
+            context,
+            RoutesName.paymentDone,
+            arguments: {
+              'selectedAddress': selectedAddress,
+              'totalAmount': widget.totalPrice,
+            },
+          );
+        } else {
+          Utils.toastMessage(
+              'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
+        }
+      } catch (e) {
+        if (e is http.ClientException) {
+          Utils.toastMessage('Network error occurred: ${e.message}');
+        } else {
+          Utils.toastMessage('Error occurred while processing payment: $e');
+        }
+      }
+    }
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Utils.toastMessage('Payment Fail: ${response.message}');
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Utils.toastMessage('External wallet: ${response.walletName}');
+  }
 
   void openCheckout(String amount) {
     int amountInPaise = (double.parse(amount) * 100).toInt();
@@ -72,115 +199,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     _razorPay.clear();
     super.dispose();
   }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonSelectedAddress = prefs.getString('selectedAddress');
-    print('Selected Address: $jsonSelectedAddress');
-
-    if (jsonSelectedAddress != null) {
-      Map<String, dynamic> selectedAddress = jsonDecode(jsonSelectedAddress);
-      final provider = Provider.of<ShippingProvider>(context, listen: false);
-
-      Map<String, dynamic> requestData = {
-        "full_name": selectedAddress['fullName'],
-        "contact": selectedAddress['phone'],
-        "postal_code": selectedAddress['zipCode'],
-        "address": selectedAddress['address'],
-        "address_label": 'home',
-        "city": selectedAddress['city'],
-        "state": selectedAddress['state'],
-        "country": "USA",
-        "payment_type": "online",
-        "shipment_type": provider.selectedShippingType,
-        "service_type": 'normal'
-      };
-
-      // provider.selectedShippingType
-      print('..............required data: $requestData............');
-
-      try {
-        // Retrieve the user's authentication token
-        final userPreferences =
-            Provider.of<UserViewModel>(context, listen: false);
-        final userModel = await userPreferences.getUser();
-        final token = userModel.key;
-
-        // Construct the request headers with the authentication token
-        Map<String, String> headers = {
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-CSRFToken':
-              'tzQpa32OkgZ9J10JLis380SJQ2IidQIRgDExd0WtCmh1RTl7jnL8WlmwRN96978U',
-          'authorization': 'Token $token',
-        };
-
-        // Send the POST request to the API endpoint with the prepared headers and data
-        http.Response apiResponse = await http.post(
-          Uri.parse('http://103.117.180.187/api/checkout/'),
-          headers: headers,
-          body: jsonEncode(requestData),
-        );
-
-        print('API Response Status Code: ${apiResponse.statusCode}');
-
-        if (apiResponse.statusCode == 201) {
-          // final provider =
-          //     Provider.of<ShippingProvider>(context, listen: false);
-
-          Utils.toastMessage('Payment Successfully Done');
-
-          Navigator.pushNamed(
-            context,
-            RoutesName.paymentDone,
-            arguments: {
-              'selectedAddress': selectedAddress,
-              'totalAmount': widget.totalPrice,
-            },
-          );
-        } else {
-          // Handle API request failure with more specific message based on response body
-          Utils.toastMessage(
-              'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
-        }
-      } catch (e) {
-        // Handle exceptions during API request
-        if (e is http.ClientException) {
-          Utils.toastMessage('Network error occurred: ${e.message}');
-        } else {
-          Utils.toastMessage('Error occurred while processing payment: $e');
-        }
-      }
-    }
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    Utils.toastMessage('Payment Fail: ${response.message}');
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    Utils.toastMessage('External wallet: ${response.walletName}');
-  }
-
-  double totalPrice = 0.0;
-  @override
-  void initState() {
-    super.initState();
-    _razorPay = Razorpay();
-    _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    totalPrice = double.parse(widget.totalPrice.toString());
-  }
-
-  int selectedContainerIndex =
-      0; // Keeps track of the currently selected container index (0 or 1)
-  Color selectedContainerColor = AppColor.primaryColor;
-  Color unselectedContainerColor = AppColor.whiteColor;
-  Color selectedIconColor = AppColor.whiteColor;
-  Color unselectedIconColor = AppColor.blackColor;
-  Color selectedTextColor = AppColor.whiteColor;
-  Color unselectedTextColor = AppColor.blackColor;
 
   @override
   Widget build(BuildContext context) {
