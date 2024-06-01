@@ -1,12 +1,58 @@
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
 
-class PaymentDoneScreen extends StatelessWidget {
+class PaymentDoneScreen extends StatefulWidget {
   const PaymentDoneScreen({super.key});
+
+  @override
+  State<PaymentDoneScreen> createState() => _PaymentDoneScreenState();
+}
+
+class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final List<String> _items = [];
+  final GlobalKey _globalKey = GlobalKey();
+
+  void _addItem() {
+    setState(() {
+      _items.add(_controller.text);
+      _controller.clear();
+    });
+  }
+
+  Future<void> _captureAndSave() async {
+    RenderRepaintBoundary boundary =
+        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    var image = await boundary.toImage(pixelRatio: 3.0);
+    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+    Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+    final status = await Permission.storage.request();
+    if (status.isGranted) {
+      final directory = (await getExternalStorageDirectory())?.path;
+      String filePath = '$directory/list_image.png';
+      File imgFile = File(filePath);
+      await imgFile.writeAsBytes(pngBytes);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Image saved to $filePath')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Permission denied')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
