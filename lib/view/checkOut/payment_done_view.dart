@@ -13,9 +13,9 @@ import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PaymentDoneScreen extends StatefulWidget {
-  const PaymentDoneScreen({super.key});
-
+  const PaymentDoneScreen(
       {super.key, required this.sendData, required this.totalAmount});
+
   final Map<String, dynamic> sendData;
   final String totalAmount;
 
@@ -60,8 +60,8 @@ class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Total Amount: $totalAmount');
-    debugPrint('Data : $sendData');
+    debugPrint('Total Amount: ${widget.totalAmount}');
+    debugPrint('Data : ${widget.sendData}');
 
     return Scaffold(
       body: Container(
