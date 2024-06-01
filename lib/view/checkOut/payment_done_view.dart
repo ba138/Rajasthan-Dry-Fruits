@@ -17,7 +17,9 @@ class PaymentDoneScreen extends StatelessWidget {
         decoration: const BoxDecoration(
           color: AppColor.whiteColor,
           image: DecorationImage(
-              image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
+            image: AssetImage("images/bgimg.png"),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -75,14 +77,13 @@ class PaymentDoneScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColor.primaryColor, width: 2),
-                    color: const Color.fromRGBO(
-                        255, 255, 255, 0.2), // Background color with opacity
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.5), // Shadow color
-                        blurRadius: 2, // Blur radius
-                        spreadRadius: 0, // Spread radius
-                        offset: const Offset(0, 0), // Offset
+                        color: Colors.white.withOpacity(0.5),
+                        blurRadius: 2,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 0),
                       ),
                     ],
                   ),
