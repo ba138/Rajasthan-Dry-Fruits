@@ -6,14 +6,16 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 
 class PaymentDoneScreen extends StatelessWidget {
-  const PaymentDoneScreen({super.key});
+  const PaymentDoneScreen(
+      {super.key, required this.sendData, required this.totalAmount});
+  final Map<String, dynamic> sendData;
+  final String totalAmount;
 
   @override
   Widget build(BuildContext context) {
-    final arguments =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final selectedAddress = arguments['selectedAddress'];
-    final totalAmount = arguments['totalAmount'];
+    debugPrint('Total Amount: $totalAmount');
+    debugPrint('Data : $sendData');
+
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
