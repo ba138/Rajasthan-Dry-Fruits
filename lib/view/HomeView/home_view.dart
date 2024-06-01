@@ -236,7 +236,6 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                 ),
-                const VerticalSpeacing(16.0),
                 Consumer<HomeUiSwithchRepository>(
                   builder: (context, uiState, _) {
                     Widget selectedWidget;

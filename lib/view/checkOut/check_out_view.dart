@@ -269,7 +269,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           value: _btn2SelectedVal,
                           onChanged: (String? newValue) {
                             if (newValue != null) {
-                              setState(() => _btn2SelectedVal = newValue);
+                              setState(() {
+                                _btn2SelectedVal = newValue;
+                                if (newValue == "Normal") {
+                                  totalPrice =
+                                      double.parse(widget.totalPrice!) +
+                                          shipCharge.cartRepositoryProvider
+                                              .shipRocketCharges;
+                                } else {
+                                  totalPrice =
+                                      double.parse(widget.totalPrice!) +
+                                          shipCharge.cartRepositoryProvider
+                                                  .shipRocketCharges *
+                                              2;
+                                }
+                              });
                             }
                           },
                           items: _dropDownMenuItems,
@@ -298,13 +312,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             builder: (context, provider, child) => InkWell(
                               onTap: () {
                                 provider.updateSelection(0);
+
                                 setState(() {
                                   selectedContainerIndex = 0;
-                                  totalPrice = (widget.totalPrice != null
-                                          ? double.parse(widget.totalPrice!)
-                                          : 0.0) +
-                                      shipCharge.cartRepositoryProvider
-                                          .shipRocketCharges;
+                                  double basePrice = widget.totalPrice != null
+                                      ? double.parse(widget.totalPrice!)
+                                      : 0.0;
+                                  double shipRocket = shipCharge
+                                      .cartRepositoryProvider.shipRocketCharges;
+
+                                  totalPrice = _btn2SelectedVal == "Normal"
+                                      ? basePrice + shipRocket
+                                      : basePrice + shipRocket * 2;
                                 });
                               },
                               child: Container(
@@ -346,7 +365,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           ),
                                         ),
                                         Text(
-                                          "₹${shipCharge.cartRepositoryProvider.shipRocketCharges}",
+                                          _btn2SelectedVal == "Normal"
+                                              ? "₹${shipCharge.cartRepositoryProvider.shipRocketCharges}"
+                                              : "₹${shipCharge.cartRepositoryProvider.shipRocketCharges * 2}",
                                           style: GoogleFonts.getFont(
                                             "Poppins",
                                             textStyle: TextStyle(
@@ -376,11 +397,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 provider.updateSelection(1);
                                 setState(() {
                                   selectedContainerIndex = 1;
-                                  totalPrice = (widget.totalPrice != null
-                                          ? double.parse(widget.totalPrice!)
-                                          : 0.0) +
-                                      shipCharge.cartRepositoryProvider
-                                          .customShippingCharges;
+                                  double basePrice = widget.totalPrice != null
+                                      ? double.parse(widget.totalPrice!)
+                                      : 0.0;
+                                  double customShippingCharges = shipCharge
+                                      .cartRepositoryProvider
+                                      .customShippingCharges;
+
+                                  totalPrice = _btn2SelectedVal == "Normal"
+                                      ? basePrice + customShippingCharges
+                                      : basePrice + customShippingCharges * 2;
                                 });
                               },
                               child: Container(
@@ -422,7 +448,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           ),
                                         ),
                                         Text(
-                                          "₹${shipCharge.cartRepositoryProvider.customShippingCharges}",
+                                          _btn2SelectedVal == "Normal"
+                                              ? "₹${shipCharge.cartRepositoryProvider.customShippingCharges}"
+                                              : "₹${shipCharge.cartRepositoryProvider.customShippingCharges * 2}",
                                           style: GoogleFonts.getFont(
                                             "Poppins",
                                             textStyle: TextStyle(
