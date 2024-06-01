@@ -7,13 +7,13 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/view/checkOut/payment_done_view.dart';
 import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-import '../../utils/routes/routes_name.dart';
 import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,6 +31,7 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
+  Map<String, dynamic> sendData = {};
   late Razorpay _razorPay;
   double totalPrice = 0.0;
   int selectedContainerIndex = 0;
@@ -112,13 +113,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "address_label": 'home',
         "city": selectedAddress['city'],
         "state": selectedAddress['state'],
-        "country": "India",
+        "country": "USA",
         "gst_in": "String",
         "payment_type": "online",
         "shipment_type": provider.selectedShippingType,
-        "service_type": _btn2SelectedVal
+        "service_type": _btn2SelectedVal == 'Normal' ? 'normal' : 'fast'
       };
-
+      sendData = requestData;
       print('..............required data: $requestData............');
 
       try {
@@ -145,15 +146,19 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
         if (apiResponse.statusCode == 201) {
           Utils.toastMessage('Payment Successfully Done');
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return PaymentDoneScreen(
+                sendData: sendData, totalAmount: totalPrice.toString());
+          }));
 
-          Navigator.pushNamed(
-            context,
-            RoutesName.paymentDone,
-            arguments: {
-              'selectedAddress': selectedAddress,
-              'totalAmount': totalPrice,
-            },
-          );
+          // Navigator.pushNamed(
+          //   context,
+          //   RoutesName.paymentDone,
+          //   arguments: {
+          //     'selectedAddress': selectedAddress,
+          //     'totalAmount': totalPrice,
+          //   },
+          // );
         } else {
           Utils.toastMessage(
               'Failed to submit payment data. Status code: ${apiResponse.statusCode}');
