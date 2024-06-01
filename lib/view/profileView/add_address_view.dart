@@ -37,6 +37,54 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
   bool phoneValid = false;
   bool addressValid = false;
   bool zipValid = false;
+  String _btn2SelectedVal = "andhra_pradesh";
+
+  static const menuItems = <String>[
+    'andhra_pradesh',
+    'arunachal_pradesh',
+    "assam",
+    'bihar',
+    "chhattisgarh",
+    "goa",
+    "gujarat",
+    "haryana",
+    "himachal_pradesh",
+    "jharkhand",
+    "karnataka",
+    "kerala",
+    "madhya_pradesh",
+    "maharashtra",
+    "manipur",
+    "meghalaya",
+    "mizoram",
+    "nagaland",
+    "odisha",
+    "punjab",
+    "rajasthan",
+    "sikkim",
+    "tamil_nadu",
+    "telangana",
+    "tripura",
+    "uttar_pradesh",
+    "uttarakhand",
+    "west_bengal",
+    "andaman_and_nicobar_islands",
+    "chandigarh",
+    "dadra_and_nagar_haveli_and_daman_and_diu",
+    "lakshadweep",
+    "delhi",
+    "puducherry",
+    "ladakh",
+    "jammu_and_kashmir ",
+  ];
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
+      .map(
+        (String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
   void validateFields() {
     // Validate phone number
     if (_phoneController.text.length != 10 ||
@@ -76,7 +124,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String phone = _phoneController.text;
     String address = _addressController.text;
     String city = _cityController.text;
-    String state = _stateController.text;
+    String state = _btn2SelectedVal;
     String zipCode = _zipCodeController.text;
     // Validate phone number
 
@@ -300,27 +348,65 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           text: "City",
                           hintText: "Delhi",
                         ),
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: PaymentField(
-                                controller: _stateController,
-                                maxLines: 2,
-                                text: "State",
-                                hintText: "India",
+                            Text(
+                              "State",
+                              style: GoogleFonts.getFont(
+                                "Poppins",
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.dashboardIconColor,
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: PaymentField(
-                                errorText: zipValid ? _errorZipcode : null,
-                                controller: _zipCodeController,
-                                maxLines: 2,
-                                text: "Zip Code",
-                                hintText: "1555",
+                            const SizedBox(height: 8),
+                            Container(
+                              height: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.0),
+                                // Adjust border radius as needed
+                                color: const Color(0xffEEEEEE),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 8,
+                                ),
+                                child: DropdownButton(
+                                  isExpanded: true,
+                                  underline: const SizedBox(),
+                                  value: _btn2SelectedVal,
+                                  onChanged: (String? newValue) {
+                                    if (newValue != null) {
+                                      setState(() {
+                                        _btn2SelectedVal = newValue;
+                                      });
+                                    }
+                                  },
+                                  items: _dropDownMenuItems,
+                                ),
                               ),
                             ),
                           ],
+                        ),
+                        // Expanded(
+                        //   child: PaymentField(
+                        //     controller: _stateController,
+                        //     maxLines: 2,
+                        //     text: "State",
+                        //     hintText: "India",
+                        //   ),
+                        // ),
+                        const SizedBox(height: 12),
+                        PaymentField(
+                          errorText: zipValid ? _errorZipcode : null,
+                          controller: _zipCodeController,
+                          maxLines: 2,
+                          text: "Zip Code",
+                          hintText: "1555",
                         ),
                         const VerticalSpeacing(38),
                         RoundedButton(
