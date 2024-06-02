@@ -7,7 +7,7 @@ class CheckoutDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Checkout Details: $checkoutModel');
+    debugPrint('Checkout Details: ${checkoutModel.data.fullName}');
     return Scaffold(
       body: Center(
         child: Text('checkout detailed'),
