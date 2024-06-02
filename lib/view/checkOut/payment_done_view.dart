@@ -1,19 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
-import 'dart:ui';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/rendering.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:rjfruits/view/checkOut/widgets/invoice_screen.dart';
 
 class PaymentDoneScreen extends StatefulWidget {
   const PaymentDoneScreen(
@@ -27,210 +20,146 @@ class PaymentDoneScreen extends StatefulWidget {
 }
 
 class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final List<String> _items = [];
-  final GlobalKey _globalKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    _addItem();
-  }
-
-  void _addItem() {
-    setState(() {
-      _items.add(widget.sendData.toString());
-      _controller.clear();
-    });
-  }
-
-  Future<void> _captureAndSave() async {
-    try {
-      RenderRepaintBoundary? boundary = _globalKey.currentContext
-          ?.findRenderObject() as RenderRepaintBoundary?;
-      if (boundary == null) {
-        throw Exception('Boundary is null');
-      }
-
-      var image = await boundary.toImage(pixelRatio: 3.0);
-      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-      if (byteData == null) {
-        throw Exception('ByteData is null');
-      }
-      Uint8List pngBytes = byteData.buffer.asUint8List();
-
-      final status = await Permission.storage.request();
-      if (status.isGranted) {
-        final directory = await getExternalStorageDirectory();
-        if (directory == null) {
-          throw Exception('Directory is null');
-        }
-        String filePath = '${directory.path}/list_image.png';
-        File imgFile = File(filePath);
-        await imgFile.writeAsBytes(pngBytes);
-
-        // Save to gallery
-        final result =
-            await ImageGallerySaver.saveImage(pngBytes, name: "list_image");
-        if (result['isSuccess']) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Image saved to gallery')),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to save image to gallery')),
-          );
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permission denied')),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     debugPrint('Total Amount: ${widget.totalAmount}');
     debugPrint('Data : ${widget.sendData}');
 
     return Scaffold(
-      body: RepaintBoundary(
-        key: _globalKey,
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: AppColor.whiteColor,
-            image: DecorationImage(
-              image: AssetImage("images/bgimg.png"),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          color: AppColor.whiteColor,
+          image: DecorationImage(
+            image: AssetImage("images/bgimg.png"),
+            fit: BoxFit.cover,
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "images/done.png",
-                  height: 282,
-                  width: 316,
-                ),
-                const VerticalSpeacing(40),
-                Text(
-                  "Order Placed Successfully ",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                      color: AppColor.textColor1,
-                    ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "images/done.png",
+                height: 282,
+                width: 316,
+              ),
+              const VerticalSpeacing(40),
+              Text(
+                "Order Placed Successfully ",
+                style: GoogleFonts.getFont(
+                  "Poppins",
+                  textStyle: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.textColor1,
                   ),
                 ),
-                const VerticalSpeacing(12),
-                Text(
-                  "Thanks for your order. Your order has placed successfully. To track the delivery, go to My Account > My Order.",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.iconColor,
-                    ),
+              ),
+              const VerticalSpeacing(12),
+              Text(
+                "Thanks for your order. Your order has placed successfully. To track the delivery, go to My Account > My Order.",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.getFont(
+                  "Poppins",
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.iconColor,
                   ),
                 ),
-                const VerticalSpeacing(60),
-                RoundedButton(
-                  title: "Back to home",
-                  onpress: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RoutesName.dashboard, (route) => false);
-                  },
-                ),
-                const VerticalSpeacing(14),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, RoutesName.myorders);
-                  },
-                  child: Container(
-                    height: 56,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border:
-                          Border.all(color: AppColor.primaryColor, width: 2),
-                      color: const Color.fromRGBO(255, 255, 255, 0.2),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.5),
-                          blurRadius: 2,
-                          spreadRadius: 0,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Track Order",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.primaryColor,
-                          ),
+              ),
+              const VerticalSpeacing(60),
+              RoundedButton(
+                title: "Back to home",
+                onpress: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, RoutesName.dashboard, (route) => false);
+                },
+              ),
+              const VerticalSpeacing(14),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, RoutesName.myorders);
+                },
+                child: Container(
+                  height: 56,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.5),
+                        blurRadius: 2,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Track Order",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.primaryColor,
                         ),
                       ),
                     ),
                   ),
                 ),
-                const VerticalSpeacing(14),
-                InkWell(
-                  onTap: () {
-                    _captureAndSave();
-                  },
-                  child: Container(
-                    height: 56,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border:
-                          Border.all(color: AppColor.primaryColor, width: 2),
-                      color: const Color.fromRGBO(255, 255, 255, 0.2),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.5),
-                          blurRadius: 2,
-                          spreadRadius: 0,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
+              ),
+              const VerticalSpeacing(14),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => InvoiceScreen(
+                          sendData: widget.sendData,
+                          totalAmount: widget.totalAmount),
                     ),
-                    child: Center(
-                      child: Text(
-                        "Download Invoice",
-                        style: GoogleFonts.getFont(
-                          "Poppins",
-                          textStyle: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColor.primaryColor,
-                          ),
+                  );
+                },
+                child: Container(
+                  height: 56,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColor.primaryColor, width: 2),
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.5),
+                        blurRadius: 2,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Invoice",
+                      style: GoogleFonts.getFont(
+                        "Poppins",
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.primaryColor,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
