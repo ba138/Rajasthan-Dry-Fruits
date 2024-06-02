@@ -6,6 +6,7 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/checkOut/widgets/invoice_screen.dart';
 
 import '../../model/checkout_return_model.dart';
 
@@ -120,14 +121,14 @@ class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
               const VerticalSpeacing(14),
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (c) => InvoiceScreen(
-                  //         sendData: widget.sendData,
-                  //         totalAmount: widget.totalAmount),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => InvoiceScreen(
+                        checkoutdetail: widget.checkoutModel,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   height: 56,
