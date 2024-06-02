@@ -639,8 +639,26 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
-                                  Text("$billedBy",
+                                  Text(billedBy,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(widget.checkoutdetail.data.address,
                                       style: GoogleFonts.poppins(fontSize: 14)),
+                                  Text(
+                                    widget.checkoutdetail.data.contact,
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "********",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    widget.checkoutdetail.data.createdOn
+                                        .toString(),
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+
                                   // If billedBy's address and phone are also needed, add them here
                                 ],
                               ),
@@ -653,8 +671,41 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold)),
-                                  Text("$billedTo",
+                                  Text("jhwebtech",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(
+                                      "185, karannagar (G.H.B, Sanand - Nalsarovar Rd, Ahmedabad\n, Gujarat 382110,Ahmedabad,",
                                       style: GoogleFonts.poppins(fontSize: 14)),
+                                  Text(
+                                    "GSTIN: 24APVPJ6817J1ZC",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "PAN: APVPJ6817J",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "Email: jhwebtech2016@gmail.com",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "Phone: +917041717178",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "Bank Name: Bank Of Baroda",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "Bank Account No: 31030200001599",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
+                                  Text(
+                                    "IFSC Code: BARB0SANAND",
+                                    style: GoogleFonts.poppins(fontSize: 14),
+                                  ),
                                   // If billedTo's address and phone are also needed, add them here
                                 ],
                               ),
@@ -675,9 +726,68 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                   style: GoogleFonts.poppins(fontSize: 14)),
                               Text("Quantity: ${item.qty}",
                                   style: GoogleFonts.poppins(fontSize: 14)),
-                              const VerticalSpeacing(20),
+                              const VerticalSpeacing(8),
                             ],
                           ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Total",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text(
+                              widget.checkoutdetail.data.total.toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                                widget.checkoutdetail.data.state == 'gujarat'
+                                    ? "Tax (sgst + cgst)"
+                                    : "Tax (igst)",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text(
+                              widget.checkoutdetail.data.tax.toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Shipment Charges",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text(
+                              widget.checkoutdetail.data.shippingCharges
+                                  .toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: AppColor.primaryColor,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Sub-Total",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.bold)),
+                            Text(
+                              widget.checkoutdetail.data.subTotal.toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
