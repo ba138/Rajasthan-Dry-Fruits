@@ -45,12 +45,13 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
     Utils.toastMessage('External wallet: ${response.walletName}');
   }
 
-  void openCheckout(String amount) {
+  void openCheckout(String amount, String razorpayOrderId) {
     int amountInPaise = (double.parse(amount) * 100).toInt();
     var options = {
       "key": "rzp_test_kkUIxwpbhcs1td",
       "amount": amountInPaise,
       "name": 'Rajistan_dry_fruit',
+      'order_id': razorpayOrderId,
       "description": 'for T-shirt',
       "prefill": {"contact": "value1", "email": "value2"},
       'external': {
@@ -230,7 +231,8 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                       InkWell(
                         onTap: () {
                           openCheckout(
-                              widget.checkoutModel.data.subTotal.toString());
+                              widget.checkoutModel.data.subTotal.toString(),
+                              widget.checkoutModel.data.razorpayOrderId);
                         },
                         child: Container(
                           height: 56,
