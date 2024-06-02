@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final checkoutreturnModel = checkoutreturnModelFromJson(jsonString);
-
 import 'dart:convert';
 
 CheckoutreturnModel checkoutreturnModelFromJson(String str) =>
@@ -12,11 +8,11 @@ String checkoutreturnModelToJson(CheckoutreturnModel data) =>
 
 class CheckoutreturnModel {
   Data data;
-  String razorpayOrderId;
+  String? razorpayOrderId;
 
   CheckoutreturnModel({
     required this.data,
-    required this.razorpayOrderId,
+    this.razorpayOrderId,
   });
 
   factory CheckoutreturnModel.fromJson(Map<String, dynamic> json) =>
@@ -40,11 +36,11 @@ class Data {
   String city;
   String state;
   String country;
-  int total;
-  int serviceCharges;
-  int tax;
-  int shippingCharges;
-  int subTotal;
+  double total;
+  double serviceCharges;
+  double tax;
+  double shippingCharges;
+  double subTotal;
   String paymentType;
   String orderStatus;
   String paymentStatus;
@@ -74,7 +70,7 @@ class Data {
     required this.orderStatus,
     required this.paymentStatus,
     required this.serviceType,
-    required this.razorpayOrderId,
+    this.razorpayOrderId,
     required this.shipmentId,
     required this.shiprocketShipmentId,
     required this.isActive,
@@ -91,11 +87,11 @@ class Data {
         city: json["city"],
         state: json["state"],
         country: json["country"],
-        total: json["total"],
-        serviceCharges: json["service_charges"],
-        tax: json["tax"],
-        shippingCharges: json["shipping_charges"],
-        subTotal: json["sub_total"],
+        total: json["total"].toDouble(),
+        serviceCharges: json["service_charges"].toDouble(),
+        tax: json["tax"].toDouble(),
+        shippingCharges: json["shipping_charges"].toDouble(),
+        subTotal: json["sub_total"].toDouble(),
         paymentType: json["payment_type"],
         orderStatus: json["order_status"],
         paymentStatus: json["payment_status"],
@@ -143,7 +139,7 @@ class OrderItem {
 
   OrderItem({
     required this.product,
-    required this.productWeight,
+    this.productWeight,
     required this.qty,
   });
 
@@ -182,7 +178,7 @@ class Product {
     required this.thumbnailImage,
     required this.price,
     required this.discount,
-    required this.promotional,
+    this.promotional,
     required this.totalReviews,
     required this.averageReview,
   });
