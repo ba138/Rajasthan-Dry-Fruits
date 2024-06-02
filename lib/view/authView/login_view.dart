@@ -192,6 +192,10 @@ class _LoginViewState extends State<LoginView> {
                                     };
                                     await authViewModel.loginApi(data, context);
                                   } catch (e) {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+
                                     Utils.flushBarErrorMessage('$e', context);
                                   } finally {
                                     setState(() {
