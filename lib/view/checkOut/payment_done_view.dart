@@ -6,14 +6,15 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:rjfruits/view/checkOut/widgets/invoice_screen.dart';
+
+import '../../model/checkout_return_model.dart';
 
 class PaymentDoneScreen extends StatefulWidget {
-  const PaymentDoneScreen(
-      {super.key, required this.sendData, required this.totalAmount});
-
-  final Map<String, dynamic> sendData;
-  final String totalAmount;
+  const PaymentDoneScreen({
+    super.key,
+    required this.checkoutModel,
+  });
+  final CheckoutreturnModel checkoutModel;
 
   @override
   State<PaymentDoneScreen> createState() => _PaymentDoneScreenState();
@@ -22,8 +23,8 @@ class PaymentDoneScreen extends StatefulWidget {
 class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
   @override
   Widget build(BuildContext context) {
-    debugPrint('Total Amount: ${widget.totalAmount}');
-    debugPrint('Data : ${widget.sendData}');
+    // debugPrint('Total Amount: ${widget.totalAmount}');
+    // debugPrint('Data : ${widget.sendData}');
 
     return Scaffold(
       body: Container(
@@ -119,14 +120,14 @@ class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
               const VerticalSpeacing(14),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (c) => InvoiceScreen(
-                          sendData: widget.sendData,
-                          totalAmount: widget.totalAmount),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (c) => InvoiceScreen(
+                  //         sendData: widget.sendData,
+                  //         totalAmount: widget.totalAmount),
+                  //   ),
+                  // );
                 },
                 child: Container(
                   height: 56,
