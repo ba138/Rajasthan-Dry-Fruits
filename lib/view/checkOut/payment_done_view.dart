@@ -1,16 +1,12 @@
-import 'dart:io';
-import 'dart:ui';
+// ignore_for_file: use_build_context_synchronously
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter/rendering.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:rjfruits/view/checkOut/widgets/invoice_screen.dart';
 
 class PaymentDoneScreen extends StatefulWidget {
   const PaymentDoneScreen(
@@ -24,40 +20,6 @@ class PaymentDoneScreen extends StatefulWidget {
 }
 
 class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
-  final TextEditingController _controller = TextEditingController();
-  final List<String> _items = [];
-  final GlobalKey _globalKey = GlobalKey();
-
-  void _addItem() {
-    setState(() {
-      _items.add(_controller.text);
-      _controller.clear();
-    });
-  }
-
-  Future<void> _captureAndSave() async {
-    RenderRepaintBoundary boundary =
-        _globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
-    var image = await boundary.toImage(pixelRatio: 3.0);
-    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
-    Uint8List pngBytes = byteData!.buffer.asUint8List();
-
-    final status = await Permission.storage.request();
-    if (status.isGranted) {
-      final directory = (await getExternalStorageDirectory())?.path;
-      String filePath = '$directory/list_image.png';
-      File imgFile = File(filePath);
-      await imgFile.writeAsBytes(pngBytes);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Image saved to $filePath')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Permission denied')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     debugPrint('Total Amount: ${widget.totalAmount}');
@@ -99,7 +61,7 @@ class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
               ),
               const VerticalSpeacing(12),
               Text(
-                "Thanks for your order.Your order has placed successfully.to track the delivery ,my account>my order",
+                "Thanks for your order. Your order has placed successfully. To track the delivery, go to My Account > My Order.",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.getFont(
                   "Poppins",
@@ -112,14 +74,13 @@ class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
               ),
               const VerticalSpeacing(60),
               RoundedButton(
-                  title: "Back to home",
-                  onpress: () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, RoutesName.dashboard, (route) => false);
-                  }),
-              const VerticalSpeacing(
-                14,
+                title: "Back to home",
+                onpress: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, RoutesName.dashboard, (route) => false);
+                },
               ),
+              const VerticalSpeacing(14),
               InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, RoutesName.myorders);
@@ -155,31 +116,37 @@ class _PaymentDoneScreenState extends State<PaymentDoneScreen> {
                   ),
                 ),
               ),
-              const VerticalSpeacing(
-                14,
-              ),
+              const VerticalSpeacing(14),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => InvoiceScreen(
+                          sendData: widget.sendData,
+                          totalAmount: widget.totalAmount),
+                    ),
+                  );
+                },
                 child: Container(
                   height: 56,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColor.primaryColor, width: 2),
-                    color: const Color.fromRGBO(
-                        255, 255, 255, 0.2), // Background color with opacity
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.5), // Shadow color
-                        blurRadius: 2, // Blur radius
-                        spreadRadius: 0, // Spread radius
-                        offset: const Offset(0, 0), // Offset
+                        color: Colors.white.withOpacity(0.5),
+                        blurRadius: 2,
+                        spreadRadius: 0,
+                        offset: const Offset(0, 0),
                       ),
                     ],
                   ),
                   child: Center(
                     child: Text(
-                      "DownLoad Invoice",
+                      "Invoice",
                       style: GoogleFonts.getFont(
                         "Poppins",
                         textStyle: const TextStyle(
