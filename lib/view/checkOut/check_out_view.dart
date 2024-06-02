@@ -32,7 +32,6 @@ class CheckOutScreen extends StatefulWidget {
 }
 
 class _CheckOutScreenState extends State<CheckOutScreen> {
-  // late Razorpay _razorPay;
   double totalPrice = 0.0;
   int selectedContainerIndex = 0;
   String _btn2SelectedVal = "Normal";
@@ -50,22 +49,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       )
       .toList();
 
-  Color selectedContainerColor = AppColor.primaryColor; // Example color
-  Color unselectedContainerColor = Colors.white; // Example color
-  Color selectedIconColor = Colors.white; // Example color
-  Color unselectedIconColor = Colors.black; // Example color
-  Color selectedTextColor = Colors.white; // Example color
-  Color unselectedTextColor = Colors.black; // Example color
+  Color selectedContainerColor = AppColor.primaryColor;
+  Color unselectedContainerColor = Colors.white;
+  Color selectedIconColor = Colors.white;
+  Color unselectedIconColor = Colors.black;
+  Color selectedTextColor = Colors.white;
+  Color unselectedTextColor = Colors.black;
 
   late Map<String, dynamic> selectedAddress;
 
   @override
   void initState() {
     super.initState();
-    // _razorPay = Razorpay();
-    // _razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    // _razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    // _razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
     // Initialize totalPrice with the value from widget if available
     totalPrice =
@@ -123,7 +118,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "city": selectedAddress['city'],
         "state": selectedAddress['state'],
         "country": "USA",
-        "gst_in": "String",
+        "gst_in": selectedAddress['gst'],
         "payment_type": "online",
         "shipment_type": provider.selectedShippingType,
         "service_type": _btn2SelectedVal == 'Normal' ? 'normal' : 'fast'
@@ -258,12 +253,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       Container(
                         height: 38,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              4.0), // Adjust border radius as needed
+                          borderRadius: BorderRadius.circular(4.0),
                           border: Border.all(
-                            color:
-                                AppColor.primaryColor, // Specify border color
-                            width: 1.0, // Specify border width
+                            color: AppColor.primaryColor,
+                            width: 1.0,
                           ),
                         ),
                         child: Padding(
@@ -546,7 +539,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     title: address['fullName'] ?? '',
                                     phNo: address['phone'] ?? '',
                                     address:
-                                        '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''}',
+                                        '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}',
                                     onpress: () async {
                                       // Store the selected address in shared preferences
                                       await _storeSelectedAddress(address);

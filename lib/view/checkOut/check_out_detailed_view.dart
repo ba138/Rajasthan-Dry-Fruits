@@ -179,9 +179,11 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Tax (sgst + cgst)",
-                            style: TextStyle(
+                          Text(
+                            widget.checkoutModel.data.state == 'gujarat'
+                                ? "Tax (sgst + cgst)"
+                                : "Tax (igst)",
+                            style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
                               fontWeight: FontWeight.w400,

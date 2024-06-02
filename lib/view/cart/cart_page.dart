@@ -23,8 +23,7 @@ class CartView extends StatefulWidget {
 class _CartViewState extends State<CartView> {
   gettingAllRequiredData() async {
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-    final userModel =
-        await userPreferences.getUser(); // Await the Future<UserModel> result
+    final userModel = await userPreferences.getUser();
     final token = userModel.key;
     Provider.of<CartRepositoryProvider>(context, listen: false)
         .getCachedProducts(context, token);
@@ -85,7 +84,6 @@ class _CartViewState extends State<CartView> {
                       ),
                     ],
                   ),
-                  // CartWidget(),
                   Consumer<CartRepositoryProvider>(
                     builder: (context, cartRepoProvider, child) {
                       List<Product> cartProducts =
@@ -106,8 +104,8 @@ class _CartViewState extends State<CartView> {
                               padding: const EdgeInsets.only(bottom: 12.0),
                               child: CartWidget(
                                 onpress: () async {
-                                  final userModel = await userPreferences
-                                      .getUser(); // Await the Future<UserModel> result
+                                  final userModel =
+                                      await userPreferences.getUser();
                                   final token = userModel.key;
                                   // Assuming you want to delete the product
                                   cartRepoProvider.deleteProduct(
@@ -122,8 +120,7 @@ class _CartViewState extends State<CartView> {
                                 price: product.price.toString(),
                                 guantity: carPro.quantity,
                                 individualPrice: product.price.toString(),
-                                id: carPro
-                                    .id, // Assuming individual price is same as product price
+                                id: carPro.id,
                               ),
                             );
                           },
@@ -131,9 +128,6 @@ class _CartViewState extends State<CartView> {
                       );
                     },
                   ),
-                  //  individualPrice: cartItems[index]
-                  //                         ['individualTotal'] ??
-                  //                     cartItems[index]['price'],
                   const VerticalSpeacing(10.0),
                   Container(
                     height: 360,
@@ -142,14 +136,13 @@ class _CartViewState extends State<CartView> {
                       borderRadius: BorderRadius.circular(10),
                       border:
                           Border.all(color: AppColor.primaryColor, width: 1),
-                      color: const Color.fromRGBO(
-                          255, 255, 255, 0.2), // Background color with opacity
+                      color: const Color.fromRGBO(255, 255, 255, 0.2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.5), // Shadow color
-                          blurRadius: 2, // Blur radius
-                          spreadRadius: 0, // Spread radius
-                          offset: const Offset(0, 0), // Offset
+                          color: Colors.white.withOpacity(0.5),
+                          blurRadius: 2,
+                          spreadRadius: 0,
+                          offset: const Offset(0, 0),
                         ),
                       ],
                     ),
@@ -329,10 +322,6 @@ class _CartViewState extends State<CartView> {
                                             .toStringAsFixed(2),
                                       );
                                     }));
-
-                                    // openCheckout(cartProvider
-                                    //     .cartRepositoryProvider.totalPrice
-                                    //     .toStringAsFixed(2));
                                   },
                                   child: Container(
                                     height: 56,
@@ -345,12 +334,10 @@ class _CartViewState extends State<CartView> {
                                           BoxShadow(
                                             color: const Color.fromARGB(
                                                     255, 0, 0, 0)
-                                                .withOpacity(
-                                                    0.25), // Shadow color
-                                            blurRadius: 8.1, // Blur radius
-                                            spreadRadius: 0, // Spread radius
-                                            offset:
-                                                const Offset(0, 4), // Offset
+                                                .withOpacity(0.25),
+                                            blurRadius: 8.1,
+                                            spreadRadius: 0,
+                                            offset: const Offset(0, 4),
                                           ),
                                         ]),
                                     child: Center(
@@ -375,6 +362,9 @@ class _CartViewState extends State<CartView> {
                       ),
                     ),
                   ),
+
+                  const VerticalSpeacing(60.0),
+
                 ],
               ),
             ),
