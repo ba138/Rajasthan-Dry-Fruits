@@ -26,6 +26,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
   final TextEditingController _addressController = TextEditingController();
 
   final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _gstController = TextEditingController();
 
   final TextEditingController _zipCodeController = TextEditingController();
   // String? _errorMessage;
@@ -124,6 +125,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String city = _cityController.text;
     String state = _btn2SelectedVal;
     String zipCode = _zipCodeController.text;
+    String gstIn = _gstController.text;
     // Validate phone number
 
     Map<String, dynamic> addressMap = {
@@ -133,6 +135,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       'city': city,
       'state': state,
       'zipCode': int.parse(zipCode),
+      'gst': gstIn,
     };
 
     List<Map<String, dynamic>> addresses =
@@ -345,6 +348,12 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           maxLines: 2,
                           text: "City",
                           hintText: "Delhi",
+                        ),
+                        PaymentField(
+                          controller: _gstController,
+                          maxLines: 2,
+                          text: "GST-IN",
+                          hintText: "*******",
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

@@ -94,7 +94,7 @@ class _CartViewState extends State<CartView> {
                           cartRepoProvider.cartRepositoryProvider.cartItems;
 
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.44,
                         width: double.infinity,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
@@ -136,7 +136,7 @@ class _CartViewState extends State<CartView> {
                   //                     cartItems[index]['price'],
                   const VerticalSpeacing(10.0),
                   Container(
-                    height: 357,
+                    height: 360,
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -157,7 +157,59 @@ class _CartViewState extends State<CartView> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          const VerticalSpeacing(30.0),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Coupon",
+                                style: TextStyle(
+                                  fontFamily: 'CenturyGothic',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.blackColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                      height: 40,
+                                      width: MediaQuery.of(context).size.width /
+                                          1.8,
+                                      child: TextFormField(
+                                        decoration: const InputDecoration(
+                                            hintText: "Enter coupon code"),
+                                      )),
+                                ],
+                              ),
+                              Container(
+                                height: 40,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: AppColor.primaryColor,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Apply",
+                                    style: GoogleFonts.getFont(
+                                      "Poppins",
+                                      textStyle: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColor.whiteColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const VerticalSpeacing(12.0),
                           const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -260,7 +312,7 @@ class _CartViewState extends State<CartView> {
                               );
                             },
                           ),
-                          const VerticalSpeacing(30.0),
+                          const VerticalSpeacing(20.0),
                           Consumer<CartRepositoryProvider>(
                             builder: (context, cartProvider, _) {
                               return SizedBox(
@@ -323,8 +375,6 @@ class _CartViewState extends State<CartView> {
                       ),
                     ),
                   ),
-
-                  const VerticalSpeacing(60.0),
                 ],
               ),
             ),
