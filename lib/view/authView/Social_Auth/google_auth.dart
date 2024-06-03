@@ -26,7 +26,8 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
     clientId:
         '176072233182-qa8q1ej1j6ehc088crdcgk8c6769dop6.apps.googleusercontent.com',
     scopes: [
-      'email',
+      'https://www.googleapis.com/auth/drive'
+          'email',
       'profile',
       'openid',
     ],
