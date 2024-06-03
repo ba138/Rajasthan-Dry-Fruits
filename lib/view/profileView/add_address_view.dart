@@ -383,6 +383,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                                   right: 8,
                                 ),
                                 child: DropdownButton(
+                                  dropdownColor: AppColor.whiteColor,
                                   isExpanded: true,
                                   underline: const SizedBox(),
                                   value: _btn2SelectedVal,

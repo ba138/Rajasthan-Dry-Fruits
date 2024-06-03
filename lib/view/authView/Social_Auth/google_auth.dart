@@ -24,7 +24,7 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     clientId:
-        '176072233182-qa8q1ej1j6ehc088crdcgk8c6769dop6.apps.googleusercontent.com',
+        '176072233182-g8brbpf0ahsc6lvi216rk0m0t5hpdvm5.apps.googleusercontent.com',
     scopes: [
       'email',
       'profile',

@@ -32,7 +32,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
   Future<void> captureAndSave() async {
     try {
       // Ensure the widget is completely rendered
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 200));
 
       RenderRepaintBoundary? boundary = _globalKey.currentContext
           ?.findRenderObject() as RenderRepaintBoundary?;

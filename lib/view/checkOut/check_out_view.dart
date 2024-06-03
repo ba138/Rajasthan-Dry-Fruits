@@ -265,6 +265,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             right: 8,
                           ),
                           child: DropdownButton(
+                            dropdownColor: AppColor.whiteColor,
                             isExpanded: true,
                             underline: const SizedBox(),
                             value: _btn2SelectedVal,
@@ -329,7 +330,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   });
                                 },
                                 child: Container(
-                                  height: 80,
+                                  height: 70,
                                   width: 135,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -357,23 +358,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               "Poppins",
                                               textStyle: TextStyle(
                                                 fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            0
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            _btn2SelectedVal == "Normal"
-                                                ? "₹${shipCharge.cartRepositoryProvider.shipRocketCharges}"
-                                                : "₹${shipCharge.cartRepositoryProvider.shipRocketCharges * 2}",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                                 color:
                                                     provider.selectedContainerIndex ==
@@ -412,7 +396,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   });
                                 },
                                 child: Container(
-                                  height: 80,
+                                  height: 70,
                                   width: 135,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
@@ -436,23 +420,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           ),
                                           Text(
                                             "custom shipment",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            1
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            _btn2SelectedVal == "Normal"
-                                                ? "₹${shipCharge.cartRepositoryProvider.customShippingCharges}"
-                                                : "₹${shipCharge.cartRepositoryProvider.customShippingCharges * 2}",
                                             style: GoogleFonts.getFont(
                                               "Poppins",
                                               textStyle: TextStyle(
@@ -559,7 +526,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   Consumer<ShippingProvider>(
                       builder: (context, provider, child) {
                     return RoundedButton(
-                      title: "Proceed to Checkout: ₹$totalPrice",
+                      title: "Proceed to Checkout",
                       onpress: () {
                         if (selectedAddress.isEmpty) {
                           Utils.toastMessage('please select the Address');
