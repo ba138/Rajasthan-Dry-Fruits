@@ -33,27 +33,30 @@ class _TrackOrderState extends State<TrackOrder> {
   final bool isTrue = true;
   Future<void> _getUserData() async {
     try {
+      // Fetch the user preferences without listening to changes
       final userPreferences =
           Provider.of<UserViewModel>(context, listen: false);
       final userModel = await userPreferences.getUser();
-      // Await the Future<UserModel> result
       final token = userModel.key;
 
-      if (widget.shipRocketId == "") {
+      // Ensure widget.shipRocketId is handled correctly as a String
+      final shipRocketId = widget.shipRocketId;
+      final customShipId = widget.customShipId.toString();
+
+      // Debug print the IDs to verify their values
+      debugPrint('shipRocketId: $shipRocketId');
+      debugPrint('customShipId: $customShipId');
+
+      // Determine which API call to make based on the presence of shipRocketId
+      if (shipRocketId == null || shipRocketId.isEmpty) {
+        debugPrint('Calling customShip with customShipId: $customShipId');
         await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-            .customShip(widget.customShipId, token);
+            .customShip(customShipId, token);
       } else {
+        debugPrint('Calling fetchShipData with shipRocketId: $shipRocketId');
         await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-            .fetchShipData(widget.shipRocketId!, token);
+            .fetchShipData(shipRocketId, token);
       }
-
-//       if (widget.shipRocketId != "") {
-
-//       } else {
-//  debugPrint("this is the shipRocket");
-//         await Provider.of<TrackOrderRepositoryProvider>(context, listen: false)
-//             .fetchShipData(widget.shipRocketId!, token);
-//       }
     } catch (e) {
       debugPrint('Error fetching user data: $e');
     }

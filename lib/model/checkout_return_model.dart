@@ -51,6 +51,7 @@ class Data {
   bool isActive;
   DateTime createdOn;
   List<OrderItem> orderItems;
+  String order_invoice_number;
 
   Data({
     required this.id,
@@ -76,9 +77,11 @@ class Data {
     required this.isActive,
     required this.createdOn,
     required this.orderItems,
+    required this.order_invoice_number,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
+        order_invoice_number: json["order_invoice_number"],
         id: json["id"],
         fullName: json["full_name"],
         contact: json["contact"],
@@ -129,6 +132,7 @@ class Data {
         "is_active": isActive,
         "created_on": createdOn.toIso8601String(),
         "order_items": List<dynamic>.from(orderItems.map((x) => x.toJson())),
+        "order_invoice_number": order_invoice_number,
       };
 }
 

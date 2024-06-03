@@ -15,10 +15,10 @@ class OrdersModel {
   String city;
   String state;
   String country;
-  int total;
+  double total; // Changed from int to double to match response
   double serviceCharges;
-  double shippingCharges; // Change type to double
-  int subTotal;
+  double shippingCharges;
+  double subTotal; // Changed from int to double to match response
   String paymentType;
   String orderStatus;
   String paymentStatus;
@@ -60,14 +60,12 @@ class OrdersModel {
         city: json["city"],
         state: json["state"],
         country: json["country"],
-        total:
-            (json["total"] as num).toInt(), // Ensure 'total' is parsed as int
+        total: json["total"].toDouble(), // Parse 'total' as double
         serviceCharges: json["service_charges"]
             .toDouble(), // Parse 'service_charges' as double
         shippingCharges: json["shipping_charges"]
             .toDouble(), // Parse 'shipping_charges' as double
-        subTotal: (json["sub_total"] as num)
-            .toInt(), // Ensure 'sub_total' is parsed as int
+        subTotal: json["sub_total"].toDouble(), // Parse 'sub_total' as double
         paymentType: json["payment_type"],
         orderStatus: json["order_status"],
         paymentStatus: json["payment_status"],

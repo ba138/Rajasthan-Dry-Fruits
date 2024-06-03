@@ -268,7 +268,7 @@ class _MyOrdersState extends State<MyOrders>
           debugPrint("this is the order id${order.id.toString()}");
           getAllTheData(
               orderId: order.id.toString(),
-              shiprocketId: order.shiprocketShipmentId ?? "",
+              shiprocketId: order.shiprocketShipmentId.toString(),
               customShipId: order.shipmentId);
         },
         orderId: order.id.toString(),
