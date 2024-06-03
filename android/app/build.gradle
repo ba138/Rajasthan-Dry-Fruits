@@ -53,9 +53,9 @@ android {
      signingConfigs {
         debug {
             keyAlias 'mykey'
-            keyPassword '112247@Apple'
-            storeFile file('mykeystore.jks')
-            storePassword '112247@Apple'
+            keyPassword '112247'
+            storeFile file('keystore.jks')
+            storePassword '112247'
         }
     }
 
