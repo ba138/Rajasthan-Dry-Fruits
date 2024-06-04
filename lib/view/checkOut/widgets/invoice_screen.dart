@@ -61,17 +61,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
           await imgFile.writeAsBytes(pngBytes);
 
           // Save to gallery
-          final result =
-              await ImageGallerySaver.saveImage(pngBytes, name: "list_image");
-          if (result['isSuccess']) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Image saved to gallery')),
-            );
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Failed to save image to gallery')),
-            );
-          }
+          await ImageGallerySaver.saveImage(pngBytes, name: "list_image");
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Image saved to gallery')),
+          );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Permission denied')),
