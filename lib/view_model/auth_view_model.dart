@@ -62,12 +62,15 @@ class AuthViewModel with ChangeNotifier {
       }
     } on DioError catch (error) {
       Utils.flushBarErrorMessage(handleError(error), context);
+      debugPrint(' auth View Error: $error');
       _isLoading = false;
       if (kDebugMode) {
         print(error.toString());
+        debugPrint(' auth View Error: $error');
       }
     } catch (error) {
       Utils.flushBarErrorMessage('An unexpected error occurred.', context);
+      debugPrint(' auth View catch: $error');
       _isLoading = false;
     } finally {
       _isLoading = false;
@@ -121,8 +124,8 @@ class AuthViewModel with ChangeNotifier {
         return 'Connection timed out. Please check your internet connection.';
       case DioErrorType.badResponse:
         // Handle server-side errors (e.g., check error codes or response data)
-        return error.response!.data['message'] ??
-            'An error occurred:${error.response} ';
+        return 'Invalid credentails';
+
       case DioErrorType.cancel:
         return 'Request cancelled.';
       default:
