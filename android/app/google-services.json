@@ -14,7 +14,7 @@
         },
         "oauth_client": [
           {
-            "client_id": "176072233182-qa8q1ej1j6ehc088crdcgk8c6769dop6.apps.googleusercontent.com",
+            "client_id": "176072233182-g8brbpf0ahsc6lvi216rk0m0t5hpdvm5.apps.googleusercontent.com",
             "client_type": 1,
             "android_info": {
               "package_name": "com.example.rjfruits",
@@ -22,20 +22,20 @@
             }
           },
           {
-            "client_id": "176072233182-qa8q1ej1j6ehc088crdcgk8c6769dop6.apps.googleusercontent.com",
+            "client_id": "176072233182-g8brbpf0ahsc6lvi216rk0m0t5hpdvm5.apps.googleusercontent.com",
             "client_type": 3
           }
         ],
         "api_key": [
           {
-            "current_key": "AIzaSyD13fNr-324234_kA5F-2U1Zew7K_f8"
+            "current_key": "AIzaSyCPlLGYjmoHUXNTa0lVjhZNzS8CJ0n2bWY"
           }
         ],
         "services": {
           "appinvite_service": {
             "other_platform_oauth_client": [
               {
-                "client_id": "176072233182-qa8q1ej1j6ehc088crdcgk8c6769dop6.apps.googleusercontent.com",
+                "client_id": "176072233182-g8brbpf0ahsc6lvi216rk0m0t5hpdvm5.apps.googleusercontent.com",
                 "client_type": 3
               }
             ]

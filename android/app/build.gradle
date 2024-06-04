@@ -51,11 +51,11 @@ android {
         versionName flutterVersionName
     }
     signingConfigs {
-        debug {
-            keyAlias 'uploadkeystore1'
-            keyPassword '112247'
-            storeFile file('upload-keystore.jks')
-            storePassword '112247'
+    debug {
+        keyAlias 'uploadkeystore1'
+        keyPassword '112247'
+        storeFile file('upload-keystore.jks')
+        storePassword '112247'
         }
     }
 
