@@ -73,6 +73,14 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
   @override
   Widget build(BuildContext context) {
     debugPrint('Checkout Details: ${widget.checkoutModel.data.fullName}');
+    debugPrint('Checkout Details: ${widget.checkoutModel.data.state}');
+
+    String taxLabel =
+        widget.checkoutModel.data.state.trim().toLowerCase() == 'gujarat'
+            ? "Tax (sgst + cgst)"
+            : "Tax (igst)";
+    print('Tax Label: $taxLabel');
+
     return Scaffold(
         body: Container(
       height: MediaQuery.of(context).size.height,
@@ -180,9 +188,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.checkoutModel.data.state == 'gujarat'
-                                ? "Tax (sgst + cgst)"
-                                : "Tax (igst)",
+                            taxLabel,
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,

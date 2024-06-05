@@ -3,7 +3,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,57 +28,92 @@ class InvoiceScreen extends StatefulWidget {
 class _InvoiceScreenState extends State<InvoiceScreen> {
   final GlobalKey _globalKey = GlobalKey();
 
-  Future<void> captureAndSave() async {
+  Future<void> captureAndSave(BuildContext context) async {
     try {
       // Ensure the widget is completely rendered
-      await Future.delayed(const Duration(milliseconds: 200));
+      // await Future.delayed(const Duration(milliseconds: 200));
 
-      RenderRepaintBoundary? boundary = _globalKey.currentContext
+      final RenderRepaintBoundary? boundary = _globalKey.currentContext
           ?.findRenderObject() as RenderRepaintBoundary?;
       if (boundary == null) {
         throw Exception('Boundary is null');
       }
 
-      // Ensure the boundary has no pending repaint requests
-      if (!boundary.debugNeedsPaint) {
-        var image = await boundary.toImage(pixelRatio: 3.0);
-        ByteData? byteData =
-            await image.toByteData(format: ImageByteFormat.png);
-        if (byteData == null) {
-          throw Exception('ByteData is null');
+      if (boundary.debugNeedsPaint) {
+        throw Exception('Boundary needs paint');
+      }
+
+      // Convert widget to image bytes
+      var image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+      if (byteData == null) {
+        throw Exception('ByteData is null');
+      }
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      // Request permission and save image
+      if (await _requestPermissions()) {
+        final directory = await getExternalStorageDirectory();
+        if (directory == null) {
+          throw Exception('Directory is null');
         }
-        Uint8List pngBytes = byteData.buffer.asUint8List();
+        String filePath = '${directory.path}/list_image.png';
+        File imgFile = File(filePath);
+        await imgFile.writeAsBytes(pngBytes);
 
-        final status = await Permission.storage.request();
-        if (status.isGranted) {
-          final directory = await getExternalStorageDirectory();
-          if (directory == null) {
-            throw Exception('Directory is null');
-          }
-          String filePath = '${directory.path}/list_image.png';
-          File imgFile = File(filePath);
-          await imgFile.writeAsBytes(pngBytes);
+        // Save image to gallery
+        dynamic result = null; // Initialize result with default value (null)
 
-          // Save to gallery
-          await ImageGallerySaver.saveImage(pngBytes, name: "list_image");
+        try {
+          result =
+              await ImageGallerySaver.saveImage(pngBytes, name: "list_image");
+        } catch (e) {
+          result = "Error saving image";
+          throw Exception('Error saving image: $e');
+        }
 
+        // Show success or failure message (check result before using)
+        if (result != null &&
+            result.isNotEmpty &&
+            result['isSuccess'] == true) {
+          if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Image saved to gallery')),
           );
         } else {
+          if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Permission denied')),
+            const SnackBar(content: Text('Failed to save image')),
           );
         }
       } else {
-        throw Exception('Boundary needs paint');
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Permission denied')),
+        );
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
-      debugPrint("this is error:$e");
+      debugPrint("Error in captureAndSave: $e");
     }
+  }
+
+  Future<bool> _requestPermissions() async {
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      if (Platform.isAndroid) {
+        status = await Permission.manageExternalStorage.request();
+        if (status.isGranted) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -87,7 +121,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
     final checkoutDetail = widget.checkoutdetail.data;
     final orderItems = checkoutDetail.orderItems;
     final billedBy = checkoutDetail.fullName;
+    debugPrint('Checkout Details: ${widget.checkoutdetail.data.fullName}');
+    debugPrint('Checkout Details: ${widget.checkoutdetail.data.state}');
 
+    String taxLabel =
+        widget.checkoutdetail.data.state.trim().toLowerCase() == 'gujarat'
+            ? "Tax (sgst + cgst)"
+            : "Tax (igst)";
+    print('Tax Label: $taxLabel');
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -127,7 +168,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     ),
                     IconButton(
                       onPressed: () {
-                        captureAndSave();
+                        captureAndSave(context);
                       },
                       icon: const Icon(
                         Icons.download_outlined,
