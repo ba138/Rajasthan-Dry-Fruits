@@ -23,8 +23,6 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
   bool _isLoading = false;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId:
-        '176072233182-g8brbpf0ahsc6lvi216rk0m0t5hpdvm5.apps.googleusercontent.com',
     scopes: [
       'email',
       'profile',
@@ -39,15 +37,16 @@ class _GoogleAuthButtonState extends State<GoogleAuthButton> {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
 
-      if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
+      // if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
 
-        final String accessToken = googleSignInAuthentication.accessToken ?? '';
-        final String idToken = googleSignInAuthentication.idToken ?? '';
+      final String accessToken = googleSignInAuthentication.accessToken ?? '';
+      final String idToken = googleSignInAuthentication.idToken ?? '';
+      debugPrint('accessToken:$accessToken');
 
-        handleGoogleLoginServer(context, accessToken, idToken);
-      }
+      handleGoogleLoginServer(context, accessToken, idToken);
+      // }
     } catch (error) {
       Utils.flushBarErrorMessage(error.toString(), context);
       debugPrint('error mesg: $error');
