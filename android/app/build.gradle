@@ -50,14 +50,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
-     signingConfigs {
-        debug {
-            keyAlias 'mykey'
-            keyPassword '112247'
-            storeFile file('keystore.jks')
-            storePassword '112247'
-        }
-    }
+  
 
 
     buildTypes {
