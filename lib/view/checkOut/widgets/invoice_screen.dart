@@ -44,10 +44,14 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
                     pw.Center(
-                        child: pw.Text("Rajista-Dry-Fruits",
-                            style: pw.TextStyle(
-                                fontSize: 20,
-                                color: PdfColor.fromInt(Colors.black.value)))),
+                      child: pw.Text(
+                        "Rajistan-Dry-Fruits",
+                        style: pw.TextStyle(
+                          fontSize: 20,
+                          color: PdfColor.fromInt(AppColor.primaryColor.value),
+                        ),
+                      ),
+                    ),
                     pw.SizedBox(height: 20),
                     pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
