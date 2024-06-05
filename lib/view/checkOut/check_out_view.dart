@@ -9,7 +9,6 @@ import 'package:rjfruits/res/components/loading_manager.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/checkOut/check_out_detailed_view.dart';
-import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,7 +55,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Color selectedTextColor = Colors.white;
   Color unselectedTextColor = Colors.black;
 
-  late Map<String, dynamic> selectedAddress;
+  Map<String, dynamic>? selectedAddress;
+  List<Map<String, dynamic>> addresses = [];
 
   @override
   void initState() {
@@ -67,21 +67,39 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         widget.totalPrice != null ? double.parse(widget.totalPrice!) : 0.0;
 
     // Load the selected address from shared preferences
-    _loadSelectedAddress();
+    _fetchAddresses();
   }
 
-  Future<void> _loadSelectedAddress() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonSelectedAddress = prefs.getString('selectedAddress');
+  Future<void> _fetchAddresses() async {
+    try {
+      addresses = await _getCachedAddresses();
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
-    if (jsonSelectedAddress != null) {
-      setState(() {
-        selectedAddress = jsonDecode(jsonSelectedAddress);
-      });
+  Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedAddress', jsonEncode(address));
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      selectedAddress = address;
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? encodedAddresses = prefs.getStringList('addresses');
+    if (encodedAddresses != null) {
+      return encodedAddresses.map((jsonString) {
+        return jsonDecode(jsonString) as Map<String, dynamic>;
+      }).toList();
     } else {
-      setState(() {
-        selectedAddress = {};
-      });
+      return [];
     }
   }
 
@@ -102,7 +120,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Future<void> checkoutDone(
     BuildContext context,
   ) async {
-    if (selectedAddress.isNotEmpty) {
+    if (selectedAddress!.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
@@ -110,15 +128,15 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       final provider = Provider.of<ShippingProvider>(context, listen: false);
 
       Map<String, dynamic> requestData = {
-        "full_name": selectedAddress['fullName'],
-        "contact": selectedAddress['phone'],
-        "postal_code": selectedAddress['zipCode'],
-        "address": selectedAddress['address'],
+        "full_name": selectedAddress!['fullName'],
+        "contact": selectedAddress!['phone'],
+        "postal_code": selectedAddress!['zipCode'],
+        "address": selectedAddress!['address'],
         "address_label": 'home',
-        "city": selectedAddress['city'],
-        "state": selectedAddress['state'],
+        "city": selectedAddress!['city'],
+        "state": selectedAddress!['state'],
         "country": "USA",
-        "gst_in": selectedAddress['gst'],
+        "gst_in": selectedAddress!['gst'],
         "payment_type": "online",
         "shipment_type": provider.selectedShippingType,
         "service_type": _btn2SelectedVal == 'Normal' ? 'normal' : 'fast'
@@ -185,7 +203,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   Widget build(BuildContext context) {
     final shipCharge = Provider.of<CartRepositoryProvider>(context);
-    bool isPressed = false;
 
     return Scaffold(
       body: Container(
@@ -519,157 +536,117 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                   ),
                   const VerticalSpeacing(12),
                   // Select address
-                  FutureBuilder<List<Map<String, dynamic>>>(
-                    future: _getCachedAddresses(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          List<Map<String, dynamic>> addresses =
-                              snapshot.data as List<Map<String, dynamic>>;
-                          final isSelected = addresses == selectedAddress;
-                          return Column(
-                            children: addresses.map((address) {
-                              return Column(
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    child: ListView.builder(
+                      itemCount: addresses.length,
+                      itemBuilder: (context, index) {
+                        final address = addresses[index];
+                        final isSelected = address == selectedAddress;
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: Container(
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(255, 255, 255, 0.2),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  width: 2, color: AppColor.primaryColor),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.5),
+                                  blurRadius: 2,
+                                  spreadRadius: 0,
+                                  offset: const Offset(0, 0),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 15.0, left: 15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    height: 100,
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromRGBO(
-                                          255, 255, 255, 0.2),
-                                      borderRadius: BorderRadius.circular(
-                                        10,
-                                      ),
-                                      border: Border.all(
-                                          width: 2,
-                                          color: AppColor.primaryColor),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.white
-                                              .withOpacity(0.5), // Shadow color
-                                          blurRadius: 2, // Blur radius
-                                          spreadRadius: 0, // Spread radius
-                                          offset: const Offset(0, 0), // Offset
-                                        ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15.0, left: 15.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            children: [
-                                              const VerticalSpeacing(7),
-                                              InkWell(
-                                                onTap: () async {
-                                                  await _storeSelectedAddress(
-                                                      address);
-                                                  selectedAddress = address;
-                                                },
-                                                child: Container(
-                                                  height: 16,
-                                                  width: 16,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color: AppColor
-                                                            .primaryColor),
-                                                    color: isSelected
-                                                        ? AppColor.primaryColor
-                                                        : Colors.transparent,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                  Column(
+                                    children: [
+                                      const VerticalSpeacing(7),
+                                      InkWell(
+                                        onTap: () async {
+                                          await _storeSelectedAddress(address);
+                                          setState(() {
+                                            selectedAddress = address;
+                                          });
+                                          debugPrint(
+                                              'address $selectedAddress');
+                                        },
+                                        child: Container(
+                                          height: 16,
+                                          width: 16,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColor.primaryColor),
+                                            color: isSelected
+                                                ? AppColor.primaryColor
+                                                : Colors.transparent,
                                           ),
-                                          // const MyCheckBox(),
-                                          const SizedBox(width: 15.0),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text.rich(
-                                                TextSpan(
-                                                  text: address['fullName']
-                                                              .length >
-                                                          15
-                                                      ? '${address['fullName'].substring(0, 15)}...'
-                                                      : address['fullName'],
-                                                  style: const TextStyle(
-                                                    fontFamily: 'CenturyGothic',
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                    color:
-                                                        AppColor.primaryColor,
-                                                  ),
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text:
-                                                          '\n${address['phone'] ?? ''}\n',
-                                                      style: const TextStyle(
-                                                        color:
-                                                            AppColor.textColor1,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14.0,
-                                                      ),
-                                                    ),
-                                                    TextSpan(
-                                                      text: (() {
-                                                        String fullText =
-                                                            '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}';
-                                                        return fullText.length >
-                                                                20
-                                                            ? '${fullText.substring(0, 20)}...'
-                                                            : fullText;
-                                                      })(),
-                                                      style: const TextStyle(
-                                                        color:
-                                                            AppColor.textColor1,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14.0,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  // AddressCheckOutWidget(
-                                  //   bgColor: AppColor.whiteColor,
-                                  //   borderColor: AppColor.primaryColor,
-                                  //   titleColor: AppColor.primaryColor,
-                                  //   title: address['fullName'] ?? '',
-                                  //   phNo: address['phone'] ?? '',
-                                  //   address:
-                                  //       '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}',
-                                  //   onpress: () async {
-                                  //     // Store the selected address in shared preferences
-                                  //     await _storeSelectedAddress(address);
-                                  //     selectedAddress = address;
-                                  //   },
-                                  // ),
-                                  const VerticalSpeacing(20),
+                                  const SizedBox(width: 15.0),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text.rich(
+                                        TextSpan(
+                                          text: address['fullName'].length > 20
+                                              ? '${address['fullName'].substring(0, 15)}...'
+                                              : address['fullName'],
+                                          style: const TextStyle(
+                                            fontFamily: 'CenturyGothic',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.primaryColor,
+                                          ),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text:
+                                                  '\n${address['phone'] ?? ''}\n',
+                                              style: const TextStyle(
+                                                color: AppColor.textColor1,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14.0,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: (() {
+                                                String fullText =
+                                                    '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}';
+                                                return fullText.length > 10
+                                                    ? '${fullText.substring(0, 20)}...'
+                                                    : fullText;
+                                              })(),
+                                              style: const TextStyle(
+                                                color: AppColor.textColor1,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
-                              );
-                            }).toList(),
-                          );
-                        }
-                      }
-                    },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   const VerticalSpeacing(50),
                   Consumer<ShippingProvider>(
@@ -677,7 +654,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     return RoundedButton(
                       title: "Proceed to Checkout: ₹$totalPrice",
                       onpress: () {
-                        if (selectedAddress.isEmpty) {
+                        if (selectedAddress!.isEmpty) {
                           Utils.toastMessage('please select the Address');
                         } else {
                           checkoutDone(context);
@@ -693,26 +670,5 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('selectedAddress', jsonEncode(address));
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      selectedAddress = address;
-    });
-  }
-
-  Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? encodedAddresses = prefs.getStringList('addresses');
-    if (encodedAddresses != null) {
-      return encodedAddresses.map((jsonString) {
-        return jsonDecode(jsonString) as Map<String, dynamic>;
-      }).toList();
-    } else {
-      return [];
-    }
   }
 }
