@@ -185,6 +185,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   Widget build(BuildContext context) {
     final shipCharge = Provider.of<CartRepositoryProvider>(context);
+    bool isPressed = false;
 
     return Scaffold(
       body: Container(
@@ -517,6 +518,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ],
                   ),
                   const VerticalSpeacing(12),
+                  // Select address
                   FutureBuilder<List<Map<String, dynamic>>>(
                     future: _getCachedAddresses(),
                     builder: (context, snapshot) {
@@ -528,24 +530,138 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         } else {
                           List<Map<String, dynamic>> addresses =
                               snapshot.data as List<Map<String, dynamic>>;
+                          final isSelected = addresses == selectedAddress;
                           return Column(
                             children: addresses.map((address) {
                               return Column(
                                 children: [
-                                  AddressCheckOutWidget(
-                                    bgColor: AppColor.whiteColor,
-                                    borderColor: AppColor.primaryColor,
-                                    titleColor: AppColor.primaryColor,
-                                    title: address['fullName'] ?? '',
-                                    phNo: address['phone'] ?? '',
-                                    address:
-                                        '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}',
-                                    onpress: () async {
-                                      // Store the selected address in shared preferences
-                                      await _storeSelectedAddress(address);
-                                      selectedAddress = address;
-                                    },
+                                  Container(
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          255, 255, 255, 0.2),
+                                      borderRadius: BorderRadius.circular(
+                                        10,
+                                      ),
+                                      border: Border.all(
+                                          width: 2,
+                                          color: AppColor.primaryColor),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.white
+                                              .withOpacity(0.5), // Shadow color
+                                          blurRadius: 2, // Blur radius
+                                          spreadRadius: 0, // Spread radius
+                                          offset: const Offset(0, 0), // Offset
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 15.0, left: 15.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            children: [
+                                              const VerticalSpeacing(7),
+                                              InkWell(
+                                                onTap: () async {
+                                                  await _storeSelectedAddress(
+                                                      address);
+                                                  selectedAddress = address;
+                                                },
+                                                child: Container(
+                                                  height: 16,
+                                                  width: 16,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: AppColor
+                                                            .primaryColor),
+                                                    color: isSelected
+                                                        ? AppColor.primaryColor
+                                                        : Colors.transparent,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          // const MyCheckBox(),
+                                          const SizedBox(width: 15.0),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text.rich(
+                                                TextSpan(
+                                                  text: address['fullName']
+                                                              .length >
+                                                          15
+                                                      ? '${address['fullName'].substring(0, 15)}...'
+                                                      : address['fullName'],
+                                                  style: const TextStyle(
+                                                    fontFamily: 'CenturyGothic',
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        AppColor.primaryColor,
+                                                  ),
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text:
+                                                          '\n${address['phone'] ?? ''}\n',
+                                                      style: const TextStyle(
+                                                        color:
+                                                            AppColor.textColor1,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text: (() {
+                                                        String fullText =
+                                                            '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}';
+                                                        return fullText.length >
+                                                                20
+                                                            ? '${fullText.substring(0, 20)}...'
+                                                            : fullText;
+                                                      })(),
+                                                      style: const TextStyle(
+                                                        color:
+                                                            AppColor.textColor1,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
+                                  // AddressCheckOutWidget(
+                                  //   bgColor: AppColor.whiteColor,
+                                  //   borderColor: AppColor.primaryColor,
+                                  //   titleColor: AppColor.primaryColor,
+                                  //   title: address['fullName'] ?? '',
+                                  //   phNo: address['phone'] ?? '',
+                                  //   address:
+                                  //       '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}',
+                                  //   onpress: () async {
+                                  //     // Store the selected address in shared preferences
+                                  //     await _storeSelectedAddress(address);
+                                  //     selectedAddress = address;
+                                  //   },
+                                  // ),
                                   const VerticalSpeacing(20),
                                 ],
                               );
@@ -582,6 +698,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('selectedAddress', jsonEncode(address));
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      selectedAddress = address;
+    });
   }
 
   Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
