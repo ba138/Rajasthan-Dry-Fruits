@@ -12,7 +12,6 @@ import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/rating_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/service/track_order_view_model.dart';
-import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:rjfruits/view_model/shop_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
@@ -67,9 +66,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => RatingRepositoryProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ShippingProvider(),
         ),
       ],
       child: MaterialApp(

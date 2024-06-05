@@ -10,7 +10,6 @@ import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/checkOut/check_out_detailed_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
-import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -125,7 +124,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         _isLoading = true;
       });
 
-      final provider = Provider.of<ShippingProvider>(context, listen: false);
+      // final provider = Provider.of<ShippingProvider>(context, listen: false);
 
       Map<String, dynamic> requestData = {
         "full_name": selectedAddress!['fullName'],
@@ -138,7 +137,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "country": "USA",
         "gst_in": selectedAddress!['gst'],
         "payment_type": "online",
-        "shipment_type": provider.selectedShippingType,
+        "shipment_type": shippingType,
         "service_type": _btn2SelectedVal == 'Normal' ? 'normal' : 'fast'
       };
 
@@ -199,6 +198,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       Utils.toastMessage('Selected address is empty.');
     }
   }
+
+  String? shippingType;
 
   @override
   Widget build(BuildContext context) {
@@ -323,143 +324,105 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ),
                       ),
                       const VerticalSpeacing(10.0),
-                      ChangeNotifierProvider<ShippingProvider>(
-                        create: (context) => ShippingProvider(),
-                        child: Row(
-                          children: [
-                            // Ship rocket
-                            Consumer<ShippingProvider>(
-                              builder: (context, provider, child) => InkWell(
-                                onTap: () {
-                                  provider.updateSelection(0);
-
-                                  setState(() {
-                                    selectedContainerIndex = 0;
-                                    double basePrice = widget.totalPrice != null
-                                        ? double.parse(widget.totalPrice!)
-                                        : 0.0;
-                                    double shipRocket = shipCharge
-                                        .cartRepositoryProvider
-                                        .shipRocketCharges;
-
-                                    totalPrice = _btn2SelectedVal == "Normal"
-                                        ? basePrice + shipRocket
-                                        : basePrice + shipRocket * 2;
-                                  });
-                                },
-                                child: Container(
-                                  height: 70,
-                                  width: 135,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: provider.selectedContainerIndex == 0
-                                        ? selectedContainerColor
-                                        : unselectedContainerColor,
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            Icons.rocket_outlined,
-                                            size: 30.0,
-                                            color:
-                                                provider.selectedContainerIndex ==
-                                                        0
-                                                    ? selectedIconColor
-                                                    : unselectedIconColor,
-                                          ),
-                                          Text(
-                                            "Ship rocket",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            0
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                      Row(
+                        children: [
+                          // Ship rocket
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                shippingType = 'ship_rocket'; // Corrected here
+                              });
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 135,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: shippingType == 'ship_rocket'
+                                    ? selectedContainerColor
+                                    : unselectedContainerColor,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.rocket_outlined,
+                                        size: 30.0,
+                                        color: shippingType == 'ship_rocket'
+                                            ? selectedIconColor
+                                            : unselectedIconColor,
                                       ),
-                                    ),
+                                      Text(
+                                        "Ship rocket",
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: shippingType == 'ship_rocket'
+                                                ? selectedTextColor
+                                                : unselectedTextColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
+                          ),
 
-                            const SizedBox(width: 20.0),
-                            // Custom shipping
-                            Consumer<ShippingProvider>(
-                              builder: (context, provider, child) => InkWell(
-                                onTap: () {
-                                  provider.updateSelection(1);
-                                  setState(() {
-                                    selectedContainerIndex = 1;
-                                    double basePrice = widget.totalPrice != null
-                                        ? double.parse(widget.totalPrice!)
-                                        : 0.0;
-                                    double customShippingCharges = shipCharge
-                                        .cartRepositoryProvider
-                                        .customShippingCharges;
-
-                                    totalPrice = _btn2SelectedVal == "Normal"
-                                        ? basePrice + customShippingCharges
-                                        : basePrice + customShippingCharges * 2;
-                                  });
-                                },
-                                child: Container(
-                                  height: 70,
-                                  width: 135,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: provider.selectedContainerIndex == 1
-                                        ? selectedContainerColor
-                                        : unselectedContainerColor,
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            Icons.local_shipping_outlined,
-                                            size: 30.0,
-                                            color:
-                                                provider.selectedContainerIndex ==
-                                                        1
-                                                    ? selectedIconColor
-                                                    : unselectedIconColor,
-                                          ),
-                                          Text(
-                                            "custom shipment",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            1
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                          const SizedBox(width: 20.0),
+                          // Custom shipping
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                shippingType = 'custom'; // Corrected here
+                              });
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 135,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: shippingType == 'custom'
+                                    ? selectedContainerColor
+                                    : unselectedContainerColor,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.local_shipping_outlined,
+                                        size: 30.0,
+                                        color: shippingType == 'custom'
+                                            ? selectedIconColor
+                                            : unselectedIconColor,
                                       ),
-                                    ),
+                                      Text(
+                                        "custom shipment",
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: shippingType == 'custom'
+                                                ? selectedTextColor
+                                                : unselectedTextColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -616,19 +579,16 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ),
                   ),
                   const VerticalSpeacing(50),
-                  Consumer<ShippingProvider>(
-                      builder: (context, provider, child) {
-                    return RoundedButton(
-                      title: "Proceed to Checkout",
-                      onpress: () {
-                        if (selectedAddress!.isEmpty) {
-                          Utils.toastMessage('please select the Address');
-                        } else {
-                          checkoutDone(context);
-                        }
-                      },
-                    );
-                  }),
+                  RoundedButton(
+                    title: "Proceed to Checkout",
+                    onpress: () {
+                      if (selectedAddress!.isEmpty) {
+                        Utils.toastMessage('please select the Address');
+                      } else {
+                        checkoutDone(context);
+                      }
+                    },
+                  ),
                   const VerticalSpeacing(20),
                 ],
               ),
