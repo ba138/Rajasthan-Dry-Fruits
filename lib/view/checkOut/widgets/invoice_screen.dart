@@ -75,15 +75,16 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                 fontSize: 14,
                                 fontWeight: pw.FontWeight.bold,
                                 color: PdfColor.fromInt(Colors.black.value))),
-                        pw.Text(widget.checkoutdetail.data.address,
+                        pw.Text(
+                            "Address: ${widget.checkoutdetail.data.address}",
                             style: pw.TextStyle(
                                 fontSize: 14,
                                 color: PdfColor.fromInt(Colors.black.value))),
-                        pw.Text(widget.checkoutdetail.data.contact,
+                        pw.Text("Phone: ${widget.checkoutdetail.data.contact}",
                             style: pw.TextStyle(
                                 fontSize: 14,
                                 color: PdfColor.fromInt(Colors.black.value))),
-                        pw.Text("********",
+                        pw.Text("GSTIN: ********",
                             style: pw.TextStyle(
                                 fontSize: 14,
                                 color: PdfColor.fromInt(Colors.black.value))),
