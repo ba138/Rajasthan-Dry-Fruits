@@ -51,6 +51,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
       "key": "rzp_test_kkUIxwpbhcs1td",
       "amount": amountInPaise,
       "name": 'Rajistan_dry_fruit',
+      'order_id': '',
       "description": 'for T-shirt',
       "prefill": {"contact": "value1", "email": "value2"},
       'external': {
