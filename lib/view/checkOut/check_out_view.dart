@@ -9,9 +9,7 @@ import 'package:rjfruits/res/components/loading_manager.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/checkOut/check_out_detailed_view.dart';
-import 'package:rjfruits/view/checkOut/widgets/address_container.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
-import 'package:rjfruits/view_model/shipping_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -56,7 +54,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Color selectedTextColor = Colors.white;
   Color unselectedTextColor = Colors.black;
 
-  late Map<String, dynamic> selectedAddress;
+  Map<String, dynamic>? selectedAddress;
+  List<Map<String, dynamic>> addresses = [];
 
   @override
   void initState() {
@@ -67,21 +66,39 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         widget.totalPrice != null ? double.parse(widget.totalPrice!) : 0.0;
 
     // Load the selected address from shared preferences
-    _loadSelectedAddress();
+    _fetchAddresses();
   }
 
-  Future<void> _loadSelectedAddress() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? jsonSelectedAddress = prefs.getString('selectedAddress');
+  Future<void> _fetchAddresses() async {
+    try {
+      addresses = await _getCachedAddresses();
+    } catch (e) {
+      debugPrint(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
-    if (jsonSelectedAddress != null) {
-      setState(() {
-        selectedAddress = jsonDecode(jsonSelectedAddress);
-      });
+  Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('selectedAddress', jsonEncode(address));
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      selectedAddress = address;
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? encodedAddresses = prefs.getStringList('addresses');
+    if (encodedAddresses != null) {
+      return encodedAddresses.map((jsonString) {
+        return jsonDecode(jsonString) as Map<String, dynamic>;
+      }).toList();
     } else {
-      setState(() {
-        selectedAddress = {};
-      });
+      return [];
     }
   }
 
@@ -102,25 +119,25 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   Future<void> checkoutDone(
     BuildContext context,
   ) async {
-    if (selectedAddress.isNotEmpty) {
+    if (selectedAddress!.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
 
-      final provider = Provider.of<ShippingProvider>(context, listen: false);
+      // final provider = Provider.of<ShippingProvider>(context, listen: false);
 
       Map<String, dynamic> requestData = {
-        "full_name": selectedAddress['fullName'],
-        "contact": selectedAddress['phone'],
-        "postal_code": selectedAddress['zipCode'],
-        "address": selectedAddress['address'],
+        "full_name": selectedAddress!['fullName'],
+        "contact": selectedAddress!['phone'],
+        "postal_code": selectedAddress!['zipCode'],
+        "address": selectedAddress!['address'],
         "address_label": 'home',
-        "city": selectedAddress['city'],
-        "state": selectedAddress['state'],
+        "city": selectedAddress!['city'],
+        "state": selectedAddress!['state'],
         "country": "USA",
-        "gst_in": selectedAddress['gst'],
+        "gst_in": selectedAddress!['gst'],
         "payment_type": "online",
-        "shipment_type": provider.selectedShippingType,
+        "shipment_type": shippingType,
         "service_type": _btn2SelectedVal == 'Normal' ? 'normal' : 'fast'
       };
 
@@ -181,6 +198,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       Utils.toastMessage('Selected address is empty.');
     }
   }
+
+  String? shippingType;
 
   @override
   Widget build(BuildContext context) {
@@ -265,6 +284,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                             right: 8,
                           ),
                           child: DropdownButton(
+                            dropdownColor: AppColor.whiteColor,
                             isExpanded: true,
                             underline: const SizedBox(),
                             value: _btn2SelectedVal,
@@ -304,177 +324,105 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ),
                       ),
                       const VerticalSpeacing(10.0),
-                      ChangeNotifierProvider<ShippingProvider>(
-                        create: (context) => ShippingProvider(),
-                        child: Row(
-                          children: [
-                            // Ship rocket
-                            Consumer<ShippingProvider>(
-                              builder: (context, provider, child) => InkWell(
-                                onTap: () {
-                                  provider.updateSelection(0);
-
-                                  setState(() {
-                                    selectedContainerIndex = 0;
-                                    double basePrice = widget.totalPrice != null
-                                        ? double.parse(widget.totalPrice!)
-                                        : 0.0;
-                                    double shipRocket = shipCharge
-                                        .cartRepositoryProvider
-                                        .shipRocketCharges;
-
-                                    totalPrice = _btn2SelectedVal == "Normal"
-                                        ? basePrice + shipRocket
-                                        : basePrice + shipRocket * 2;
-                                  });
-                                },
-                                child: Container(
-                                  height: 80,
-                                  width: 135,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: provider.selectedContainerIndex == 0
-                                        ? selectedContainerColor
-                                        : unselectedContainerColor,
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            Icons.rocket_outlined,
-                                            size: 30.0,
-                                            color:
-                                                provider.selectedContainerIndex ==
-                                                        0
-                                                    ? selectedIconColor
-                                                    : unselectedIconColor,
-                                          ),
-                                          Text(
-                                            "Ship rocket",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            0
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            _btn2SelectedVal == "Normal"
-                                                ? "₹${shipCharge.cartRepositoryProvider.shipRocketCharges}"
-                                                : "₹${shipCharge.cartRepositoryProvider.shipRocketCharges * 2}",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            0
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                      Row(
+                        children: [
+                          // Ship rocket
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                shippingType = 'ship_rocket'; // Corrected here
+                              });
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 135,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: shippingType == 'ship_rocket'
+                                    ? selectedContainerColor
+                                    : unselectedContainerColor,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.rocket_outlined,
+                                        size: 30.0,
+                                        color: shippingType == 'ship_rocket'
+                                            ? selectedIconColor
+                                            : unselectedIconColor,
                                       ),
-                                    ),
+                                      Text(
+                                        "Ship rocket",
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: shippingType == 'ship_rocket'
+                                                ? selectedTextColor
+                                                : unselectedTextColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
+                          ),
 
-                            const SizedBox(width: 20.0),
-                            // Custom shipping
-                            Consumer<ShippingProvider>(
-                              builder: (context, provider, child) => InkWell(
-                                onTap: () {
-                                  provider.updateSelection(1);
-                                  setState(() {
-                                    selectedContainerIndex = 1;
-                                    double basePrice = widget.totalPrice != null
-                                        ? double.parse(widget.totalPrice!)
-                                        : 0.0;
-                                    double customShippingCharges = shipCharge
-                                        .cartRepositoryProvider
-                                        .customShippingCharges;
-
-                                    totalPrice = _btn2SelectedVal == "Normal"
-                                        ? basePrice + customShippingCharges
-                                        : basePrice + customShippingCharges * 2;
-                                  });
-                                },
-                                child: Container(
-                                  height: 80,
-                                  width: 135,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: provider.selectedContainerIndex == 1
-                                        ? selectedContainerColor
-                                        : unselectedContainerColor,
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            Icons.local_shipping_outlined,
-                                            size: 30.0,
-                                            color:
-                                                provider.selectedContainerIndex ==
-                                                        1
-                                                    ? selectedIconColor
-                                                    : unselectedIconColor,
-                                          ),
-                                          Text(
-                                            "custom shipment",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            1
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            _btn2SelectedVal == "Normal"
-                                                ? "₹${shipCharge.cartRepositoryProvider.customShippingCharges}"
-                                                : "₹${shipCharge.cartRepositoryProvider.customShippingCharges * 2}",
-                                            style: GoogleFonts.getFont(
-                                              "Poppins",
-                                              textStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color:
-                                                    provider.selectedContainerIndex ==
-                                                            1
-                                                        ? selectedTextColor
-                                                        : unselectedTextColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                          const SizedBox(width: 20.0),
+                          // Custom shipping
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                shippingType = 'custom'; // Corrected here
+                              });
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 135,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: shippingType == 'custom'
+                                    ? selectedContainerColor
+                                    : unselectedContainerColor,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.local_shipping_outlined,
+                                        size: 30.0,
+                                        color: shippingType == 'custom'
+                                            ? selectedIconColor
+                                            : unselectedIconColor,
                                       ),
-                                    ),
+                                      Text(
+                                        "custom shipment",
+                                        style: GoogleFonts.getFont(
+                                          "Poppins",
+                                          textStyle: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: shippingType == 'custom'
+                                                ? selectedTextColor
+                                                : unselectedTextColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -517,58 +465,130 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ],
                   ),
                   const VerticalSpeacing(12),
-                  FutureBuilder<List<Map<String, dynamic>>>(
-                    future: _getCachedAddresses(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
-                      } else {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          List<Map<String, dynamic>> addresses =
-                              snapshot.data as List<Map<String, dynamic>>;
-                          return Column(
-                            children: addresses.map((address) {
-                              return Column(
+                  // Select address
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    child: ListView.builder(
+                      itemCount: addresses.length,
+                      itemBuilder: (context, index) {
+                        final address = addresses[index];
+                        final isSelected = address == selectedAddress;
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: Container(
+                            height: 100,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(255, 255, 255, 0.2),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  width: 2, color: AppColor.primaryColor),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withOpacity(0.5),
+                                  blurRadius: 2,
+                                  spreadRadius: 0,
+                                  offset: const Offset(0, 0),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 15.0, left: 15.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  AddressCheckOutWidget(
-                                    bgColor: AppColor.whiteColor,
-                                    borderColor: AppColor.primaryColor,
-                                    titleColor: AppColor.primaryColor,
-                                    title: address['fullName'] ?? '',
-                                    phNo: address['phone'] ?? '',
-                                    address:
-                                        '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}',
-                                    onpress: () async {
-                                      // Store the selected address in shared preferences
-                                      await _storeSelectedAddress(address);
-                                      selectedAddress = address;
-                                    },
+                                  Column(
+                                    children: [
+                                      const VerticalSpeacing(7),
+                                      InkWell(
+                                        onTap: () async {
+                                          await _storeSelectedAddress(address);
+                                          setState(() {
+                                            selectedAddress = address;
+                                          });
+                                          debugPrint(
+                                              'address $selectedAddress');
+                                        },
+                                        child: Container(
+                                          height: 16,
+                                          width: 16,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColor.primaryColor),
+                                            color: isSelected
+                                                ? AppColor.primaryColor
+                                                : Colors.transparent,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  const VerticalSpeacing(20),
+                                  const SizedBox(width: 15.0),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text.rich(
+                                        TextSpan(
+                                          text: address['fullName'].length > 20
+                                              ? '${address['fullName'].substring(0, 15)}...'
+                                              : address['fullName'],
+                                          style: const TextStyle(
+                                            fontFamily: 'CenturyGothic',
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.primaryColor,
+                                          ),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text:
+                                                  '\n${address['phone'] ?? ''}\n',
+                                              style: const TextStyle(
+                                                color: AppColor.textColor1,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14.0,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: (() {
+                                                String fullText =
+                                                    '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}';
+                                                return fullText.length > 10
+                                                    ? '${fullText.substring(0, 20)}...'
+                                                    : fullText;
+                                              })(),
+                                              style: const TextStyle(
+                                                color: AppColor.textColor1,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ],
-                              );
-                            }).toList(),
-                          );
-                        }
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const VerticalSpeacing(50),
+                  RoundedButton(
+                    title: "Proceed to Checkout",
+                    onpress: () {
+                      if (selectedAddress!.isEmpty) {
+                        Utils.toastMessage('please select the Address');
+                      } else {
+                        checkoutDone(context);
                       }
                     },
                   ),
-                  const VerticalSpeacing(50),
-                  Consumer<ShippingProvider>(
-                      builder: (context, provider, child) {
-                    return RoundedButton(
-                      title: "Proceed to Checkout: ₹$totalPrice",
-                      onpress: () {
-                        if (selectedAddress.isEmpty) {
-                          Utils.toastMessage('please select the Address');
-                        } else {
-                          checkoutDone(context);
-                        }
-                      },
-                    );
-                  }),
                   const VerticalSpeacing(20),
                 ],
               ),
@@ -577,22 +597,5 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('selectedAddress', jsonEncode(address));
-  }
-
-  Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? encodedAddresses = prefs.getStringList('addresses');
-    if (encodedAddresses != null) {
-      return encodedAddresses.map((jsonString) {
-        return jsonDecode(jsonString) as Map<String, dynamic>;
-      }).toList();
-    } else {
-      return [];
-    }
   }
 }
