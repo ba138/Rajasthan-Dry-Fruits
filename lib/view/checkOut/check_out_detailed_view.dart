@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:rjfruits/model/checkout_return_model.dart';
 import 'package:rjfruits/view/checkOut/payment_done_view.dart';
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
 import '../../utils/routes/utils.dart';
+import 'package:http/http.dart' as http;
+
+import '../../view_model/user_view_model.dart';
 
 class CheckoutDetailView extends StatefulWidget {
   const CheckoutDetailView({super.key, required this.checkoutModel});
@@ -28,13 +34,43 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    debugPrint('payment ID: ${response.paymentId}');
-    debugPrint('Order ID: ${response.orderId}');
-    debugPrint('Signature ID: ${response.signature}');
-    Utils.toastMessage('Payment SuccessFully Done');
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return PaymentDoneScreen(checkoutModel: widget.checkoutModel);
-    }));
+    Map<String, dynamic> requestData = {
+      "razorpay_order_id": widget.checkoutModel.razorpayOrderId,
+      "razorpay_payment_id": response.paymentId,
+      "razorpay_signature": 'string',
+    };
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      final token = userModel.key;
+
+      Map<String, String> headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken':
+            'nhMfk5vj6u370ntAQIeaFBV9sGSk4QVSOJ2yQOQM5G2NG7HH7pMJczsyDxTJp6zA',
+        'authorization': 'Token $token',
+      };
+
+      http.Response apiResponse = await http.post(
+        Uri.parse('http://103.117.180.187/api/payment/success/'),
+        headers: headers,
+        body: jsonEncode(requestData),
+      );
+      if (apiResponse.statusCode == 200) {
+        Utils.toastMessage('Payment SuccessFully Done');
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return PaymentDoneScreen(checkoutModel: widget.checkoutModel);
+        }));
+      } else {
+        Utils.toastMessage('Payment Failed');
+      }
+    } catch (e) {
+      if (e is http.ClientException) {
+        Utils.toastMessage('Network error occurred: ${e.message}');
+      }
+    }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -51,7 +87,6 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
       "key": "rzp_test_kkUIxwpbhcs1td",
       "amount": amountInPaise,
       "name": 'Rajistan_dry_fruit',
-      'order_id': '',
       "description": 'for T-shirt',
       "prefill": {"contact": "value1", "email": "value2"},
       'external': {
@@ -80,7 +115,6 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
         widget.checkoutModel.data.state.trim().toLowerCase() == 'gujarat'
             ? "Tax (sgst + cgst)"
             : "Tax (igst)";
-    print('Tax Label: $taxLabel');
 
     return Scaffold(
         body: Container(
