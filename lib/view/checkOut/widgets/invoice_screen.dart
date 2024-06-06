@@ -1,11 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -308,7 +305,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
         widget.checkoutdetail.data.state.trim().toLowerCase() == 'gujarat'
             ? "Tax (sgst + cgst)"
             : "Tax (igst)";
-    print('Tax Label: $taxLabel');
+    debugPrint('Tax Label: $taxLabel');
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
