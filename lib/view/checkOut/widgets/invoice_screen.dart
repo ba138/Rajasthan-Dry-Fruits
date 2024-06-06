@@ -43,6 +43,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                 return pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
+                    pw.SizedBox(height: 20),
                     pw.Center(
                       child: pw.Text(
                         "Rajistan-Dry-Fruits",
@@ -239,33 +240,26 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
 
           // Save PDF to file
           if (await _requestPermissions()) {
-            final directory = Platform.isAndroid
-                ? Directory('/storage/emulated/0/Download')
-                : await getApplicationDocumentsDirectory();
+            final directory = Directory('/storage/emulated/0/Download');
 
-            if (directory != null) {
-              String filePath = '${directory.path}/invoice.pdf';
-              debugPrint('Saving PDF to: $filePath'); // Debug print statement
+            String filePath = '${directory.path}/invoice.pdf';
+            debugPrint('Saving PDF to: $filePath'); // Debug print statement
 
-              final File file = File(filePath);
-              await file.writeAsBytes(await pdf.save());
+            final File file = File(filePath);
+            await file.writeAsBytes(await pdf.save());
 
-              // Verify if the file exists
-              if (await file.exists()) {
-                debugPrint(
-                    'PDF file successfully saved'); // Debug print statement
+            // Verify if the file exists
+            if (await file.exists()) {
+              debugPrint(
+                  'PDF file successfully saved'); // Debug print statement
 
-                // Show success message
-                if (!mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('PDF saved to Downloads folder')),
-                );
-              } else {
-                throw Exception('File was not saved successfully');
-              }
+              // Show success message
+              if (!mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('PDF saved to Downloads folder')),
+              );
             } else {
-              throw Exception('Downloads directory not found');
+              throw Exception('File was not saved successfully');
             }
           } else {
             if (!mounted) return;
