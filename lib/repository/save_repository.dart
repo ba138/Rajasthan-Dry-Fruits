@@ -41,8 +41,10 @@ class SaveRepository extends ChangeNotifier {
         notifyListeners();
 
         Utils.toastMessage("Product added to wishlist successfully");
+        print('thi is the succes of wishlist:${response.body}');
       } else {
         Utils.toastMessage("Unable to add product to wishlist");
+        print('thi is the faild of wishlist:${response.body}');
       }
     } catch (e) {
       handleApiError(e, context);

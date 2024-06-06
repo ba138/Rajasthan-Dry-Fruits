@@ -197,7 +197,6 @@ class _LoginViewState extends State<LoginView> {
                                     });
 
                                     Utils.flushBarErrorMessage('$e', context);
-                                    debugPrint('Login View Error: $e');
                                   } finally {
                                     setState(() {
                                       _isLoading = false;
