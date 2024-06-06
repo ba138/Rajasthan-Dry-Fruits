@@ -199,7 +199,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     }
   }
 
-  String? shippingType;
+  String shippingType = 'ship_rocket';
 
   @override
   Widget build(BuildContext context) {
