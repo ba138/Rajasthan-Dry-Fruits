@@ -14,6 +14,7 @@ import 'package:printing/printing.dart';
 import 'package:rjfruits/model/checkout_return_model.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:uuid/uuid.dart';
 
 class InvoiceScreen extends StatefulWidget {
   const InvoiceScreen({
@@ -237,12 +238,12 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
               },
             ),
           );
-
+          String uuid = const Uuid().v1();
           // Save PDF to file
           if (await _requestPermissions()) {
             final directory = Directory('/storage/emulated/0/Download');
 
-            String filePath = '${directory.path}/invoice.pdf';
+            String filePath = '${directory.path}/invoice$uuid.pdf';
             debugPrint('Saving PDF to: $filePath'); // Debug print statement
 
             final File file = File(filePath);
