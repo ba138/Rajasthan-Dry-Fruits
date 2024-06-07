@@ -134,7 +134,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "address_label": 'home',
         "city": selectedAddress!['city'],
         "state": selectedAddress!['state'],
-        "country": "USA",
+        "country": "india",
         "gst_in": selectedAddress!['gst'],
         "payment_type": "online",
         "shipment_type": shippingType,
