@@ -342,7 +342,7 @@ class _CartViewState extends State<CartView> {
                                         ]),
                                     child: Center(
                                       child: Text(
-                                        "Proceed to CheckOut : ₹${double.parse(cartProvider.calculateTotalPrice()).toStringAsFixed(2)}",
+                                        "Proceed to CheckOut : ₹${(double.parse(cartProvider.calculateTotalPrice()) - cartProvider.cartRepositoryProvider.discountPrice).toStringAsFixed(2)}",
                                         style: GoogleFonts.getFont(
                                           "Poppins",
                                           textStyle: const TextStyle(
@@ -362,9 +362,7 @@ class _CartViewState extends State<CartView> {
                       ),
                     ),
                   ),
-
                   const VerticalSpeacing(60.0),
-
                 ],
               ),
             ),

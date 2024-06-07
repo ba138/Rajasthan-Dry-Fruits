@@ -50,21 +50,14 @@ class _CategoriesSectionState extends State<CategoriesSection> {
             child: Consumer<HomeRepositoryProvider>(
                 builder: (context, homeRepo, child) {
               if (homeRepo.homeRepository.categriousProduct.isEmpty) {
-                return GridView.count(
-                  padding: const EdgeInsets.all(5.0),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  childAspectRatio: (180 / 260),
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  children: List.generate(
-                    2,
-                    (index) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child:
-                          const HomeCard(isdiscount: true, averageReview: "4"),
+                return Center(
+                  child: Text(
+                    'No Products to show',
+                    style: GoogleFonts.getFont(
+                      "Roboto",
+                      color: AppColor.textColor1,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 );
