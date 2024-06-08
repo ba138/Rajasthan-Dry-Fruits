@@ -227,7 +227,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           controller: _fullNameController,
                           maxLines: 2,
                           text: "Full Name",
-                          hintText: "Hiren User",
+                          hintText: "Enter your full Name",
                         ),
                         // phone field
                         Container(
@@ -341,19 +341,19 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           controller: _addressController,
                           maxLines: 2,
                           text: "Address",
-                          hintText: "Delhi India",
+                          hintText: "Enter your address",
                         ),
                         PaymentField(
                           controller: _cityController,
                           maxLines: 2,
                           text: "City",
-                          hintText: "Delhi",
+                          hintText: "Enter your city",
                         ),
                         PaymentField(
                           controller: _gstController,
                           maxLines: 2,
                           text: "GST-IN",
-                          hintText: "*******",
+                          hintText: "Enter GST-IN",
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,6 +383,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                                   right: 8,
                                 ),
                                 child: DropdownButton(
+                                  dropdownColor: AppColor.whiteColor,
                                   isExpanded: true,
                                   underline: const SizedBox(),
                                   value: _btn2SelectedVal,
@@ -413,7 +414,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           controller: _zipCodeController,
                           maxLines: 2,
                           text: "Zip Code",
-                          hintText: "1555",
+                          hintText: "Enter six digit zip code",
                         ),
                         const VerticalSpeacing(38),
                         RoundedButton(
