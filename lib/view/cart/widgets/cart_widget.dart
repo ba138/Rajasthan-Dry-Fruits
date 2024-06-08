@@ -141,7 +141,7 @@ class _CartWidgetState extends State<CartWidget> {
                           width: 10,
                         ),
                         Text(
-                          '${widget.guantity.toString()}KG',
+                          widget.guantity.toString(),
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
