@@ -101,20 +101,16 @@ class _MyRatingState extends State<MyRating>
               child: Consumer<RatingRepositoryProvider>(
                 builder: (context, homeRepo, child) {
                   if (homeRepo.ratingRepository.orders.isEmpty) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 2, // Show two Shimmer elements
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 10.0), // Spacing between cards
-                      itemBuilder: (context, index) => Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: const RatingCard(
-                          order: 0,
-                        ),
-                      ),
-                    );
+                    return  Text(
+          'No product to show',
+          style: GoogleFonts.getFont(
+            "Poppins",
+            textStyle: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: AppColor.appBarTxColor,
+            ),
+          ),);
                   } else {
                     return ListView.separated(
                         shrinkWrap: true,

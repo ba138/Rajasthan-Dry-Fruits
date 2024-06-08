@@ -44,9 +44,9 @@ class HomeRepository extends ChangeNotifier {
         notifyListeners();
       } else {
         if (response.statusCode == 404) {
-          Utils.flushBarErrorMessage("Products not found", context);
+          // Utils.flushBarErrorMessage("Products not found", context);
         } else {
-          Utils.flushBarErrorMessage("Unexpected error", context);
+          // Utils.flushBarErrorMessage("Unexpected error", context);
         }
       }
     } catch (e) {
