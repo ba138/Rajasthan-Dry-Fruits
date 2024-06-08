@@ -70,10 +70,15 @@ class _DefaultSectionState extends State<DefaultSection> {
                     (index) => Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(
-                        isdiscount: true,
-                        averageReview: "4",
-                      ),
+                      child:Text(
+                'No product to show',
+                style: GoogleFonts.getFont(
+                  "Roboto",
+                  color: AppColor.textColor1,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ), 
                     ),
                   ),
                 );
