@@ -1,13 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, file_names, use_build_context_synchronously
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/model/product_detail_model.dart';
 
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../res/components/cart_button.dart';
 import '../../../res/components/colors.dart';
@@ -76,9 +81,35 @@ class _HomeCardState extends State<HomeCard> {
     }
   }
 
+  ProductDetail? productDetail;
+  Future<void> fetchProductDetails(BuildContext context, String id) async {
+    final String url = 'http://103.117.180.187/api/product/$id/';
+    final Map<String, String> headers = {
+      'accept': 'application/json',
+      'X-CSRFToken':
+          'ggUEuomf5SLMCluLyTUTe1TcfnGAZLVoViIVEUEUNtjhGnRumUUHsEMQ3hM8ocJE',
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+
+      if (response.statusCode == 200) {
+        productDetail = ProductDetail.fromJson(jsonDecode(response.body));
+        // Navigate to the next screen and pass the product detail
+        debugPrint("this is the product details:$productDetail");
+      } else {
+        throw Exception('Failed to load product detail');
+      }
+    } catch (e) {
+      debugPrint("this is the error:$e");
+      handleApiError(e, context);
+    }
+  }
+
   @override
   void initState() {
     checktheProduct();
+    fetchProductDetails(context, widget.proId!);
     super.initState();
   }
 
@@ -331,7 +362,7 @@ class _HomeCardState extends State<HomeCard> {
                     proRepoProvider.saveCartProducts(
                         widget.proId!,
                         widget.title!,
-                        "null",
+                        productDetail!.productWeight.first.id.toString(),
                         discountedPrice,
                         amount,
                         token,
