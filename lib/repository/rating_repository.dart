@@ -37,7 +37,7 @@ class RatingRepository extends ChangeNotifier {
       debugPrint(
           "this is the response code and body :${response.body}:${response.statusCode}");
       if (response.statusCode == 201) {
-        Utils.flushBarErrorMessage("Rating added successfully.", context);
+        Utils.toastMessage("Rating added successfully.");
         Navigator.pushNamedAndRemoveUntil(
             context, RoutesName.dashboard, (route) => false);
       } else if (response.statusCode == 400) {

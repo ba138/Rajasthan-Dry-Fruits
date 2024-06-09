@@ -129,8 +129,6 @@ class _MyRatingState extends State<MyRating>
                                 .product.thumbnailImage,
                             order:
                                 homeRepo.ratingRepository.orders[index].order,
-
-                            // order: homeRepo.ratingRepository.orders[index], // Pass order data
                           );
                         });
                   }
