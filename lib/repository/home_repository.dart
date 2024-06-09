@@ -7,7 +7,6 @@ import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/res/app_url.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
-import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 
