@@ -116,13 +116,10 @@ class _MyRatingState extends State<MyRating>
                   } else {
                     return ListView.separated(
                         shrinkWrap: true,
-                        // physics: const NeverScrollableScrollPhysics(),
                         itemCount: homeRepo.ratingRepository.orders.length,
                         separatorBuilder: (context, index) => const SizedBox(
                             height: 10.0), // Spacing between cards
                         itemBuilder: (context, index) {
-                          debugPrint(
-                              "this is the list of the products:${homeRepo.ratingRepository.orders}");
                           return RatingCard(
                             id: homeRepo
                                 .ratingRepository.orders[index].product.id,
