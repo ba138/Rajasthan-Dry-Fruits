@@ -59,17 +59,18 @@ class _PromoViewState extends State<PromoView> {
             mainAxisSpacing: 10.0,
             crossAxisSpacing: 10.0,
             children: List.generate(
-                // Limit to only two items
-                2,
-                (index) => PromoCard(
-                      discount: "20",
-                      onpress: () {
-                        Clipboard.setData(
-                          const ClipboardData(text: "promocode"),
-                        );
-                        Utils.toastMessage("Code copied to clipboard");
-                      },
-                    )),
+              // Limit to only two items
+              2,
+              (index) => PromoCard(
+                discount: "20",
+                onpress: () {
+                  Clipboard.setData(
+                    const ClipboardData(text: "promocode"),
+                  );
+                  Utils.toastMessage("Code copied to clipboard");
+                },
+              ),
+            ),
           ),
         ),
       ),
