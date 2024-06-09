@@ -17,6 +17,7 @@ import 'package:rjfruits/view/onboardingViews/onboarding_view3.dart';
 import 'package:rjfruits/view/onboardingViews/splash_screen.dart';
 import 'package:rjfruits/view/orders/cancel_order_view.dart';
 import 'package:rjfruits/view/popularItemsView/popularItems_view.dart';
+import 'package:rjfruits/view/profileView/promo_view.dart';
 import 'package:rjfruits/view/rating/widget/my_rating.dart';
 import 'package:rjfruits/view/search/search_view.dart';
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
@@ -75,10 +76,10 @@ class Routes {
       //   return MaterialPageRoute(
       //     builder: (BuildContext context) => const CheckOutScreen(),
       //   );
-      // case RoutesName.addAddress:
-      //   return MaterialPageRoute(
-      //     builder: (BuildContext context) => const AddAddresScreen(),
-      //   );
+      case RoutesName.promoView:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const PromoView(),
+        );
       case RoutesName.cartView:
         return MaterialPageRoute(
           builder: (BuildContext context) => const CartView(),

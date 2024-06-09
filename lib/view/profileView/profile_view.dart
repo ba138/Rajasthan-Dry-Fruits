@@ -185,7 +185,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           profileCenterBtns(
             ontap: () {
-              // Navigator.pushNamed(context, RoutesName.promosOffer);
+              Navigator.pushNamed(context, RoutesName.promoView);
             },
             tColor: const Color(0xffFF6A9F),
             bColor: const Color(0xffD50059),

@@ -7,7 +7,6 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class DefaultSection extends StatefulWidget {
   const DefaultSection({super.key});
@@ -67,18 +66,17 @@ class _DefaultSectionState extends State<DefaultSection> {
                   crossAxisSpacing: 10.0,
                   children: List.generate(
                     2,
-                    (index) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child:Text(
-                'No product to show',
-                style: GoogleFonts.getFont(
-                  "Roboto",
-                  color: AppColor.textColor1,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
-                ),
-              ), 
+                    (index) => Center(
+                      child: Text(
+                        'No Products to show',
+                        style: GoogleFonts.getFont(
+                          "Roboto",
+                          color: AppColor.textColor1,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+
                     ),
                   ),
                 );
@@ -157,12 +155,15 @@ class _DefaultSectionState extends State<DefaultSection> {
                   crossAxisSpacing: 10.0,
                   children: List.generate(
                     2,
-                    (index) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(
-                        isdiscount: true,
-                        averageReview: "4",
+                    (index) => Center(
+                      child: Text(
+                        'No Products to show',
+                        style: GoogleFonts.getFont(
+                          "Roboto",
+                          color: AppColor.textColor1,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
@@ -243,12 +244,15 @@ class _DefaultSectionState extends State<DefaultSection> {
                   crossAxisSpacing: 10.0,
                   children: List.generate(
                     2,
-                    (index) => Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: const HomeCard(
-                        isdiscount: true,
-                        averageReview: "4",
+                    (index) => Center(
+                      child: Text(
+                        'No Products to show',
+                        style: GoogleFonts.getFont(
+                          "Roboto",
+                          color: AppColor.textColor1,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),
