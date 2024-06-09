@@ -8,7 +8,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/view/rating/widget/complete_review_card.dart';
 import 'package:rjfruits/view/rating/widget/rating_card.dart';
 import 'package:rjfruits/view_model/rating_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MyRating extends StatefulWidget {
   const MyRating({super.key});
@@ -71,7 +70,7 @@ class _MyRatingState extends State<MyRating>
               unselectedLabelColor: AppColor.textColor1,
               tabs: const <Widget>[
                 Tab(
-                  text: 'Top reviews',
+                  text: 'Give Review',
                 ),
                 Tab(
                   text: 'History',
@@ -101,17 +100,16 @@ class _MyRatingState extends State<MyRating>
               child: Consumer<RatingRepositoryProvider>(
                 builder: (context, homeRepo, child) {
                   if (homeRepo.ratingRepository.orders.isEmpty) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 2, // Show two Shimmer elements
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 10.0), // Spacing between cards
-                      itemBuilder: (context, index) => Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: const RatingCard(
-                          order: 0,
+                    return Center(
+                      child: Text(
+                        'No products to rate',
+                        style: GoogleFonts.getFont(
+                          "Poppins",
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.appBarTxColor,
+                          ),
                         ),
                       ),
                     );

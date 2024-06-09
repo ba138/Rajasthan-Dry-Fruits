@@ -10,21 +10,10 @@ import 'package:rjfruits/utils/routes/utils.dart';
 
 class RatingRepository extends ChangeNotifier {
   List<Order> orders = [];
+
   Future<void> postOrderRating(int rating, String prodId, String comment,
       BuildContext context, String token, int client, int order) async {
     try {
-      // showDialog(
-      //   context: context,
-      //   barrierDismissible: false,
-      //   builder: (BuildContext context) {
-      //     return const Center(
-      //       child: CircularProgressIndicator(
-      //         color: AppColor.primaryColor,
-      //       ),
-      //     );
-      //   },
-      // );
-
       final url = Uri.parse('http://103.117.180.187/api/order/add/rating/');
       const csrfToken =
           'b9pqcOKunanYdHklY0l2p337ishh9W0fFsuq6Ir8j5ecI1jiw1WLjH3leZH5nQ6P';
