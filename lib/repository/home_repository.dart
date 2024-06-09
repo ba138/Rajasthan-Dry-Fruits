@@ -7,7 +7,6 @@ import 'package:rjfruits/model/home_model.dart';
 import 'package:rjfruits/res/app_url.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
-import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:rjfruits/view/dashBoard/dashboard.dart';
 
@@ -44,9 +43,9 @@ class HomeRepository extends ChangeNotifier {
         notifyListeners();
       } else {
         if (response.statusCode == 404) {
-          Utils.flushBarErrorMessage("Products not found", context);
+          // Utils.flushBarErrorMessage("Products not found", context);
         } else {
-          Utils.flushBarErrorMessage("Unexpected error", context);
+          // Utils.flushBarErrorMessage("Unexpected error", context);
         }
       }
     } catch (e) {

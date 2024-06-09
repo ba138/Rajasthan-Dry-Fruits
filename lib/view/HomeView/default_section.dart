@@ -76,6 +76,7 @@ class _DefaultSectionState extends State<DefaultSection> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+
                     ),
                   ),
                 );

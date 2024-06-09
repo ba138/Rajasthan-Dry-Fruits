@@ -113,6 +113,7 @@ class _MyRatingState extends State<MyRating>
                         ),
                       ),
                     );
+
                   } else {
                     return ListView.separated(
                         shrinkWrap: true,

@@ -134,14 +134,10 @@ class _ProfileViewState extends State<ProfileView> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Stack(
-          children: [
-            CircleAvatar(
-              radius: 35,
-              backgroundImage: NetworkImage(
-                  'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'),
-            ),
-          ],
+       const CircleAvatar(
+          radius: 35,
+          backgroundImage: NetworkImage(
+              'https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'),
         ),
         Text(
           name ?? "Wait..",
