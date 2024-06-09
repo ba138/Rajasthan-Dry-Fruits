@@ -53,6 +53,15 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                     pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
+                        pw.Text("Invoice Number:",
+                            style: pw.TextStyle(
+                                fontSize: 14,
+                                fontWeight: pw.FontWeight.bold,
+                                color: PdfColor.fromInt(Colors.black.value))),
+                        pw.Text(widget.checkoutdetail.data.order_invoice_number,
+                            style: pw.TextStyle(
+                                fontSize: 14,
+                                color: PdfColor.fromInt(Colors.black.value))),
                         pw.Text("Billed By:",
                             style: pw.TextStyle(
                                 fontSize: 14,
