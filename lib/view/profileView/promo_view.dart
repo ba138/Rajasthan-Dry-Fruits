@@ -52,7 +52,7 @@ class _PromoViewState extends State<PromoView> {
         }).toList();
       });
     } else {
-      // Handle error
+      Utils.flushBarErrorMessage('error occure', context);
     }
   }
 
