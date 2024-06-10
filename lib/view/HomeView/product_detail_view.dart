@@ -84,7 +84,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(left:20,right:20,top:20,),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
