@@ -12,7 +12,6 @@ import 'package:rjfruits/view/checkOut/check_out_detailed_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-
 import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -123,8 +122,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       setState(() {
         _isLoading = true;
       });
-
-      // final provider = Provider.of<ShippingProvider>(context, listen: false);
 
       Map<String, dynamic> requestData = {
         "full_name": selectedAddress!['fullName'],
