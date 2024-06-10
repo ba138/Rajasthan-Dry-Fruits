@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
-
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/user_view_model.dart';
 
