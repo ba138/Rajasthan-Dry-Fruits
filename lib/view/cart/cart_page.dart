@@ -328,7 +328,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    "₹${(double.parse(cartProvider.calculateTotalPrice()) - cartProvider.cartRepositoryProvider.discountPrice).toStringAsFixed(2)}",
+                                    "₹${(cartProvider.cartRepositoryProvider.totalPrice - cartProvider.cartRepositoryProvider.discountPrice).toStringAsFixed(2)}",
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
