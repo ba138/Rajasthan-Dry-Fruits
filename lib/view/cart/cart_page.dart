@@ -58,10 +58,11 @@ class _CartViewState extends State<CartView> {
     );
 
     if (response.statusCode == 200) {
-      // Coupon applied successfully, handle the response if needed
       Utils.toastMessage('Coupon applied successfully');
+      gettingAllRequiredData();
     } else {
-      Utils.flushBarErrorMessage('You already use this coupon', context);
+      Utils.flushBarErrorMessage(
+          'You already use this coupon ${response.statusCode}', context);
     }
   }
 
