@@ -34,13 +34,16 @@ class PromoCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: AppColor.primaryColor,
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColor.primaryColor, width: 1),
+        color: const Color.fromRGBO(
+            255, 255, 255, 0.2), // Background color with opacity
+        boxShadow: [
           BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-            offset: Offset(0, 5),
+            color: Colors.white.withOpacity(0.5), // Shadow color
+            blurRadius: 2, // Blur radius
+            spreadRadius: 0, // Spread radius
+            offset: const Offset(0, 0), // Offset
           ),
         ],
       ),
@@ -60,7 +63,7 @@ class PromoCard extends StatelessWidget {
                       textStyle: const TextStyle(
                         fontSize: 16, // Adjusted font size
                         fontWeight: FontWeight.w400,
-                        color: AppColor.whiteColor,
+                        color: AppColor.textColor1,
                       ),
                     ),
                   ),
@@ -74,7 +77,7 @@ class PromoCard extends StatelessWidget {
                       textStyle: const TextStyle(
                         fontSize: 16, // Adjusted font size
                         fontWeight: FontWeight.w600,
-                        color: AppColor.whiteColor,
+                        color: AppColor.textColor1,
                       ),
                     ),
                   ),
@@ -89,7 +92,7 @@ class PromoCard extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontSize: 14, // Adjusted font size
                   fontWeight: FontWeight.w400,
-                  color: AppColor.whiteColor,
+                  color: AppColor.textColor1,
                 ),
               ),
             ),
@@ -100,7 +103,7 @@ class PromoCard extends StatelessWidget {
                 textStyle: const TextStyle(
                   fontSize: 14, // Adjusted font size
                   fontWeight: FontWeight.w400,
-                  color: AppColor.whiteColor,
+                  color: AppColor.textColor1,
                 ),
               ),
             ),
@@ -112,7 +115,7 @@ class PromoCard extends StatelessWidget {
                 textStyle: TextStyle(
                   fontSize: 14, // Adjusted font size
                   fontWeight: FontWeight.w600,
-                  color: isActive ? Colors.green : Colors.red,
+                  color: isActive ? AppColor.primaryColor : Colors.red,
                 ),
               ),
             ),
@@ -123,7 +126,7 @@ class PromoCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.height / 20,
                 width: MediaQuery.of(context).size.width / 3,
                 decoration: BoxDecoration(
-                  color: AppColor.whiteColor,
+                  color: AppColor.primaryColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Center(
@@ -134,7 +137,7 @@ class PromoCard extends StatelessWidget {
                       textStyle: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColor.textColor1,
+                        color: AppColor.whiteColor,
                       ),
                     ),
                   ),
