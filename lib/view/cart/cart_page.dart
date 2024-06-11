@@ -1,17 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/cart_model.dart';
-
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/cart/widgets/cart_widget.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
-
 import '../../res/components/colors.dart';
 import '../../res/components/vertical_spacing.dart';
+import 'package:http/http.dart' as http;
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -34,6 +35,34 @@ class _CartViewState extends State<CartView> {
     gettingAllRequiredData();
 
     super.initState();
+  }
+
+  final TextEditingController _couponController = TextEditingController();
+
+  Future<void> _applyCoupon() async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel = await userPreferences.getUser();
+    final token = userModel.key;
+    String couponCode = _couponController.text;
+
+    final response = await http.post(
+      Uri.parse('http://103.117.180.187/api/apply-coupon/'),
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken':
+            'EPfbegDrcoMcKsg8rk5bx1bMotQv2GCk5hvuKZYUbALSqcufI1DK4ZIbzkRUnWg2',
+        'authorization': 'Token $token',
+      },
+      body: jsonEncode({'code': couponCode}),
+    );
+
+    if (response.statusCode == 200) {
+      // Coupon applied successfully, handle the response if needed
+      Utils.toastMessage('Coupon applied successfully');
+    } else {
+      Utils.flushBarErrorMessage('You already use this coupon', context);
+    }
   }
 
   @override
@@ -170,31 +199,37 @@ class _CartViewState extends State<CartView> {
                               Row(
                                 children: [
                                   SizedBox(
-                                      height: 40,
-                                      width: MediaQuery.of(context).size.width /
-                                          1.8,
-                                      child: TextFormField(
-                                        decoration: const InputDecoration(
-                                            hintText: "Enter coupon code"),
-                                      )),
+                                    height: 40,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.8,
+                                    child: TextFormField(
+                                      controller: _couponController,
+                                      decoration: const InputDecoration(
+                                        hintText: "Enter coupon code",
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              Container(
-                                height: 40,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  color: AppColor.primaryColor,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Apply",
-                                    style: GoogleFonts.getFont(
-                                      "Poppins",
-                                      textStyle: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColor.whiteColor,
+                              GestureDetector(
+                                onTap: _applyCoupon,
+                                child: Container(
+                                  height: 40,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.primaryColor,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Apply",
+                                      style: GoogleFonts.getFont(
+                                        "Poppins",
+                                        textStyle: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.whiteColor,
+                                        ),
                                       ),
                                     ),
                                   ),

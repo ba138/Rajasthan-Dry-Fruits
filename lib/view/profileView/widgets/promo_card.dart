@@ -5,9 +5,15 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 
 class PromoCard extends StatelessWidget {
   final String discount;
+  final String code;
   final VoidCallback onpress;
 
-  const PromoCard({super.key, required this.discount, required this.onpress});
+  const PromoCard({
+    super.key,
+    required this.discount,
+    required this.code,
+    required this.onpress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +21,9 @@ class PromoCard extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 8,
       width: MediaQuery.of(context).size.width / 2.5,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            12,
-          ),
-          color: AppColor.primaryColor),
+        borderRadius: BorderRadius.circular(12),
+        color: AppColor.primaryColor,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,9 +58,7 @@ class PromoCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 3,
               decoration: BoxDecoration(
                 color: AppColor.whiteColor,
-                borderRadius: BorderRadius.circular(
-                  20,
-                ),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Center(
                 child: Text(
@@ -71,7 +74,7 @@ class PromoCard extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
