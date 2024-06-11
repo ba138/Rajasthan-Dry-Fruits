@@ -126,16 +126,16 @@ class _myOrderCardState extends State<myOrderCard> {
                       text: 'Shipment Charges: ₹${widget.cartTitle}\n',
                       style: const TextStyle(
                         color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.0,
                       ),
                     ),
                     const TextSpan(
                       text: 'Sub_Total: ',
                       style: TextStyle(
                         color: AppColor.cardTxColor,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12.0,
                       ),
                     ),
                     TextSpan(

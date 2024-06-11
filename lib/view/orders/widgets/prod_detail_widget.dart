@@ -8,7 +8,6 @@ class ProductDetailsWidget extends StatelessWidget {
     super.key,
     required this.img,
     required this.title,
-    required this.subTitle,
     required this.price,
     required this.productPrice,
     required this.procustAverate,
@@ -18,7 +17,6 @@ class ProductDetailsWidget extends StatelessWidget {
 
   final String img;
   final String title;
-  final String subTitle;
   final String price;
   final String productPrice;
   final String procustAverate;
@@ -68,14 +66,6 @@ class ProductDetailsWidget extends StatelessWidget {
                             color: AppColor.textColor1,
                           ),
                           children: <TextSpan>[
-                            TextSpan(
-                              text: '$subTitle \n',
-                              style: const TextStyle(
-                                color: AppColor.textColor1,
-                                // fontWeight: FontWeight.w100,
-                                fontSize: 14.0,
-                              ),
-                            ),
                             TextSpan(
                               text: price,
                               style: const TextStyle(

@@ -270,7 +270,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    '₹${cartProvider.cartRepositoryProvider.totalPrice.toStringAsFixed(2)}',
+                                    '₹${cartProvider.cartRepositoryProvider.subTotal.toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -329,7 +329,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    "₹${(double.parse(cartProvider.calculateTotalPrice()) - cartProvider.cartRepositoryProvider.discountPrice).toStringAsFixed(2)}",
+                                    "₹${(cartProvider.cartRepositoryProvider.totalPrice).toStringAsFixed(2)}",
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,

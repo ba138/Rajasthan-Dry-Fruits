@@ -261,7 +261,6 @@ class _TrackOrderState extends State<TrackOrder> {
                           data.title.toString(),
                           12, // Maximum length before adding ellipsis
                         ),
-                        subTitle: 'From The Farmer',
                         price: weight.toString(),
                         productPrice: '₹${data.price.toString()}',
                         procustAverate:
