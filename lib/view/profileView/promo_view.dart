@@ -18,7 +18,7 @@ class PromoView extends StatefulWidget {
 }
 
 class _PromoViewState extends State<PromoView> {
-  List<Map<String, String>> _coupons = [];
+  List<Map<String, Object>> _coupons = [];
 
   @override
   void initState() {
@@ -44,12 +44,15 @@ class _PromoViewState extends State<PromoView> {
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       setState(() {
-        _coupons = data.map((coupon) {
+        _coupons = data.map<Map<String, Object>>((coupon) {
           return {
-            'discount': coupon['discount'] as String,
-            'code': coupon['code'] as String,
+            'discount': coupon['discount'].toString(),
+            'code': coupon['code'].toString(),
+            'valid_from': coupon['valid_from'].toString(),
+            'valid_to': coupon['valid_to'].toString(),
+            'is_active': coupon['is_active'] as bool,
           };
-        }).toList();
+        }).toList(growable: true);
       });
     } else {
       Utils.flushBarErrorMessage('error occure', context);
@@ -98,9 +101,8 @@ class _PromoViewState extends State<PromoView> {
               : GridView.count(
                   padding: const EdgeInsets.all(5.0),
                   shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  childAspectRatio: (230 / 255),
+                  crossAxisCount: 1,
+                  childAspectRatio: 1.5,
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
                   children: List.generate(
@@ -108,8 +110,11 @@ class _PromoViewState extends State<PromoView> {
                     (index) {
                       final coupon = _coupons[index];
                       return PromoCard(
-                        discount: coupon['discount']!,
-                        code: coupon['code']!,
+                        discount: coupon['discount'].toString(),
+                        code: coupon['code'].toString(),
+                        validFrom: coupon['valid_from'].toString(),
+                        validTo: coupon['valid_to'].toString(),
+                        isActive: coupon['is_active'] as bool,
                         onpress: () {
                           Clipboard.setData(
                             ClipboardData(text: coupon['code'].toString()),
