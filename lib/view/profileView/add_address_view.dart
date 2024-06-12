@@ -37,6 +37,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
   bool addressValid = false;
   bool zipValid = false;
   String _btn2SelectedVal = "andhra_pradesh";
+  String _btn3SelectedVal = "india";
 
   static const menuItems = <String>[
     'andhra_pradesh',
@@ -77,6 +78,19 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     "jammu_and_kashmir ",
   ];
   final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems
+      .map(
+        (String value) => DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        ),
+      )
+      .toList();
+  static const menuCountry = <String>[
+    'USA',
+    'Canada',
+    "india",
+  ];
+  final List<DropdownMenuItem<String>> _dropDownMenuCountry = menuCountry
       .map(
         (String value) => DropdownMenuItem<String>(
           value: value,
@@ -126,6 +140,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String state = _btn2SelectedVal;
     String zipCode = _zipCodeController.text;
     String gstIn = _gstController.text;
+    String country = _btn3SelectedVal;
     // Validate phone number
 
     Map<String, dynamic> addressMap = {
@@ -136,6 +151,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       'state': state,
       'zipCode': int.parse(zipCode),
       'gst': gstIn,
+      'country': country,
     };
 
     List<Map<String, dynamic>> addresses =
@@ -355,6 +371,53 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                           text: "GST-IN",
                           hintText: "Enter GST-IN",
                         ),
+                        //select Country
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Country",
+                              style: GoogleFonts.getFont(
+                                "Poppins",
+                                textStyle: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.dashboardIconColor,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              height: 56,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.0),
+                                // Adjust border radius as needed
+                                color: const Color(0xffEEEEEE),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 8.0,
+                                  right: 8,
+                                ),
+                                child: DropdownButton(
+                                  dropdownColor: AppColor.whiteColor,
+                                  isExpanded: true,
+                                  underline: const SizedBox(),
+                                  value: _btn3SelectedVal,
+                                  onChanged: (String? newValue) {
+                                    if (newValue != null) {
+                                      setState(() {
+                                        _btn3SelectedVal = newValue;
+                                      });
+                                    }
+                                  },
+                                  items: _dropDownMenuCountry,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        //select State
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
