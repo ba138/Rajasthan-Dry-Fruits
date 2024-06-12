@@ -74,7 +74,7 @@ class _MyRatingState extends State<MyRating>
               unselectedLabelColor: AppColor.textColor1,
               tabs: const <Widget>[
                 Tab(
-                  text: 'Give Review',
+                  text: 'Add Review',
                 ),
                 Tab(
                   text: 'History',
@@ -160,7 +160,7 @@ class _MyRatingState extends State<MyRating>
                           priductImage: review.product.thumbnailImage,
                           productTitle: review.product.title,
                           productRating: review.rate,
-                          productDescribtion: review.product.description,
+                          productDescribtion: review.comment,
                         ),
                       );
                     },

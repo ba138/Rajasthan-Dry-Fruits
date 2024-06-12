@@ -3,6 +3,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:html/parser.dart' as html_parser;
+import 'package:html/dom.dart' as dom;
 
 class CompleteReviewCards extends StatelessWidget {
   const CompleteReviewCards(
@@ -15,12 +17,15 @@ class CompleteReviewCards extends StatelessWidget {
   final String productTitle;
   final int productRating;
   final String productDescribtion;
+  String parseHtmlString(String htmlString) {
+    dom.Document document = html_parser.parse(htmlString);
+    return document.body?.text ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
     double intodouble = double.parse(productRating.toString());
     return Container(
-      height: 160,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -100,8 +105,7 @@ class CompleteReviewCards extends StatelessWidget {
               onRatingUpdate: (rating) {},
             ),
             Text(
-              '',
-              // productDescribtion,
+              parseHtmlString(productDescribtion),
               style: GoogleFonts.getFont(
                 "Poppins",
                 textStyle: const TextStyle(
@@ -111,6 +115,7 @@ class CompleteReviewCards extends StatelessWidget {
                 ),
               ),
             ),
+            const VerticalSpeacing(16),
           ],
         ),
       ),

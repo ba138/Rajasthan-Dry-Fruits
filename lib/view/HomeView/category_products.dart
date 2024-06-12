@@ -7,7 +7,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CategoriesSection extends StatefulWidget {
   const CategoriesSection({super.key});
