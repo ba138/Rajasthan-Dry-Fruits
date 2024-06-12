@@ -24,7 +24,6 @@ class RatingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
     return Container(
       height: 114.0,
       width: double.infinity,
@@ -61,18 +60,7 @@ class RatingCard extends StatelessWidget {
                       color: AppColor.textColor1,
                     ),
                   ),
-                ),
-                Text(
-                  "purchased on 22 nov 2023",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.nextColor,
-                    ),
-                  ),
-                ),
+                )
               ],
             ),
             const VerticalSpeacing(10.0),
