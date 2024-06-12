@@ -8,6 +8,7 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/loading_manager.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/checkOut/check_out_detailed_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -130,7 +131,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         "address_label": 'home',
         "city": selectedAddress!['city'],
         "state": selectedAddress!['state'],
-        "country": "india",
+        "country": selectedAddress!['country'],
         "gst_in": selectedAddress!['gst'],
         "payment_type": "online",
         "shipment_type": shippingType,
@@ -175,8 +176,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ),
           );
         } else {
-          Utils.toastMessage(
-              'Failed to submit Checkout data. Status code: ${apiResponse.statusCode}');
+          Utils.toastMessage('Failed to submit Checkout data.');
+          Navigator.pushNamed(context, RoutesName.dashboard);
         }
       } catch (e) {
         if (e is http.ClientException) {
