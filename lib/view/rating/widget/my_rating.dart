@@ -9,6 +9,9 @@ import 'package:rjfruits/view/rating/widget/complete_review_card.dart';
 import 'package:rjfruits/view/rating/widget/rating_card.dart';
 import 'package:rjfruits/view_model/rating_view_model.dart';
 
+import '../../../model/review_history_model.dart';
+import '../../../view_model/service/api_services.dart';
+
 class MyRating extends StatefulWidget {
   const MyRating({super.key});
 
@@ -19,17 +22,18 @@ class MyRating extends StatefulWidget {
 class _MyRatingState extends State<MyRating>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  Future<List<ReviewHistoryModel>>? futureReviewHistory;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    futureReviewHistory = ApiService().fetchReviewHistory(context);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-
     super.dispose();
   }
 
@@ -113,7 +117,6 @@ class _MyRatingState extends State<MyRating>
                         ),
                       ),
                     );
-
                   } else {
                     return ListView.separated(
                         shrinkWrap: true,
@@ -136,12 +139,34 @@ class _MyRatingState extends State<MyRating>
                 },
               ),
             ),
-
-            const Column(
-              children: [
-                Padding(
-                    padding: EdgeInsets.all(10.0), child: CompleteReviewCards())
-              ],
+            // History
+            FutureBuilder<List<ReviewHistoryModel>>(
+              future: futureReviewHistory,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No reviews found'));
+                } else {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final review = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: CompleteReviewCards(
+                          priductImage: review.product.thumbnailImage,
+                          productTitle: review.product.title,
+                          productRating: review.rate,
+                          productDescribtion: review.product.description,
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
             ),
           ],
         ),

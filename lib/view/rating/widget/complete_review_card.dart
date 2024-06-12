@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 
 class CompleteReviewCards extends StatelessWidget {
-  const CompleteReviewCards({super.key});
+  const CompleteReviewCards(
+      {super.key,
+      required this.priductImage,
+      required this.productTitle,
+      required this.productRating,
+      required this.productDescribtion});
+  final String priductImage;
+  final String productTitle;
+  final int productRating;
+  final String productDescribtion;
 
   @override
   Widget build(BuildContext context) {
+    double intodouble = double.parse(productRating.toString());
     return Container(
       height: 160,
       width: MediaQuery.of(context).size.width,
@@ -34,34 +45,6 @@ class CompleteReviewCards extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "dry fruit of mix",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.textColor1,
-                    ),
-                  ),
-                ),
-                Text(
-                  "purchased on 22 nov 2023",
-                  style: GoogleFonts.getFont(
-                    "Poppins",
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.nextColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const VerticalSpeacing(8),
             Container(
               height: 66,
               width: MediaQuery.of(context).size.width,
@@ -76,8 +59,8 @@ class CompleteReviewCards extends StatelessWidget {
                     width: 50.0,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      image: const DecorationImage(
-                          image: AssetImage('images/cartImg.png'),
+                      image: DecorationImage(
+                          image: NetworkImage(priductImage),
                           fit: BoxFit.contain),
                     ),
                     // child: Image.asset('images/cartImg.png'),
@@ -86,7 +69,7 @@ class CompleteReviewCards extends StatelessWidget {
                     width: 12,
                   ),
                   Text(
-                    "Dryfruit of mix fresh of new\n And organic   ",
+                    productTitle,
                     style: GoogleFonts.getFont(
                       "Poppins",
                       textStyle: const TextStyle(
@@ -100,37 +83,25 @@ class CompleteReviewCards extends StatelessWidget {
               ),
             ),
             const VerticalSpeacing(8),
-            const Row(
-              children: [
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 14,
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 14,
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 14,
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 14,
-                ),
-                Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                  size: 14,
-                ),
-              ],
+            RatingBar.builder(
+              ignoreGestures: true,
+              initialRating: intodouble,
+              minRating: 1,
+              unratedColor: AppColor.boxColor,
+              allowHalfRating: true,
+              glowColor: Colors.amber,
+              itemCount: 5,
+              itemSize: 20,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 0),
+              itemBuilder: (context, _) => const Icon(
+                Icons.star_rate_rounded,
+                color: Colors.amber,
+              ),
+              onRatingUpdate: (rating) {},
             ),
             Text(
-              "good Nice",
+              '',
+              // productDescribtion,
               style: GoogleFonts.getFont(
                 "Poppins",
                 textStyle: const TextStyle(
