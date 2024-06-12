@@ -29,6 +29,7 @@ class CheckoutreturnModel {
 
 class Data {
   int id;
+  String orderInvoiceNumber;
   String fullName;
   String contact;
   int postalCode;
@@ -43,6 +44,7 @@ class Data {
   double subTotal;
   String paymentType;
   String orderStatus;
+  String shipmentType;
   String paymentStatus;
   String serviceType;
   dynamic razorpayOrderId;
@@ -51,10 +53,10 @@ class Data {
   bool isActive;
   DateTime createdOn;
   List<OrderItem> orderItems;
-  String order_invoice_number;
 
   Data({
     required this.id,
+    required this.orderInvoiceNumber,
     required this.fullName,
     required this.contact,
     required this.postalCode,
@@ -69,6 +71,7 @@ class Data {
     required this.subTotal,
     required this.paymentType,
     required this.orderStatus,
+    required this.shipmentType,
     required this.paymentStatus,
     required this.serviceType,
     this.razorpayOrderId,
@@ -77,12 +80,11 @@ class Data {
     required this.isActive,
     required this.createdOn,
     required this.orderItems,
-    required this.order_invoice_number,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        order_invoice_number: json["order_invoice_number"],
         id: json["id"],
+        orderInvoiceNumber: json["order_invoice_number"],
         fullName: json["full_name"],
         contact: json["contact"],
         postalCode: json["postal_code"],
@@ -97,6 +99,7 @@ class Data {
         subTotal: json["sub_total"].toDouble(),
         paymentType: json["payment_type"],
         orderStatus: json["order_status"],
+        shipmentType: json["shipment_type"],
         paymentStatus: json["payment_status"],
         serviceType: json["service_type"],
         razorpayOrderId: json["razorpay_order_id"],
@@ -110,6 +113,7 @@ class Data {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "order_invoice_number": orderInvoiceNumber,
         "full_name": fullName,
         "contact": contact,
         "postal_code": postalCode,
@@ -124,6 +128,7 @@ class Data {
         "sub_total": subTotal,
         "payment_type": paymentType,
         "order_status": orderStatus,
+        "shipment_type": shipmentType,
         "payment_status": paymentStatus,
         "service_type": serviceType,
         "razorpay_order_id": razorpayOrderId,
@@ -132,31 +137,90 @@ class Data {
         "is_active": isActive,
         "created_on": createdOn.toIso8601String(),
         "order_items": List<dynamic>.from(orderItems.map((x) => x.toJson())),
-        "order_invoice_number": order_invoice_number,
       };
 }
 
 class OrderItem {
   Product product;
-  dynamic productWeight;
+  ProductWeight productWeight;
   int qty;
+  double price;
+  double totalDiscount;
+  double taxDiscountPercentage;
+  double totalPrice;
 
   OrderItem({
     required this.product,
-    this.productWeight,
+    required this.productWeight,
     required this.qty,
+    required this.price,
+    required this.totalDiscount,
+    required this.taxDiscountPercentage,
+    required this.totalPrice,
   });
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
         product: Product.fromJson(json["product"]),
-        productWeight: json["product_weight"],
+        productWeight: ProductWeight.fromJson(json["product_weight"]),
         qty: json["qty"],
+        price: json["price"].toDouble(),
+        totalDiscount: json["total_discount"].toDouble(),
+        taxDiscountPercentage: json["tax_discount_percentage"].toDouble(),
+        totalPrice: json["total_price"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
         "product": product.toJson(),
-        "product_weight": productWeight,
+        "product_weight": productWeight.toJson(),
         "qty": qty,
+        "price": price,
+        "total_discount": totalDiscount,
+        "tax_discount_percentage": taxDiscountPercentage,
+        "total_price": totalPrice,
+      };
+}
+
+class ProductWeight {
+  int id;
+  String price;
+  Weight weight;
+
+  ProductWeight({
+    required this.id,
+    required this.price,
+    required this.weight,
+  });
+
+  factory ProductWeight.fromJson(Map<String, dynamic> json) => ProductWeight(
+        id: json["id"],
+        price: json["price"],
+        weight: Weight.fromJson(json["weight"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "price": price,
+        "weight": weight.toJson(),
+      };
+}
+
+class Weight {
+  int id;
+  String name;
+
+  Weight({
+    required this.id,
+    required this.name,
+  });
+
+  factory Weight.fromJson(Map<String, dynamic> json) => Weight(
+        id: json["id"],
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
       };
 }
 
@@ -165,6 +229,7 @@ class Product {
   String sku;
   String title;
   String slug;
+  String? hsnCode;
   String description;
   String thumbnailImage;
   String price;
@@ -178,6 +243,7 @@ class Product {
     required this.sku,
     required this.title,
     required this.slug,
+    this.hsnCode,
     required this.description,
     required this.thumbnailImage,
     required this.price,
@@ -192,6 +258,7 @@ class Product {
         sku: json["sku"],
         title: json["title"],
         slug: json["slug"],
+        hsnCode: json["hsn_code"],
         description: json["description"],
         thumbnailImage: json["thumbnail_image"],
         price: json["price"],
@@ -206,6 +273,7 @@ class Product {
         "sku": sku,
         "title": title,
         "slug": slug,
+        "hsn_code": hsnCode,
         "description": description,
         "thumbnail_image": thumbnailImage,
         "price": price,
