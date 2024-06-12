@@ -43,13 +43,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                   children: [
                     pw.SizedBox(height: 20),
                     pw.Center(
-                      child: pw.Text(
-                        "Rajistan-Dry-Fruits",
-                        style: pw.TextStyle(
-                          fontSize: 20,
-                          color: PdfColor.fromInt(AppColor.primaryColor.value),
-                        ),
-                      ),
+                      child: pw.Text("RAJASTHAN DRY FRUIT HOUSE",
+                          style: pw.TextStyle(
+                              fontSize: 20,
+                              fontWeight: pw.FontWeight.bold,
+                              color: PdfColor.fromInt(Colors.black.value))),
                     ),
                     pw.SizedBox(height: 20),
                     pw.Column(
@@ -60,7 +58,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                 fontSize: 14,
                                 fontWeight: pw.FontWeight.bold,
                                 color: PdfColor.fromInt(Colors.black.value))),
-                        pw.Text(widget.checkoutdetail.data.order_invoice_number,
+                        pw.Text(widget.checkoutdetail.data.orderInvoiceNumber,
                             style: pw.TextStyle(
                                 fontSize: 14,
                                 color: PdfColor.fromInt(Colors.black.value))),
@@ -102,7 +100,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                 fontSize: 14,
                                 fontWeight: pw.FontWeight.bold,
                                 color: PdfColor.fromInt(Colors.black.value))),
-                        pw.Text(widget.checkoutdetail.data.order_invoice_number,
+                        pw.Text(widget.checkoutdetail.data.orderInvoiceNumber,
                             style: pw.TextStyle(
                                 fontSize: 14,
                                 color: PdfColor.fromInt(Colors.black.value))),
@@ -157,15 +155,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               style: pw.TextStyle(
                                   fontSize: 14,
                                   color: PdfColor.fromInt(Colors.black.value))),
-                          pw.Text("HSN CODE: ${item.qty}",
+                          pw.Text("DISC(%): ${item.taxDiscountPercentage}",
                               style: pw.TextStyle(
                                   fontSize: 14,
                                   color: PdfColor.fromInt(Colors.black.value))),
-                          pw.Text("DISC(%): ${item.qty}",
-                              style: pw.TextStyle(
-                                  fontSize: 14,
-                                  color: PdfColor.fromInt(Colors.black.value))),
-                          pw.Text("TAX(%): ${item.qty}",
+                          pw.Text("TAX(%): ${item.totalDiscount}",
                               style: pw.TextStyle(
                                   fontSize: 14,
                                   color: PdfColor.fromInt(Colors.black.value))),
@@ -187,66 +181,24 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                   color: PdfColor.fromInt(Colors.black.value))),
                         ],
                       ),
-                      widget.checkoutdetail.data.state == "gujarat"
-                          ? pw.Row(
-                              mainAxisAlignment:
-                                  pw.MainAxisAlignment.spaceBetween,
-                              children: [
-                                pw.Text("CGST(5%)",
-                                    style: pw.TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: pw.FontWeight.bold,
-                                        color: PdfColor.fromInt(
-                                            Colors.black.value))),
-                                pw.Text(
-                                    widget.checkoutdetail.data.tax.toString(),
-                                    style: pw.TextStyle(
-                                        fontSize: 14,
-                                        color: PdfColor.fromInt(
-                                            Colors.black.value))),
-                              ],
-                            )
-                          : pw.SizedBox(height: 1),
-                      widget.checkoutdetail.data.state == "gujarat"
-                          ? pw.Row(
-                              mainAxisAlignment:
-                                  pw.MainAxisAlignment.spaceBetween,
-                              children: [
-                                pw.Text("SGST(5%)",
-                                    style: pw.TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: pw.FontWeight.bold,
-                                        color: PdfColor.fromInt(
-                                            Colors.black.value))),
-                                pw.Text(
-                                    widget.checkoutdetail.data.tax.toString(),
-                                    style: pw.TextStyle(
-                                        fontSize: 14,
-                                        color: PdfColor.fromInt(
-                                            Colors.black.value))),
-                              ],
-                            )
-                          : pw.SizedBox(height: 1),
-                      widget.checkoutdetail.data.state != "gujarat"
-                          ? pw.Row(
-                              mainAxisAlignment:
-                                  pw.MainAxisAlignment.spaceBetween,
-                              children: [
-                                pw.Text("IGST(5%)",
-                                    style: pw.TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: pw.FontWeight.bold,
-                                        color: PdfColor.fromInt(
-                                            Colors.black.value))),
-                                pw.Text(
-                                    widget.checkoutdetail.data.tax.toString(),
-                                    style: pw.TextStyle(
-                                        fontSize: 14,
-                                        color: PdfColor.fromInt(
-                                            Colors.black.value))),
-                              ],
-                            )
-                          : pw.SizedBox(height: 1),
+                      pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                              widget.checkoutdetail.data.state == "gujarat"
+                                  ? "Tax(SGST/CGST)"
+                                  : "Tax(IGST)",
+                              style: pw.TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromInt(Colors.black.value))),
+                          pw.Text(
+                              widget.checkoutdetail.data.tax.toStringAsFixed(0),
+                              style: pw.TextStyle(
+                                  fontSize: 14,
+                                  color: PdfColor.fromInt(Colors.black.value))),
+                        ],
+                      ),
                       pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
@@ -499,7 +451,7 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                             fontWeight: FontWeight.bold)),
                                     Text(
                                         widget.checkoutdetail.data
-                                            .order_invoice_number,
+                                            .orderInvoiceNumber,
                                         style:
                                             GoogleFonts.poppins(fontSize: 14)),
                                     Text("Billed To:",
@@ -545,11 +497,11 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                     style: GoogleFonts.poppins(fontSize: 14)),
                                 Text("Quantity: ${item.qty}",
                                     style: GoogleFonts.poppins(fontSize: 14)),
-                                Text("HSN CODE: ${item.qty}",
+                                // Text("HSN CODE: ${item.qty}",
+                                //     style: GoogleFonts.poppins(fontSize: 14)),
+                                Text("DISC(%): ${item.taxDiscountPercentage}",
                                     style: GoogleFonts.poppins(fontSize: 14)),
-                                Text("DISC(%): ${item.qty}",
-                                    style: GoogleFonts.poppins(fontSize: 14)),
-                                Text("TAX(%): ${item.qty}",
+                                Text("TAX(%): ${item.totalDiscount}",
                                     style: GoogleFonts.poppins(fontSize: 14)),
                                 const VerticalSpeacing(8),
                               ],
@@ -583,71 +535,24 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                               ),
                             ],
                           ),
-                          Visibility(
-                            visible:
-                                widget.checkoutdetail.data.state == 'gujarat'
-                                    ? false
-                                    : true,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("IGST",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
-                                Text(
-                                  widget.checkoutdetail.data.shippingCharges
-                                      .toString(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  widget.checkoutdetail.data.state == 'gujarat'
+                                      ? "Tax(SGST/IGST)"
+                                      : "Tax(IGST)",
                                   style: GoogleFonts.poppins(
                                       fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Visibility(
-                            visible:
-                                widget.checkoutdetail.data.state == 'gujarat'
-                                    ? true
-                                    : false,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("CGST(5%)",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
-                                Text(
-                                  widget.checkoutdetail.data.shippingCharges
-                                      .toString(),
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Visibility(
-                            visible:
-                                widget.checkoutdetail.data.state == 'gujarat'
-                                    ? true
-                                    : false,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("SGST(5%)",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold)),
-                                Text(
-                                  widget.checkoutdetail.data.shippingCharges
-                                      .toString(),
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            ),
+                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                widget.checkoutdetail.data.tax
+                                    .toStringAsFixed(0)
+                                    .toString(),
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                            ],
                           ),
                           const Divider(
                             color: AppColor.primaryColor,

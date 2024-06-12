@@ -253,35 +253,35 @@ class _CartViewState extends State<CartView> {
                               ),
                             ],
                           ),
-                          const VerticalSpeacing(16.0),
-                          Consumer<CartRepositoryProvider>(
-                            builder: (context, cartProvider, _) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    "Total Price",
-                                    style: TextStyle(
-                                      fontFamily: 'CenturyGothic',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColor.blackColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    '₹${cartProvider.cartRepositoryProvider.subTotal.toStringAsFixed(2)}',
-                                    style: const TextStyle(
-                                      fontFamily: 'CenturyGothic',
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColor.blackColor,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                          // const VerticalSpeacing(16.0),
+                          // Consumer<CartRepositoryProvider>(
+                          //   builder: (context, cartProvider, _) {
+                          //     return Row(
+                          //       mainAxisAlignment:
+                          //           MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          //         const Text(
+                          //           "Total Price",
+                          //           style: TextStyle(
+                          //             fontFamily: 'CenturyGothic',
+                          //             fontSize: 16,
+                          //             fontWeight: FontWeight.w400,
+                          //             color: AppColor.blackColor,
+                          //           ),
+                          //         ),
+                          //         Text(
+                          //           '₹${cartProvider.cartRepositoryProvider.subTotal.toStringAsFixed(2)}',
+                          //           style: const TextStyle(
+                          //             fontFamily: 'CenturyGothic',
+                          //             fontSize: 16,
+                          //             fontWeight: FontWeight.w400,
+                          //             color: AppColor.blackColor,
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     );
+                          //   },
+                          // ),
                           const VerticalSpeacing(16.0),
                           Consumer<CartRepositoryProvider>(
                             builder: (context, cartProvider, _) {

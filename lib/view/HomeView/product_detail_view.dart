@@ -13,6 +13,8 @@ import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
+import 'package:html/parser.dart' as html_parser;
+import 'package:html/dom.dart' as dom;
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.detail});
@@ -38,6 +40,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         amount--;
       });
     }
+  }
+
+  String parseHtmlString(String htmlString) {
+    dom.Document document = html_parser.parse(htmlString);
+    return document.body?.text ?? '';
   }
 
   calclutePrice() {
@@ -84,7 +91,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               image: AssetImage("images/bgimg.png"), fit: BoxFit.cover),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left:20,right:20,top:20,),
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 20,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -411,7 +422,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
                 const VerticalSpeacing(8),
                 Text(
-                  widget.detail.description,
+                  parseHtmlString(widget.detail.description),
                   style: GoogleFonts.getFont(
                     "Poppins",
                     textStyle: const TextStyle(
