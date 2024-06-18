@@ -375,8 +375,8 @@ class _EditAddressState extends State<EditAddress> {
                                     },
                                     items: countriesList
                                         .map((country) => DropdownMenuItem(
-                                              child: Text(country),
                                               value: country,
+                                              child: Text(country),
                                             ))
                                         .toList(),
                                     decoration: const InputDecoration(
@@ -434,8 +434,8 @@ class _EditAddressState extends State<EditAddress> {
                                     },
                                     items: statesList
                                         .map((state) => DropdownMenuItem(
-                                              child: Text(state),
                                               value: state,
+                                              child: Text(state),
                                             ))
                                         .toList(),
                                   ),
@@ -455,7 +455,7 @@ class _EditAddressState extends State<EditAddress> {
                           ),
                           const SizedBox(height: 20),
                           RoundedButton(
-                            title: "Save Address",
+                            title: "Update Address",
                             onpress: () {
                               validateFields();
                               updateAddress();
