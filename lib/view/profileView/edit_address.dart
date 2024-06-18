@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
+import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
@@ -119,7 +120,6 @@ class _EditAddressState extends State<EditAddress> {
       zipValid = false;
       addressValid = false;
       phoneValid = false;
-      updateAddress();
     }
   }
 
@@ -159,16 +159,14 @@ class _EditAddressState extends State<EditAddress> {
         Utils.toastMessage('Address updated successfully');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => const DeliveryAddressScreen()),
+          MaterialPageRoute(builder: (context) => CheckOutScreen()),
         );
       } else {
         Utils.flushBarErrorMessage('Failed to update address', context);
         print('Failed to update address: ${response.body}');
       }
     } catch (e) {
-      Utils.flushBarErrorMessage('Error: $e', context);
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 
@@ -395,15 +393,19 @@ class _EditAddressState extends State<EditAddress> {
                             ],
                           ),
                           const SizedBox(height: 20),
+                          //select State
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "State",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
+                                style: GoogleFonts.getFont(
+                                  "Poppins",
+                                  textStyle: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.dashboardIconColor,
+                                  ),
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -411,17 +413,25 @@ class _EditAddressState extends State<EditAddress> {
                                 height: 56,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(4.0),
+                                  // Adjust border radius as needed
                                   color: const Color(0xffEEEEEE),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  child: DropdownButtonFormField<String>(
+                                  padding: const EdgeInsets.only(
+                                    left: 8.0,
+                                    right: 8,
+                                  ),
+                                  child: DropdownButton(
+                                    dropdownColor: AppColor.whiteColor,
+                                    isExpanded: true,
+                                    underline: const SizedBox(),
                                     value: _selectedState,
                                     onChanged: (value) {
-                                      setState(() {
-                                        _selectedState = value!;
-                                      });
+                                      if (value != null) {
+                                        setState(() {
+                                          _selectedState = value;
+                                        });
+                                      }
                                     },
                                     items: statesList
                                         .map((state) => DropdownMenuItem(
@@ -429,18 +439,12 @@ class _EditAddressState extends State<EditAddress> {
                                               value: state,
                                             ))
                                         .toList(),
-                                    decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 12,
-                                      ),
-                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
+
                           const SizedBox(height: 20),
                           PaymentField(
                             controller: _zipCodeController,

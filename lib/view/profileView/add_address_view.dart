@@ -154,7 +154,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       'address': address,
       'city': city,
       'state': state,
-      'postal_code': int.parse(zipCode) ?? 000000,
+      'postal_code': int.parse(zipCode),
       'gst_in': gstIn,
       'country': country,
     };
@@ -503,7 +503,6 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                             title: "Save Address",
                             onpress: () {
                               validateFields();
-                              _saveAddress();
                             }),
                         const VerticalSpeacing(38),
                       ],

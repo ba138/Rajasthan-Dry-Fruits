@@ -27,10 +27,10 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   @override
   void initState() {
     super.initState();
-    fetchAddresses();
+    fetchAddresses(context);
   }
 
-  Future<void> fetchAddresses() async {
+  Future<void> fetchAddresses(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
@@ -65,10 +65,35 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
         });
       }
     } catch (e) {
-      Utils.flushBarErrorMessage('Error: $e', context);
+      Utils.toastMessage('Error Occure');
       setState(() {
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> _deleteAddress(int id) async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel = await userPreferences.getUser();
+    final token = userModel.key;
+    final url = Uri.parse('http://103.117.180.187/api/address/$id/');
+    final response = await http.delete(
+      url,
+      headers: {
+        'accept': 'application/json',
+        'X-CSRFToken':
+            'SlSrUKA34Wtxgek0vbx9jfpCcTylfy7BjN8KqtVw38sdWYy7MS5IQdW1nKzKAOLj',
+        'authorization': 'Token $token',
+      },
+    );
+
+    if (response.statusCode == 204 || response.statusCode == 200) {
+      Utils.toastMessage('Seccessfully deleted Address');
+      fetchAddresses(context);
+      // Successfully deleted the address
+    } else {
+      // Error occurred while deleting the address
+      print('Failed to delete the address');
     }
   }
 
@@ -135,7 +160,9 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                 EditAddress(address, address['id'])),
                       );
                     },
-                    onpresDelete: () {},
+                    onpresDelete: () {
+                      _deleteAddress(address['id']);
+                    },
                   ),
                   const VerticalSpeacing(20),
                 ],
