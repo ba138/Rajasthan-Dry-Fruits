@@ -15,9 +15,11 @@ import 'package:http/http.dart' as http;
 
 import '../../view_model/user_view_model.dart';
 
+// ignore: must_be_immutable
 class AddAddresScreen extends StatefulWidget {
-  const AddAddresScreen({super.key, required this.totalAmount});
-  final String totalAmount;
+  AddAddresScreen({this.totalAmount, this.address});
+  String? totalAmount;
+  final Map<String, dynamic>? address;
 
   @override
   State<AddAddresScreen> createState() => _AddAddresScreenState();
@@ -152,7 +154,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
       'address': address,
       'city': city,
       'state': state,
-      'postal_code': int.parse(zipCode),
+      'postal_code': int.parse(zipCode) ?? 000000,
       'gst_in': gstIn,
       'country': country,
     };

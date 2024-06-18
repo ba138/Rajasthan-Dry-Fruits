@@ -11,6 +11,8 @@ class AddressCheckOutWidget extends StatefulWidget {
     required this.phNo,
     required this.address,
     required this.onpress,
+    required this.onpressEdit,
+    required this.onpresDelete,
   });
   final Color bgColor;
   final Color borderColor;
@@ -19,6 +21,8 @@ class AddressCheckOutWidget extends StatefulWidget {
   final String phNo;
   final String address;
   final Function onpress;
+  final Function onpressEdit;
+  final Function onpresDelete;
 
   @override
   State<AddressCheckOutWidget> createState() => _AddressCheckOutWidgetState();
@@ -124,8 +128,23 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
+                IconButton(
+                    onPressed: () {
+                      widget.onpressEdit();
+                    },
+                    icon: const Icon(
+                      Icons.edit,
+                      color: AppColor.textColor1,
+                    )),
+                IconButton(
+                  onPressed: () {
+                    widget.onpresDelete();
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppColor.textColor1,
+                  ),
+                ),
               ],
             ),
           ],
