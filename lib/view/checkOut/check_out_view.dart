@@ -65,41 +65,70 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         widget.totalPrice != null ? double.parse(widget.totalPrice!) : 0.0;
 
     // Load the selected address from shared preferences
-    _fetchAddresses();
+    fetchAddresses();
   }
 
-  Future<void> _fetchAddresses() async {
+  Future<void> fetchAddresses() async {
+    _isLoading = true;
     try {
-      addresses = await _getCachedAddresses();
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      final token = userModel.key;
+      final response = await http.get(
+        Uri.parse('http://103.117.180.187/api/address/'),
+        headers: {
+          'Accept': 'application/json',
+          'X-CSRFToken':
+              'SlSrUKA34Wtxgek0vbx9jfpCcTylfy7BjN8KqtVw38sdWYy7MS5IQdW1nKzKAOLj',
+          'authorization': 'Token $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        Utils.toastMessage('getting address successfully');
+        setState(() {
+          addresses =
+              List<Map<String, dynamic>>.from(json.decode(response.body));
+          if (addresses.isNotEmpty) {
+            selectedAddress = addresses[0];
+          }
+          _isLoading = false;
+        });
+      } else {
+        print('Failed to load addresses');
+        setState(() {
+          _isLoading = false;
+        });
+      }
     } catch (e) {
-      debugPrint(e.toString());
-    } finally {
+      print('Error: $e');
       setState(() {
         _isLoading = false;
       });
     }
   }
 
-  Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('selectedAddress', jsonEncode(address));
-    await Future.delayed(const Duration(milliseconds: 500));
-    setState(() {
-      selectedAddress = address;
-    });
-  }
+  // Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('selectedAddress', jsonEncode(address));
+  //   await Future.delayed(const Duration(milliseconds: 500));
+  //   setState(() {
+  //     selectedAddress = address;
+  //   });
+  // }
 
-  Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? encodedAddresses = prefs.getStringList('addresses');
-    if (encodedAddresses != null) {
-      return encodedAddresses.map((jsonString) {
-        return jsonDecode(jsonString) as Map<String, dynamic>;
-      }).toList();
-    } else {
-      return [];
-    }
-  }
+  // Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   List<String>? encodedAddresses = prefs.getStringList('addresses');
+  //   if (encodedAddresses != null) {
+  //     return encodedAddresses.map((jsonString) {
+  //       return jsonDecode(jsonString) as Map<String, dynamic>;
+  //     }).toList();
+  //   } else {
+  //     return [];
+  //   }
+  // }
 
   @override
   void didChangeDependencies() {
@@ -462,7 +491,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     ],
                   ),
                   const VerticalSpeacing(12),
-                  // Select address
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 2.5,
                     child: ListView.builder(
@@ -501,8 +529,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     children: [
                                       const VerticalSpeacing(7),
                                       InkWell(
-                                        onTap: () async {
-                                          await _storeSelectedAddress(address);
+                                        onTap: () {
                                           setState(() {
                                             selectedAddress = address;
                                           });
@@ -526,12 +553,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   const SizedBox(width: 15.0),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text.rich(
                                         TextSpan(
-                                          text: address['fullName'].length > 20
-                                              ? '${address['fullName'].substring(0, 15)}...'
-                                              : address['fullName'],
+                                          text: address['full_name'],
                                           style: const TextStyle(
                                             fontFamily: 'CenturyGothic',
                                             fontSize: 18,
@@ -541,7 +568,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                           children: <TextSpan>[
                                             TextSpan(
                                               text:
-                                                  '\n${address['phone'] ?? ''}\n',
+                                                  '\n${address['contact'] ?? ''}\n',
                                               style: const TextStyle(
                                                 color: AppColor.textColor1,
                                                 fontWeight: FontWeight.w400,
@@ -552,7 +579,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               text: (() {
                                                 String fullText =
                                                     '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}';
-                                                return fullText.length > 10
+                                                return fullText.length > 20
                                                     ? '${fullText.substring(0, 20)}...'
                                                     : fullText;
                                               })(),
@@ -566,7 +593,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
