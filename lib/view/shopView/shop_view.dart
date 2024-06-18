@@ -136,13 +136,14 @@ class _ShopViewState extends State<ShopView> {
                                 .shopRepository.shopProducts[index].title,
                             image: shopRepositoryProvider.shopRepository
                                 .shopProducts[index].thumbnailImage,
-                            discount: shopRepositoryProvider
-                                .shopRepository.shopProducts[index].discount
-                                .toString(),
+                            discount: shopRepositoryProvider.shopRepository
+                                .shopProducts[index].discountedPriceWithTax
+                                .toStringAsFixed(0),
                             proId: shopRepositoryProvider
                                 .shopRepository.shopProducts[index].id,
                             price: shopRepositoryProvider
-                                .shopRepository.shopProducts[index].price,
+                                .shopRepository.shopProducts[index].priceWithTax
+                                .toStringAsFixed(0),
                             averageReview: shopRepositoryProvider.shopRepository
                                 .shopProducts[index].averageReview
                                 .toString(),

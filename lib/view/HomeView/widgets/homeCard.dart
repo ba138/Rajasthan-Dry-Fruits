@@ -1,11 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, file_names, use_build_context_synchronously
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rjfruits/model/product_detail_model.dart';
-
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
@@ -13,7 +10,6 @@ import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../res/components/cart_button.dart';
 import '../../../res/components/colors.dart';
 
@@ -44,15 +40,15 @@ class HomeCard extends StatefulWidget {
 
 class _HomeCardState extends State<HomeCard> {
   int amount = 1;
-  void increament() {
+
+  void increment() {
     setState(() {
       amount++;
     });
   }
 
   void decrement() {
-    if (amount == 0) {
-    } else {
+    if (amount > 0) {
       setState(() {
         amount--;
       });
@@ -61,20 +57,16 @@ class _HomeCardState extends State<HomeCard> {
 
   bool isLike = false;
 
-  void checktheProduct() async {
+  void checkTheProduct() async {
     SaveProductRepositoryProvider homeRepoProvider =
         Provider.of<SaveProductRepositoryProvider>(context, listen: false);
-    bool isIncart = false;
+    bool isInCart = false;
 
     if (widget.proId != null) {
-      isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
-    } else {
-      // Handle the case where widget.proId is null
+      isInCart = await homeRepoProvider.isProductInCart(widget.proId!);
     }
 
-    // bool isIncart = await homeRepoProvider.isProductInCart(widget.proId!);
-
-    if (isIncart == true) {
+    if (isInCart) {
       setState(() {
         isLike = true;
       });
@@ -82,6 +74,7 @@ class _HomeCardState extends State<HomeCard> {
   }
 
   ProductDetail? productDetail;
+
   Future<void> fetchProductDetails(BuildContext context, String id) async {
     final String url = 'http://103.117.180.187/api/product/$id/';
     final Map<String, String> headers = {
@@ -95,22 +88,37 @@ class _HomeCardState extends State<HomeCard> {
 
       if (response.statusCode == 200) {
         productDetail = ProductDetail.fromJson(jsonDecode(response.body));
-        // Navigate to the next screen and pass the product detail
-        debugPrint("this is the product details:$productDetail");
+        debugPrint("Product details: $productDetail");
       } else {
         throw Exception('Failed to load product detail');
       }
     } catch (e) {
-      debugPrint("this is the error:$e");
+      debugPrint("Error: $e");
       handleApiError(e, context);
     }
   }
 
   @override
   void initState() {
-    checktheProduct();
+    checkTheProduct();
     fetchProductDetails(context, widget.proId!);
     super.initState();
+  }
+
+  String formatPrice(String price) {
+    final dotIndex = price.indexOf('.');
+    if (dotIndex != -1) {
+      return price.substring(0, dotIndex);
+    }
+    return price;
+  }
+
+  String truncateTitle(String? title, int charLimit) {
+    if (title == null) return 'Dried Figs';
+    if (title.length > charLimit) {
+      return '${title.substring(0, charLimit)}...';
+    }
+    return title;
   }
 
   @override
@@ -118,43 +126,28 @@ class _HomeCardState extends State<HomeCard> {
     HomeRepositoryProvider homeRepoProvider =
         Provider.of<HomeRepositoryProvider>(context, listen: false);
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
-
     ProductRepositoryProvider proRepoProvider =
         Provider.of<ProductRepositoryProvider>(context, listen: false);
-    double originalPrice = double.parse(widget.price ?? "50");
-    double originalDiscount = double.parse(widget.discount ?? "20");
-    String discountedPrice = homeRepoProvider.homeRepository
-        .calculateDiscountedPrice(originalPrice, originalDiscount);
-    String formattedPrice = '₹$discountedPrice';
-    final dotIndex = formattedPrice.indexOf('.');
-    if (dotIndex != -1) {
-      // Decimal point found, remove it and everything after
-      formattedPrice = formattedPrice.substring(0, dotIndex);
-    }
-    String totalPrice = '₹$originalPrice';
-    final dotNdex = totalPrice.indexOf('.');
-    if (dotNdex != -1) {
-      // Decimal point found, remove it and everything after
-      totalPrice = totalPrice.substring(0, dotIndex);
-    }
-    String truncatedTitle = widget.title == null ? 'Dried Figs' : widget.title!;
-    if (truncatedTitle.length > 8) {
-      truncatedTitle = '${truncatedTitle.substring(0, 8)}...';
-    }
+
+    String formattedPrice = widget.discount ?? '0';
+    formattedPrice = formatPrice(formattedPrice);
+
+    String totalPrice = '₹${widget.price ?? '0'}';
+    totalPrice = formatPrice(totalPrice);
+
+    String truncatedTitle = truncateTitle(widget.title, 10);
+
     return Container(
-      // height: MediaQuery.of(context).size.height / 3,
-      // width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(color: AppColor.primaryColor, width: 2),
-        color: const Color.fromRGBO(
-            255, 255, 255, 0.2), // Background color with opacity
+        color: const Color.fromRGBO(255, 255, 255, 0.2),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withOpacity(0.5), // Shadow color
-            blurRadius: 2, // Blur radius
-            spreadRadius: 0, // Spread radius
-            offset: const Offset(0, 0), // Offset
+            color: Colors.white.withOpacity(0.5),
+            blurRadius: 2,
+            spreadRadius: 0,
+            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -176,9 +169,7 @@ class _HomeCardState extends State<HomeCard> {
                         child: Center(
                           child: Text.rich(
                             TextSpan(
-                              text: widget.discount == null
-                                  ? '30%\n'
-                                  : '${widget.discount}%\n',
+                              text: '${formattedPrice}%\n',
                               style: const TextStyle(
                                   fontSize: 9.0,
                                   color: AppColor.whiteColor,
@@ -205,10 +196,9 @@ class _HomeCardState extends State<HomeCard> {
                     color: AppColor.primaryColor,
                     boxShadow: const [
                       BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0,
-                            0.25), // Shadow color (black with 25% opacity)
-                        blurRadius: 8.1, // Blur radius
-                        offset: Offset(0, 4), // Offset (Y direction)
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                        blurRadius: 8.1,
+                        offset: Offset(0, 4),
                       ),
                     ],
                   ),
@@ -217,9 +207,7 @@ class _HomeCardState extends State<HomeCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InkWell(
-                          onTap: () {
-                            decrement();
-                          },
+                          onTap: decrement,
                           child: Container(
                             height: MediaQuery.of(context).size.height / 10,
                             width: MediaQuery.of(context).size.width / 18,
@@ -241,9 +229,7 @@ class _HomeCardState extends State<HomeCard> {
                           style: const TextStyle(color: AppColor.whiteColor),
                         ),
                         InkWell(
-                          onTap: () {
-                            increament();
-                          },
+                          onTap: increment,
                           child: Container(
                             height: MediaQuery.of(context).size.height / 10,
                             width: MediaQuery.of(context).size.width / 18,
@@ -353,20 +339,20 @@ class _HomeCardState extends State<HomeCard> {
               children: [
                 InkWell(
                   onTap: () async {
-                    debugPrint("this is the product id:${widget.proId}");
+                    debugPrint("Product ID: ${widget.proId}");
 
                     final userModel = await userPreferences.getUser();
-                    // Await the Future<UserModel> result
                     final token = userModel.key;
-                    debugPrint("this is the product id:${widget.proId}");
+                    debugPrint("Product ID: ${widget.proId}");
                     proRepoProvider.saveCartProducts(
-                        widget.proId!,
-                        widget.title!,
-                        productDetail!.productWeight.first.id.toString(),
-                        discountedPrice,
-                        amount,
-                        token,
-                        context);
+                      widget.proId!,
+                      widget.title!,
+                      productDetail!.productWeight.first.id.toString(),
+                      formattedPrice,
+                      amount,
+                      token,
+                      context,
+                    );
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height / 21,
@@ -377,10 +363,10 @@ class _HomeCardState extends State<HomeCard> {
                         boxShadow: [
                           BoxShadow(
                             color: const Color.fromARGB(255, 0, 0, 0)
-                                .withOpacity(0.25), // Shadow color
-                            blurRadius: 8.1, // Blur radius
-                            spreadRadius: 0, // Spread radius
-                            offset: const Offset(0, 4), // Offset
+                                .withOpacity(0.25),
+                            blurRadius: 8.1,
+                            spreadRadius: 0,
+                            offset: const Offset(0, 4),
                           ),
                         ]),
                     child: Center(
@@ -392,17 +378,18 @@ class _HomeCardState extends State<HomeCard> {
                   ),
                 ),
                 CartButton(
-                    onTap: () {
-                      debugPrint("this is prodid:${widget.proId}");
-                      final productDetailsProvider =
-                          Provider.of<ProductRepositoryProvider>(context,
-                              listen: false);
-                      productDetailsProvider.fetchProductDetails(
-                        context,
-                        widget.proId!,
-                      );
-                    },
-                    text: 'View'),
+                  onTap: () {
+                    debugPrint("Product ID: ${widget.proId}");
+                    final productDetailsProvider =
+                        Provider.of<ProductRepositoryProvider>(context,
+                            listen: false);
+                    productDetailsProvider.fetchProductDetails(
+                      context,
+                      widget.proId!,
+                    );
+                  },
+                  text: 'View',
+                ),
               ],
             ),
           ],
