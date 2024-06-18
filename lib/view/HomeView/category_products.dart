@@ -7,7 +7,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/view/HomeView/widgets/homeCard.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class CategoriesSection extends StatefulWidget {
   const CategoriesSection({super.key});
@@ -76,14 +75,14 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                       isdiscount: false,
                       image: homeRepo.homeRepository.categriousProduct[index]
                           .thumbnailImage,
-                      discount: homeRepo
-                          .homeRepository.categriousProduct[index].discount
-                          .toString(),
+                      discount: homeRepo.homeRepository.categriousProduct[index]
+                          .discountedPriceWithTax
+                          .toStringAsFixed(0),
                       title: homeRepo
                           .homeRepository.categriousProduct[index].title,
                       price: homeRepo
-                          .homeRepository.categriousProduct[index].price
-                          .toString(),
+                          .homeRepository.categriousProduct[index].priceWithTax
+                          .toStringAsFixed(0),
                       proId: homeRepo.homeRepository.categriousProduct[index].id
                           .toString(),
                       averageReview: homeRepo

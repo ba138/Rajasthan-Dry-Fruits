@@ -335,7 +335,7 @@ class _HomeCardState extends State<HomeCard> {
                     decoration: TextDecoration.lineThrough,
                   ),
                 ),
-                Text(formattedPrice,
+                Text(widget.discount!,
                     style: GoogleFonts.getFont(
                       "Roboto",
                       textStyle: const TextStyle(

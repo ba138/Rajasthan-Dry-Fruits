@@ -98,14 +98,14 @@ class PopularItems extends StatelessWidget {
                             isdiscount: false,
                             image: homeRepo.homeRepository
                                 .productsTopOrder[index].thumbnailImage,
-                            discount: homeRepo
-                                .homeRepository.productsTopOrder[index].discount
-                                .toString(),
+                            discount: homeRepo.homeRepository
+                                .productsTopOrder[index].discountedPriceWithTax
+                                .toStringAsFixed(0),
                             title: homeRepo
                                 .homeRepository.productsTopOrder[index].title,
-                            price: homeRepo
-                                .homeRepository.productsTopOrder[index].price
-                                .toString(),
+                            price: homeRepo.homeRepository
+                                .productsTopOrder[index].priceWithTax
+                                .toStringAsFixed(0),
                             proId: homeRepo
                                 .homeRepository.productsTopOrder[index].id
                                 .toString(),
