@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/loading_manager.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/view/profileView/edit_address.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../utils/routes/utils.dart';
@@ -126,6 +127,15 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                         selectedAddress = address;
                       });
                     },
+                    onpressEdit: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditAddress(address, address['id'])),
+                      );
+                    },
+                    onpresDelete: () {},
                   ),
                   const VerticalSpeacing(20),
                 ],
