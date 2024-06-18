@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:rjfruits/model/product_detail_model.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/res/const/response_handler.dart';
-import 'package:rjfruits/view_model/home_view_model.dart';
 import 'package:rjfruits/view_model/product_detail_view_model.dart';
 import 'package:rjfruits/view_model/save_view_model.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
@@ -123,8 +122,6 @@ class _HomeCardState extends State<HomeCard> {
 
   @override
   Widget build(BuildContext context) {
-    HomeRepositoryProvider homeRepoProvider =
-        Provider.of<HomeRepositoryProvider>(context, listen: false);
     final userPreferences = Provider.of<UserViewModel>(context, listen: false);
     ProductRepositoryProvider proRepoProvider =
         Provider.of<ProductRepositoryProvider>(context, listen: false);
@@ -135,7 +132,7 @@ class _HomeCardState extends State<HomeCard> {
     String totalPrice = '₹${widget.price ?? '0'}';
     totalPrice = formatPrice(totalPrice);
 
-    String truncatedTitle = truncateTitle(widget.title, 10);
+    String truncatedTitle = truncateTitle(widget.title, 8);
 
     return Container(
       decoration: BoxDecoration(
