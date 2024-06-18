@@ -194,7 +194,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Row(
                       children: [
                         Text(
-                          "₹${widget.detail.price.toString()}",
+                          "₹${widget.detail.priceWithTax.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -208,7 +208,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 6,
                         ),
                         Text(
-                          weightPrice ?? "₹${discountedPrice.toString()}",
+                          "₹${widget.detail.discountedPriceWithTax.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -246,8 +246,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       productWeight == productWeight.weight.name
                                           ? null
                                           : productWeight.weight.name;
-                                  weightPrice = productWeight.price;
-                                  intweight = productWeight.price;
+                                  weightPrice = productWeight
+                                      .discountedPriceWithTax
+                                      .toString();
+                                  intweight =
+                                      productWeight.priceWithTax.toString();
                                   weightid = productWeight.id.toString();
                                 });
                               },
@@ -278,7 +281,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      " ${productWeight.price}₹ ",
+                                      " ${productWeight.discountedPriceWithTax}₹ ",
                                       style: GoogleFonts.getFont(
                                         "Poppins",
                                         textStyle: TextStyle(

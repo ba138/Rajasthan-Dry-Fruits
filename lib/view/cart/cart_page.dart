@@ -130,6 +130,8 @@ class _CartViewState extends State<CartView> {
                           itemBuilder: (context, index) {
                             final product = cartProducts[index];
                             final carPro = cartItems[index];
+                            debugPrint(
+                                "this is the textprice:${product.discountedPriceWithTax}");
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 12.0),
                               child: CartWidget(
@@ -147,7 +149,7 @@ class _CartViewState extends State<CartView> {
                                 productId: product.id.toString(),
                                 name: product.title,
                                 img: product.thumbnailImage,
-                                price: product.price.toString(),
+                                price: product.priceWithTax.toString(),
                                 guantity: carPro.quantity,
                                 individualPrice: product.price.toString(),
                                 id: carPro.id,
