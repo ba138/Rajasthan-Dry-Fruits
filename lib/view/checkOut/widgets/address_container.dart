@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rjfruits/res/components/colors.dart';
-import 'package:rjfruits/res/components/vertical_spacing.dart';
 
 class AddressCheckOutWidget extends StatefulWidget {
   const AddressCheckOutWidget({
@@ -40,84 +39,95 @@ class _AddressCheckOutWidgetState extends State<AddressCheckOutWidget> {
         border: Border.all(width: 2, color: widget.borderColor),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withOpacity(0.5), // Shadow color
-            blurRadius: 2, // Blur radius
-            spreadRadius: 0, // Spread radius
-            offset: const Offset(0, 0), // Offset
+            color: Colors.white.withOpacity(0.5),
+            blurRadius: 2,
+            spreadRadius: 0,
+            offset: const Offset(0, 0),
           ),
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 15.0, left: 15.0),
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const VerticalSpeacing(7),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      isPressed = !isPressed;
-                      if (isPressed) {
-                        widget.onpress();
-                      }
-                    });
-                  },
-                  child: Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColor.primaryColor),
-                      color: isPressed
-                          ? AppColor.primaryColor
-                          : Colors.transparent,
+                Padding(
+                  padding: const EdgeInsets.only(top: 22),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPressed = !isPressed;
+                        if (isPressed) {
+                          widget.onpress();
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 16,
+                      width: 16,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColor.primaryColor),
+                        color: isPressed
+                            ? AppColor.primaryColor
+                            : Colors.transparent,
+                      ),
                     ),
                   ),
+                ),
+                const SizedBox(width: 16.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        text: widget.title.length > 15
+                            ? '${widget.title.substring(0, 15)}...'
+                            : widget.title,
+                        style: TextStyle(
+                          fontFamily: 'CenturyGothic',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: widget.titleColor,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: '\n${widget.phNo}\n',
+                            style: const TextStyle(
+                              color: AppColor.textColor1,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.address.length > 20
+                                ? '${widget.address.substring(0, 20)}...'
+                                : widget.address,
+                            style: const TextStyle(
+                              color: AppColor.textColor1,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            // const MyCheckBox(),
-            const SizedBox(width: 15.0),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text.rich(
-                  TextSpan(
-                    text: widget.title.length > 15
-                        ? '${widget.title.substring(0, 15)}...'
-                        : widget.title,
-                    style: TextStyle(
-                      fontFamily: 'CenturyGothic',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: widget.titleColor,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '\n${widget.phNo}\n',
-                        style: const TextStyle(
-                          color: AppColor.textColor1,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      TextSpan(
-                        text: widget.address.length > 20
-                            ? '${widget.address.substring(0, 20)}...'
-                            : widget.address,
-                        style: const TextStyle(
-                          color: AppColor.textColor1,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
               ],
-            )
+            ),
           ],
         ),
       ),
