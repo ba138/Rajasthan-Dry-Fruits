@@ -28,7 +28,6 @@ class CartRepository extends ChangeNotifier {
       };
 
       var response = await http.get(url, headers: headers);
-      debugPrint("this is the response of the cart: ${response.body}");
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
 
@@ -57,7 +56,8 @@ class CartRepository extends ChangeNotifier {
         throw Exception('Failed to load cart items');
       }
     } catch (e) {
-      Utils.flushBarErrorMessage("Check your internet connection", context);
+      Utils.flushBarErrorMessage("$e", context);
+      debugPrint("this is the error $e");
     }
   }
 
@@ -83,7 +83,6 @@ class CartRepository extends ChangeNotifier {
         Utils.toastMessage("Product has been Delete");
       } else {
         // Handle other status codes
-        Utils.toastMessage("Check your internet connection");
       }
     } catch (e) {
       Utils.flushBarErrorMessage("Problem in removeing product", context);
