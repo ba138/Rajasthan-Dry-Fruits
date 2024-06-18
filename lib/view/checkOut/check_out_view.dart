@@ -11,7 +11,6 @@ import 'package:rjfruits/res/components/vertical_spacing.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
 import 'package:rjfruits/view/checkOut/check_out_detailed_view.dart';
 import 'package:rjfruits/view/profileView/add_address_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
@@ -86,7 +85,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       );
 
       if (response.statusCode == 200) {
-        Utils.toastMessage('getting address successfully');
         setState(() {
           addresses =
               List<Map<String, dynamic>>.from(json.decode(response.body));
@@ -96,39 +94,18 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
           _isLoading = false;
         });
       } else {
-        print('Failed to load addresses');
+        Utils.flushBarErrorMessage('Failed to load addresses', context);
         setState(() {
           _isLoading = false;
         });
       }
     } catch (e) {
-      print('Error: $e');
+      Utils.flushBarErrorMessage('Error: $e', context);
       setState(() {
         _isLoading = false;
       });
     }
   }
-
-  // Future<void> _storeSelectedAddress(Map<String, dynamic> address) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('selectedAddress', jsonEncode(address));
-  //   await Future.delayed(const Duration(milliseconds: 500));
-  //   setState(() {
-  //     selectedAddress = address;
-  //   });
-  // }
-
-  // Future<List<Map<String, dynamic>>> _getCachedAddresses() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   List<String>? encodedAddresses = prefs.getStringList('addresses');
-  //   if (encodedAddresses != null) {
-  //     return encodedAddresses.map((jsonString) {
-  //       return jsonDecode(jsonString) as Map<String, dynamic>;
-  //     }).toList();
-  //   } else {
-  //     return [];
-  //   }
-  // }
 
   @override
   void didChangeDependencies() {
@@ -144,24 +121,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   //check out done function
   bool _isLoading = false;
 
-  Future<void> checkoutDone(
-    BuildContext context,
-  ) async {
-    if (selectedAddress!.isNotEmpty) {
+  Future<void> checkoutDone(BuildContext context) async {
+    if (selectedAddress != null && selectedAddress!.isNotEmpty) {
       setState(() {
         _isLoading = true;
       });
 
       Map<String, dynamic> requestData = {
-        "full_name": selectedAddress!['fullName'],
-        "contact": selectedAddress!['phone'],
-        "postal_code": selectedAddress!['zipCode'],
+        "full_name": selectedAddress!['full_name'],
+        "contact": selectedAddress!['contact'],
+        "postal_code": selectedAddress!['postal_code'],
         "address": selectedAddress!['address'],
         "address_label": 'home',
         "city": selectedAddress!['city'],
         "state": selectedAddress!['state'],
         "country": selectedAddress!['country'],
-        "gst_in": selectedAddress!['gst'],
+        "gst_in": selectedAddress!['gst_in'],
         "payment_type": "online",
         "shipment_type": shippingType,
         "service_type": _btn2SelectedVal == 'Normal' ? 'normal' : 'fast'
@@ -578,7 +553,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                             TextSpan(
                                               text: (() {
                                                 String fullText =
-                                                    '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['zipCode'] ?? ''} ${address['gst'] ?? ''}';
+                                                    '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['postal_code'] ?? ''} ${address['gst'] ?? ''}';
                                                 return fullText.length > 20
                                                     ? '${fullText.substring(0, 20)}...'
                                                     : fullText;
