@@ -8,7 +8,6 @@ import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
-import 'package:rjfruits/view/profileView/delivery_address_view.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 
 import '../checkOut/widgets/payment_field.dart';
