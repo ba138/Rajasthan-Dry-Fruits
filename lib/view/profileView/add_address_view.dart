@@ -4,12 +4,16 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:rjfruits/res/components/colors.dart';
 import 'package:rjfruits/res/components/rounded_button.dart';
 import 'package:rjfruits/res/components/vertical_spacing.dart';
+import 'package:rjfruits/utils/routes/utils.dart';
 import 'package:rjfruits/view/checkOut/check_out_view.dart';
 import 'package:rjfruits/view/checkOut/widgets/Payment_field.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+import '../../view_model/user_view_model.dart';
 
 class AddAddresScreen extends StatefulWidget {
   const AddAddresScreen({super.key, required this.totalAmount});
@@ -131,7 +135,7 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
   }
 
   Future<void> _saveAddress() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String fullName = _fullNameController.text;
     String phone = _phoneController.text;
@@ -141,34 +145,55 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
     String zipCode = _zipCodeController.text;
     String gstIn = _gstController.text;
     String country = _btn3SelectedVal;
-    // Validate phone number
 
     Map<String, dynamic> addressMap = {
-      'fullName': fullName,
-      'phone': phone,
+      'full_name': fullName,
+      'contact': phone,
       'address': address,
       'city': city,
       'state': state,
-      'zipCode': int.parse(zipCode),
-      'gst': gstIn,
+      'postal_code': int.parse(zipCode),
+      'gst_in': gstIn,
       'country': country,
     };
 
-    List<Map<String, dynamic>> addresses =
-        prefs.getStringList('addresses')?.map((jsonString) {
-              return Map<String, dynamic>.from(jsonDecode(jsonString));
-            }).toList() ??
-            [];
+    // Convert addressMap to JSON
+    String jsonBody = json.encode(addressMap);
 
-    addresses.add(addressMap);
-    List<String> encodedAddresses =
-        addresses.map((address) => jsonEncode(address)).toList();
-    await prefs.setStringList('addresses', encodedAddresses);
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return CheckOutScreen(
-        totalPrice: widget.totalAmount,
+    try {
+      final userPreferences =
+          Provider.of<UserViewModel>(context, listen: false);
+      final userModel = await userPreferences.getUser();
+      final token = userModel.key;
+      final response = await http.post(
+        Uri.parse('http://103.117.180.187/api/address/'),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken':
+              'SlSrUKA34Wtxgek0vbx9jfpCcTylfy7BjN8KqtVw38sdWYy7MS5IQdW1nKzKAOLj',
+          'authorization': 'Token $token',
+        },
+        body: jsonBody,
       );
-    }));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Handle successful response
+        Utils.toastMessage('Address added successfully');
+        print('Address added successfully');
+        // Navigate to the checkout screen
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return CheckOutScreen(
+            totalPrice: widget.totalAmount,
+          );
+        }));
+      } else {
+        // Handle error response
+        print('Failed to add address: ${response.body}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   @override
@@ -463,14 +488,6 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                             ),
                           ],
                         ),
-                        // Expanded(
-                        //   child: PaymentField(
-                        //     controller: _stateController,
-                        //     maxLines: 2,
-                        //     text: "State",
-                        //     hintText: "India",
-                        //   ),
-                        // ),
                         const SizedBox(height: 12),
                         PaymentField(
                           errorText: zipValid ? _errorZipcode : null,
@@ -481,7 +498,11 @@ class _AddAddresScreenState extends State<AddAddresScreen> {
                         ),
                         const VerticalSpeacing(38),
                         RoundedButton(
-                            title: "Save Address", onpress: validateFields),
+                            title: "Save Address",
+                            onpress: () {
+                              validateFields();
+                              _saveAddress();
+                            }),
                         const VerticalSpeacing(38),
                       ],
                     ),
