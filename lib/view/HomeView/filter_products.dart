@@ -82,14 +82,14 @@ class FilterProducts extends StatelessWidget {
                       isdiscount: true,
                       image: homeRepo.homeRepository.filteredProducts[index]
                           .thumbnailImage,
-                      discount: homeRepo
-                          .homeRepository.filteredProducts[index].discount
-                          .toString(),
+                      discount: homeRepo.homeRepository.filteredProducts[index]
+                          .discountedPriceWithTax
+                          .toStringAsFixed(0),
                       title:
                           homeRepo.homeRepository.filteredProducts[index].title,
-                      price: homeRepo
-                          .homeRepository.filteredProducts[index].price
-                          .toString(),
+                      price: homeRepo.homeRepository.filteredProducts[index]
+                          .discountedPriceWithTax
+                          .toStringAsFixed(0),
                       proId: homeRepo.homeRepository.filteredProducts[index].id
                           .toString(),
                       averageReview: homeRepo

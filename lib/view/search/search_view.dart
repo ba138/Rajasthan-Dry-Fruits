@@ -182,6 +182,7 @@ class _SearchViewState extends State<SearchView> {
                       return selectedWidget;
                     },
                   ),
+                  const VerticalSpeacing(20),
                 ],
               ),
             ],

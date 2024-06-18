@@ -75,14 +75,14 @@ class _CategoriesSectionState extends State<CategoriesSection> {
                       isdiscount: false,
                       image: homeRepo.homeRepository.categriousProduct[index]
                           .thumbnailImage,
-                      discount: homeRepo
-                          .homeRepository.categriousProduct[index].discount
-                          .toString(),
+                      discount: homeRepo.homeRepository.categriousProduct[index]
+                          .discountedPriceWithTax
+                          .toStringAsFixed(0),
                       title: homeRepo
                           .homeRepository.categriousProduct[index].title,
                       price: homeRepo
-                          .homeRepository.categriousProduct[index].price
-                          .toString(),
+                          .homeRepository.categriousProduct[index].priceWithTax
+                          .toStringAsFixed(0),
                       proId: homeRepo.homeRepository.categriousProduct[index].id
                           .toString(),
                       averageReview: homeRepo

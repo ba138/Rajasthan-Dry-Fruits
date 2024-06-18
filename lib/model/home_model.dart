@@ -8,6 +8,8 @@ class Product {
   final Category category;
   final double averageReview;
   final int totalReviews;
+  final double priceWithTax;
+  final double discountedPriceWithTax;
 
   Product({
     required this.id,
@@ -19,6 +21,8 @@ class Product {
     required this.category,
     required this.averageReview,
     required this.totalReviews,
+    required this.priceWithTax,
+    required this.discountedPriceWithTax,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -27,11 +31,17 @@ class Product {
       title: json['title'],
       slug: json['slug'],
       thumbnailImage: json['thumbnail_image'],
-      price: double.parse(json['price']),
+      price: double.parse(json['price'].toString()),
       discount: json['discount'],
       category: Category.fromJson(json['category']),
       averageReview: json['average_review'].toDouble(),
       totalReviews: json['total_reviews'],
+      priceWithTax: json['price_with_tax'] != null
+          ? double.parse(json['price_with_tax'].toString())
+          : 0.0,
+      discountedPriceWithTax: json['discounted_price_with_tax'] != null
+          ? double.parse(json['discounted_price_with_tax'].toString())
+          : 0.0,
     );
   }
 }

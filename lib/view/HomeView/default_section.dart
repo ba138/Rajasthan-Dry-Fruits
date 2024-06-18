@@ -76,7 +76,6 @@ class _DefaultSectionState extends State<DefaultSection> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-
                     ),
                   ),
                 );
@@ -98,14 +97,14 @@ class _DefaultSectionState extends State<DefaultSection> {
                       isdiscount: false,
                       image: homeRepo.homeRepository.productsTopOrder[index]
                           .thumbnailImage,
-                      discount: homeRepo
-                          .homeRepository.productsTopOrder[index].discount
-                          .toString(),
+                      discount: homeRepo.homeRepository.productsTopOrder[index]
+                          .discountedPriceWithTax
+                          .toStringAsFixed(0),
                       title:
                           homeRepo.homeRepository.productsTopOrder[index].title,
                       price: homeRepo
-                          .homeRepository.productsTopOrder[index].price
-                          .toString(),
+                          .homeRepository.productsTopOrder[index].priceWithTax
+                          .toStringAsFixed(0),
                       proId: homeRepo.homeRepository.productsTopOrder[index].id
                           .toString(),
                       averageReview: homeRepo
@@ -186,14 +185,14 @@ class _DefaultSectionState extends State<DefaultSection> {
                       isdiscount: false,
                       image: homeRepo.homeRepository.productsTopRated[index]
                           .thumbnailImage,
-                      discount: homeRepo
-                          .homeRepository.productsTopRated[index].discount
-                          .toString(),
+                      discount: homeRepo.homeRepository.productsTopRated[index]
+                          .discountedPriceWithTax
+                          .toStringAsFixed(0),
                       title:
                           homeRepo.homeRepository.productsTopRated[index].title,
                       price: homeRepo
-                          .homeRepository.productsTopRated[index].price
-                          .toString(),
+                          .homeRepository.productsTopRated[index].priceWithTax
+                          .toStringAsFixed(0),
                       proId: homeRepo.homeRepository.productsTopRated[index].id
                           .toString(),
                       averageReview: homeRepo
@@ -275,14 +274,14 @@ class _DefaultSectionState extends State<DefaultSection> {
                       isdiscount: true,
                       image: homeRepo.homeRepository.productsTopDiscount[index]
                           .thumbnailImage,
-                      discount: homeRepo
-                          .homeRepository.productsTopDiscount[index].discount
-                          .toString(),
+                      discount: homeRepo.homeRepository
+                          .productsTopDiscount[index].discountedPriceWithTax
+                          .toStringAsFixed(0),
                       title: homeRepo
                           .homeRepository.productsTopDiscount[index].title,
-                      price: homeRepo
-                          .homeRepository.productsTopDiscount[index].price
-                          .toString(),
+                      price: homeRepo.homeRepository.productsTopDiscount[index]
+                          .priceWithTax
+                          .toStringAsFixed(0),
                       proId: homeRepo
                           .homeRepository.productsTopDiscount[index].id
                           .toString(),
