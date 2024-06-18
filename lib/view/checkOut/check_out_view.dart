@@ -16,6 +16,7 @@ import '../../utils/routes/utils.dart';
 import 'package:http/http.dart' as http;
 import '../../view_model/cart_view_model.dart';
 import '../../view_model/user_view_model.dart';
+import '../profileView/edit_address.dart';
 
 // ignore: must_be_immutable
 class CheckOutScreen extends StatefulWidget {
@@ -100,7 +101,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
         });
       }
     } catch (e) {
-      Utils.flushBarErrorMessage('Error: $e', context);
+      debugPrint('Error: $e');
       setState(() {
         _isLoading = false;
       });
@@ -197,6 +198,31 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
       }
     } else {
       Utils.toastMessage('Selected address is empty.');
+    }
+  }
+
+  Future<void> _deleteAddress(int id) async {
+    final userPreferences = Provider.of<UserViewModel>(context, listen: false);
+    final userModel = await userPreferences.getUser();
+    final token = userModel.key;
+    final url = Uri.parse('http://103.117.180.187/api/address/$id/');
+    final response = await http.delete(
+      url,
+      headers: {
+        'accept': 'application/json',
+        'X-CSRFToken':
+            'SlSrUKA34Wtxgek0vbx9jfpCcTylfy7BjN8KqtVw38sdWYy7MS5IQdW1nKzKAOLj',
+        'authorization': 'Token $token',
+      },
+    );
+
+    if (response.statusCode == 204 || response.statusCode == 200) {
+      Utils.toastMessage('Seccessfully deleted Address');
+      fetchAddresses();
+      // Successfully deleted the address
+    } else {
+      // Error occurred while deleting the address
+      print('Failed to delete the address');
     }
   }
 
@@ -494,77 +520,114 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                               ],
                             ),
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 15.0, left: 15.0),
+                              padding: const EdgeInsets.only(
+                                  right: 10.0, left: 10.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    children: [
-                                      const VerticalSpeacing(7),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedAddress = address;
-                                          });
-                                          debugPrint(
-                                              'address $selectedAddress');
-                                        },
-                                        child: Container(
-                                          height: 16,
-                                          width: 16,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: AppColor.primaryColor),
-                                            color: isSelected
-                                                ? AppColor.primaryColor
-                                                : Colors.transparent,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 15.0),
-                                  Column(
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text.rich(
-                                        TextSpan(
-                                          text: address['full_name'],
-                                          style: const TextStyle(
-                                            fontFamily: 'CenturyGothic',
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColor.primaryColor,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 20.0),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedAddress = address;
+                                            });
+                                            debugPrint(
+                                                'address $selectedAddress');
+                                          },
+                                          child: Container(
+                                            height: 16,
+                                            width: 16,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: AppColor.primaryColor),
+                                              color: isSelected
+                                                  ? AppColor.primaryColor
+                                                  : Colors.transparent,
+                                            ),
                                           ),
-                                          children: <TextSpan>[
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20.0),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text.rich(
                                             TextSpan(
-                                              text:
-                                                  '\n${address['contact'] ?? ''}\n',
+                                              text: address['full_name'],
                                               style: const TextStyle(
-                                                color: AppColor.textColor1,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14.0,
+                                                fontFamily: 'CenturyGothic',
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColor.primaryColor,
                                               ),
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text:
+                                                      '\n${address['contact'] ?? ''}\n',
+                                                  style: const TextStyle(
+                                                    color: AppColor.textColor1,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14.0,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text: (() {
+                                                    String fullText =
+                                                        '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['postal_code'] ?? ''} ${address['gst'] ?? ''}';
+                                                    return fullText.length > 20
+                                                        ? '${fullText.substring(0, 20)}...'
+                                                        : fullText;
+                                                  })(),
+                                                  style: const TextStyle(
+                                                    color: AppColor.textColor1,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14.0,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            TextSpan(
-                                              text: (() {
-                                                String fullText =
-                                                    '${address['address'] ?? ''}, ${address['city'] ?? ''} ${address['state'] ?? ''} ${address['postal_code'] ?? ''} ${address['gst'] ?? ''}';
-                                                return fullText.length > 20
-                                                    ? '${fullText.substring(0, 20)}...'
-                                                    : fullText;
-                                              })(),
-                                              style: const TextStyle(
-                                                color: AppColor.textColor1,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14.0,
-                                              ),
-                                            ),
-                                          ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditAddress(address,
+                                                          address['id'])),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: AppColor.textColor1,
+                                          )),
+                                      IconButton(
+                                        onPressed: () {
+                                          _deleteAddress(address['id']);
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: AppColor.textColor1,
                                         ),
                                       ),
                                     ],
