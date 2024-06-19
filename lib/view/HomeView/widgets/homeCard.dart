@@ -166,7 +166,7 @@ class _HomeCardState extends State<HomeCard> {
                         child: Center(
                           child: Text.rich(
                             TextSpan(
-                              text: '${formattedPrice}%\n',
+                              text: '$formattedPrice%\n',
                               style: const TextStyle(
                                   fontSize: 9.0,
                                   color: AppColor.whiteColor,
