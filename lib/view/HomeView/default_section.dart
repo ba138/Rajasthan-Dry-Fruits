@@ -271,6 +271,9 @@ class _DefaultSectionState extends State<DefaultSection> {
                         ? 2
                         : homeRepo.homeRepository.productsTopDiscount.length,
                     (index) => HomeCard(
+                      disPercantage: homeRepo
+                          .homeRepository.productsTopDiscount[index].discount
+                          .toString(),
                       isdiscount: true,
                       image: homeRepo.homeRepository.productsTopDiscount[index]
                           .thumbnailImage,

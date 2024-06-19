@@ -23,6 +23,7 @@ class HomeCard extends StatefulWidget {
     this.proId,
     this.weight,
     required this.averageReview,
+    this.disPercantage,
   });
   final bool isdiscount;
   final String? image;
@@ -32,6 +33,7 @@ class HomeCard extends StatefulWidget {
   final String? proId;
   final List<dynamic>? weight;
   final String averageReview;
+  final String? disPercantage;
 
   @override
   State<HomeCard> createState() => _HomeCardState();
@@ -166,7 +168,7 @@ class _HomeCardState extends State<HomeCard> {
                         child: Center(
                           child: Text.rich(
                             TextSpan(
-                              text: '${formattedPrice}%\n',
+                              text: '${widget.disPercantage}%\n',
                               style: const TextStyle(
                                   fontSize: 9.0,
                                   color: AppColor.whiteColor,
