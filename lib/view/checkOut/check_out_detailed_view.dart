@@ -174,7 +174,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Total",
+                            "Sub Total",
                             style: TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
@@ -183,7 +183,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             ),
                           ),
                           Text(
-                            '₹${widget.checkoutModel.data.total}',
+                            '₹${widget.checkoutModel.data.subTotal}',
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
@@ -272,7 +272,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Sub Total",
+                            "Total",
                             style: TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
@@ -281,7 +281,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             ),
                           ),
                           Text(
-                            '₹${widget.checkoutModel.data.subTotal}',
+                            '₹${widget.checkoutModel.data.total}',
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,

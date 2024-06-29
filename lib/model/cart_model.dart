@@ -42,6 +42,7 @@ class Product {
   final int totalReviews;
   final double? priceWithTax;
   final double? discountedPriceWithTax;
+  final double? discountedPrice; // Added field for discounted price
 
   Product({
     required this.id,
@@ -55,6 +56,7 @@ class Product {
     required this.totalReviews,
     this.priceWithTax,
     this.discountedPriceWithTax,
+    this.discountedPrice,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -74,6 +76,9 @@ class Product {
       discountedPriceWithTax: json['discounted_price_with_tax'] != null
           ? json['discounted_price_with_tax'].toDouble()
           : null,
+      discountedPrice: json['discounted_price'] != null
+          ? json['discounted_price'].toDouble()
+          : null,
     );
   }
 
@@ -90,6 +95,7 @@ class Product {
       'total_reviews': totalReviews,
       'price_with_tax': priceWithTax,
       'discounted_price_with_tax': discountedPriceWithTax,
+      'discounted_price': discountedPrice,
     };
   }
 }
@@ -100,6 +106,7 @@ class ProductWeight {
   final double price;
   final double? priceWithTax;
   final double? discountedPriceWithTax;
+  final double? discountedPrice; // Added field for discounted price
 
   ProductWeight({
     required this.id,
@@ -107,6 +114,7 @@ class ProductWeight {
     required this.price,
     this.priceWithTax,
     this.discountedPriceWithTax,
+    this.discountedPrice,
   });
 
   factory ProductWeight.fromJson(Map<String, dynamic> json) {
@@ -120,6 +128,9 @@ class ProductWeight {
       discountedPriceWithTax: json['discounted_price_with_tax'] != null
           ? json['discounted_price_with_tax'].toDouble()
           : null,
+      discountedPrice: json['discounted_price'] != null
+          ? json['discounted_price'].toDouble()
+          : null,
     );
   }
 
@@ -130,6 +141,7 @@ class ProductWeight {
       'price': price,
       'price_with_tax': priceWithTax,
       'discounted_price_with_tax': discountedPriceWithTax,
+      'discounted_price': discountedPrice,
     };
   }
 }
@@ -173,6 +185,7 @@ class Cart {
   final double shiprocketShippingCharges;
   final double subTotal;
   final double customShippingCharge;
+  final double couponDiscount; // Added field for coupon discount
 
   Cart({
     required this.cartItems,
@@ -181,6 +194,7 @@ class Cart {
     required this.shiprocketShippingCharges,
     required this.subTotal,
     required this.customShippingCharge,
+    required this.couponDiscount, // Added field for coupon discount
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
@@ -193,6 +207,8 @@ class Cart {
       shiprocketShippingCharges: json['shiprocket_shipping_charges'].toDouble(),
       subTotal: json['sub_total'].toDouble(),
       customShippingCharge: json['custom_shipping_charges'].toDouble(),
+      couponDiscount:
+          json['coupon_discount'].toDouble(), // Added field for coupon discount
     );
   }
 
@@ -204,6 +220,7 @@ class Cart {
       'shiprocket_shipping_charges': shiprocketShippingCharges,
       'sub_total': subTotal,
       'custom_shipping_charges': customShippingCharge,
+      'coupon_discount': couponDiscount, // Added field for coupon discount
     };
   }
 }
