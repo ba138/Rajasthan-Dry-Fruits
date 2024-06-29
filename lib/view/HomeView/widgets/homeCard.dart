@@ -308,18 +308,21 @@ class _HomeCardState extends State<HomeCard> {
             ),
             Row(
               children: [
-                Text(
-                  widget.price == null
-                      ? '₹50 '
-                      : '₹${double.parse(totalPrice)}',
-                  style: GoogleFonts.getFont(
-                    "Roboto",
-                    textStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.cardTxColor,
+                Visibility(
+                  visible: widget.isdiscount,
+                  child: Text(
+                    widget.price == null
+                        ? '₹50 '
+                        : '₹${double.parse(totalPrice)}',
+                    style: GoogleFonts.getFont(
+                      "Roboto",
+                      textStyle: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.cardTxColor,
+                      ),
+                      decoration: TextDecoration.lineThrough,
                     ),
-                    decoration: TextDecoration.lineThrough,
                   ),
                 ),
                 Text(widget.discount!,
