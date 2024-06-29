@@ -174,20 +174,20 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Sub Total",
+                            "Total",
                             style: TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w800,
                               color: AppColor.blackColor,
                             ),
                           ),
                           Text(
-                            '₹${widget.checkoutModel.data.subTotal}',
+                            '₹${widget.checkoutModel.data.total}',
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w800,
                               color: AppColor.blackColor,
                             ),
                           ),
@@ -272,11 +272,11 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text(
-                            "Total",
+                            "Sub Total",
                             style: TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w400,
                               color: AppColor.blackColor,
                             ),
                           ),
@@ -285,7 +285,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w400,
                               color: AppColor.blackColor,
                             ),
                           ),
