@@ -58,7 +58,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
         headers: headers,
         body: jsonEncode(requestData),
       );
-      if (apiResponse.statusCode == 200 || apiResponse.statusCode == 201) {
+      if (apiResponse.statusCode == 200) {
         Utils.toastMessage('Payment SuccessFully Done');
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return PaymentDoneScreen(checkoutModel: widget.checkoutModel);
@@ -281,7 +281,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             ),
                           ),
                           Text(
-                            '₹${widget.checkoutModel.data.subTotal}',
+                            '₹${widget.checkoutModel.data.total}',
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
