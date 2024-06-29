@@ -95,6 +95,7 @@ class _SearchSectionState extends State<SearchSection> {
                       averageReview: homeRepo
                           .homeRepository.searchResults[index].averageReview
                           .toString(),
+                      proId: homeRepo.homeRepository.searchResults[index].id,
                     ),
                   ),
                 );

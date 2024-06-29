@@ -137,8 +137,8 @@ class _ShopViewState extends State<ShopView> {
                             image: shopRepositoryProvider.shopRepository
                                 .shopProducts[index].thumbnailImage,
                             discount: shopRepositoryProvider.shopRepository
-                                .shopProducts[index].discountedPriceWithTax
-                                .toStringAsFixed(0),
+                                .shopProducts[index].discountedPrice
+                                .toString(),
                             proId: shopRepositoryProvider
                                 .shopRepository.shopProducts[index].id,
                             price: shopRepositoryProvider

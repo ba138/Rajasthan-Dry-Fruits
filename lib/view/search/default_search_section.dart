@@ -30,9 +30,9 @@ class DeaultSearchSection extends StatelessWidget {
                   .toStringAsFixed(0),
               proId:
                   shopRepositoryProvider.shopRepository.shopProducts[index].id,
-              price: shopRepositoryProvider
-                  .shopRepository.shopProducts[index].priceWithTax
-                  .toStringAsFixed(0),
+              price: double.parse(shopRepositoryProvider
+                      .shopRepository.shopProducts[index].price)
+                  .toString(),
               averageReview: shopRepositoryProvider
                   .shopRepository.shopProducts[index].averageReview
                   .toString(),

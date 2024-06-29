@@ -193,6 +193,30 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                           ),
                         ],
                       ),
+                      const VerticalSpeacing(16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Coupon Discount",
+                            style: TextStyle(
+                              fontFamily: 'CenturyGothic',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.blackColor,
+                            ),
+                          ),
+                          Text(
+                            '₹${widget.checkoutModel.data.couponDiscount}',
+                            style: const TextStyle(
+                              fontFamily: 'CenturyGothic',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.blackColor,
+                            ),
+                          ),
+                        ],
+                      ),
                       const VerticalSpeacing(12.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -12,6 +12,7 @@ class Shop {
   final Category category;
   final double priceWithTax;
   final double discountedPriceWithTax;
+  final double discountedPrice;
 
   Shop({
     required this.id,
@@ -27,6 +28,7 @@ class Shop {
     required this.category,
     required this.priceWithTax,
     required this.discountedPriceWithTax,
+    required this.discountedPrice,
   });
 
   factory Shop.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,7 @@ class Shop {
       promotional: json['promotional'],
       totalReviews: json['total_reviews'] ?? 0,
       averageReview: json['average_review'] ?? 0,
+      discountedPrice: json['discounted_price'] ?? 0,
       category: Category.fromJson(json['category'] ?? {}),
       priceWithTax: json['price_with_tax'] != null
           ? double.parse(json['price_with_tax'].toString())
