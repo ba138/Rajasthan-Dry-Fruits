@@ -50,6 +50,7 @@ class Data {
   dynamic razorpayOrderId;
   String shipmentId;
   int shiprocketShipmentId;
+  double couponDiscount; // Added couponDiscount field
   bool isActive;
   DateTime createdOn;
   List<OrderItem> orderItems;
@@ -77,6 +78,7 @@ class Data {
     this.razorpayOrderId,
     required this.shipmentId,
     required this.shiprocketShipmentId,
+    required this.couponDiscount, // Added couponDiscount field
     required this.isActive,
     required this.createdOn,
     required this.orderItems,
@@ -105,6 +107,8 @@ class Data {
         razorpayOrderId: json["razorpay_order_id"],
         shipmentId: json["shipment_id"],
         shiprocketShipmentId: json["shiprocket_shipment_id"],
+        couponDiscount:
+            json["coupon_discount"].toDouble(), // Added couponDiscount field
         isActive: json["is_active"],
         createdOn: DateTime.parse(json["created_on"]),
         orderItems: List<OrderItem>.from(
@@ -134,6 +138,7 @@ class Data {
         "razorpay_order_id": razorpayOrderId,
         "shipment_id": shipmentId,
         "shiprocket_shipment_id": shiprocketShipmentId,
+        "coupon_discount": couponDiscount, // Added couponDiscount field
         "is_active": isActive,
         "created_on": createdOn.toIso8601String(),
         "order_items": List<dynamic>.from(orderItems.map((x) => x.toJson())),
@@ -184,23 +189,39 @@ class ProductWeight {
   int id;
   String price;
   Weight weight;
+  double discountedPrice; // Added discountedPrice field
+  double priceWithTax; // Added priceWithTax field
+  double discountedPriceWithTax; // Added discountedPriceWithTax field
 
   ProductWeight({
     required this.id,
     required this.price,
     required this.weight,
+    required this.discountedPrice, // Added discountedPrice field
+    required this.priceWithTax, // Added priceWithTax field
+    required this.discountedPriceWithTax, // Added discountedPriceWithTax field
   });
 
   factory ProductWeight.fromJson(Map<String, dynamic> json) => ProductWeight(
         id: json["id"],
         price: json["price"],
         weight: Weight.fromJson(json["weight"]),
+        discountedPrice:
+            json["discounted_price"].toDouble(), // Added discountedPrice field
+        priceWithTax:
+            json["price_with_tax"].toDouble(), // Added priceWithTax field
+        discountedPriceWithTax: json["discounted_price_with_tax"]
+            .toDouble(), // Added discountedPriceWithTax field
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "price": price,
         "weight": weight.toJson(),
+        "discounted_price": discountedPrice, // Added discountedPrice field
+        "price_with_tax": priceWithTax, // Added priceWithTax field
+        "discounted_price_with_tax":
+            discountedPriceWithTax, // Added discountedPriceWithTax field
       };
 }
 
@@ -237,6 +258,9 @@ class Product {
   dynamic promotional;
   int totalReviews;
   int averageReview;
+  double discountedPrice; // Added discountedPrice field
+  double priceWithTax; // Added priceWithTax field
+  double discountedPriceWithTax; // Added discountedPriceWithTax field
 
   Product({
     required this.id,
@@ -251,6 +275,9 @@ class Product {
     this.promotional,
     required this.totalReviews,
     required this.averageReview,
+    required this.discountedPrice, // Added discountedPrice field
+    required this.priceWithTax, // Added priceWithTax field
+    required this.discountedPriceWithTax, // Added discountedPriceWithTax field
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -266,6 +293,12 @@ class Product {
         promotional: json["promotional"],
         totalReviews: json["total_reviews"],
         averageReview: json["average_review"],
+        discountedPrice:
+            json["discounted_price"].toDouble(), // Added discountedPrice field
+        priceWithTax:
+            json["price_with_tax"].toDouble(), // Added priceWithTax field
+        discountedPriceWithTax: json["discounted_price_with_tax"]
+            .toDouble(), // Added discountedPriceWithTax field
       );
 
   Map<String, dynamic> toJson() => {
@@ -281,5 +314,9 @@ class Product {
         "promotional": promotional,
         "total_reviews": totalReviews,
         "average_review": averageReview,
+        "discounted_price": discountedPrice, // Added discountedPrice field
+        "price_with_tax": priceWithTax, // Added priceWithTax field
+        "discounted_price_with_tax":
+            discountedPriceWithTax, // Added discountedPriceWithTax field
       };
 }

@@ -184,6 +184,22 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                       pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
+                          pw.Text("Coupon Discount",
+                              style: pw.TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: pw.FontWeight.bold,
+                                  color: PdfColor.fromInt(Colors.black.value))),
+                          pw.Text(
+                              widget.checkoutdetail.data.couponDiscount
+                                  .toString(),
+                              style: pw.TextStyle(
+                                  fontSize: 14,
+                                  color: PdfColor.fromInt(Colors.black.value))),
+                        ],
+                      ),
+                      pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
                           pw.Text(
                               widget.checkoutdetail.data.state == "gujarat"
                                   ? "Tax(SGST/CGST)"
@@ -515,6 +531,21 @@ class _InvoiceScreenState extends State<InvoiceScreen> {
                                       fontWeight: FontWeight.bold)),
                               Text(
                                 widget.checkoutdetail.data.total.toString(),
+                                style: GoogleFonts.poppins(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Coupon Discount",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold)),
+                              Text(
+                                widget.checkoutdetail.data.couponDiscount
+                                    .toString(),
                                 style: GoogleFonts.poppins(
                                     fontSize: 14, fontWeight: FontWeight.w400),
                               ),
