@@ -79,7 +79,7 @@ class FilterProducts extends StatelessWidget {
 
                     homeRepo.homeRepository.filteredProducts.length,
                     (index) => HomeCard(
-                      isdiscount: true,
+                      isdiscount: false,
                       image: homeRepo.homeRepository.filteredProducts[index]
                           .thumbnailImage,
                       discount: homeRepo.homeRepository.filteredProducts[index]

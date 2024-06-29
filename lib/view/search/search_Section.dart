@@ -48,11 +48,12 @@ class SearchSectionUi extends StatelessWidget {
               image:
                   homeRepo.shopRepository.searchResults[index].thumbnailImage,
               discount: homeRepo
-                  .shopRepository.searchResults[index].discountedPriceWithTax
-                  .toStringAsFixed(0),
+                  .shopRepository.searchResults[index].discountedPrice
+                  .toString(),
               title: homeRepo.shopRepository.searchResults[index].title,
-              price: homeRepo.shopRepository.searchResults[index].priceWithTax
-                  .toStringAsFixed(0),
+              price: double.parse(
+                      homeRepo.shopRepository.searchResults[index].price)
+                  .toString(),
               proId: homeRepo.shopRepository.searchResults[index].id.toString(),
               averageReview: homeRepo
                   .shopRepository.searchResults[index].averageReview

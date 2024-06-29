@@ -96,13 +96,13 @@ class BestSellers extends StatelessWidget {
                             image: homeRepo.homeRepository
                                 .productsTopRated[index].thumbnailImage,
                             discount: homeRepo.homeRepository
-                                .productsTopRated[index].discountedPriceWithTax
-                                .toStringAsFixed(0),
+                                .productsTopRated[index].discountedPrice
+                                .toString(),
                             title: homeRepo
                                 .homeRepository.productsTopRated[index].title,
-                            price: homeRepo.homeRepository
-                                .productsTopRated[index].priceWithTax
-                                .toStringAsFixed(0),
+                            price: homeRepo
+                                .homeRepository.productsTopRated[index].price
+                                .toString(),
                             proId: homeRepo
                                 .homeRepository.productsTopRated[index].id
                                 .toString(),

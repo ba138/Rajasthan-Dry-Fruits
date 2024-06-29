@@ -99,13 +99,13 @@ class PopularItems extends StatelessWidget {
                             image: homeRepo.homeRepository
                                 .productsTopOrder[index].thumbnailImage,
                             discount: homeRepo.homeRepository
-                                .productsTopOrder[index].discountedPriceWithTax
-                                .toStringAsFixed(0),
+                                .productsTopOrder[index].discountedPrice
+                                .toString(),
                             title: homeRepo
                                 .homeRepository.productsTopOrder[index].title,
-                            price: homeRepo.homeRepository
-                                .productsTopOrder[index].priceWithTax
-                                .toStringAsFixed(0),
+                            price: homeRepo
+                                .homeRepository.productsTopOrder[index].price
+                                .toString(),
                             proId: homeRepo
                                 .homeRepository.productsTopOrder[index].id
                                 .toString(),
