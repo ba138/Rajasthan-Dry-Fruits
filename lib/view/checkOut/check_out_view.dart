@@ -181,7 +181,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             ),
           );
         } else {
-          Utils.toastMessage('Failed to submit Checkout data.');
+          debugPrint(
+              '.........................Check Out return data ${apiResponse.statusCode}: ${apiResponse.body}...........≥');
+          Utils.toastMessage('Failed to submit Checkout datea');
           Navigator.pushNamed(context, RoutesName.dashboard);
         }
       } catch (e) {
