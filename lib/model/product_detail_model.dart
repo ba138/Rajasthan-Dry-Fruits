@@ -20,6 +20,7 @@ class ProductDetail {
   final List<ProductReview> productReview;
   final double priceWithTax;
   final double discountedPriceWithTax;
+  final double discountedPrice; // Added field for discounted price
 
   ProductDetail({
     required this.id,
@@ -43,6 +44,7 @@ class ProductDetail {
     required this.productReview,
     required this.priceWithTax,
     required this.discountedPriceWithTax,
+    required this.discountedPrice,
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
@@ -71,6 +73,7 @@ class ProductDetail {
       priceWithTax: (json['price_with_tax'] as num?)?.toDouble() ?? 0.0,
       discountedPriceWithTax:
           (json['discounted_price_with_tax'] as num?)?.toDouble() ?? 0.0,
+      discountedPrice: (json['discounted_price'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }
@@ -104,6 +107,7 @@ class ProductWeight {
   final Weight weight;
   final double priceWithTax;
   final double discountedPriceWithTax;
+  final double discountedPrice; // Added field for discounted price
 
   ProductWeight({
     required this.id,
@@ -111,6 +115,7 @@ class ProductWeight {
     required this.weight,
     required this.priceWithTax,
     required this.discountedPriceWithTax,
+    required this.discountedPrice,
   });
 
   factory ProductWeight.fromJson(Map<String, dynamic> json) {
@@ -121,6 +126,7 @@ class ProductWeight {
       priceWithTax: (json['price_with_tax'] as num?)?.toDouble() ?? 0.0,
       discountedPriceWithTax:
           (json['discounted_price_with_tax'] as num?)?.toDouble() ?? 0.0,
+      discountedPrice: (json['discounted_price'] as num?)?.toDouble() ?? 0.0,
     );
   }
 }

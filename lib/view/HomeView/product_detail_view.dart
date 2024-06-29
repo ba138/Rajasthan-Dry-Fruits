@@ -55,7 +55,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     double originalDiscount = double.parse(per);
     discountedPrice = homeRepoProvider.homeRepository
         .calculateDiscountedPrice(originalPrice, originalDiscount);
-    intPrice = discountedPrice;
+    String dr = widget.detail.discountedPrice.toString();
+    intPrice = dr;
   }
 
   gettingAllTheData() async {
@@ -193,14 +194,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          "₹${widget.detail.priceWithTax.toString()}",
-                          style: GoogleFonts.getFont(
-                            "Poppins",
-                            textStyle: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.textColor1,
+                        Visibility(
+                          visible: widget.detail.discount == 0 ? false : true,
+                          child: Text(
+                            "₹${widget.detail.priceWithTax.toString()}",
+                            style: GoogleFonts.getFont(
+                              "Poppins",
+                              textStyle: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.textColor1,
+                              ),
                             ),
                           ),
                         ),
@@ -208,7 +212,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           width: 6,
                         ),
                         Text(
-                          "₹${widget.detail.discountedPriceWithTax.toString()}",
+                          "₹${widget.detail.discountedPrice.toString()}",
                           style: GoogleFonts.getFont(
                             "Poppins",
                             textStyle: const TextStyle(
@@ -246,11 +250,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       productWeight == productWeight.weight.name
                                           ? null
                                           : productWeight.weight.name;
-                                  weightPrice = productWeight
-                                      .discountedPriceWithTax
-                                      .toString();
-                                  intweight =
-                                      productWeight.priceWithTax.toString();
+                                  weightPrice =
+                                      productWeight.discountedPrice.toString();
+                                  intweight = productWeight.price.toString();
                                   weightid = productWeight.id.toString();
                                 });
                               },
@@ -281,7 +283,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       ),
                                     ),
                                     Text(
-                                      " ${productWeight.discountedPriceWithTax}₹ ",
+                                      " ${productWeight.discountedPrice}₹ ",
                                       style: GoogleFonts.getFont(
                                         "Poppins",
                                         textStyle: TextStyle(

@@ -148,7 +148,7 @@ class _CartViewState extends State<CartView> {
                                 productId: product.id.toString(),
                                 name: product.title,
                                 img: product.thumbnailImage,
-                                price: product.priceWithTax.toString(),
+                                price: product.price.toString(),
                                 guantity: carPro.quantity,
                                 individualPrice: product.price.toString(),
                                 id: carPro.id,
@@ -330,7 +330,7 @@ class _CartViewState extends State<CartView> {
                                     ),
                                   ),
                                   Text(
-                                    "₹${(cartProvider.cartRepositoryProvider.totalPrice).toStringAsFixed(2)}",
+                                    "₹${(cartProvider.cartRepositoryProvider.subTotal).toStringAsFixed(2)}",
                                     style: const TextStyle(
                                       fontFamily: 'CenturyGothic',
                                       fontSize: 16,
@@ -355,7 +355,7 @@ class _CartViewState extends State<CartView> {
                                       return CheckOutScreen(
                                         totalPrice: (cartProvider
                                                 .cartRepositoryProvider
-                                                .totalPrice)
+                                                .subTotal)
                                             .toStringAsFixed(2),
                                       );
                                     }));

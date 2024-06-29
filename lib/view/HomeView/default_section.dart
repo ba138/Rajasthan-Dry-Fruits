@@ -191,7 +191,7 @@ class _DefaultSectionState extends State<DefaultSection> {
                       title:
                           homeRepo.homeRepository.productsTopRated[index].title,
                       price: homeRepo
-                          .homeRepository.productsTopRated[index].priceWithTax
+                          .homeRepository.productsTopRated[index].price
                           .toString(),
                       proId: homeRepo.homeRepository.productsTopRated[index].id
                           .toString(),
