@@ -281,7 +281,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             ),
                           ),
                           Text(
-                            '₹${widget.checkoutModel.data.total}',
+                            '₹${widget.checkoutModel.data.subTotal}',
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,

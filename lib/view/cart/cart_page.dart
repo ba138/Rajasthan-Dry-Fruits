@@ -149,7 +149,7 @@ class _CartViewState extends State<CartView> {
                                 productId: product.id.toString(),
                                 name: product.title,
                                 img: product.thumbnailImage,
-                                price: product.discountedPrice.toString(),
+                                price: product.price.toString(),
                                 guantity: carPro.quantity,
                                 individualPrice: product.price.toString(),
                                 id: carPro.id,
