@@ -325,7 +325,7 @@ class _HomeCardState extends State<HomeCard> {
                     ),
                   ),
                 ),
-                Text(widget.discount!,
+                Text("₹${widget.discount!}",
                     style: GoogleFonts.getFont(
                       "Roboto",
                       textStyle: const TextStyle(
