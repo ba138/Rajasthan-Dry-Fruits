@@ -98,13 +98,13 @@ class _DefaultSectionState extends State<DefaultSection> {
                       image: homeRepo.homeRepository.productsTopOrder[index]
                           .thumbnailImage,
                       discount: homeRepo.homeRepository.productsTopOrder[index]
-                          .discountedPriceWithTax
-                          .toStringAsFixed(0),
+                          .discountedPrice
+                          .toString(),
                       title:
                           homeRepo.homeRepository.productsTopOrder[index].title,
                       price: homeRepo
-                          .homeRepository.productsTopOrder[index].priceWithTax
-                          .toStringAsFixed(0),
+                          .homeRepository.productsTopOrder[index].price
+                          .toString(),
                       proId: homeRepo.homeRepository.productsTopOrder[index].id
                           .toString(),
                       averageReview: homeRepo
@@ -186,13 +186,13 @@ class _DefaultSectionState extends State<DefaultSection> {
                       image: homeRepo.homeRepository.productsTopRated[index]
                           .thumbnailImage,
                       discount: homeRepo.homeRepository.productsTopRated[index]
-                          .discountedPriceWithTax
-                          .toStringAsFixed(0),
+                          .discountedPrice
+                          .toString(),
                       title:
                           homeRepo.homeRepository.productsTopRated[index].title,
                       price: homeRepo
                           .homeRepository.productsTopRated[index].priceWithTax
-                          .toStringAsFixed(0),
+                          .toString(),
                       proId: homeRepo.homeRepository.productsTopRated[index].id
                           .toString(),
                       averageReview: homeRepo
@@ -278,13 +278,13 @@ class _DefaultSectionState extends State<DefaultSection> {
                       image: homeRepo.homeRepository.productsTopDiscount[index]
                           .thumbnailImage,
                       discount: homeRepo.homeRepository
-                          .productsTopDiscount[index].discountedPriceWithTax
-                          .toStringAsFixed(0),
+                          .productsTopDiscount[index].discountedPrice
+                          .toString(),
                       title: homeRepo
                           .homeRepository.productsTopDiscount[index].title,
-                      price: homeRepo.homeRepository.productsTopDiscount[index]
-                          .priceWithTax
-                          .toStringAsFixed(0),
+                      price: homeRepo
+                          .homeRepository.productsTopDiscount[index].price
+                          .toString(),
                       proId: homeRepo
                           .homeRepository.productsTopDiscount[index].id
                           .toString(),

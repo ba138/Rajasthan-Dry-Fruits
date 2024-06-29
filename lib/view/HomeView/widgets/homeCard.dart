@@ -131,7 +131,7 @@ class _HomeCardState extends State<HomeCard> {
     String formattedPrice = widget.discount ?? '0';
     formattedPrice = formatPrice(formattedPrice);
 
-    String totalPrice = '₹${widget.price ?? '0'}';
+    String totalPrice = '${widget.price ?? '0'}';
     totalPrice = formatPrice(totalPrice);
 
     String truncatedTitle = truncateTitle(widget.title, 8);
@@ -309,7 +309,9 @@ class _HomeCardState extends State<HomeCard> {
             Row(
               children: [
                 Text(
-                  widget.price == null ? '₹50 ' : totalPrice,
+                  widget.price == null
+                      ? '₹50 '
+                      : '₹${double.parse(totalPrice)}',
                   style: GoogleFonts.getFont(
                     "Roboto",
                     textStyle: const TextStyle(

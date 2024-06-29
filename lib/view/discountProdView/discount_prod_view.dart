@@ -95,6 +95,9 @@ class DisCountProd extends StatelessWidget {
                             isdiscount: true,
                             image: homeRepo.homeRepository
                                 .productsTopDiscount[index].thumbnailImage,
+                            disPercantage: homeRepo.homeRepository
+                                .productsTopDiscount[index].discount
+                                .toString(),
                             discount: homeRepo
                                 .homeRepository
                                 .productsTopDiscount[index]

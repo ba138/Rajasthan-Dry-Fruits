@@ -85,16 +85,16 @@ class _SearchSectionState extends State<SearchSection> {
                       isdiscount: false,
                       image: homeRepo
                           .homeRepository.searchResults[index].thumbnailImage,
-                      discount: homeRepo.homeRepository.searchResults[index]
-                          .discountedPriceWithTax
-                          .toStringAsFixed(0),
+                      discount: homeRepo
+                          .homeRepository.searchResults[index].discountedPrice
+                          .toString(),
                       title: homeRepo.homeRepository.searchResults[index].title,
-                      price: homeRepo
-                          .homeRepository.searchResults[index].priceWithTax
-                          .toStringAsFixed(0),
+                      price: homeRepo.homeRepository.searchResults[index].price
+                          .toString(),
                       averageReview: homeRepo
                           .homeRepository.searchResults[index].averageReview
                           .toString(),
+                      proId: homeRepo.homeRepository.searchResults[index].id,
                     ),
                   ),
                 );

@@ -8,6 +8,7 @@ class Product {
   final Category category;
   final double averageReview;
   final int totalReviews;
+  final double discountedPrice; // Added missing field
   final double priceWithTax;
   final double discountedPriceWithTax;
 
@@ -21,6 +22,7 @@ class Product {
     required this.category,
     required this.averageReview,
     required this.totalReviews,
+    required this.discountedPrice, // Added missing field
     required this.priceWithTax,
     required this.discountedPriceWithTax,
   });
@@ -36,6 +38,8 @@ class Product {
       category: Category.fromJson(json['category']),
       averageReview: json['average_review'].toDouble(),
       totalReviews: json['total_reviews'],
+      discountedPrice: double.parse(
+          json['discounted_price'].toString()), // Added missing field
       priceWithTax: json['price_with_tax'] != null
           ? double.parse(json['price_with_tax'].toString())
           : 0.0,
