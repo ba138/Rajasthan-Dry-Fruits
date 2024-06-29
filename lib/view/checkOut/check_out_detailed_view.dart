@@ -178,7 +178,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             style: TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w400,
                               color: AppColor.blackColor,
                             ),
                           ),
@@ -187,7 +187,7 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w400,
                               color: AppColor.blackColor,
                             ),
                           ),
@@ -276,16 +276,16 @@ class _CheckoutDetailViewState extends State<CheckoutDetailView> {
                             style: TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w800,
                               color: AppColor.blackColor,
                             ),
                           ),
                           Text(
-                            '₹${widget.checkoutModel.data.total}',
+                            '₹${widget.checkoutModel.data.subTotal}',
                             style: const TextStyle(
                               fontFamily: 'CenturyGothic',
                               fontSize: 16,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.w800,
                               color: AppColor.blackColor,
                             ),
                           ),
