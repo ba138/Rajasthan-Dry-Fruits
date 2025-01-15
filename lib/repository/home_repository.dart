@@ -29,6 +29,7 @@ class HomeRepository extends ChangeNotifier {
               'umFU4LBxVgOwgYL6jgTynbGicCd47wKL9otbehTcDRm1k08P7hTmBOzW0wjCwXy1',
         },
       );
+      debugPrint("this is the response body:${response.body}");
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);
