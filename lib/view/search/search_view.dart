@@ -136,7 +136,7 @@ class _SearchViewState extends State<SearchView> {
                             ),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width / 15,
+                            width: MediaQuery.of(context).size.width / 18,
                           ),
                           InkWell(
                             onTap: () {

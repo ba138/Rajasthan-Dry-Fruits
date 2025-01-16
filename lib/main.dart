@@ -5,6 +5,8 @@ import 'package:rjfruits/repository/home_ui_repository.dart';
 import 'package:rjfruits/repository/search_section_ui.dart';
 import 'package:rjfruits/utils/routes/routes.dart';
 import 'package:rjfruits/utils/routes/routes_name.dart';
+import 'package:rjfruits/view/authView/login_view.dart';
+import 'package:rjfruits/view/authView/register_view.dart';
 import 'package:rjfruits/view_model/auth_view_model.dart';
 import 'package:rjfruits/view_model/cart_view_model.dart';
 import 'package:rjfruits/view_model/home_view_model.dart';
@@ -69,18 +71,18 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        showSemanticsDebugger: false,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: const Color(0xffffffff),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
+          showSemanticsDebugger: false,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: const Color(0xffffffff),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
           ),
-        ),
-        initialRoute: RoutesName.splash,
-        onGenerateRoute: Routes.generateRoute,
-      ),
+          // initialRoute: RoutesName.login,
+          // onGenerateRoute: Routes.generateRoute,
+          home: RegisterView()),
     );
   }
 }

@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   percent_indicator: ^4.2.3
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   flutter_rating_bar: ^4.0.1
   order_tracker: ^0.0.2
   another_flushbar: ^1.12.30
@@ -55,7 +55,7 @@ dependencies:
   flutter_facebook_auth: ^7.0.0
   intl: ^0.19.0
   permission_handler: ^11.3.1
-  image_gallery_saver: ^2.0.3
+  # image_gallery_saver: ^2.0.3
   saver_gallery: ^3.0.5
   pdf: ^3.10.8
   printing: ^5.12.0

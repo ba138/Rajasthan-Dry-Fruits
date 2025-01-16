@@ -45,19 +45,19 @@ android {
         applicationId "com.example.rjfruits"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 24
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
   
     signingConfigs {
-    debug {
-        keyAlias 'uploadkeystore1'
-        keyPassword '112247'
-        storeFile file('upload-keystore.jks')
-        storePassword '112247'
-        }
+    // debug {
+    //     keyAlias 'uploadkeystore1'
+    //     keyPassword '112247'
+    //     storeFile file('upload-keystore.jks')
+    //     storePassword '112247'
+    //     }
     }
 
 
