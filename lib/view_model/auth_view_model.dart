@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rjfruits/res/app_url.dart';
 import 'package:rjfruits/view_model/user_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
@@ -90,11 +91,11 @@ class AuthViewModel with ChangeNotifier {
       };
 
       final response = await dio.post(
-        'http://103.117.180.187/rest-auth/registration/',
+        AppUrl.registerEndPoint,
         options: Options(headers: headers),
         data: data,
       );
-
+// debugPrint("this is the response in the body:${response.}")
       _isLoading = false;
       Utils.toastMessage('Successfully Registered');
       Navigator.pushNamedAndRemoveUntil(
